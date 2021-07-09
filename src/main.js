@@ -13,6 +13,7 @@ import { Integrations } from '@sentry/tracing'
 import VueTour from 'vue-tour'
 
 import VueSocialSharing from 'vue-social-sharing'
+import './assets/tailwind.css'
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
