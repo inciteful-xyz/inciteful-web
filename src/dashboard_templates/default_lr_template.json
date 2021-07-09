@@ -1,0 +1,56 @@
+{
+    "subtext": "Keep adding interesting papers to the graph from the tables below.  The more you add the more specific the network will be to you topic.  Typically it takes a few iterations of adding papers and re-creating the graph before you have exhausted your topic and hit diminishing returns.",
+    "content": [
+        {
+            "id": "similar-paper-graph",
+            "sql": "SELECT paper_id, distance\nFROM papers p\nWHERE ({{filters}}\nAND (adamic_adar > 0 or cocite > 0))\nOR distance = 0\nORDER BY adamic_adar + COALESCE(cocite, 0) DESC,  page_rank DESC",
+            "type": "graph"
+        },
+        {
+            "title": "Similar Papers",
+            "subtext": "These are papers which tend to cite the papers you have selected above.  They normally bias towards newer papers and can help you find the latest literature on the topic.",
+            "sql": "SELECT paper_id, doi, authors, title, adamic_adar + COALESCE(cocite, 0) AS similarity, published_year, num_cited_by\nFROM papers p\nWHERE {{filters}}\nAND distance = 2\nAND (adamic_adar > 0 or cocite > 0)\nORDER BY similarity DESC,  page_rank DESC"
+        },
+        {
+            "title": "Most Important Papers in the Graph",
+            "subtext": "These are the \"Most Important\" papers in the network based on PageRank, these tend to be older papers and represent where the literature has come from.",
+            "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+        },
+        {
+            "id": "recent-papers",
+            "renderColumns": true,
+            "content": [
+                {
+                    "title": "Recent Papers by the Top 100 Authors",
+                    "sql": "SELECT p.paper_id, doi, authors, title, num_cited_by, published_year, adamic_adar\nFROM (\n\tSELECT paper_id\n\tFROM (\n\t\tSELECT author_id\n\t\tFROM authors a\n\t\tJOIN papers p ON p.paper_id = a.paper_id\n\t\tGROUP BY a.author_id\n\t\tORDER BY SUM(p.page_rank / (\n\t\t\tCASE \n\t\t\t\tWHEN num_authors < 4 THEN num_authors\n\t\t\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\t\t\tELSE num_authors * 3\n\t\t\tEND)) DESC\n\t\tLIMIT 100\n\t) ta \n\tJOIN authors a ON a.author_id = ta.author_id\n\tGROUP BY paper_id\n) a\nJOIN papers p ON p.paper_id = a.paper_id\nWHERE p.published_year > (strftime('%Y', 'now') - 3)\nAND {{filters}}\nORDER BY adamic_adar DESC, page_rank DESC"
+                },
+                {
+                    "title": "The Most Important Recent Papers",
+                    "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE p.published_year > (strftime('%Y', 'now') - 3)\nAND {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+                }
+            ]
+        },
+        {
+            "title": "Other Data",
+            "subtext": "This section highlights other interesting data related to the network.",
+            "renderColumns": true,
+            "content": [
+                {
+                    "title": "Top Authors",
+                    "subtext": "This section tries to identify the top authors in the network.",
+                    "sql": "SELECT name, SUM(p.page_rank / (\n\tCASE \n\t\tWHEN num_authors < 4 THEN num_authors\n\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\tELSE num_authors * 3\n\tEND)) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN authors a ON p.paper_id = a.paper_id\nWHERE {{filters}}\nGROUP BY a.author_id, name\nORDER BY SUM(page_rank) DESC"
+                },
+                {
+                    "title": "Institutions",
+                    "subtext": "This section tries to identify the top institutions in the network.",
+                    "sql": "SELECT affiliation, SUM(page_rank) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN (\n\tSELECT paper_id, affiliation\n\tFROM authors\n\tGROUP BY affiliation, paper_id\n) a ON p.paper_id = a.paper_id\nWHERE {{filters}} AND a.affiliation <> ''\nGROUP BY a.affiliation\nORDER BY SUM(page_rank) DESC"
+                },
+                {
+                    "title": "Top Journals",
+                    "subtext": "This section tries to identify the most relevant journals for this research area",
+                    "sql": "SELECT journal, SUM(page_rank) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nWHERE {{filters}}\nAND journal <> ''\nGROUP BY journal\nORDER BY SUM(page_rank) DESC"
+                }
+            ]
+        }
+    ]
+}
