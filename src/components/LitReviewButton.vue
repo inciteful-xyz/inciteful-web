@@ -1,6 +1,6 @@
 <template>
   <button
-    v-if="idsToHide.indexOf(this.id) == -1"
+    v-if="idsToHide.indexOf(this.id.toString()) == -1"
     class="
       add-paper-button
       font-extrabold
@@ -35,19 +35,19 @@ export default {
     }
   },
   mounted () {
-    bus.$on('add_to_lit_review', (id) => {
+    bus.$on('add_to_lit_review', id => {
       this.idsToHide.push(id)
     })
   },
   created () {
     if (this.ids) {
-      this.ids.forEach((id) => this.idsToHide.push(id))
+      this.ids.forEach(id => this.idsToHide.push(id))
     }
   },
   methods: {
     addToLitReview () {
       if (this.id) {
-        bus.$emit('add_to_lit_review', this.id)
+        bus.$emit('add_to_lit_review', this.id.toString())
       }
     }
   }

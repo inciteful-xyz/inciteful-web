@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="py-6 lg:py-12 bg-cool-gray-100 px-4 sm:px-6 lg:px-8">
+    <div class="py-6 lg:py-12 bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div class="max-w-xl mx-auto px-4 lg:max-w-screen-xl lg:px-6">
         <div class="lg:grid lg:grid-cols-3 lg:gap-8">
           <div class="rounded-md bg-white p-6">

@@ -291,7 +291,6 @@
 
 <script>
 import api from '../utils/api'
-import navigation from '../navigation'
 
 export default {
   name: 'LitReviewHero',
@@ -333,15 +332,20 @@ export default {
     },
     setData (ids) {
       if (ids) {
-        api.getPapers(ids).then((data) => {
+        api.getPapers(ids).then(data => {
           this.papers = Object.values(data)
         })
       } else {
         this.papers = undefined
       }
     },
-    removePaper (id) {
-      navigation.removeLitReviewPaper(id)
+    removePaper (removeId) {
+      const strId = removeId.toString()
+      this.$router.push({
+        query: {
+          ids: this.ids.filter(id => id !== strId)
+        }
+      })
     },
     downloadBib () {
       api.downloadBibFile(this.ids)

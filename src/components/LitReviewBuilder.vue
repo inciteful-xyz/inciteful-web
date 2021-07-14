@@ -10,7 +10,7 @@
           'relative',
           'inline-flex',
           'rounded-md',
-          'shadow-sm',
+          'shadow-sm'
         ]"
       >
         <button
@@ -37,7 +37,6 @@
 
 <script>
 import bus from '../utils/bus'
-import navigation from '../navigation'
 
 export default {
   name: 'LitReviewBuilder',
@@ -48,7 +47,7 @@ export default {
     }
   },
   mounted () {
-    bus.$on('add_to_lit_review', (id) => {
+    bus.$on('add_to_lit_review', id => {
       if (!this.ids.has(id)) {
         this.ids.add(id)
         this.doBounce = true
@@ -61,7 +60,18 @@ export default {
   },
   methods: {
     toLitReview () {
-      navigation.addLitReviewPapers(Array.from(this.ids))
+      if (this.$route.query.ids) {
+        this.$route.query.ids.forEach(id => this.ids.add(id))
+      }
+
+      this.$router.push({
+        name: 'LitReview',
+        query: {
+          ids: Array.from(this.ids)
+        }
+      })
+
+      this.ids = new Set()
     }
   }
 }

@@ -28,7 +28,11 @@
                 <div>
                   <div class="flex pt-3">
                     <div class="flex-auto max-w-full text-base ">
-                      <GraphSearch />
+                      <GraphSearch
+                        :showImport="true"
+                        @selected="navigation.addLitReviewPapers"
+                        @searched="navigation.goToSearch"
+                      />
                     </div>
                   </div>
                 </div>
@@ -38,7 +42,7 @@
               <div
                 class="flex-grow lg:flex-auto border-r-0 lg:border-r-2 border-gray-600 border-b-2 lg:border-b-0 lg:h-20 m-auto lg:w-0"
               ></div>
-              <div class="flex-none p-3 text-cool-gray-600">OR</div>
+              <div class="flex-none p-3 text-gray-600">OR</div>
               <div
                 class="flex-grow lg:flex-auto border-r-0 lg:border-r-2 border-gray-600 border-b-2 lg:border-b-0 lg:h-20 m-auto lg:w-0"
               ></div>
@@ -196,7 +200,7 @@
         </div>
       </div>
     </div>
-    <div class="py-6 lg:py-12  bg-cool-gray-100 px-4 sm:px-6 lg:px-8">
+    <div class="py-6 lg:py-12  bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-screen-xl lg:px-8">
         <div class="lg:grid lg:grid-cols-3 lg:gap-8">
           <div class="rounded-md bg-white p-6">
@@ -312,6 +316,7 @@
 import BetaSignup from '@/components/BetaSignup.vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import ConnectorSearch from '@/components/ConnectorSearch.vue'
+import navigation from '../navigation'
 
 export default {
   name: 'Home',
@@ -319,6 +324,11 @@ export default {
     BetaSignup,
     GraphSearch,
     ConnectorSearch
+  },
+  data: function () {
+    return {
+      navigation
+    }
   }
 }
 </script>

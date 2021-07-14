@@ -1,0 +1,92 @@
+<template>
+  <single-column>
+    <div class="min-h-full align-top text-sm">
+      <h1 class="text-xl sm:text-lg font-semibold">
+        Search Results for "{{ query }}"
+      </h1>
+      <div class="lg:flex lg:flex-row-reverse pt-4">
+        <div>
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg lg:ml-8 my-4 lg:my-0"
+          >
+            <div class="px-4 lg:w-72">
+              <ul class="divide-y divide-gray-200">
+                <li class="py-4">
+                  Use the <LitReviewButton /> button to add multiple papers to
+                  the graph. You can also use the "View Graph" button or click
+                  on the title to go directly to that paper's graph.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="flex-grow">
+          <search-results
+            :showLitReviewButton="true"
+            @selected="handleSelect"
+            :query="query"
+          />
+        </div>
+      </div>
+      <LitReviewBuilder />
+    </div>
+  </single-column>
+</template>
+<script>
+import api from '../utils/api'
+import LitReviewButton from '../components/LitReviewButton'
+import LitReviewBuilder from '../components/LitReviewBuilder'
+import SearchResults from '../components/SearchResults.vue'
+import SingleColumn from '../components/layout/SingleColumn.vue'
+
+export default {
+  name: 'SearchPage',
+  components: {
+    LitReviewButton,
+    LitReviewBuilder,
+    SearchResults,
+    SingleColumn
+  },
+  data () {
+    return {
+      papers: undefined,
+      query: undefined,
+      errorMsg: undefined,
+      emptyMessage:
+        'Your search returned no results, please try a different query.'
+    }
+  },
+  created () {
+    var queryParams = new URLSearchParams(window.location.search)
+    const q = queryParams.get('q')
+
+    if (!q) {
+      this.errorMsg = 'Please enter a search term.'
+    } else {
+      this.query = q
+    }
+  },
+  watch: {
+    query (newVal, oldVal) {
+      if (newVal !== oldVal && newVal) {
+        api.searchLensPapers(newVal).then(data => {
+          this.papers = data
+        })
+      }
+    }
+  },
+  computed: {
+    loading () {
+      if (this.papers) return false
+      return true
+    }
+  },
+  methods: {
+    handleSelect (paper) {
+      this.$router.push({
+        path: `/p/${paper.id}`
+      })
+    }
+  }
+}
+</script>

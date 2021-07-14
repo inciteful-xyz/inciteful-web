@@ -121,7 +121,6 @@
                   placeholder="2015"
                 />
               </div>
-
             </div>
             <div class="inline-block px-3">
               <label
@@ -139,7 +138,6 @@
                   placeholder="2015"
                 />
               </div>
-
             </div>
             <div class="inline-block">
               <span class="inline-flex rounded-md shadow-sm">
@@ -224,7 +222,7 @@ export default {
   },
   methods: {
     addToLitReview (ids) {
-      ids.map((id) => bus.$emit('add_to_lit_review', id))
+      ids.map(id => bus.$emit('add_to_lit_review', id))
     },
     getFilterInputs () {
       return {
@@ -239,7 +237,7 @@ export default {
       const filters = nav.getFiltersFromQS()
       const filterInputs = this.getFilterInputs()
 
-      nav.filterParams.forEach((k) => {
+      nav.filterParams.forEach(k => {
         if (filters[k] !== undefined && filters[k]) {
           filterInputs[k].value = filters[k]
         }
@@ -248,7 +246,7 @@ export default {
     replaceSearchParam (params, name, value) {
       const newParams = []
 
-      params.forEach((kv) => {
+      params.forEach(kv => {
         if (kv[0] !== name) {
           newParams.push(kv)
         }
@@ -265,9 +263,9 @@ export default {
       let urlParams = window.location.search
         .substring(1)
         .split('&')
-        .map((x) => x.split('='))
+        .map(x => x.split('='))
 
-      nav.filterParams.forEach((param) => {
+      nav.filterParams.forEach(param => {
         urlParams = this.replaceSearchParam(
           urlParams,
           param,
@@ -278,7 +276,7 @@ export default {
       history.pushState(
         null,
         null,
-        '?' + urlParams.map((kv) => kv.join('=')).join('&')
+        '?' + urlParams.map(kv => kv.join('=')).join('&')
       )
 
       this.bus.$emit('updated_filters')

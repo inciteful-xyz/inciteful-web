@@ -61,7 +61,11 @@
         <div
           class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end"
         >
-          <graph-search />
+          <graph-search
+            :showImport="false"
+            @selected="navigation.goToPaper"
+            @searched="navigation.goToSearch"
+          />
         </div>
         <div class="flex items-center lg:hidden">
           <button
@@ -146,11 +150,17 @@
 
 <script>
 import GraphSearch from '@/components/GraphSearch.vue'
+import navigation from '@/navigation'
 
 export default {
   name: 'Header',
   components: {
     GraphSearch
+  },
+  data () {
+    return {
+      navigation
+    }
   }
 }
 </script>

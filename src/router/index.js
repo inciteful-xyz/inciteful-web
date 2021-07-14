@@ -32,12 +32,17 @@ const routes = [
       description: 'About Inciteful'
     }
   },
-  // {
-  //   path: '/einstein',
-  //   name: 'Einstein',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/Einstein.vue')
-  // },
+  {
+    path: '/einstein',
+    name: 'Einstein',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Einstein.vue'),
+    meta: {
+      title: 'Six Degrees of Albert Einstein',
+      description:
+        "See how your work is connected to one of Einstein's seminal papers."
+    }
+  },
   {
     path: '/data',
     name: 'Data',
@@ -48,18 +53,18 @@ const routes = [
       description: 'Where we get our data'
     }
   },
-  // {
-  //   path: '/search',
-  //   name: 'Search',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/Search.vue')
-  // },
-  // {
-  //   path: '/beta',
-  //   name: 'Beta',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/BeatFeatures.vue')
-  // },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Search.vue')
+  },
+  {
+    path: '/beta',
+    name: 'Beta',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/BetaFeatures.vue')
+  },
   {
     path: '/p/q/*',
     name: 'PaperDiscoveryQuery',
@@ -91,12 +96,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/PaperDiscovery.vue')
   },
-  // {
-  //   path: '/c',
-  //   name: 'LitConnector',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/LitConnector.vue')
-  // }
+  {
+    path: '/c',
+    name: 'LitConnector',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/LitConnector.vue')
+  },
   {
     path: '/*',
     name: 'NotFound',

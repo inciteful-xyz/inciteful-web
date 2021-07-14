@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import navigation from '../navigation'
 import Autosuggest from './Autosuggest'
 
 export default {
@@ -98,7 +97,10 @@ export default {
     searchClick () {
       const toParam = this.$refs.toAutosuggest.getValue()
       const fromParam = this.$refs.fromAutosuggest.getValue()
-      navigation.goToLitConnector(fromParam, toParam)
+      this.$router.push({
+        name: 'LitConnector',
+        query: { to: toParam, from: fromParam }
+      })
     }
   }
 }
