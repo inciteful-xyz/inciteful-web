@@ -5,14 +5,8 @@ import store from './store'
 
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
-// import './styles/style.scss'
-// import api from './utils/api'
-// import widgets from './widgets'
-// import navigation from './navigation'
-// import options from './utils/options'
 import VueTour from 'vue-tour'
 
-import VueSocialSharing from 'vue-social-sharing'
 import './assets/tailwind.css'
 
 if (process.env.NODE_ENV === 'production') {
@@ -40,11 +34,3 @@ new Vue({
 
 require('vue-tour/dist/vue-tour.css')
 Vue.use(VueTour)
-Vue.use(VueSocialSharing)
-
-// export default {
-//   widgets,
-//   navigation,
-//   api,
-//   options
-// }

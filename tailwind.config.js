@@ -1,9 +1,5 @@
 module.exports = {
-  purge: [
-    './app/**/*.html',
-    './app/**/*.vue',
-    './templates/*.html'
-  ],
+  purge: ['./app/**/*.html', './app/**/*.vue', './templates/*.html'],
   theme: {
     extend: {
       animation: {
@@ -18,5 +14,6 @@ module.exports = {
       })
     }
   },
-  variants: {}
+  variants: {},
+  plugins: [require('@tailwindcss/forms')]
 }

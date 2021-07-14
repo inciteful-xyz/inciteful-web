@@ -1,0 +1,297 @@
+<template>
+  <div v-if="paper" class="fixed inset-0 overflow-y-auto z-40">
+    <div
+      class="
+        flex
+        items-end
+        justify-center
+        sm:min-h-screen
+        pt-4
+        px-4
+        pb-20
+        text-center
+        sm:block
+        sm:p-0
+      "
+    >
+      <transition
+        enter-active-class="transition ease-out duration-300"
+        enter-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity ease-in duration-200"
+        leave-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div v-show="paper" class="fixed inset-0 transition-opacity">
+          <div
+            class="absolute inset-0 bg-gray-500 opacity-75"
+            v-on:click="clearPaper()"
+          ></div>
+        </div>
+      </transition>
+      <!-- This element is to trick the browser into centering the modal contents. -->
+      <span class="sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
+      <transition
+        enter-active-class="ease-out duration-300"
+        enter-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+        leave-active-class="ease-in duration-200"
+        leave-class="opacity-100 translate-y-0 sm:scale-100"
+        leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+      >
+        <div
+          class="
+            inline-block
+            align-bottom
+            bg-white
+            rounded-lg
+            px-4
+            pt-5
+            pb-4
+            text-left
+            overflow-hidden
+            shadow-xl
+            transform
+            transition-all
+            sm:my-8
+            sm:align-middle
+            sm:max-w-4xl
+            sm:w-full
+            sm:p-6
+          "
+          role="dialog"
+          aria-modal="true"
+          v-show="paper"
+          aria-labelledby="modal-headline"
+        >
+          <div class="fixed top-2 right-2">
+            <button
+              class="
+                font-extrabold
+                text-sm
+                rounded-full
+                h-5
+                w-5
+                bg-purple-500
+                text-white
+                justify-center
+              "
+              v-on:click="clearPaper()"
+            >
+              X
+            </button>
+          </div>
+          <div class="text-sm">
+            <PaperHero :paper="paper" />
+            <div v-if="this.connectingResults" class="text-right">
+              <GraphView :graphData="graphData" :loaded="loaded" />
+              <button
+                v-on:click="goToLitConnector()"
+                class="text-xs hover:underline text-purple-600"
+              >
+                View in Literature Connector >>
+              </button>
+            </div>
+            <div class="flex whitespace-nowrap pt-6">
+              <div class="sm:flex-1 hidden sm:flex">
+                <span class="inline-flex rounded-md shadow-sm">
+                  <button
+                    v-on:click="backButton()"
+                    class="
+                      inline-flex
+                      items-center
+                      px-4
+                      py-2
+                      border border-transparent
+                      text-sm
+                      leading-5
+                      font-medium
+                      rounded-md
+                      text-white
+                      bg-gray-500
+                      hover:bg-gray-400
+                      focus:outline-none
+                      focus:border-gray-600
+                      focus:ring-gray
+                      active:bg-gray-600
+                      transition
+                      ease-in-out
+                      duration-150
+                    "
+                  >
+                    Back
+                  </button>
+                </span>
+              </div>
+              <div class="flex-1 sm:text-center">
+                <span class="inline-flex rounded-md shadow-sm">
+                  <a
+                    v-on:click="paperUrl"
+                    :href="paperUrl"
+                    class="
+                      inline-flex
+                      cursor-pointer
+                      items-center
+                      px-4
+                      py-2
+                      border border-transparent
+                      text-sm
+                      leading-5
+                      font-medium
+                      rounded-md
+                      text-white
+                      bg-purple-400
+                      hover:bg-purple-300
+                      focus:outline-none
+                      focus:border-purple-500
+                      focus:ring-purple
+                      active:bg-purple-500
+                      transition
+                      ease-in-out
+                      duration-150
+                    "
+                  >
+                    Go to Graph
+                  </a>
+                </span>
+              </div>
+              <div class="flex-1 text-right">
+                <span class="inline-flex rounded-md shadow-sm">
+                  <button
+                    v-on:click="addToLitReview()"
+                    class="
+                      inline-flex
+                      items-center
+                      px-4
+                      py-2
+                      border border-transparent
+                      text-sm
+                      leading-5
+                      font-medium
+                      rounded-md
+                      text-white
+                      bg-purple-600
+                      hover:bg-purple-500
+                      focus:outline-none
+                      focus:border-purple-700
+                      focus:ring-purple
+                      active:bg-purple-700
+                      transition
+                      ease-in-out
+                      duration-150
+                    "
+                  >
+                    Add to Lit Review
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+</template>
+
+<script>
+import bus from '../utils/bus'
+import api from '../utils/api'
+import PaperHero from './PaperHero'
+import navigation from '../navigation'
+import GraphView from './GraphView'
+
+export default {
+  name: 'PaperInfoModal',
+  components: {
+    PaperHero,
+    GraphView
+  },
+  data () {
+    return {
+      id: undefined,
+      paper: undefined,
+      connectingResults: undefined,
+      options: undefined,
+      ss_paper: undefined,
+      loaded: false,
+      bus
+    }
+  },
+  mounted () {
+    bus.$on('show_paper_modal', (id, options) => {
+      if (this.id !== id) {
+        this.loaded = false
+        this.id = id
+        this.options = options
+      }
+    })
+  },
+  computed: {
+    paperUrl () {
+      return navigation.getPaperUrl(this.paper.id)
+    },
+    graphData () {
+      return {
+        type: 'connector',
+        papers: this.connectingResults.papers,
+        connections: this.connectingResults.connections,
+        paths: this.connectingResults.paths,
+        toId: this.id,
+        fromId: this.options.connectTo,
+        modalOptions: {
+          previousScreen: {
+            id: this.id,
+            options: this.options
+          },
+          connectTo: this.options ? this.options.connectTo : undefined
+        }
+      }
+    }
+  },
+  watch: {
+    id () {
+      if (!this.id) {
+        this.paper = undefined
+      } else {
+        api.getPaper(this.id).then((paper) => (this.paper = paper))
+      }
+    },
+    options () {
+      if (this.options) {
+        if (this.options.connectTo) {
+          api
+            .connectPapers(this.options.connectTo, this.id, true)
+            .then((results) => {
+              this.connectingResults = results
+              this.loaded = true
+            })
+        }
+      } else {
+        this.connectingResults = undefined
+      }
+    }
+  },
+  methods: {
+    addToLitReview () {
+      bus.$emit('add_to_lit_review', this.paper.id)
+      this.backButton()
+    },
+    clearPaper () {
+      this.id = undefined
+      this.options = undefined
+    },
+    goToLitConnector () {
+      navigation.goToLitConnector(this.graphData.fromId, this.graphData.toId)
+    },
+    backButton () {
+      if (this.options && this.options.previousScreen) {
+        this.loaded = false
+        this.id = this.options.previousScreen.id
+        this.options = this.options.previousScreen.options
+      } else {
+        this.clearPaper()
+      }
+    }
+  }
+}
+</script>
