@@ -145,7 +145,7 @@
               <div class="flex text-sm border-t border-gray-200">
                 <div class="flex-auto">
                   <router-link
-                    :to="{ name: 'LitReviewQuery', query: { ids, sql } }"
+                    :to="queryLink"
                     title="View SQL"
                     class="p-3 sql-button cursor-pointer inline-block"
                   >
@@ -242,6 +242,7 @@ import bus from '../utils/bus'
 import Paginate from 'vuejs-paginate'
 import Loader from './Loader'
 import LitReviewButton from './LitReviewButton'
+import navigation from '../navigation'
 
 export default {
   name: 'TableView',
@@ -318,6 +319,22 @@ export default {
       }
 
       return undefined
+    },
+    queryLink () {
+      if (this.ids.length === 1) {
+        return {
+          path: navigation.getPaperQueryUrl(this.ids[0]),
+          query: { sql: this.sql }
+        }
+      } else {
+        return {
+          name: 'LitReviewQuery',
+          query: {
+            ids: this.ids,
+            sql: this.sql
+          }
+        }
+      }
     }
   },
   methods: {

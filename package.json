@@ -36,6 +36,7 @@
     "qs": "^6.10.1",
     "stemmer": "^2.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "@tailwindcss/forms": "^0.3.3",
     "tippy.js": "^6.3.1",
     "vue": "^2.6.11",
     "vue-autosuggest": "^2.2.0",
@@ -46,7 +47,6 @@
   },
   "devDependencies": {
     "@sentry/webpack-plugin": "^1.13.0",
-    "@tailwindcss/forms": "^0.3.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
