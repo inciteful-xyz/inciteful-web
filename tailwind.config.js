@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./app/**/*.html', './app/**/*.vue', './templates/*.html'],
+  purge: ['./src/**/*.html', './src/**/*.vue'],
   theme: {
     extend: {
       animation: {
