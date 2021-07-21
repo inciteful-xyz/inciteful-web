@@ -78,7 +78,7 @@ const routes = [
         /* webpackChunkName: "about" */ '../views/PaperDiscoveryQuery.vue'
       ),
     meta: {
-      title: 'Paper Discoery Query',
+      title: 'Paper Discovery Query',
       description:
         "Use our Query tool to make custom queries on the paper's graph."
     }
