@@ -38,6 +38,7 @@ import LitReviewButton from '../components/LitReviewButton'
 import LitReviewBuilder from '../components/LitReviewBuilder'
 import SearchResults from '../components/SearchResults.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
+import navigation from '../navigation'
 
 export default {
   name: 'SearchPage',
@@ -57,8 +58,7 @@ export default {
     }
   },
   created () {
-    var queryParams = new URLSearchParams(window.location.search)
-    const q = queryParams.get('q')
+    const q = this.$route.query.q
 
     if (!q) {
       this.errorMsg = 'Please enter a search term.'
@@ -84,7 +84,7 @@ export default {
   methods: {
     handleSelect (paper) {
       this.$router.push({
-        path: `/p/${paper.id}`
+        path: navigation.getPaperUrl(paper.id)
       })
     }
   }

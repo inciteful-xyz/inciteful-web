@@ -153,7 +153,6 @@ import PaperInfoModal from '../components/PaperInfoModal'
 import BetaSignup from '../components/BetaSignup'
 import api from '../utils/api'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
-import navigation from '../navigation'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import Faq from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
@@ -200,8 +199,7 @@ export default {
     }
   },
   created () {
-    const urlParams = new URLSearchParams(window.location.search)
-    this.toParam = urlParams.get('to')
+    this.toParam = this.$route.query.to
     api.getPaper('81268560').then(paper => (this.from = paper))
   },
   computed: {
@@ -224,7 +222,7 @@ export default {
       }
 
       if (newParam) {
-        navigation.setSearchParam('to', paper.id)
+        this.$router.push({ query: { ...this.$route.query, to: paper.id } })
       }
     }
   }

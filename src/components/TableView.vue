@@ -144,8 +144,8 @@
               </table>
               <div class="flex text-sm border-t border-gray-200">
                 <div class="flex-auto">
-                  <a
-                    :href="queryUrl"
+                  <router-link
+                    :to="{ name: 'LitReviewQuery', query: { ids, sql } }"
                     title="View SQL"
                     class="p-3 sql-button cursor-pointer inline-block"
                   >
@@ -164,7 +164,7 @@
                       ></path>
                     </svg>
                     SQL
-                  </a>
+                  </router-link>
                 </div>
                 <div
                   v-if="numPages > 1"
@@ -238,7 +238,6 @@
 import Author from './Authors.vue'
 import numeral from 'numeral'
 import api from '../utils/api'
-import UrlUtils from '../utils/urls'
 import bus from '../utils/bus'
 import Paginate from 'vuejs-paginate'
 import Loader from './Loader'
@@ -319,12 +318,6 @@ export default {
       }
 
       return undefined
-    },
-    queryUrl () {
-      return UrlUtils.constructUrlFromIdsAndParams('/p/q', this.ids, [
-        ['sql', this.sql],
-        ['returnUrl', window.location.pathname + window.location.search]
-      ])
     }
   },
   methods: {

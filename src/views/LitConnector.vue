@@ -137,7 +137,6 @@
 import LitReviewBuilder from '../components/LitReviewBuilder'
 import BetaSignup from '../components/BetaSignup'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
-import navigation from '../navigation'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import PaperInfoModal from '../components/PaperInfoModal'
 import Faq from '../components/Faq.vue'
@@ -195,9 +194,8 @@ export default {
     })
   },
   created () {
-    const urlParams = new URLSearchParams(window.location.search)
-    this.toParam = urlParams.get('to')
-    this.fromParam = urlParams.get('from')
+    this.toParam = this.$route.query.to
+    this.fromParam = this.$route.query.from
   },
   computed: {
     isValid () {
@@ -209,18 +207,15 @@ export default {
       if (paper) {
         this.from = paper
       }
-      if (newParam) {
-        navigation.setSearchParam('from', paper.id)
-      }
+
+      this.$router.push({ query: { ...this.$route.query, from: paper.id } })
     },
     handleToSelect (paper, newParam) {
       if (paper) {
         this.to = paper
       }
 
-      if (newParam) {
-        navigation.setSearchParam('to', paper.id)
-      }
+      this.$router.push({ query: { ...this.$route.query, to: paper.id } })
     }
   }
 }

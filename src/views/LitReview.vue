@@ -53,7 +53,6 @@ export default {
     }
   },
   created () {
-    console.log(JSON.stringify(this.$route.query))
     this.ids = this.$route.query.ids
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },

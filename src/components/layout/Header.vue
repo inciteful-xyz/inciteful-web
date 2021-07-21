@@ -63,13 +63,13 @@
         >
           <graph-search
             :showImport="false"
-            @selected="navigation.goToPaper"
-            @searched="navigation.goToSearch"
+            v-on:selected="goToPaper"
+            v-on:searched="goToSearch"
           />
         </div>
         <div class="flex items-center lg:hidden">
           <button
-            onclick="inciteful.navigation.toggleMobileMenu()"
+            @click="toggleMobileMenu()"
             class=" inline-flex items-center justify-center p-2 rounded-md text-gray-400
                         hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500
                         transition duration-150 ease-in-out"
@@ -78,7 +78,8 @@
           >
             <svg
               id="closedMobileMenuIcon"
-              class="block h-6 w-6"
+              v-if="!mobileMenuExpanded"
+              class="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -92,7 +93,8 @@
             </svg>
             <svg
               id="openMobileMenuIcon"
-              class="hidden h-6 w-6"
+              v-if="mobileMenuExpanded"
+              class="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -108,7 +110,14 @@
         </div>
       </div>
     </div>
-    <div id="mobileMenu" class="hidden lg:hidden">
+    <div
+      id="mobileMenu"
+      class="lg:hidden"
+      :class="{
+        hidden: !mobileMenuExpanded,
+        block: mobileMenuExpanded
+      }"
+    >
       <div class="pt-2 pb-3">
         <!-- <a href="/p"
                     class="block pl-3 pr-4 py-2 border-l-4 border-purple-500 text-base font-medium text-purple-700 bg-purple-50 focus:outline-none focus:text-purple-800 focus:bg-purple-100 focus:border-purple-700 transition duration-150 ease-in-out">Discovery</a> -->
@@ -150,7 +159,7 @@
 
 <script>
 import GraphSearch from '@/components/GraphSearch.vue'
-import navigation from '@/navigation'
+import navigation from '../../navigation'
 
 export default {
   name: 'Header',
@@ -159,7 +168,18 @@ export default {
   },
   data () {
     return {
-      navigation
+      mobileMenuExpanded: false
+    }
+  },
+  methods: {
+    goToPaper (id) {
+      this.$router.push({ path: navigation.getPaperUrl(id) })
+    },
+    goToSearch (query) {
+      this.$router.push({ name: 'Search', query: { q: query } })
+    },
+    toggleMobileMenu () {
+      this.mobileMenuExpanded = !this.mobileMenuExpanded
     }
   }
 }

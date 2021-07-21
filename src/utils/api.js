@@ -1,5 +1,4 @@
 import axios from 'axios'
-import urls from './urls'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import logging from './logging'
@@ -7,6 +6,8 @@ import logging from './logging'
 const MAX_INCITEFUL_REQUESTS = 5
 const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
+const idParamName = 'ids[]'
+const pruneParamName = 'prune'
 
 const queryApi = axios.create()
 
@@ -62,7 +63,7 @@ function queryGraphSingle (id, sql, prune) {
   let url = `${process.env.VUE_APP_CLIENT_API_URL}/query/${id}`
 
   if (prune) {
-    url = url + `?${urls.pruneParamName}=${prune}`
+    url = url + `?${pruneParamName}=${prune}`
   }
 
   return queryApi
@@ -74,11 +75,11 @@ function queryGraphSingle (id, sql, prune) {
 }
 
 function queryGraphMulti (ids, sql, prune) {
-  const idParams = ids.map(id => `${urls.idParamName}=${id}`).join('&')
+  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
   let url = `${process.env.VUE_APP_CLIENT_API_URL}/query?${idParams}`
 
   if (prune) {
-    url = url + `&${urls.pruneParamName}=${prune}`
+    url = url + `&${pruneParamName}=${prune}`
   }
 
   return queryApi
@@ -105,7 +106,6 @@ function connectPapers (from, to, extendedGraphs) {
 }
 
 function getPaper (id) {
-  console.log(process.env.VUE_APP_CLIENT_API_URL)
   return axios
     .get(`${process.env.VUE_APP_CLIENT_API_URL}/paper/${id}`)
     .then(response => response.data)
@@ -115,7 +115,7 @@ function getPaper (id) {
 }
 
 function getPapers (ids) {
-  const idParams = ids.map(id => `${urls.idParamName}=${id}`).join('&')
+  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
     .get(`${process.env.VUE_APP_CLIENT_API_URL}/paper?${idParams}`)
@@ -145,7 +145,7 @@ function searchPapers (query) {
 }
 
 function getCitations (ids) {
-  const idParams = ids.map(id => `${urls.idParamName}=${id}`).join('&')
+  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
     .get(`${process.env.VUE_APP_CLIENT_API_URL}/graph/citations?${idParams}`)
@@ -156,9 +156,9 @@ function getCitations (ids) {
 }
 
 function downloadBibFile (ids) {
-  const url = `${process.env.VUE_APP_CLIENT_API_URL}/bib`
+  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
-  window.location = urls.constructUrlFromIdsAndParams(url, ids, [])
+  window.location = `${process.env.VUE_APP_CLIENT_API_URL}/bib?${idParams}`
 }
 
 // Non Inciteful APIs

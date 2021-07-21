@@ -32,7 +32,6 @@ import StatView from './StatView.vue'
 import SimilarGraph from './SimilarGraph'
 import api from '../utils/api'
 import Sql from '../utils/sql'
-import nav from '../navigation'
 import bus from '../utils/bus'
 
 export default {
@@ -53,21 +52,22 @@ export default {
       results: [],
       errorMsg: undefined,
       loading: true,
-      filters: Object,
       bus
     }
   },
-  mounted () {
-    this.bus.$on('updated_filters', () => {
-      this.setFilters()
-      this.runSQL()
-    })
-  },
   created () {
-    this.setFilters()
     this.runSQL()
   },
   computed: {
+    filters () {
+      return {
+        keywords: this.$route.query.keywords,
+        maxYear: this.$route.query.maxYear,
+        minYear: this.$route.query.minYear,
+        maxDistance: this.$route.query.maxDistance,
+        minDistance: this.$route.query.minDistance
+      }
+    },
     filteredSql () {
       return Sql.addFilters(this.sql, this.filters)
     },
@@ -92,9 +92,6 @@ export default {
     }
   },
   methods: {
-    setFilters () {
-      this.filters = nav.getFiltersFromQS()
-    },
     runSQL () {
       if (this.ids && this.filteredSql) {
         this.errorMsg = undefined

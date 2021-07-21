@@ -108,7 +108,7 @@ export default {
     this.query = this.defaultQuery
 
     if (this.defaultPaperId) {
-      api.getPaper(this.defaultPaperId).then((data) => {
+      api.getPaper(this.defaultPaperId).then(data => {
         this.query = this.getPaperValue(data)
       })
     }
@@ -119,7 +119,9 @@ export default {
       else return this.query
     },
     getSelectedId () {
-      if (this.$refs.autocomplete.currentItem) { return this.$refs.autocomplete.currentItem.item.id }
+      if (this.$refs.autocomplete.currentItem) {
+        return this.$refs.autocomplete.currentItem.item.id
+      }
       if (this.selected) return this.selected
     },
     format (val) {
@@ -132,7 +134,7 @@ export default {
       this.timeout = setTimeout(() => {
         this.selected = null
 
-        api.searchPapers(query).then((papers) => {
+        api.searchPapers(query).then(papers => {
           if (papers && papers) {
             this.suggestions = [
               {
@@ -157,7 +159,7 @@ export default {
       }
     },
     sendSelect (ids) {
-      api.getPaperIds(ids).then((ids) => {
+      api.getPaperIds(ids).then(ids => {
         this.$emit('selected', ids)
       })
     }

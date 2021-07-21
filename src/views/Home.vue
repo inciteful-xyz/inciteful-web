@@ -30,8 +30,8 @@
                     <div class="flex-auto max-w-full text-base ">
                       <GraphSearch
                         :showImport="true"
-                        @selected="navigation.addLitReviewPapers"
-                        @searched="navigation.goToSearch"
+                        @selected="addLitReviewPapers"
+                        @searched="goToSearch"
                       />
                     </div>
                   </div>
@@ -325,9 +325,16 @@ export default {
     GraphSearch,
     ConnectorSearch
   },
-  data: function () {
-    return {
-      navigation
+  methods: {
+    addLitReviewPapers (ids) {
+      if (ids.length === 1) {
+        this.$router.push({ path: navigation.getPaperUrl(ids[0]) })
+      } else {
+        this.$router.push({ name: 'LitReview', query: { ids } })
+      }
+    },
+    goToSearch (query) {
+      this.$router.push({ name: 'Search', query: { q: query } })
     }
   }
 }

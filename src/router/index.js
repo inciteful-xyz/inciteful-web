@@ -2,10 +2,9 @@ import qs from 'qs'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import pagedata from '../utils/pagedata'
 
 Vue.use(VueRouter)
-
-const DEFAULT_TITLE = 'Inciteful'
 
 const routes = [
   {
@@ -57,19 +56,32 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Search.vue')
+      import(/* webpackChunkName: "about" */ '../views/Search.vue'),
+    meta: {
+      title: 'Search for Papers'
+    }
   },
   {
     path: '/beta',
     name: 'Beta',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/BetaFeatures.vue')
+      import(/* webpackChunkName: "about" */ '../views/BetaFeatures.vue'),
+    meta: {
+      title: 'Enable and Play with Inciteful Beta Features'
+    }
   },
   {
     path: '/p/q/*',
     name: 'PaperDiscoveryQuery',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/PaperDiscoveryQuery.vue')
+      import(
+        /* webpackChunkName: "about" */ '../views/PaperDiscoveryQuery.vue'
+      ),
+    meta: {
+      title: 'Paper Discoery Query',
+      description:
+        "Use our Query tool to make custom queries on the paper's graph."
+    }
   },
   {
     path: '/p/q',
@@ -77,7 +89,12 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "paperDisovery" */ '../views/LitReviewQuery.vue'
-      )
+      ),
+    meta: {
+      title: 'Literature Review Query',
+      description:
+        "Use our Query tool to make custom queries on the graph you've built."
+    }
   },
   {
     path: '/p',
@@ -85,8 +102,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "paperDisovery" */ '../views/LitReview.vue'),
     meta: {
-      title: 'Paper Discovery',
-      meta:
+      title: 'Literature Review',
+      description:
         'Use our Paper Discovery tool to quickly and easily find the most relevant literature.'
     }
   },
@@ -94,13 +111,23 @@ const routes = [
     path: '/p/*',
     name: 'PaperDiscovery',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/PaperDiscovery.vue')
+      import(/* webpackChunkName: "about" */ '../views/PaperDiscovery.vue'),
+    meta: {
+      title: 'Paper Discovery',
+      description:
+        'Use our Paper Discovery tool to quickly and easily find the most relevant literature.'
+    }
   },
   {
     path: '/c',
     name: 'LitConnector',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/LitConnector.vue')
+      import(/* webpackChunkName: "about" */ '../views/LitConnector.vue'),
+    meta: {
+      title: 'Literature Connector',
+      description:
+        'Use our Literature Connector to Discover How Two Papers are Connected'
+    }
   },
   {
     path: '/*',
@@ -125,12 +152,14 @@ const router = new VueRouter({
     }
   },
   parseQuery: function (queryString) {
-    console.log('parsing query: ' + queryString)
+    // console.log('parsing query: ' + queryString)
     return qs.parse(queryString)
   },
   stringifyQuery: function (params) {
-    console.log('stringify query: ' + JSON.stringify(params))
-    const result = qs.stringify(params, { encode: false })
+    // console.log('stringify query: ' + JSON.stringify(params))
+    const result = qs.stringify(params, {
+      arrayFormat: 'brackets'
+    })
     return result ? '?' + result : ''
   }
 })
@@ -139,10 +168,8 @@ router.afterEach((to, from) => {
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   Vue.nextTick(() => {
-    document.title = to.meta.title || DEFAULT_TITLE
-    document
-      .querySelector('meta[name="description"]')
-      .setAttribute('content', to.meta.description || '')
+    pagedata.setTitle(to.meta.title)
+    pagedata.setDescription(to.meta.description)
   })
 })
 

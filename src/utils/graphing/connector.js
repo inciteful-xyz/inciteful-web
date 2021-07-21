@@ -1,4 +1,4 @@
-import nav from '../../navigation'
+import navigation from '../../navigation'
 
 function buildKlayLayout () {
   return {
@@ -7,10 +7,14 @@ function buildKlayLayout () {
     fit: true, // Whether to fit
     padding: 20, // Padding on fit
     animate: false, // Whether to transition the node positions
-    animateFilter: function (node, i) { return true }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
+    animateFilter: function (node, i) {
+      return true
+    }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // Duration of animation in ms if enabled
     animationEasing: undefined, // Easing of animation if enabled
-    transform: function (node, pos) { return pos }, // A function that applies a transform to the final node position
+    transform: function (node, pos) {
+      return pos
+    }, // A function that applies a transform to the final node position
     ready: undefined, // Callback on layoutready
     stop: undefined, // Callback on layoutstop
     klay: {
@@ -57,7 +61,9 @@ function buildKlayLayout () {
       spacing: 20, // Overall setting for the minimal amount of space to be left between objects
       thoroughness: 7 // How much effort should be spent to produce a nice layout..
     },
-    priority: function (edge) { return null } // Edges with a non-nil value are skipped when greedy edge cycle breaking is enabled
+    priority: function (edge) {
+      return null
+    } // Edges with a non-nil value are skipped when greedy edge cycle breaking is enabled
   }
 }
 function buildLayout () {
@@ -76,7 +82,7 @@ function buildElements (graphData, minDate, maxDate) {
   const elements = []
   const papers = graphData.papers
 
-  Object.values(papers).forEach((p) => {
+  Object.values(papers).forEach(p => {
     let author = 'NA'
     if (p.author && p.author.length > 0) {
       author = p.author[0].name.split(' ').pop()
@@ -89,7 +95,7 @@ function buildElements (graphData, minDate, maxDate) {
     if (graphData.toId === p.id || graphData.fromId === p.id) {
       size = 150
     } else {
-      graphData.paths.forEach((a) => {
+      graphData.paths.forEach(a => {
         if (a.includes(p.id)) {
           for (let i = 0; i < a.length; i++) {
             elsToHighlight.add(a[i])
@@ -102,10 +108,8 @@ function buildElements (graphData, minDate, maxDate) {
       })
     }
 
-    const date =
-            p.published_year + (1 - p.published_month) / 12
-    const lightness =
-            20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
+    const date = p.published_year + (1 - p.published_month) / 12
+    const lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
 
     const content = makeTippy(p, title)
 
@@ -122,7 +126,7 @@ function buildElements (graphData, minDate, maxDate) {
     })
   })
 
-  graphData.connections.forEach((c) => {
+  graphData.connections.forEach(c => {
     elements.push({
       data: {
         id: `${c.citing}-${c.cited}`,
@@ -153,7 +157,6 @@ function contextMenu (bus) {
         onClickFunction: function (event) {
           const target = event.target || event.cyTarget
           const id = Number(target.data('id'))
-          console.log('set_as_from: ' + id)
           bus.$emit('set_as_from', id)
         },
         disabled: false
@@ -165,7 +168,6 @@ function contextMenu (bus) {
         onClickFunction: function (event) {
           const target = event.target || event.cyTarget
           const id = Number(target.data('id'))
-          console.log('set_as_to: ' + id)
           bus.$emit('set_as_to', id)
         },
         disabled: false
@@ -178,7 +180,6 @@ function contextMenu (bus) {
         onClickFunction: function (event) {
           const target = event.target || event.cyTarget
           const id = Number(target.data('id'))
-          console.log('lock_paper: ' + id)
           bus.$emit('lock_paper', id)
         },
         disabled: false
@@ -203,7 +204,7 @@ function contextMenu (bus) {
         onClickFunction: function (event) {
           const target = event.target || event.cyTarget
           const id = Number(target.data('id'))
-          nav.goToPaper(id)
+          navigation.goToPaper(id)
         },
         disabled: false
       }

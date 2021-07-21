@@ -63,6 +63,15 @@ export default {
       if (this.$route.query.ids) {
         this.$route.query.ids.forEach(id => this.ids.add(id))
       }
+      if (this.$route.name === 'PaperDiscovery') {
+        this.ids.add(this.$route.params.pathMatch)
+      }
+      if (this.$route.query.from && Number.parseInt(this.$route.query.from)) {
+        this.ids.add(this.$route.query.from)
+      }
+      if (this.$route.query.to && Number.parseInt(this.$route.query.to)) {
+        this.ids.add(this.$route.query.to)
+      }
 
       this.$router.push({
         name: 'LitReview',

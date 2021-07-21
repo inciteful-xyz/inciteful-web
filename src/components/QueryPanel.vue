@@ -244,11 +244,9 @@ import { withLineNumbers } from 'codejar/linenumbers'
 import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism.css'
 
-import urls from '../utils/urls'
 import SqlView from './SqlView.vue'
 import PaperInfoModal from './PaperInfoModal'
 import LitReviewBuilder from './LitReviewBuilder'
-import navigation from '../navigation'
 
 export default {
   name: 'QueryPanel',
@@ -258,8 +256,7 @@ export default {
     PaperInfoModal
   },
   props: {
-    ids: Array,
-    sql: String
+    ids: Array
   },
   data () {
     return {
@@ -271,13 +268,21 @@ export default {
   mounted () {
     const node = document.querySelector('#query-editor')
     this.editor = CodeJar(node, withLineNumbers(Prism.highlightElement))
-    this.returnUrl = urls.getReturnUrl(window.location)
+    this.returnUrl = this.$route.query.returnUrl
 
-    if (this.sql) {
-      this.setCode(this.sql)
+    if (this.$route.query.sql) {
+      this.setCode(this.$route.query.sql)
       this.runCode()
     } else {
       this.runExample('basic')
+    }
+  },
+  watch: {
+    '$route.query.sql' (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.dashSql = newVal
+        this.setCode(newVal)
+      }
     }
   },
   methods: {
@@ -287,12 +292,10 @@ export default {
     setCode (code) {
       this.editor.updateCode(code)
     },
-    setUrl () {
-      navigation.setSearchParam('sql', this.getCode())
-    },
     runCodeClick () {
-      this.dashSql = this.getCode()
-      this.setUrl()
+      this.$router.push({
+        query: { ...this.$route.query, sql: this.getCode() }
+      })
     },
     runCode () {
       this.dashSql = this.getCode()
@@ -304,7 +307,7 @@ export default {
       switch (example) {
         case 'most_journals':
           this.setCode(
-            `SELECT journal, COUNT(*) AS NumPapers 
+            `SELECT journal, COUNT(*) AS NumPapers
 FROM papers
 GROUP BY journal
 ORDER BY COUNT(*) DESC`
@@ -326,8 +329,8 @@ ORDER BY COUNT(*) DESC`)
           break
         default:
           this.setCode(
-            `SELECT paper_id, authors, title, num_cited_by 
-FROM papers 
+            `SELECT paper_id, authors, title, num_cited_by
+FROM papers
 ORDER BY num_cited_by DESC`
           )
           break

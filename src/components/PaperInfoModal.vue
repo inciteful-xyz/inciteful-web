@@ -253,7 +253,7 @@ export default {
       if (!this.id) {
         this.paper = undefined
       } else {
-        api.getPaper(this.id).then((paper) => (this.paper = paper))
+        api.getPaper(this.id).then(paper => (this.paper = paper))
       }
     },
     options () {
@@ -261,7 +261,7 @@ export default {
         if (this.options.connectTo) {
           api
             .connectPapers(this.options.connectTo, this.id, true)
-            .then((results) => {
+            .then(results => {
               this.connectingResults = results
               this.loaded = true
             })
@@ -281,7 +281,13 @@ export default {
       this.options = undefined
     },
     goToLitConnector () {
-      navigation.goToLitConnector(this.graphData.fromId, this.graphData.toId)
+      this.$router.push({
+        name: 'LitConnector',
+        query: {
+          to: this.graphData.toId,
+          from: this.graphData.fromId
+        }
+      })
     },
     backButton () {
       if (this.options && this.options.previousScreen) {

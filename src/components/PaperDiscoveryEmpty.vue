@@ -28,7 +28,11 @@
                 <div>
                   <div class="flex pt-3">
                     <div class="flex-auto max-w-full text-base ">
-                      <graph-search />
+                      <GraphSearch
+                        :showImport="true"
+                        v-on:selected="addLitReviewPapers"
+                        v-on:searched="goToSearch"
+                      />
                     </div>
                   </div>
                 </div>
@@ -246,11 +250,24 @@
 <script>
 // @ is an alias to /src
 import GraphSearch from './GraphSearch.vue'
+import navigation from '../navigation'
 
 export default {
   name: 'PaperDiscoveryEmpty',
   components: {
     GraphSearch
+  },
+  methods: {
+    addLitReviewPapers (ids) {
+      if (ids.length === 1) {
+        this.$router.push({ path: navigation.getPaperUrl(ids[0]) })
+      } else {
+        this.$router.push({ name: 'LitReview', query: { ids } })
+      }
+    },
+    goToSearch (query) {
+      this.$router.push({ name: 'Search', query: { q: query } })
+    }
   }
 }
 </script>

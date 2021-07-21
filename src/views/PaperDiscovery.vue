@@ -113,6 +113,7 @@ import api from '../utils/api'
 import bus from '../utils/bus'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
+import pagedata from '../utils/pagedata'
 
 export default {
   name: 'PaperDisovery',
@@ -157,11 +158,15 @@ export default {
       if (newVal !== oldVal) {
         this.setData(newVal)
       }
+    },
+    paper (newVal) {
+      if (newVal) {
+        pagedata.setTitle(newVal.title)
+      }
     }
   },
   methods: {
     setData (id) {
-      console.log('set data')
       if (id) {
         api.getPaper(id).then(data => {
           this.paper = data

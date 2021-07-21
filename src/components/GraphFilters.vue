@@ -39,6 +39,7 @@
               ref="keywordFilter"
               class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-full"
               placeholder="(hello AND world) NOT cruel"
+              v-model="keywords"
             />
           </div>
         </div>
@@ -67,6 +68,7 @@
                   w-24
                   rounded-md
                 "
+                v-model="minDistance"
               >
                 <option>0</option>
                 <option selected>1</option>
@@ -97,6 +99,7 @@
                   w-24
                   rounded-md
                 "
+                v-model="maxDistance"
               >
                 <option>0</option>
                 <option>1</option>
@@ -119,6 +122,7 @@
                   maxlength="4"
                   v-on:keyup.enter="applyFilters()"
                   placeholder="2015"
+                  v-model="minYear"
                 />
               </div>
             </div>
@@ -136,6 +140,7 @@
                   maxlength="4"
                   v-on:keyup.enter="applyFilters()"
                   placeholder="2015"
+                  v-model="maxYear"
                 />
               </div>
             </div>
@@ -200,7 +205,6 @@
 
 <script>
 import GraphSearch from './GraphSearch'
-import nav from '../navigation'
 import bus from '../utils/bus'
 
 export default {
@@ -214,72 +218,29 @@ export default {
   },
   data () {
     return {
-      bus
+      bus,
+      keywords: this.$route.query.keyword,
+      minDistance: this.$route.query.minDistance,
+      maxDistance: this.$route.query.maxDistance,
+      minYear: this.$route.query.minYear,
+      maxYear: this.$route.query.maxYear
     }
-  },
-  mounted () {
-    this.setFiltersFromQS()
   },
   methods: {
     addToLitReview (ids) {
       ids.map(id => bus.$emit('add_to_lit_review', id))
     },
-    getFilterInputs () {
-      return {
-        keywords: this.$refs.keywordFilter,
-        minDistance: this.$refs.minDistanceFilter,
-        maxDistance: this.$refs.maxDistanceFilter,
-        minYear: this.$refs.minYearFilter,
-        maxYear: this.$refs.maxYearFilter
-      }
-    },
-    setFiltersFromQS () {
-      const filters = nav.getFiltersFromQS()
-      const filterInputs = this.getFilterInputs()
-
-      nav.filterParams.forEach(k => {
-        if (filters[k] !== undefined && filters[k]) {
-          filterInputs[k].value = filters[k]
-        }
-      })
-    },
-    replaceSearchParam (params, name, value) {
-      const newParams = []
-
-      params.forEach(kv => {
-        if (kv[0] !== name) {
-          newParams.push(kv)
-        }
-      })
-
-      if (value) {
-        newParams.push([name, value])
-      }
-      return newParams
-    },
     applyFilters () {
-      const filterInputs = this.getFilterInputs()
-
-      let urlParams = window.location.search
-        .substring(1)
-        .split('&')
-        .map(x => x.split('='))
-
-      nav.filterParams.forEach(param => {
-        urlParams = this.replaceSearchParam(
-          urlParams,
-          param,
-          filterInputs[param].value
-        )
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          keywords: this.$refs.keywordFilter.value,
+          minDistance: this.$refs.minDistanceFilter.value,
+          maxDistance: this.$refs.maxDistanceFilter.value,
+          minYear: this.$refs.minYearFilter.value,
+          maxYear: this.$refs.maxYearFilter.value
+        }
       })
-
-      history.pushState(
-        null,
-        null,
-        '?' + urlParams.map(kv => kv.join('=')).join('&')
-      )
-
-      this.bus.$emit('updated_filters')
     }
   }
 }

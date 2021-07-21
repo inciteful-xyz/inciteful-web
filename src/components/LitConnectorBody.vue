@@ -213,8 +213,8 @@
                                 focus:ring
                               "
                               :class="{
-                                'bg-purple-600': extendedGraphs,
-                                'bg-gray-200': !extendedGraphs
+                                'bg-purple-600': extendedGraph,
+                                'bg-gray-200': !extendedGraph
                               }"
                             >
                               <span
@@ -232,8 +232,8 @@
                                   duration-200
                                 "
                                 :class="{
-                                  'translate-x-5': extendedGraphs,
-                                  'translate-x-0': !extendedGraphs
+                                  'translate-x-5': extendedGraph,
+                                  'translate-x-0': !extendedGraph
                                 }"
                               ></span>
                             </span>
@@ -321,8 +321,7 @@ export default {
       hoverKeywords: undefined,
       minYear: undefined,
       maxYear: undefined,
-      highlightedIds: [],
-      extendedGraphs: false
+      highlightedIds: []
     }
   },
   mounted () {
@@ -345,6 +344,9 @@ export default {
     })
   },
   computed: {
+    extendedGraph () {
+      return this.$route.query.extendedGraph === 'true'
+    },
     effectiveKeyword () {
       return this.hoverKeywords ? this.hoverKeywords : this.textKeywords
     },
@@ -527,7 +529,7 @@ export default {
     from (newVal, oldVal) {
       this.resetFilters()
     },
-    extendedGraphs (newVal, oldVal) {
+    extendedGraph (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.resetFilters()
         this.loadGraph()
@@ -538,7 +540,7 @@ export default {
     loadGraph () {
       if (this.validState) {
         api
-          .connectPapers(this.from.id, this.to.id, this.extendedGraphs)
+          .connectPapers(this.from.id, this.to.id, this.extendedGraph)
           .then(data => {
             this.results = data
             bus.$emit('graph_loaded')
@@ -576,7 +578,12 @@ export default {
       this.lockedPaperIds = []
     },
     toggleExtendedGraphs () {
-      this.extendedGraphs = !this.extendedGraphs
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          extendedGraph: this.extendedGraph ? undefined : true
+        }
+      })
     }
   }
 }
