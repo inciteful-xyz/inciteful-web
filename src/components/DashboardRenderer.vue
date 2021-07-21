@@ -45,11 +45,6 @@ export default {
   props: {
     ids: Array,
     template: Object
-  },
-  watch: {
-    ids () {
-      console.log('dr: ids changed')
-    }
   }
 }
 </script>

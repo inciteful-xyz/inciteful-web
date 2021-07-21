@@ -283,7 +283,6 @@ export default {
   methods: {
     loadGraph () {
       if (this.graphData) {
-        console.log('loading graph')
         const cy = graphVis.loadGraph(
           this.graphData,
           this.$refs.graph,
