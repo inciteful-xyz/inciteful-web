@@ -116,7 +116,7 @@ import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
 
 export default {
-  name: 'PaperDisovery',
+  name: 'PaperDiscovery',
   components: {
     GraphFilters,
     PaperHero,

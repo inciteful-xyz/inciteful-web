@@ -34,7 +34,7 @@ import template from '../dashboard_templates/default_paper_template.json'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
 
 export default {
-  name: 'PaperDisovery',
+  name: 'LitReview',
   components: {
     GraphFilters,
     PaperInfoModal,

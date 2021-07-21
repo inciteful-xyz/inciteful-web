@@ -88,7 +88,7 @@ const routes = [
     name: 'LitReviewQuery',
     component: () =>
       import(
-        /* webpackChunkName: "paperDisovery" */ '../views/LitReviewQuery.vue'
+        /* webpackChunkName: "paperDiscovery" */ '../views/LitReviewQuery.vue'
       ),
     meta: {
       title: 'Literature Review Query',
@@ -100,7 +100,7 @@ const routes = [
     path: '/p',
     name: 'LitReview',
     component: () =>
-      import(/* webpackChunkName: "paperDisovery" */ '../views/LitReview.vue'),
+      import(/* webpackChunkName: "LitReview" */ '../views/LitReview.vue'),
     meta: {
       title: 'Literature Review',
       description:
