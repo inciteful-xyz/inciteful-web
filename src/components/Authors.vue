@@ -2,14 +2,11 @@
   <span>
     <span v-for="(author, index) in sortedAuthors" :key="index">
       <span v-if="showAll || index == 0 || index == sortedAuthors.length - 1">
-        <button
-          v-on:click="showModal(author)"
-          :title="author.affiliation"
-          class="hover:underline"
-        >
-          {{ author.name }}
-          <span v-if="showAffiliation">({{ author.affiliation }})</span>
-        </button>
+        <author
+          :author="author"
+          :ids="ids"
+          :showAffiliation="showAffiliation"
+        />
         <span v-if="useSeperator(index)">{{ separator }}</span>
       </span>
       <span
@@ -27,9 +24,9 @@
 </template>
 
 <script>
-import bus from '../utils/bus'
-
+import Author from './Author.vue'
 export default {
+  components: { Author },
   name: 'Authors',
   props: {
     showAffiliation: { type: Boolean, default: false },
@@ -54,16 +51,6 @@ export default {
       return (
         this.sortedAuthors.length > 1 && index !== this.sortedAuthors.length - 1
       )
-    },
-    makeText (author) {
-      return `${author.name}`
-    },
-    showModal (author) {
-      const options = {
-        author,
-        graphIds: this.ids
-      }
-      bus.$emit('show_paper_modal', options)
     }
   }
 }

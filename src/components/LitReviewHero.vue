@@ -174,7 +174,7 @@
               "
             >
               <span v-if="paper.author.length > 0">
-                {{ paper.author[0].name }}
+                <author :author="paper.author[0]" :ids="ids" />
               </span>
             </td>
             <td
@@ -291,13 +291,14 @@
 
 <script>
 import api from '../utils/api'
+import Author from './Author.vue'
 
 export default {
   name: 'LitReviewHero',
   props: {
     ids: Array
   },
-  components: {},
+  components: { Author },
   data () {
     return {
       papers: undefined,
