@@ -76,7 +76,7 @@
           </td>
           <td class="pl-3 py-2 text-sm sm:text-md">
             <button
-              v-on:click="bus.$emit('show_paper_modal', p.id)"
+              v-on:click="bus.$emit('show_paper_modal', { paperId: p.id })"
               class="underline block font-semibold pb-2 text-left"
             >
               {{ p.title }}
@@ -86,8 +86,8 @@
             </div>
             <span>
               <i>{{ p.journal }}</i
-              >{{ p.published_year && p.journal ? "," : "" }}
-              {{ p.published_year ? `${p.published_year}` : "" }}
+              >{{ p.published_year && p.journal ? ',' : '' }}
+              {{ p.published_year ? `${p.published_year}` : '' }}
             </span>
           </td>
 
@@ -286,7 +286,7 @@ export default {
     downloadBibFile () {
       const ids = new Set()
 
-      this.papers.forEach((x) => ids.add(x.id))
+      this.papers.forEach(x => ids.add(x.id))
 
       api.downloadBibFile(ids)
     },

@@ -24,7 +24,7 @@ function hideTippy (node) {
 }
 
 function createTippys (cy) {
-  cy.nodes().forEach((node) => {
+  cy.nodes().forEach(node => {
     const content = node.data('tippyContent')
 
     if (content) {
@@ -34,7 +34,8 @@ function createTippys (cy) {
       // https://atomiks.github.io/tippyjs/v6/constructor/#target-types
       const dummyDomEle = document.createElement('div')
 
-      const tip = tippy(dummyDomEle, { // tippy props:
+      const tip = tippy(dummyDomEle, {
+        // tippy props:
         getReferenceClientRect: ref.getBoundingClientRect, // https://atomiks.github.io/tippyjs/v6/all-props/#getreferenceclientrect
         trigger: 'manual', // mandatory, we cause the tippy to show programmatically.
         arrow: true,
@@ -52,10 +53,12 @@ function createTippys (cy) {
 
       node.on('mouseover', function (e) {
         // If the context menu is open, don't trigger the mouseover actions.
-        if (cy.scratch &&
-                    cy.scratch().cycontextmenus &&
-                    cy.scratch().cycontextmenus.cxtMenu &&
-                    cy.scratch().cycontextmenus.cxtMenu.style.display !== 'none') {
+        if (
+          cy.scratch &&
+          cy.scratch().cycontextmenus &&
+          cy.scratch().cycontextmenus.cxtMenu &&
+          cy.scratch().cycontextmenus.cxtMenu.style.display !== 'none'
+        ) {
           return
         }
 
@@ -63,19 +66,21 @@ function createTippys (cy) {
         setTimeout(() => tip.hide(), 5000)
 
         if (els) {
-          els.forEach((id) => {
+          els.forEach(id => {
             const el = cy.$(`#${id}`)
             if (el) el.addClass('highlighted')
           })
         }
 
         node.addClass('highlighted')
-        cy.nodes().not(node).forEach(hideTippy)
+        cy.nodes()
+          .not(node)
+          .forEach(hideTippy)
       })
 
       node.on('mouseout', function (e) {
         if (els) {
-          els.forEach((id) => {
+          els.forEach(id => {
             const el = cy.$(`#${id}`)
             if (el) el.removeClass('highlighted')
           })
@@ -98,7 +103,8 @@ function setupTippy (cy, bus, modalOptions) {
     hideAllTippies()
     const id = Number(ev.target.data('id'))
     if (id) {
-      bus.$emit('show_paper_modal', id, modalOptions)
+      modalOptions.paperId = id
+      bus.$emit('show_paper_modal', modalOptions)
     }
   })
 
@@ -123,7 +129,14 @@ function renderLayout (cy, layoutParams, opts) {
   return cy
 }
 
-function loadBaseGraph (elements, container, layoutParams, opts, bus, modalOptions) {
+function loadBaseGraph (
+  elements,
+  container,
+  layoutParams,
+  opts,
+  bus,
+  modalOptions
+) {
   const cy = cytoscape({
     container,
     autounselectify: true,
@@ -162,12 +175,19 @@ function loadGraph (graphData, container, bus, minDate, maxDate) {
     contextMenuOptions = connector.contextMenu(bus)
   }
 
-  const cy = loadBaseGraph(elements, container, layoutParams, undefined, bus, graphData.modalOptions)
+  const cy = loadBaseGraph(
+    elements,
+    container,
+    layoutParams,
+    undefined,
+    bus,
+    graphData.modalOptions
+  )
 
   if (contextMenuOptions) {
     cy.contextMenus(contextMenuOptions)
   }
-  cy.on('resize', (ev) => {
+  cy.on('resize', ev => {
     ev.cy.centerSource()
   })
 
@@ -180,7 +200,7 @@ function loadGraph (graphData, container, bus, minDate, maxDate) {
     }
   }
 
-  cy.filterNodes = (ids) => {
+  cy.filterNodes = ids => {
     cy.nodes().forEach(node => {
       if (ids.has(Number(node.id()))) {
         node.removeClass('disabled')
@@ -190,7 +210,7 @@ function loadGraph (graphData, container, bus, minDate, maxDate) {
     })
   }
 
-  cy.highlightNodes = (ids) => {
+  cy.highlightNodes = ids => {
     const idSet = new Set()
     ids.forEach(id => idSet.add(id))
 

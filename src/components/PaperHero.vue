@@ -19,17 +19,13 @@
           ><span v-if="paper.issue"> no {{ paper.issue }}.</span
           ><span v-if="paper.doi"> &nbsp;|&nbsp; DOI: {{ paper.doi }}</span>
         </div>
-        <div class="flex-1 mt-2">
-          <ul class="text-gray-500 font-semibold">
-            <li
-              v-for="(author, index) in paper.author"
-              :key="index"
-              class="inline-block mr-2"
-            >
-              <span v-if="index > 0">|&nbsp;</span>
-              <span :title="author.affiliation">{{ author.name }}</span>
-            </li>
-          </ul>
+        <div class="flex-1 mt-2 text-gray-500 font-semibold">
+          <authors
+            :authors="paper.author"
+            :separator="' | '"
+            :showAll="true"
+            :ids="[paper.id]"
+          />
         </div>
       </div>
       <div
@@ -126,6 +122,7 @@ import api from '../utils/api'
 import PaperHeroStats from './PaperHeroStats'
 import AbstractView from './AbstractView'
 import bus from '../utils/bus'
+import Authors from './Authors.vue'
 
 export default {
   name: 'PaperHero',
@@ -135,7 +132,8 @@ export default {
   },
   components: {
     PaperHeroStats,
-    AbstractView
+    AbstractView,
+    Authors
   },
   data () {
     return {

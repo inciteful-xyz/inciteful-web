@@ -108,7 +108,7 @@
                         v-if="result.authors"
                         class="font-semibold text-gray-500"
                       >
-                        <Author :authors="result.authors" />
+                        <Author :authors="result.authors" :ids="ids" />
                       </div>
                       <div
                         v-if="result.name"
@@ -401,11 +401,11 @@ export default {
       this.currentPage = 1
     },
     showModal (id) {
-      const options = {}
+      const options = { paperId: id }
       if (this.ids.length === 1) {
         options.connectTo = this.ids[0]
       }
-      bus.$emit('show_paper_modal', id, options)
+      bus.$emit('show_paper_modal', options)
     }
   }
 }

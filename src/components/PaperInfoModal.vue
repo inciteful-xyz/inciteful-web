@@ -1,5 +1,5 @@
 <template>
-  <div v-if="paper" class="fixed inset-0 overflow-y-auto z-40">
+  <div v-if="validState" class="fixed inset-0 overflow-y-auto z-40">
     <div
       class="
         flex
@@ -22,7 +22,7 @@
         leave-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-show="paper" class="fixed inset-0 transition-opacity">
+        <div v-show="validState" class="fixed inset-0 transition-opacity">
           <div
             class="absolute inset-0 bg-gray-500 opacity-75"
             v-on:click="clearPaper()"
@@ -61,7 +61,7 @@
           "
           role="dialog"
           aria-modal="true"
-          v-show="paper"
+          v-show="validState"
           aria-labelledby="modal-headline"
         >
           <div class="fixed top-2 right-2">
@@ -82,16 +82,18 @@
             </button>
           </div>
           <div class="text-sm">
-            <PaperHero :paper="paper" />
-            <div v-if="this.connectingResults" class="text-right">
-              <GraphView :graphData="graphData" :loaded="loaded" />
-              <button
-                v-on:click="goToLitConnector()"
-                class="text-xs hover:underline text-purple-600"
-              >
-                View in Literature Connector >>
-              </button>
-            </div>
+            <paper-modal-content
+              v-if="hasPaper"
+              :paperId="options.paperId"
+              :connectTo="options.connectTo"
+              :options="options"
+            />
+            <author-modal-content
+              v-if="hasAuthor"
+              :author="options.author"
+              :ids="options.graphIds"
+              :options="options"
+            />
             <div class="flex whitespace-nowrap pt-6">
               <div class="sm:flex-1 hidden sm:flex">
                 <span class="inline-flex rounded-md shadow-sm">
@@ -126,6 +128,7 @@
               <div class="flex-1 sm:text-center">
                 <span class="inline-flex rounded-md shadow-sm">
                   <a
+                    v-if="hasPaper"
                     v-on:click="paperUrl"
                     :href="paperUrl"
                     class="
@@ -195,80 +198,45 @@
 
 <script>
 import bus from '../utils/bus'
-import api from '../utils/api'
-import PaperHero from './PaperHero'
 import navigation from '../navigation'
-import GraphView from './GraphView'
+import PaperModalContent from './PaperModalContent.vue'
+import AuthorModalContent from './AuthorModalContent.vue'
 
 export default {
   name: 'PaperInfoModal',
   components: {
-    PaperHero,
-    GraphView
+    PaperModalContent,
+    AuthorModalContent
   },
   data () {
     return {
-      id: undefined,
-      paper: undefined,
-      connectingResults: undefined,
       options: undefined,
-      ss_paper: undefined,
-      loaded: false,
       bus
     }
   },
   mounted () {
-    bus.$on('show_paper_modal', (id, options) => {
-      if (this.id !== id) {
-        this.loaded = false
-        this.id = id
+    bus.$on('show_paper_modal', options => {
+      if (options) {
+        if (this.options) {
+          options.previousScreen = this.options
+        }
+
         this.options = options
       }
     })
   },
   computed: {
+    hasPaper () {
+      return !!(this.options && this.options.paperId)
+    },
+    hasAuthor () {
+      return !!(this.options && this.options.author && this.options.graphIds)
+    },
+    validState () {
+      return this.hasPaper || this.hasAuthor
+    },
     paperUrl () {
-      return navigation.getPaperUrl(this.paper.id)
-    },
-    graphData () {
-      return {
-        type: 'connector',
-        papers: this.connectingResults.papers,
-        connections: this.connectingResults.connections,
-        paths: this.connectingResults.paths,
-        toId: this.id,
-        fromId: this.options.connectTo,
-        modalOptions: {
-          previousScreen: {
-            id: this.id,
-            options: this.options
-          },
-          connectTo: this.options ? this.options.connectTo : undefined
-        }
-      }
-    }
-  },
-  watch: {
-    id () {
-      if (!this.id) {
-        this.paper = undefined
-      } else {
-        api.getPaper(this.id).then(paper => (this.paper = paper))
-      }
-    },
-    options () {
-      if (this.options) {
-        if (this.options.connectTo) {
-          api
-            .connectPapers(this.options.connectTo, this.id, true)
-            .then(results => {
-              this.connectingResults = results
-              this.loaded = true
-            })
-        }
-      } else {
-        this.connectingResults = undefined
-      }
+      return navigation.getPaperUrl(this.options.paperId)
     }
   },
   methods: {
@@ -277,23 +245,13 @@ export default {
       this.backButton()
     },
     clearPaper () {
-      this.id = undefined
+      console.log('cleared paper')
       this.options = undefined
-    },
-    goToLitConnector () {
-      this.$router.push({
-        name: 'LitConnector',
-        query: {
-          to: this.graphData.toId,
-          from: this.graphData.fromId
-        }
-      })
     },
     backButton () {
       if (this.options && this.options.previousScreen) {
-        this.loaded = false
-        this.id = this.options.previousScreen.id
-        this.options = this.options.previousScreen.options
+        console.log('resetting prev options')
+        this.options = this.options.previousScreen
       } else {
         this.clearPaper()
       }

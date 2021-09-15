@@ -8,8 +8,9 @@ const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
 const idParamName = 'ids[]'
 const pruneParamName = 'prune'
-
 const queryApi = axios.create()
+const API_URL =
+  process.env.VUE_APP_CLIENT_API_URL || 'https://api.inciteful.xyz'
 
 queryApi.interceptors.request.use(function (config) {
   return new Promise((resolve, reject) => {
@@ -60,7 +61,7 @@ function queryGraph (ids, sql) {
 }
 
 function queryGraphSingle (id, sql, prune) {
-  let url = `${process.env.VUE_APP_CLIENT_API_URL}/query/${id}`
+  let url = `${API_URL}/query/${id}`
 
   if (prune) {
     url = url + `?${pruneParamName}=${prune}`
@@ -76,7 +77,7 @@ function queryGraphSingle (id, sql, prune) {
 
 function queryGraphMulti (ids, sql, prune) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
-  let url = `${process.env.VUE_APP_CLIENT_API_URL}/query?${idParams}`
+  let url = `${API_URL}/query?${idParams}`
 
   if (prune) {
     url = url + `&${pruneParamName}=${prune}`
@@ -93,11 +94,9 @@ function queryGraphMulti (ids, sql, prune) {
 function connectPapers (from, to, extendedGraphs) {
   return axios
     .get(
-      `${
-        process.env.VUE_APP_CLIENT_API_URL
-      }/connector?from=${encodeURIComponent(from)}&to=${encodeURIComponent(
-        to
-      )}&extend=${extendedGraphs ? 5 : 0}`
+      `${API_URL}/connector?from=${encodeURIComponent(
+        from
+      )}&to=${encodeURIComponent(to)}&extend=${extendedGraphs ? 5 : 0}`
     )
     .then(response => response.data)
     .catch(err => {
@@ -107,7 +106,7 @@ function connectPapers (from, to, extendedGraphs) {
 
 function getPaper (id) {
   return axios
-    .get(`${process.env.VUE_APP_CLIENT_API_URL}/paper/${id}`)
+    .get(`${API_URL}/paper/${id}`)
     .then(response => response.data)
     .catch(err => {
       logging.logError(err)
@@ -118,7 +117,7 @@ function getPapers (ids) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
-    .get(`${process.env.VUE_APP_CLIENT_API_URL}/paper?${idParams}`)
+    .get(`${API_URL}/paper?${idParams}`)
     .then(response => response.data)
     .catch(err => {
       logging.logError(err)
@@ -134,7 +133,7 @@ function getPaperIds (ids) {
 function searchPapers (query) {
   const params = new URLSearchParams([['q', query]])
   return axios
-    .get(`${process.env.VUE_APP_CLIENT_API_URL}/paper/search`, {
+    .get(`${API_URL}/paper/search`, {
       params,
       timeout: 1500
     })
@@ -148,7 +147,7 @@ function getCitations (ids) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
-    .get(`${process.env.VUE_APP_CLIENT_API_URL}/graph/citations?${idParams}`)
+    .get(`${API_URL}/graph/citations?${idParams}`)
     .then(response => response.data)
     .catch(err => {
       logging.logError(err)
@@ -158,7 +157,7 @@ function getCitations (ids) {
 function downloadBibFile (ids) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
-  window.location = `${process.env.VUE_APP_CLIENT_API_URL}/bib?${idParams}`
+  window.location = `${API_URL}/bib?${idParams}`
 }
 
 // Non Inciteful APIs
@@ -221,7 +220,7 @@ function searchLensPapers (query, num) {
     ['n', n]
   ])
   return axios
-    .get(`${process.env.VUE_APP_CLIENT_API_URL}/paper/lens/search`, { params })
+    .get(`${API_URL}/paper/lens/search`, { params })
     .then(response => response.data)
     .catch(err => {
       logging.logError(err)
