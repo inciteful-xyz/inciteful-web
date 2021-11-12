@@ -3,11 +3,21 @@ function edgeLength (edge) {
 }
 
 function countIntersection (a, b) {
-  let ai = 0; let bi = 0; let count = 0
+  let ai = 0
+  let bi = 0
+  let count = 0
 
   while (ai < a.length && bi < b.length) {
-    if (a[ai] < b[bi]) { ai++ }
-    if (a[ai] > b[bi]) { bi++ } else { count++; bi++; ai++ }
+    if (a[ai] < b[bi]) {
+      ai++
+    }
+    if (a[ai] > b[bi]) {
+      bi++
+    } else {
+      count++
+      bi++
+      ai++
+    }
   }
 
   return count
@@ -43,7 +53,7 @@ function buildLayout () {
     name: 'fcose',
     // Ideal edge (non nested) length
     idealEdgeLength: edgeLength,
-    edgeElasticity: (edge) => {
+    edgeElasticity: edge => {
       return 0.1
       // return (edge.data().adamic_adar + 0.1);
     },
@@ -72,7 +82,7 @@ function buildLayout () {
     // Layout step - all, transformed, enforced, cose - for debug purpose only
     step: 'all',
     // Node repulsion (non overlapping) multiplier
-    nodeRepulsion: (node) => 100,
+    nodeRepulsion: node => 100,
     nestingFactor: 0.1,
     // Maximum number of iterations to perform
     numIter: 5000,
@@ -105,11 +115,11 @@ function buildLayout () {
   }
 
   layout.idealEdgeLength = edgeLength
-  layout.edgeElasticity = (edge) => {
+  layout.edgeElasticity = edge => {
     return 0.1
     // return (edge.data().adamic_adar + 0.1);
   }
-  layout.nodeRepulsion = (node) => 100
+  layout.nodeRepulsion = node => 100
   return layout
 }
 
@@ -127,9 +137,9 @@ function buildElements (graphData, minDate, maxDate) {
   const edgeCounts = {}
   const papers = graphData.papers
 
-  Object.values(papers).forEach((p) => (edgeCounts[p.id] = 0))
+  Object.values(papers).forEach(p => (edgeCounts[p.id] = 0))
 
-  Object.values(papers).forEach((p) => {
+  Object.values(papers).forEach(p => {
     let author = 'NA'
 
     if (p.author && p.author.length > 0) {
@@ -139,10 +149,8 @@ function buildElements (graphData, minDate, maxDate) {
     const title = `${author}, ${p.published_year}`
     const size = 25 * (2.5 + Math.log10(1 + p.num_cited_by))
 
-    const date =
-            p.published_year + (1 - p.published_month) / 12
-    const lightness =
-            20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
+    const date = p.published_year / 12
+    const lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
 
     elements.push({
       data: {
@@ -156,11 +164,11 @@ function buildElements (graphData, minDate, maxDate) {
       }
     })
 
-    Object.values(papers).forEach((p2) => {
+    Object.values(papers).forEach(p2 => {
       if (p2.id > p.id) {
         const coup = coupling(p, p2)
         const cocite = cocitations(p, p2)
-        const score = coup + (0.25 * cocite)
+        const score = coup + 0.25 * cocite
 
         if (score > 0.01) {
           possibleEdges.push({
@@ -178,18 +186,18 @@ function buildElements (graphData, minDate, maxDate) {
   const edges = []
   possibleEdges.sort((a, b) => b.coup - a.coup)
 
-  possibleEdges.forEach((e) => {
+  possibleEdges.forEach(e => {
     if (
       (edgeCounts[e.source] < 3 &&
-                edgeCounts[e.destination] < 3 &&
-                e.score > 0.5) ||
-            (e.score > 0.8) ||
-            (e.score > 0.5 &&
-                (e.source === graphData.sourcePaperId || e.destination === graphData.sourcePaperId) &&
-                edgeCounts[graphData.sourcePaperId] < 6
-            ) ||
-            edgeCounts[e.destination] < 1 ||
-            edgeCounts[e.source] < 1
+        edgeCounts[e.destination] < 3 &&
+        e.score > 0.5) ||
+      e.score > 0.8 ||
+      (e.score > 0.5 &&
+        (e.source === graphData.sourcePaperId ||
+          e.destination === graphData.sourcePaperId) &&
+        edgeCounts[graphData.sourcePaperId] < 6) ||
+      edgeCounts[e.destination] < 1 ||
+      edgeCounts[e.source] < 1
     ) {
       const score = e.score < 0.05 ? 0.05 : e.score
 
@@ -205,10 +213,10 @@ function buildElements (graphData, minDate, maxDate) {
     }
   })
 
-  const maxScore = Math.max(...edges.map((e) => e.score))
-  const minScore = Math.min(...edges.map((e) => e.score))
+  const maxScore = Math.max(...edges.map(e => e.score))
+  const minScore = Math.min(...edges.map(e => e.score))
 
-  edges.forEach((e) => {
+  edges.forEach(e => {
     e.weight = 0.01 + (e.score - minScore) / maxScore
     e.color = `hsla(0, 0%, 13%, ${e.weight})`
     e.opacity = e.weight + 0.08

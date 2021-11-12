@@ -8,15 +8,8 @@
       </h1>
       <div class="lg:flex lg:flex-row-reverse">
         <div class="flex-1 lg:text-right mt-2">
-          <span v-if="paper.conference_instance_name" class="italic">{{
-            paper.conference_instance_name
-          }}</span
-          ><span v-if="paper.book_title" class="italic">{{
-            paper.book_title
-          }}</span
-          ><span v-if="paper.journal" class="italic">{{ paper.journal }}</span
+          <span v-if="paper.journal" class="italic">{{ paper.journal }}</span
           ><span v-if="paper.volume">, vol {{ paper.volume }}</span
-          ><span v-if="paper.issue"> no {{ paper.issue }}.</span
           ><span v-if="paper.doi"> &nbsp;|&nbsp; DOI: {{ paper.doi }}</span>
         </div>
         <div class="flex-1 mt-2 text-gray-500 font-semibold">
@@ -62,7 +55,7 @@
         </div>
       </div>
       <div class="pt-4 mx-auto max-w-4xl">
-        <AbstractView :abstract="abstract" />
+        <AbstractView :abstract="paper.paper_abstract" />
       </div>
     </div>
     <div>
@@ -79,49 +72,17 @@
     <div class="pt-2 sm:pt-4 lg:flex">
       <div class="text-xs lg:flex-none">
         Links:
-        <span v-if="paper.doi">
-          <a
-            class="underline hover:no-underline"
-            target="_blank"
-            :href="`https://doi.org/${paper.doi}`"
-            >Publisher</a
-          >
-          |
-          <a
-            class="underline hover:no-underline"
-            target="_blank"
-            :href="`https://libkey.io/${paper.doi}?utm_source=inciteful`"
-            >Full Text from LibKey</a
-          >
-          |
-        </span>
-        <span v-if="paper.magid">
-          <a
-            class="underline hover:no-underline"
-            :href="`https://academic.microsoft.com/paper/${paper.magid}`"
-            target="_blank"
-            >Microsoft Academic Graph</a
-          >
-          |
-          <a
-            class="underline hover:no-underline"
-            :href="
-              `https://api.semanticscholar.org/MAG:${paper.magid}?utm_source=api`
-            "
-            target="_blank"
-            >Semantic Scholar</a
-          >
-        </span>
+        <external-links :externalIds="paper.external_ids" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import api from '../utils/api'
 import PaperHeroStats from './PaperHeroStats'
 import AbstractView from './AbstractView'
 import bus from '../utils/bus'
+import ExternalLinks from './ExternalLinks.vue'
 import Authors from './Authors.vue'
 
 export default {
@@ -133,49 +94,19 @@ export default {
   components: {
     PaperHeroStats,
     AbstractView,
-    Authors
+    Authors,
+    ExternalLinks
   },
   data () {
     return {
-      ss_paper: undefined,
       receivedLoaded: false,
       bus
-    }
-  },
-  computed: {
-    abstract () {
-      if (!this.ss_paper || !this.ss_paper.abstract) return undefined
-
-      return this.ss_paper.abstract
     }
   },
   mounted () {
     this.bus.$on('graph_loaded', () => {
       this.receivedLoaded = true
     })
-  },
-  created () {
-    this.setData(this.paper)
-  },
-  watch: {
-    paper: {
-      handler (val) {
-        this.setData(val)
-      }
-    }
-  },
-  methods: {
-    setData (paper) {
-      if (paper) {
-        if (paper.magid) {
-          api.semanticScholarMag(this.paper.magid).then(data => {
-            this.ss_paper = data
-          })
-        } else {
-          this.ss_paper = undefined
-        }
-      }
-    }
   }
 }
 </script>

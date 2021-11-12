@@ -108,7 +108,7 @@ function buildElements (graphData, minDate, maxDate) {
       })
     }
 
-    const date = p.published_year + (1 - p.published_month) / 12
+    const date = p.published_year / 12
     const lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
 
     const content = makeTippy(p, title)
