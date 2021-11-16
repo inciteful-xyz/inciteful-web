@@ -208,14 +208,17 @@ export default {
         this.from = paper
       }
 
-      this.$router.push({ query: { ...this.$route.query, from: paper.id } })
+      if (parseInt(this.fromParam) !== paper.id) {
+        this.$router.push({ query: { ...this.$route.query, from: paper.id } })
+      }
     },
     handleToSelect (paper, newParam) {
       if (paper) {
         this.to = paper
       }
-
-      this.$router.push({ query: { ...this.$route.query, to: paper.id } })
+      if (parseInt(this.toParam) !== paper.id) {
+        this.$router.push({ query: { ...this.$route.query, to: paper.id } })
+      }
     }
   }
 }

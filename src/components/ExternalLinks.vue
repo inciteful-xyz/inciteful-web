@@ -41,6 +41,7 @@
           :href="`https://arxiv.org/${id.ArxivID}/`"
           >arXiv</a
         >
+        |
       </span>
       <span v-if="id.S2ID">
         <a
@@ -59,6 +60,13 @@ export default {
   name: 'ExternalLinks',
   props: {
     externalIds: Array
+  },
+  calculated: {
+    sortedIds: function () {
+      return this.externalIds.sort(
+        (a, b) => Object.keys(a)[0] < Object.keys(b)[0]
+      )
+    }
   }
 }
 </script>

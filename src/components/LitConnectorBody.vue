@@ -357,7 +357,8 @@ export default {
         connections: this.lockedConnections,
         paths: this.lockedPaths,
         toId: this.to.id,
-        fromId: this.from.id
+        fromId: this.from.id,
+        modalOptions: { connectTo: this.sourcePaperId }
       }
     },
     loaded () {

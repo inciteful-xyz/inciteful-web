@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ids () {
-      return this.paper.id
+      return [this.paper.id]
     }
   },
   data () {

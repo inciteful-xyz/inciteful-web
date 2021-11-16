@@ -245,7 +245,6 @@ export default {
       this.backButton()
     },
     clearPaper () {
-      console.log('cleared paper')
       this.options = undefined
     },
     backButton () {
