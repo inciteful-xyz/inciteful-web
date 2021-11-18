@@ -57,7 +57,7 @@ export default {
           papers: this.papers,
           sourcePaperId: this.sourcePaperId,
           type: 'similar',
-          modalOptions: { connectTo: this.sourcePaperId }
+          modalOptions: { connectTo: this.sourcePaperId.toString() }
         }
       } else {
         return undefined

@@ -1,5 +1,9 @@
 <template>
-  <div v-if="validState" class="fixed inset-0 overflow-y-auto z-40">
+  <div
+    v-if="validState"
+    class="fixed inset-0 overflow-y-auto z-40"
+    @keydown.esc="clearPaper"
+  >
     <div
       class="
         flex
