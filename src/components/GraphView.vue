@@ -239,12 +239,12 @@ export default {
   computed: {
     maxDate () {
       return Math.max(
-        ...Object.values(this.graphData.papers).map(e => e.published_year / 12)
+        ...Object.values(this.graphData.papers).map(e => e.published_year)
       )
     },
     minDate () {
       return Math.min(
-        ...Object.values(this.graphData.papers).map(e => e.published_year / 12)
+        ...Object.values(this.graphData.papers).map(e => e.published_year)
       )
     },
     slotHasContent () {

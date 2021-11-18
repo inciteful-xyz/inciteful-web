@@ -149,7 +149,7 @@ function buildElements (graphData, minDate, maxDate) {
     const title = `${author}, ${p.published_year}`
     const size = 25 * (2.5 + Math.log10(1 + p.num_cited_by))
 
-    const date = p.published_year / 12
+    const date = p.published_year
     const lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
 
     elements.push({
