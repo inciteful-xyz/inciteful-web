@@ -57,7 +57,11 @@ export default {
           papers: this.papers,
           sourcePaperId: this.sourcePaperId,
           type: 'similar',
-          modalOptions: { connectTo: this.sourcePaperId.toString() }
+          modalOptions: {
+            connectTo: this.sourcePaperId
+              ? this.sourcePaperId.toString()
+              : undefined
+          }
         }
       } else {
         return undefined
