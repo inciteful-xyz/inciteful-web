@@ -33,7 +33,6 @@
   </single-column>
 </template>
 <script>
-import api from '../utils/api'
 import LitReviewButton from '../components/LitReviewButton'
 import LitReviewBuilder from '../components/LitReviewBuilder'
 import SearchResults from '../components/SearchResults.vue'
@@ -50,7 +49,6 @@ export default {
   },
   data () {
     return {
-      papers: undefined,
       query: undefined,
       errorMsg: undefined,
       emptyMessage:
@@ -64,21 +62,6 @@ export default {
       this.errorMsg = 'Please enter a search term.'
     } else {
       this.query = q
-    }
-  },
-  watch: {
-    query (newVal, oldVal) {
-      if (newVal !== oldVal && newVal) {
-        api.searchLensPapers(newVal).then(data => {
-          this.papers = data
-        })
-      }
-    }
-  },
-  computed: {
-    loading () {
-      if (this.papers) return false
-      return true
     }
   },
   methods: {

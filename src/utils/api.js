@@ -180,53 +180,6 @@ function parseMagQuery (query) {
   return ''
 }
 
-function parseLensQuery (query) {
-  const reservedChars = [
-    '+',
-    '-',
-    '=',
-    '&&',
-    '||',
-    '>',
-    '<',
-    '!',
-    '(',
-    ')',
-    '{',
-    '}',
-    '[',
-    ']',
-    '^',
-    '"',
-    '~',
-    '*',
-    '"',
-    '?',
-    ':',
-    '\\',
-    '/'
-  ]
-  reservedChars.forEach(c => {
-    query = query.replace(c, ' ')
-  })
-
-  return query
-}
-
-function searchLensPapers (query, num) {
-  const n = num || 10
-  const params = new URLSearchParams([
-    ['q', parseLensQuery(query)],
-    ['n', n]
-  ])
-  return axios
-    .get(`${API_URL}/paper/lens/search`, { params })
-    .then(response => response.data)
-    .catch(err => {
-      logging.logError(err)
-    })
-}
-
 function queryMag (query) {
   const config = {
     headers: {
@@ -272,12 +225,31 @@ function semanticScholarMag (magid) {
     })
 }
 
+function searchSemanticScholar (query) {
+  return axios
+    .get(
+      `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId&query=${encodeURIComponent(
+        query
+      )}`
+    )
+    .then(res => res.data)
+    .then(data => {
+      if (data && data.data) {
+        return getPapers(data.data.map(x => `s2id:${x.paperId}`))
+      } else return []
+    })
+    .catch(err => {
+      logging.logError(err)
+      return undefined
+    })
+}
+
 export default {
   queryGraph,
   queryMag,
-  searchLensPapers,
   unpaywall,
   semanticScholarMag,
+  searchSemanticScholar,
   getPaper,
   getPapers,
   connectPapers,

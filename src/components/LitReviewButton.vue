@@ -1,6 +1,6 @@
 <template>
   <button
-    v-if="idsToHide.indexOf(this.id.toString()) == -1"
+    v-if="!isHidden"
     class="
       add-paper-button
       font-extrabold
@@ -32,6 +32,11 @@ export default {
     return {
       isSubmitted: false,
       idsToHide: []
+    }
+  },
+  computed: {
+    isHidden () {
+      return !this.id || this.idsToHide.indexOf(this.id.toString()) !== -1
     }
   },
   mounted () {

@@ -113,7 +113,9 @@
     </li>
     <li class="px-6 py-6 sm:px-0">
       Search results powered by
-      <a class="text-purple-500" href="https://lens.org">The Lens</a>.
+      <a class="text-purple-500" href="https://api.semanticscholar.org/graph/v1"
+        >Semantic Scholar</a
+      >.
     </li>
   </ul>
 </template>
@@ -179,7 +181,7 @@ export default {
   methods: {
     updateResults () {
       if (this.query) {
-        api.searchLensPapers(this.query).then(data => {
+        api.searchSemanticScholar(this.query).then(data => {
           this.papers = data
         })
       }
