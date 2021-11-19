@@ -72,7 +72,6 @@ export default {
   },
   watch: {
     paperId () {
-      console.log('paper Changed')
       if (!this.paperId) {
         this.paper = undefined
       } else {

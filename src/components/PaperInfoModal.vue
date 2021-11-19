@@ -245,7 +245,7 @@ export default {
   },
   methods: {
     addToLitReview () {
-      bus.$emit('add_to_lit_review', this.paper.id)
+      bus.$emit('add_to_lit_review', this.options.id)
       this.backButton()
     },
     clearPaper () {
