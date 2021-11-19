@@ -194,8 +194,12 @@ export default {
     })
   },
   created () {
-    this.toParam = this.$route.query.to.toString()
-    this.fromParam = this.$route.query.from.toString()
+    if (this.$route.query.to) {
+      this.toParam = this.$route.query.to.toString()
+    }
+    if (this.$route.query.from) {
+      this.fromParam = this.$route.query.from.toString()
+    }
   },
   computed: {
     isValid () {
