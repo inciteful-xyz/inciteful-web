@@ -333,7 +333,7 @@ export default {
     },
     setData (ids) {
       if (ids) {
-        api.getPapers(ids).then(data => {
+        api.getPapers(ids, true).then(data => {
           this.papers = data
         })
       } else {

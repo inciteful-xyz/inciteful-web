@@ -113,11 +113,11 @@ function getPaper (id) {
     })
 }
 
-function getPapers (ids) {
+function getPapers (ids, condensed) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
-    .get(`${API_URL}/paper?${idParams}`)
+    .get(`${API_URL}/paper?${idParams}&condensed=${!!condensed}`)
     .then(response => response.data)
     .catch(err => {
       logging.logError(err)
@@ -125,7 +125,7 @@ function getPapers (ids) {
 }
 
 function getPaperIds (ids) {
-  return getPapers(ids).then(data => data.map(paper => paper.id))
+  return getPapers(ids, true).then(data => data.map(paper => paper.id))
 }
 
 function searchPapers (query) {
@@ -240,7 +240,10 @@ function searchSemanticScholar (query) {
     .then(res => res.data)
     .then(data => {
       if (data && data.data) {
-        return getPapers(data.data.map(x => `s2id:${x.paperId}`))
+        return getPapers(
+          data.data.map(x => `s2id:${x.paperId}`),
+          true
+        )
       } else return Promise.resolve([])
     })
     .then(data => data)
