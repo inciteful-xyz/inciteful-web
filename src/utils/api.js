@@ -37,13 +37,17 @@ queryApi.interceptors.response.use(
 
 axiosRetry(queryApi, { retries: 3 })
 
-// function parseErr (err) {
-//   if (err.response && err.response.data) {
-//     return err.response.data
-//   }
+function handleIncitefulErr (err) {
+  if (err.response && err.response.data) {
+    logging.logError(err)
+  }
+}
 
-//   return 'Internal Server Error: Please refresh the page.'
-// }
+function handleServiceErr (err) {
+  if (err.response && err.response.data) {
+    logging.logError(err)
+  }
+}
 
 // Inciteful API Calls
 function queryGraph (ids, sql) {
@@ -71,7 +75,7 @@ function queryGraphSingle (id, sql, prune) {
     .post(url, sql)
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
+      handleIncitefulErr(err)
     })
 }
 
@@ -87,7 +91,7 @@ function queryGraphMulti (ids, sql, prune) {
     .post(url, sql)
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
+      handleIncitefulErr(err)
     })
 }
 
@@ -100,7 +104,7 @@ function connectPapers (from, to, extendedGraphs) {
     )
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
+      handleIncitefulErr(err)
     })
 }
 
@@ -109,7 +113,7 @@ function getPaper (id) {
     .get(`${API_URL}/paper/${id}`)
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
+      handleIncitefulErr(err)
     })
 }
 
@@ -120,7 +124,7 @@ function getPapers (ids, condensed) {
     .get(`${API_URL}/paper?${idParams}&condensed=${!!condensed}`)
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
+      handleIncitefulErr(err)
     })
 }
 
@@ -155,7 +159,7 @@ function getCitations (ids) {
     .get(`${API_URL}/graph/citations?${idParams}`)
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
+      handleIncitefulErr(err)
     })
 }
 
@@ -165,67 +169,12 @@ function downloadBibFile (ids) {
   window.location = `${API_URL}/bib?${idParams}`
 }
 
-// Non Inciteful APIs
-function parseMagQuery (query) {
-  const terms = query
-    .replace(/[^0-9a-z]/gi, ' ')
-    .replace(/\s\s+/g, ' ')
-    .toLowerCase()
-    .trim()
-    .split(' ')
-  // let doi = query.replace(/[\'\s+]/gi, '').toUpperCase();
-
-  if (terms.length) {
-    const querySearch =
-      'AND('.repeat(terms.length) + terms.map(x => `W='${x}')`).join(',')
-    // return `OR(${querySearch}, DOI='${doi}')`;
-    return querySearch
-  }
-
-  return ''
-}
-
-function queryMag (query) {
-  const config = {
-    headers: {
-      'Ocp-Apim-Subscription-Key': '4ce177b950b24b95b196c475978738f8'
-    }
-  }
-
-  const parsedQuery = parseMagQuery(query)
-  logging.logInfo('Search Box Query', {
-    base: query,
-    parsed: parsedQuery
-  })
-
-  return axios
-    .get(
-      `https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?expr=${parsedQuery}&attributes=Id,DOI,DN,AA.DAuN,AA.DAfN,Y,BV,ECC,Ty`,
-      config
-    )
-    .then(response => response.data)
-    .catch(err => {
-      logging.logError(err)
-      return undefined
-    })
-}
-
 function unpaywall (doi) {
   return axios
     .get(`https://api.unpaywall.org/v2/${doi}?email=info@inciteful.xyz`)
     .then(response => response.data)
     .catch(err => {
-      logging.logError(err)
-      return undefined
-    })
-}
-
-function semanticScholarMag (magid) {
-  return axios
-    .get(`https://api.semanticscholar.org/v1/paper/MAG:${magid}`)
-    .then(response => response.data)
-    .catch(err => {
-      logging.logError(err)
+      handleServiceErr(err)
       return undefined
     })
 }
@@ -248,16 +197,14 @@ function searchSemanticScholar (query) {
     })
     .then(data => data)
     .catch(err => {
-      logging.logError(err)
+      handleServiceErr(err)
       return undefined
     })
 }
 
 export default {
   queryGraph,
-  queryMag,
   unpaywall,
-  semanticScholarMag,
   searchSemanticScholar,
   getPaper,
   getPapers,
