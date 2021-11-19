@@ -133,7 +133,7 @@ function searchPapers (query) {
   return axios
     .get(`${API_URL}/paper/search`, {
       params,
-      timeout: 1
+      timeout: 1000
     })
     .then(response => response.data)
     .catch(_ => {
