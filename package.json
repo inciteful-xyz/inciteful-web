@@ -13,9 +13,9 @@
     "watch": "NODE_ENV=development webpack --watch --config webpack.dev.js"
   },
   "dependencies": {
-    "@sentry/browser": "^5.27.3",
-    "@sentry/tracing": "^5.27.3",
-    "@sentry/vue": "^5.29.0",
+    "@sentry/browser": "^6.15.0",
+    "@sentry/tracing": "^6.15.0",
+    "@sentry/vue": "^6.15.0",
     "@tailwindcss/forms": "^0.3.3",
     "axios": "^0.21.1",
     "axios-retry": "^3.1.9",
