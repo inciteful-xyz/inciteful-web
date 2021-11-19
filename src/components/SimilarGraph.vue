@@ -84,7 +84,11 @@ export default {
   },
   methods: {
     hasPaperID () {
-      return this.results.length > 0 && this.results[0].paper_id !== undefined
+      return (
+        this.results &&
+        this.results.length > 0 &&
+        this.results[0].paper_id !== undefined
+      )
     }
   }
 }
