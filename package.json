@@ -30,7 +30,7 @@
     "doi-regex": "^0.1.10",
     "flexsearch": "^0.7.11",
     "numeral": "^2.0.6",
-    "prismjs": "^1.22.0",
+    "prismjs": "^1.25.0",
     "qs": "^6.10.1",
     "stemmer": "^2.0.0",
     "tippy.js": "^6.3.1",
