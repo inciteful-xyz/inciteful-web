@@ -181,6 +181,7 @@ export default {
   methods: {
     updateResults () {
       if (this.query) {
+        this.papers = undefined
         api.searchSemanticScholar(this.query).then(data => {
           this.papers = data
         })

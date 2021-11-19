@@ -125,9 +125,7 @@ function getPapers (ids) {
 }
 
 function getPaperIds (ids) {
-  return getPapers(ids).then(data => {
-    return Object.keys(data)
-  })
+  return getPapers(ids).then(data => data.map(paper => paper.id))
 }
 
 function searchPapers (query) {
@@ -135,11 +133,18 @@ function searchPapers (query) {
   return axios
     .get(`${API_URL}/paper/search`, {
       params,
-      timeout: 1500
+      timeout: 1
     })
     .then(response => response.data)
-    .catch(err => {
-      logging.logError(err)
+    .catch(_ => {
+      return []
+    })
+    .then(data => {
+      if (data.length > 0) {
+        return data
+      } else {
+        return searchSemanticScholar(query)
+      }
     })
 }
 
@@ -236,8 +241,9 @@ function searchSemanticScholar (query) {
     .then(data => {
       if (data && data.data) {
         return getPapers(data.data.map(x => `s2id:${x.paperId}`))
-      } else return []
+      } else return Promise.resolve([])
     })
+    .then(data => data)
     .catch(err => {
       logging.logError(err)
       return undefined

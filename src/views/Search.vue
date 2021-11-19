@@ -64,6 +64,13 @@ export default {
       this.query = q
     }
   },
+  watch: {
+    '$route.query.q' (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.query = newVal
+      }
+    }
+  },
   methods: {
     handleSelect (paper) {
       this.$router.push({

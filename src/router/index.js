@@ -152,11 +152,9 @@ const router = new VueRouter({
     }
   },
   parseQuery: function (queryString) {
-    // console.log('parsing query: ' + queryString)
     return qs.parse(queryString)
   },
   stringifyQuery: function (params) {
-    // console.log('stringify query: ' + JSON.stringify(params))
     const result = qs.stringify(params, {
       arrayFormat: 'brackets'
     })

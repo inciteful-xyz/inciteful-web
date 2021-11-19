@@ -334,7 +334,7 @@ export default {
     setData (ids) {
       if (ids) {
         api.getPapers(ids).then(data => {
-          this.papers = Object.values(data)
+          this.papers = data
         })
       } else {
         this.papers = undefined

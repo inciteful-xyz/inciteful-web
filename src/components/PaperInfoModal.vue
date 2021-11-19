@@ -253,7 +253,6 @@ export default {
     },
     backButton () {
       if (this.options && this.options.previousScreen) {
-        console.log('resetting prev options')
         this.options = this.options.previousScreen
       } else {
         this.clearPaper()
