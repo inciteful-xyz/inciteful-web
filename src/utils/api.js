@@ -38,15 +38,13 @@ queryApi.interceptors.response.use(
 axiosRetry(queryApi, { retries: 3 })
 
 function handleIncitefulErr (err) {
-  if (err.response && err.response.data) {
+  if (err.response) {
     logging.logError(err)
   }
 }
 
 function handleServiceErr (err) {
-  if (err.response && err.response.data) {
-    logging.logError(err)
-  }
+  logging.logError(err)
 }
 
 // Inciteful API Calls
