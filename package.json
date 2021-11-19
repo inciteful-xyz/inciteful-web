@@ -42,7 +42,7 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@sentry/webpack-plugin": "^1.13.0",
+    "@sentry/webpack-plugin": "^1.18.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
