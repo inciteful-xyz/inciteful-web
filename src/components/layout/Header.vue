@@ -176,7 +176,9 @@ export default {
       this.$router.push({ path: navigation.getPaperUrl(id) })
     },
     goToSearch (query) {
-      this.$router.push({ name: 'Search', query: { q: query } })
+      if (query && this.$route.query.q !== query) {
+        this.$router.push({ name: 'Search', query: { q: query } })
+      }
     },
     toggleMobileMenu () {
       this.mobileMenuExpanded = !this.mobileMenuExpanded
