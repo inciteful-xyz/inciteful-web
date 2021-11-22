@@ -239,12 +239,16 @@ export default {
   computed: {
     maxDate () {
       return Math.max(
-        ...Object.values(this.graphData.papers).map(e => e.published_year)
+        ...Object.values(this.graphData.papers)
+          .map(e => e.published_year)
+          .filter(a => a)
       )
     },
     minDate () {
       return Math.min(
-        ...Object.values(this.graphData.papers).map(e => e.published_year)
+        ...Object.values(this.graphData.papers)
+          .map(e => e.published_year)
+          .filter(a => a)
       )
     },
     slotHasContent () {
@@ -278,6 +282,9 @@ export default {
   },
   methods: {
     loadGraph () {
+      console.log('midate: ' + this.minDate)
+      console.log('maxate: ' + this.maxDate)
+
       if (this.graphData) {
         const cy = graphVis.loadGraph(
           this.graphData,

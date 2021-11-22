@@ -192,7 +192,7 @@ function loadGraph (graphData, container, bus, minDate, maxDate) {
   })
 
   cy.centerSource = () => {
-    if (cy.height() > 600 || !graphData.sourcePaperId) {
+    if (cy && (cy.height() > 600 || !graphData.sourcePaperId)) {
       cy.fit()
     } else {
       var j = cy.$(`#${graphData.sourcePaperId}`)
