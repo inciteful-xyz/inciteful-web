@@ -70,9 +70,7 @@ function queryGraphSingle (id, sql, prune) {
   return queryApi
     .post(url, sql)
     .then(response => response.data)
-    .catch(err => {
-      handleIncitefulErr(err)
-    })
+    .catch(err => logging.logError(err))
 }
 
 function queryGraphMulti (ids, sql, prune) {
@@ -86,9 +84,7 @@ function queryGraphMulti (ids, sql, prune) {
   return queryApi
     .post(url, sql)
     .then(response => response.data)
-    .catch(err => {
-      handleIncitefulErr(err)
-    })
+    .catch(err => logging.logError(err))
 }
 
 function connectPapers (from, to, extendedGraphs) {
