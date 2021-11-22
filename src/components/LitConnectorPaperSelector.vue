@@ -169,10 +169,14 @@ export default {
     connectPaperId (id, setParam) {
       api
         .getPaper(id)
-        .then((data) => {
-          this.connectPaper(data, setParam)
+        .then(data => {
+          if (data) {
+            this.connectPaper(data, setParam)
+          } else {
+            this.valid = false
+          }
         })
-        .catch((_) => {
+        .catch(_ => {
           this.valid = false
         })
         .finally(() => {

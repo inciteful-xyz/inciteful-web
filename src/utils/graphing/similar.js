@@ -151,7 +151,6 @@ function buildElements (graphData, minDate, maxDate) {
 
     const date = p.published_year === undefined ? maxDate : p.published_year
     const lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
-    console.log('lightness: ' + p.lightness)
 
     elements.push({
       data: {

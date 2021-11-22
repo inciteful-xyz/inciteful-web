@@ -282,9 +282,6 @@ export default {
   },
   methods: {
     loadGraph () {
-      console.log('midate: ' + this.minDate)
-      console.log('maxate: ' + this.maxDate)
-
       if (this.graphData) {
         const cy = graphVis.loadGraph(
           this.graphData,
