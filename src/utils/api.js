@@ -3,7 +3,7 @@ import options from './options'
 import axiosRetry from 'axios-retry'
 import logging from './logging'
 
-const MAX_INCITEFUL_REQUESTS = 20
+const MAX_INCITEFUL_REQUESTS = 5
 const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
 const idParamName = 'ids[]'
@@ -67,10 +67,7 @@ function queryGraphSingle (id, sql, prune) {
     url = url + `?${pruneParamName}=${prune}`
   }
 
-  return queryApi
-    .post(url, sql)
-    .then(response => response.data)
-    .catch(err => logging.logError(err))
+  return queryApi.post(url, sql).then(response => response.data)
 }
 
 function queryGraphMulti (ids, sql, prune) {
@@ -81,10 +78,7 @@ function queryGraphMulti (ids, sql, prune) {
     url = url + `&${pruneParamName}=${prune}`
   }
 
-  return queryApi
-    .post(url, sql)
-    .then(response => response.data)
-    .catch(err => logging.logError(err))
+  return queryApi.post(url, sql).then(response => response.data)
 }
 
 function connectPapers (from, to, extendedGraphs) {
