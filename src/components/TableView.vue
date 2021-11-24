@@ -387,7 +387,7 @@ export default {
         this.results.forEach(x => ids.add(x.paper_id))
       }
 
-      api.downloadBibFile(ids)
+      api.downloadBibFile(Array.from(ids))
     },
     turnPage (pageNum) {
       this.currentPage = pageNum
