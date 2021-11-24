@@ -119,23 +119,27 @@ function getPaperIds (ids) {
 }
 
 function searchPapers (query) {
-  const params = new URLSearchParams([['q', query]])
-  return axios
-    .get(`${API_URL}/paper/search`, {
-      params,
-      timeout: 1000
-    })
-    .then(response => response.data)
-    .catch(_ => {
-      return []
-    })
-    .then(data => {
-      if (data.length > 0) {
-        return data
-      } else {
-        return searchSemanticScholar(query)
-      }
-    })
+  if (query) {
+    const params = new URLSearchParams([['q', query]])
+    return axios
+      .get(`${API_URL}/paper/search`, {
+        params,
+        timeout: 1000
+      })
+      .then(response => response.data)
+      .catch(_ => {
+        return []
+      })
+      .then(data => {
+        if (data.length > 0) {
+          return data
+        } else {
+          return searchSemanticScholar(query)
+        }
+      })
+  } else {
+    return []
+  }
 }
 
 function getCitations (ids) {
