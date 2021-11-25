@@ -138,7 +138,7 @@ function searchPapers (query) {
         }
       })
   } else {
-    return []
+    return Promise.resolve([])
   }
 }
 
@@ -188,7 +188,7 @@ function searchSemanticScholar (query) {
     .then(data => data)
     .catch(err => {
       handleServiceErr(err)
-      return undefined
+      return Promise.resolve([])
     })
 }
 
