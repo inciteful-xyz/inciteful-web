@@ -42,7 +42,9 @@ function handleIncitefulErr (err) {
 }
 
 function handleServiceErr (err) {
-  logging.logError(err)
+  if (err.response && err.response.status !== 404) {
+    logging.logError(err)
+  }
 }
 
 // Inciteful API Calls
