@@ -63,7 +63,7 @@
         :num_cited_by="paper.num_cited_by"
         :num_citing="paper.num_citing"
         :published_year="paper.published_year"
-        :id="paper.id"
+        :id="paperId"
         :doi="paper.doi"
         :graphStats="graphStats"
       />
@@ -89,7 +89,8 @@ export default {
   name: 'PaperHero',
   props: {
     paper: Object,
-    graphStats: { type: Boolean, default: false }
+    graphStats: { type: Boolean, default: false },
+    paperId: String
   },
   components: {
     PaperHeroStats,

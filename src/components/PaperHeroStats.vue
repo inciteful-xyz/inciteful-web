@@ -82,7 +82,7 @@ export default {
     num_cited_by: Number,
     num_citing: Number,
     published_year: Number,
-    id: Number,
+    id: String,
     doi: String,
     graphStats: { type: Boolean, default: false }
   },
@@ -99,7 +99,7 @@ export default {
   methods: {
     queryOA (doi) {
       if (doi) {
-        api.unpaywall(doi).then((data) => {
+        api.unpaywall(doi).then(data => {
           this.loading = false
           if (data && data.best_oa_location) {
             this.oa_link = data.best_oa_location.url

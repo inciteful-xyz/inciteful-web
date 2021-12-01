@@ -39,18 +39,10 @@
         </div>
         <div class="lg:flex lg:flex-row-reverse">
           <div class="flex-1 lg:text-right mt-2">
-            <span v-if="paper.conference_instance_name" class="italic">{{
-              paper.conference_instance_name
-            }}</span
-            ><span v-if="paper.book_title" class="italic">{{
-              paper.book_title
-            }}</span
-            ><span v-if="paper.journal" class="italic">{{ paper.journal }}</span
-            ><span v-if="paper.volume">, vol {{ paper.volume }}</span
-            ><span v-if="paper.issue"> no {{ paper.issue }}.</span>
+            <span v-if="paper.venue" class="italic">{{ paper.venue }}</span>
           </div>
           <div class="flex-1 mt-2 text-gray-500 font-semibold">
-            <Authors :authors="paper.author" />
+            <Authors :authors="paper.authors" />
           </div>
         </div>
         <div class="flex pt-3">
@@ -64,15 +56,15 @@
             <div>
               Year:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
-                paper.published_year
+                paper.year
               }}</span>
               Cited By:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
-                paper.num_cited_by
+                paper.citationCount
               }}</span>
               Citing:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
-                paper.num_citing
+                paper.referenceCount
               }}</span>
             </div>
           </div>

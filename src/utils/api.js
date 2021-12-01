@@ -174,20 +174,20 @@ function unpaywall (doi) {
 function searchSemanticScholar (query) {
   return axios
     .get(
-      `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId&query=${encodeURIComponent(
+      `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title&query=${encodeURIComponent(
         query
       )}`
     )
-    .then(res => res.data)
-    .then(data => {
-      if (data && data.data) {
-        return getPapers(
-          data.data.map(x => `s2id:${x.paperId}`),
-          true
-        )
-      } else return Promise.resolve([])
+    .then(res => {
+      if (res.data && res.data.data) {
+        res.data.data.forEach(p => {
+          p.id = `s2id:${p.paperId}`
+        })
+        return res.data.data
+      } else {
+        return []
+      }
     })
-    .then(data => data)
     .catch(err => {
       handleServiceErr(err)
       return Promise.resolve([])

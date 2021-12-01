@@ -3,7 +3,7 @@
     <BetaFeatures />
     <div class="pb-3">
       <div class="border-b border-gray-200 pb-6 mb-6">
-        <PaperHero :paper="paper" :graphStats="true" />
+        <PaperHero :paper="paper" paperId="id" :graphStats="true" />
       </div>
     </div>
     <QueryPanel :sql="$route.query.sql" :ids="ids" />
@@ -30,12 +30,15 @@ export default {
     }
   },
   computed: {
+    id () {
+      return this.$route.params.pathMatch
+    },
     ids () {
-      return [this.$route.params.pathMatch]
+      return [this.id]
     }
   },
   mounted () {
-    this.setData(this.$route.params.pathMatch)
+    this.setData(this.id)
   },
   watch: {
     '$route.params.pathMatch' (val) {
