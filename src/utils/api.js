@@ -3,7 +3,7 @@ import options from './options'
 import axiosRetry from 'axios-retry'
 import logging from './logging'
 
-const MAX_INCITEFUL_REQUESTS = 5
+const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
 const idParamName = 'ids[]'
