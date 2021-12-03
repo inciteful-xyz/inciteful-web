@@ -136,11 +136,34 @@ function searchPapers (query) {
         if (data.length > 0) {
           return data
         } else {
-          return searchSemanticScholar(query)
+          return searchSemanticScholar(query).then(data =>
+            data.map(convertToIncitefulPaper)
+          )
         }
       })
   } else {
     return Promise.resolve([])
+  }
+}
+
+function convertToIncitefulPaper (ssPaper) {
+  return {
+    id: ssPaper.id,
+    title: ssPaper.title,
+    author: ssPaper.authors.map(convertToIncitefulAuthor),
+    published_year: ssPaper.year,
+    journal: ssPaper.venue,
+    abstract: ssPaper.abstract,
+    num_cited_by: ssPaper.citationCount,
+    num_citing: ssPaper.referenceCount
+  }
+}
+
+function convertToIncitefulAuthor (ssAuthor) {
+  return {
+    author_id: ssAuthor.id,
+    name: ssAuthor.name,
+    affiliation: ssAuthor.affiliation
   }
 }
 
@@ -174,7 +197,7 @@ function unpaywall (doi) {
 function searchSemanticScholar (query) {
   return axios
     .get(
-      `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title&query=${encodeURIComponent(
+      `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title,year&query=${encodeURIComponent(
         query
       )}`
     )
