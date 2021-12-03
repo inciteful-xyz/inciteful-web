@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       papers: undefined,
-      loaded: false
+      papersLoaded: false
     }
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
       return undefined
     },
     graphData () {
-      if (this.loaded) {
+      if (this.papersLoaded && !this.loading) {
         return {
           papers: this.papers,
           sourcePaperId: this.sourcePaperId,
@@ -73,11 +73,11 @@ export default {
       if (!this.hasPaperID() && !this.loading) {
         this.errorMsg = 'SQL must be a list of `paper_id`s'
       } else {
-        this.loaded = false
+        this.papersLoaded = false
         this.papers = []
         api.getPapers(this.ids).then(data => {
           this.papers = data
-          this.loaded = true
+          this.papersLoaded = true
         })
       }
     }

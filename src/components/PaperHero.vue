@@ -23,11 +23,7 @@
       </div>
       <div
         class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4 sm:mt-6"
-        v-if="
-          paper.num_cited_by + paper.num_citing > 150 &&
-            !receivedLoaded &&
-            graphStats
-        "
+        v-if="!receivedLoaded && graphStats"
       >
         <div class="flex">
           <div class="flex-shrink-0">
@@ -47,9 +43,9 @@
           </div>
           <div class="ml-3">
             <p class="text-sm leading-5 text-yellow-700">
-              This graph has a large number of citations (incoming and
-              outgoing). As a result it may take up to a minute for the graph to
-              load. Please be patient.
+              Constructing and analyzing a graph takes time, if it's not cached,
+              it may take up to a minute for the graph to load. Please be
+              patient.
             </p>
           </div>
         </div>
@@ -102,6 +98,11 @@ export default {
     return {
       receivedLoaded: false,
       bus
+    }
+  },
+  watch: {
+    paper () {
+      this.receivedLoaded = false
     }
   },
   mounted () {
