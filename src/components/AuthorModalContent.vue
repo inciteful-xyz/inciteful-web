@@ -8,10 +8,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import SqlView from './SqlView.vue'
 
-export default {
+export default Vue.extend({
   name: 'AuthorModalContent',
   components: {
     SqlView
@@ -89,5 +90,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

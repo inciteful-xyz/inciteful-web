@@ -63,11 +63,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '@/utils/api'
 import bib from '@/utils/bib'
 import Autosuggest from './Autosuggest'
 
-export default {
+export default Vue.extend({
   name: 'GraphSearch',
   components: {
     Autosuggest
@@ -145,5 +146,5 @@ export default {
       this.$emit('searched', query)
     }
   }
-}
+})
 </script>

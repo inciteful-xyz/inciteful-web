@@ -288,6 +288,7 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import GraphView from './GraphView'
 import Loader from './Loader'
 import api from '../utils/api'
@@ -297,9 +298,9 @@ import keywordFuncs from '../utils/keywords'
 import { stemmer } from 'stemmer'
 import bus from '../utils/bus'
 
-var FlexSearch = require('flexsearch')
+import FlexSearch from 'flexsearch'
 
-export default {
+export default Vue.extend({
   name: 'LitConnectorBody',
   components: {
     Loader,
@@ -434,7 +435,7 @@ export default {
       return undefined
     },
     searchIndex () {
-      var index = new FlexSearch.Index({
+      const index = new FlexSearch.Index({
         encode: sentence => {
           const wordsArr = sentence.split(' ').map(word => {
             const cleanWord = word.replace(/[^a-zA-Z ]/g, '')
@@ -524,10 +525,10 @@ export default {
         this.loadGraph()
       }
     },
-    to (newVal, oldVal) {
+    to () {
       this.resetFilters()
     },
-    from (newVal, oldVal) {
+    from () {
       this.resetFilters()
     },
     extendedGraph (newVal, oldVal) {
@@ -587,5 +588,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

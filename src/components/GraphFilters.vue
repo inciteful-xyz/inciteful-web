@@ -204,10 +204,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import GraphSearch from './GraphSearch'
 import bus from '../utils/bus'
 
-export default {
+export default Vue.extend({
   name: 'GraphFilters',
   components: { GraphSearch },
   props: {
@@ -243,5 +244,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

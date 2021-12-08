@@ -38,10 +38,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from 'axios'
 import options from '../utils/options'
 
-export default {
+export default Vue.extend({
   name: 'BetaFeatures',
   data () {
     return {
@@ -67,5 +68,5 @@ export default {
       this.isSubmitted = true
     }
   }
-}
+})
 </script>

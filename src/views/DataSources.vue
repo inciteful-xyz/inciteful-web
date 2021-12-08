@@ -90,14 +90,15 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 
-export default {
+export default Vue.extend({
   name: 'DataSources',
   components: {
     SingleColumn
   }
-}
+})
 </script>
 
 SingleColumn

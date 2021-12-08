@@ -235,6 +235,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Author from './Authors.vue'
 import numeral from 'numeral'
 import api from '../utils/api'
@@ -244,7 +245,7 @@ import Loader from './Loader'
 import LitReviewButton from './LitReviewButton'
 import navigation from '../navigation'
 
-export default {
+export default Vue.extend({
   name: 'TableView',
   components: {
     Author,
@@ -408,7 +409,7 @@ export default {
       bus.$emit('show_paper_modal', options)
     }
   }
-}
+})
 </script>
 <style lang="scss">
 .pager {

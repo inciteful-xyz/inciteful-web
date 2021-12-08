@@ -36,9 +36,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import bus from '../utils/bus'
 
-export default {
+export default Vue.extend({
   name: 'LitReviewBuilder',
   data () {
     return {
@@ -83,5 +84,5 @@ export default {
       this.ids = new Set()
     }
   }
-}
+})
 </script>

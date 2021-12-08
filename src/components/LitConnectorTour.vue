@@ -3,9 +3,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Tour from './Tour'
 
-export default {
+export default Vue.extend({
   name: 'LitConnectorTour',
   components: { Tour },
   props: {
@@ -18,7 +19,7 @@ export default {
       steps: [
         {
           target: '#logo',
-          content: 'Let\'s take a tour of our Literature Connector',
+          content: "Let's take a tour of our Literature Connector",
           params: {
             placement: 'bottom',
             highlight: false
@@ -94,5 +95,5 @@ export default {
       ]
     }
   }
-}
+})
 </script>

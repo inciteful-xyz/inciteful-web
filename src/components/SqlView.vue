@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import TableView from './TableView.vue'
 import StatView from './StatView.vue'
 import SimilarGraph from './SimilarGraph'
@@ -34,7 +35,7 @@ import api from '../utils/api'
 import Sql from '../utils/sql'
 import bus from '../utils/bus'
 
-export default {
+export default Vue.extend({
   name: 'SqlView',
   components: {
     TableView,
@@ -111,5 +112,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

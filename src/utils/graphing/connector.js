@@ -7,12 +7,12 @@ function buildKlayLayout () {
     fit: true, // Whether to fit
     padding: 20, // Padding on fit
     animate: false, // Whether to transition the node positions
-    animateFilter: function (node, i) {
+    animateFilter: function () {
       return true
     }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // Duration of animation in ms if enabled
     animationEasing: undefined, // Easing of animation if enabled
-    transform: function (node, pos) {
+    transform: function (_node, pos) {
       return pos
     }, // A function that applies a transform to the final node position
     ready: undefined, // Callback on layoutready
@@ -61,7 +61,7 @@ function buildKlayLayout () {
       spacing: 20, // Overall setting for the minimal amount of space to be left between objects
       thoroughness: 7 // How much effort should be spent to produce a nice layout..
     },
-    priority: function (edge) {
+    priority: function () {
       return null
     } // Edges with a non-nil value are skipped when greedy edge cycle breaking is enabled
   }

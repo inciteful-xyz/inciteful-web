@@ -101,6 +101,7 @@
   </single-column>
 </template>
 <script>
+import Vue from 'vue'
 import PaperHero from '../components/PaperHero'
 import GraphFilters from '../components/GraphFilters'
 import LitReviewBuilder from '../components/LitReviewBuilder'
@@ -115,7 +116,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
 
-export default {
+export default Vue.extend({
   name: 'PaperDiscovery',
   components: {
     GraphFilters,
@@ -176,5 +177,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

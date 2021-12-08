@@ -189,13 +189,14 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
 import Authors from './Authors'
 import LitReviewButton from './LitReviewButton'
 import bus from '../utils/bus'
 import api from '../utils/api'
 
-export default {
+export default Vue.extend({
   name: 'ConnectorTable',
   components: {
     Paginate,
@@ -302,5 +303,5 @@ export default {
       this.currentPage = 1
     }
   }
-}
+})
 </script>

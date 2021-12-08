@@ -5,10 +5,14 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
+    'eslint:recommended',
+    '@vue/typescript/recommended',
     '@vue/standard'
+    // '@vue/prettier/@typescript-eslint'
   ],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser'
+    // parser: 'babel-eslint'
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

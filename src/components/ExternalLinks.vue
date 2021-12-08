@@ -56,7 +56,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'ExternalLinks',
   props: {
     externalIds: Array
@@ -68,5 +69,5 @@ export default {
       )
     }
   }
-}
+})
 </script>

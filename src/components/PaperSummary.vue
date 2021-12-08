@@ -21,10 +21,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Authors from './Authors.vue'
 import bus from '../utils/bus'
 
-export default {
+export default Vue.extend({
   components: { Authors },
   name: 'PaperCard',
   props: {
@@ -40,5 +41,5 @@ export default {
       bus
     }
   }
-}
+})
 </script>

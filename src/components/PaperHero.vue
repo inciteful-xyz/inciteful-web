@@ -75,13 +75,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import PaperHeroStats from './PaperHeroStats'
 import AbstractView from './AbstractView'
 import bus from '../utils/bus'
 import ExternalLinks from './ExternalLinks.vue'
 import Authors from './Authors.vue'
 
-export default {
+export default Vue.extend({
   name: 'PaperHero',
   props: {
     paper: Object,
@@ -110,5 +111,5 @@ export default {
       this.receivedLoaded = true
     })
   }
-}
+})
 </script>

@@ -50,9 +50,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from 'axios'
 
-export default {
+export default Vue.extend({
   name: 'BetaSignup',
   data () {
     return {
@@ -72,5 +73,5 @@ export default {
       this.isSubmitted = true
     }
   }
-}
+})
 </script>

@@ -290,10 +290,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
 
-export default {
+export default Vue.extend({
   name: 'LitReviewHero',
   props: {
     ids: Array
@@ -355,5 +356,5 @@ export default {
       this.hidePapers = !this.hidePapers
     }
   }
-}
+})
 </script>

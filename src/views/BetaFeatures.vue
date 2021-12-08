@@ -120,9 +120,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import options from '../utils/options'
 
-export default {
+export default Vue.extend({
   name: 'BetaPage',
   data () {
     return {
@@ -145,5 +146,5 @@ export default {
       }, 2000)
     }
   }
-}
+})
 </script>

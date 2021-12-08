@@ -83,13 +83,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import GraphSearch from './GraphSearch.vue'
 import Loader from './Loader.vue'
 import PaperSummary from './PaperSummary.vue'
 import SearchResults from './SearchResults.vue'
 
-export default {
+export default Vue.extend({
   name: 'LitConnectorPaperSelector',
   components: {
     PaperSummary,
@@ -187,5 +188,5 @@ export default {
       this.currentQuery = query
     }
   }
-}
+})
 </script>

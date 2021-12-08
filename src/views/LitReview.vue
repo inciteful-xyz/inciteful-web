@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import GraphFilters from '../components/GraphFilters'
 import LitReviewBuilder from '../components/LitReviewBuilder'
 import LitReviewHero from '../components/LitReviewHero'
@@ -33,7 +34,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
 
-export default {
+export default Vue.extend({
   name: 'LitReview',
   components: {
     GraphFilters,
@@ -61,5 +62,5 @@ export default {
       this.ids = val
     }
   }
-}
+})
 </script>

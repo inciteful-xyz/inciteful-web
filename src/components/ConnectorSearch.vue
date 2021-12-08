@@ -57,9 +57,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Autosuggest from './Autosuggest'
 
-export default {
+export default Vue.extend({
   name: 'ConnectorSearch',
   components: {
     Autosuggest
@@ -103,5 +104,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

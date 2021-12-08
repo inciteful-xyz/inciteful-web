@@ -33,13 +33,14 @@
   </single-column>
 </template>
 <script>
+import Vue from 'vue'
 import LitReviewButton from '../components/LitReviewButton'
 import LitReviewBuilder from '../components/LitReviewBuilder'
 import SearchResults from '../components/SearchResults.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import navigation from '../navigation'
 
-export default {
+export default Vue.extend({
   name: 'SearchPage',
   components: {
     LitReviewButton,
@@ -78,5 +79,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

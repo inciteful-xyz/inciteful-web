@@ -3,9 +3,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Tour from './Tour'
 
-export default {
+export default Vue.extend({
   name: 'PaperPageTour',
   components: { Tour },
   props: {
@@ -18,7 +19,7 @@ export default {
       steps: [
         {
           target: '#logo',
-          content: 'Let\'s take a tour of Inciteful',
+          content: "Let's take a tour of Inciteful",
           params: {
             placement: 'bottom',
             highlight: false
@@ -123,5 +124,5 @@ export default {
       ]
     }
   }
-}
+})
 </script>

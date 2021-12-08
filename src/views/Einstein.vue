@@ -147,7 +147,9 @@
     <PaperInfoModal />
   </single-column>
 </template>
+
 <script>
+import Vue from 'vue'
 import LitReviewBuilder from '../components/LitReviewBuilder'
 import PaperInfoModal from '../components/PaperInfoModal'
 import BetaSignup from '../components/BetaSignup'
@@ -157,7 +159,7 @@ import LitConnectorBody from '../components/LitConnectorBody.vue'
 import Faq from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 
-export default {
+export default Vue.extend({
   name: 'LitConnectorPage',
   components: {
     PaperInfoModal,
@@ -226,5 +228,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

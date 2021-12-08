@@ -1,12 +1,12 @@
 import qs from 'qs'
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { Route, RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
@@ -162,12 +162,12 @@ const router = new VueRouter({
   }
 })
 
-router.afterEach((to, from) => {
+router.afterEach((to: Route) => {
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   Vue.nextTick(() => {
-    pagedata.setTitle(to.meta.title)
-    pagedata.setDescription(to.meta.description)
+    pagedata.setTitle(to?.meta?.title)
+    pagedata.setDescription(to?.meta?.description)
   })
 })
 

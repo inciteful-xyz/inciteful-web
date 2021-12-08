@@ -9,14 +9,15 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Header from '@/components/layout/Header.vue'
 import Footer from '@/components/layout/Footer.vue'
 
-export default {
+export default Vue.extend({
   name: 'App',
   components: {
     Header,
     Footer
   }
-}
+})
 </script>

@@ -38,13 +38,14 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import SqlView from './SqlView'
-export default {
+export default Vue.extend({
   name: 'DashboardRenderer',
   components: { SqlView },
   props: {
     ids: Array,
     template: Object
   }
-}
+})
 </script>

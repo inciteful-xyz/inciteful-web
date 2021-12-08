@@ -6,11 +6,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import GraphView from './GraphView'
 import Loader from './Loader.vue'
 
-export default {
+export default Vue.extend({
   name: 'SimilarGraph',
   components: {
     GraphView,
@@ -91,5 +92,5 @@ export default {
       )
     }
   }
-}
+})
 </script>

@@ -10,13 +10,14 @@
   </single-column>
 </template>
 <script>
+import Vue from 'vue'
 import PaperHero from '../components/PaperHero'
 import BetaFeatures from '../components/BetaFeatures'
 import QueryPanel from '../components/QueryPanel'
 import api from '../utils/api'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 
-export default {
+export default Vue.extend({
   name: 'PaperDiscoveryQuery',
   components: {
     PaperHero,
@@ -56,5 +57,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

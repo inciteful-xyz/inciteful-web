@@ -248,11 +248,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 // @ is an alias to /src
 import GraphSearch from './GraphSearch.vue'
 import navigation from '../navigation'
 
-export default {
+export default Vue.extend({
   name: 'PaperDiscoveryEmpty',
   components: {
     GraphSearch
@@ -269,5 +270,5 @@ export default {
       this.$router.push({ name: 'Search', query: { q: query } })
     }
   }
-}
+})
 </script>

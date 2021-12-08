@@ -14,11 +14,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import PaperHero from './PaperHero'
 import GraphView from './GraphView'
 
-export default {
+export default Vue.extend({
   name: 'PaperModalContent',
   components: {
     PaperHero,
@@ -101,5 +102,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

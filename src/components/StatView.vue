@@ -6,8 +6,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import numeral from 'numeral'
-export default {
+export default Vue.extend({
   name: 'StatView',
   props: {
     results: Array,
@@ -30,5 +31,5 @@ export default {
       return !isNaN(parseVal) ? numeral(val).format('0,0.[000000]') : val
     }
   }
-}
+})
 </script>

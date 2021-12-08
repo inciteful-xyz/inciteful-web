@@ -39,10 +39,10 @@
         </div>
         <div class="lg:flex lg:flex-row-reverse">
           <div class="flex-1 lg:text-right mt-2">
-            <span v-if="paper.venue" class="italic">{{ paper.venue }}</span>
+            <span v-if="paper.journal" class="italic">{{ paper.journal }}</span>
           </div>
           <div class="flex-1 mt-2 text-gray-500 font-semibold">
-            <Authors :authors="paper.authors" />
+            <Authors :authors="paper.author" />
           </div>
         </div>
         <div class="flex pt-3">
@@ -56,15 +56,15 @@
             <div>
               Year:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
-                paper.year
+                paper.published_year
               }}</span>
               Cited By:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
-                paper.citationCount
+                paper.num_cited_by
               }}</span>
               Citing:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
-                paper.referenceCount
+                paper.num_citing
               }}</span>
             </div>
           </div>
@@ -112,13 +112,14 @@
   </ul>
 </template>
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import AbstractView from './AbstractView'
 import Loader from './Loader'
 import LitReviewButton from './LitReviewButton'
 import Authors from './Authors'
 
-export default {
+export default Vue.extend({
   name: 'SearchResults',
   components: {
     AbstractView,
@@ -183,5 +184,5 @@ export default {
       this.$emit('selected', paper)
     }
   }
-}
+})
 </script>

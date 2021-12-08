@@ -312,13 +312,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
 // @ is an alias to /src
 import BetaSignup from '@/components/BetaSignup.vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import ConnectorSearch from '@/components/ConnectorSearch.vue'
 import navigation from '../navigation'
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     BetaSignup,
@@ -337,5 +338,5 @@ export default {
       this.$router.push({ name: 'Search', query: { q: query } })
     }
   }
-}
+})
 </script>

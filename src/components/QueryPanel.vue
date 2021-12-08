@@ -238,6 +238,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { CodeJar } from 'codejar'
 import Prism from 'prismjs'
 import { withLineNumbers } from 'codejar/linenumbers'
@@ -248,7 +249,7 @@ import SqlView from './SqlView.vue'
 import PaperInfoModal from './PaperInfoModal'
 import LitReviewBuilder from './LitReviewBuilder'
 
-export default {
+export default Vue.extend({
   name: 'QueryPanel',
   components: {
     SqlView,
@@ -339,5 +340,5 @@ ORDER BY num_cited_by DESC`
       this.runCode()
     }
   }
-}
+})
 </script>

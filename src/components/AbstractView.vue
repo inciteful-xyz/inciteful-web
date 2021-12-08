@@ -44,7 +44,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'AbstractView',
   props: {
     abstract: String,
@@ -79,5 +80,5 @@ export default {
       return text.substr(0, this.shortenedLength + firstSpace) + '...'
     }
   }
-}
+})
 </script>

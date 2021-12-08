@@ -1,19 +1,14 @@
-
 import * as Sentry from '@sentry/browser'
+import { AxiosError } from 'axios'
 
-function logError (err) {
+export function logError (err: AxiosError) {
   Sentry.setExtra('error', err)
   Sentry.captureException(err)
 }
 
-function logInfo (message, obj) {
-  Sentry.withScope((scope) => {
+export function logInfo (message: string, obj: any) {
+  Sentry.withScope(scope => {
     Sentry.setExtra('obj', obj)
     Sentry.captureMessage(message, scope)
   })
-}
-
-export default {
-  logError,
-  logInfo
 }

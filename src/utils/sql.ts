@@ -1,4 +1,4 @@
-const filterMap = {
+const filterMap: Record<string, any> = {
   minYear: {
     sql: 'p.published_year >= {}'
   },
@@ -17,7 +17,7 @@ const filterMap = {
   }
 }
 
-function getSqlForKey (k, value) {
+function getSqlForKey (k: string, value: string) {
   const val = value || filterMap[k].default
 
   if (val) {
@@ -27,7 +27,7 @@ function getSqlForKey (k, value) {
   return undefined
 }
 
-function constructFilterSql (filters) {
+function constructFilterSql (filters: Record<string, string>) {
   const sqlArray = Object.keys(filterMap)
     .map((k) => getSqlForKey(k, filters[k]))
     .filter((v) => v)
@@ -35,7 +35,7 @@ function constructFilterSql (filters) {
   return sqlArray.join('\nAND ')
 }
 
-function addFilters (sql, filters) {
+function addFilters (sql: string, filters: Record<string, string>) {
   if (!sql) {
     return sql
   }

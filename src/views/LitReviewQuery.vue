@@ -9,12 +9,13 @@
   </single-column>
 </template>
 <script>
+import Vue from 'vue'
 import LitReviewHero from '../components/LitReviewHero'
 import BetaFeatures from '../components/BetaFeatures'
 import QueryPanel from '../components/QueryPanel'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 
-export default {
+export default Vue.extend({
   name: 'PaperDiscoveryQuery',
   components: {
     LitReviewHero,
@@ -27,5 +28,5 @@ export default {
       paper: undefined
     }
   }
-}
+})
 </script>

@@ -201,12 +201,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import bus from '../utils/bus'
 import navigation from '../navigation'
 import PaperModalContent from './PaperModalContent.vue'
 import AuthorModalContent from './AuthorModalContent.vue'
 
-export default {
+export default Vue.extend({
   name: 'PaperInfoModal',
   components: {
     PaperModalContent,
@@ -259,5 +260,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

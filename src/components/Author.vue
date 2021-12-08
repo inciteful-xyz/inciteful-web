@@ -10,9 +10,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import bus from '../utils/bus'
 
-export default {
+export default Vue.extend({
   name: 'Author',
   props: {
     showAffiliation: { type: Boolean, default: false },
@@ -28,5 +29,5 @@ export default {
       bus.$emit('show_paper_modal', options)
     }
   }
-}
+})
 </script>

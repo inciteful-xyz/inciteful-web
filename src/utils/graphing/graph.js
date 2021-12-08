@@ -16,7 +16,7 @@ cytoscape.use(klay)
 cytoscape.use(contextMenus)
 
 function hideTippy (node) {
-  var tippy = node.data('tippy')
+  const tippy = node.data('tippy')
 
   if (tippy != null) {
     tippy.hide()
@@ -51,7 +51,7 @@ function createTippys (cy) {
       node.data('tippy', tip)
       const els = node.data('elsToHighlight')
 
-      node.on('mouseover', function (e) {
+      node.on('mouseover', function () {
         // If the context menu is open, don't trigger the mouseover actions.
         if (
           cy.scratch &&
@@ -78,7 +78,7 @@ function createTippys (cy) {
           .forEach(hideTippy)
       })
 
-      node.on('mouseout', function (e) {
+      node.on('mouseout', function () {
         if (els) {
           els.forEach(id => {
             const el = cy.$(`#${id}`)
@@ -95,7 +95,7 @@ function createTippys (cy) {
 function setupTippy (cy, bus, modalOptions) {
   createTippys(cy)
 
-  var hideAllTippies = function () {
+  const hideAllTippies = function () {
     cy.nodes().forEach(hideTippy)
   }
 
@@ -108,21 +108,21 @@ function setupTippy (cy, bus, modalOptions) {
     }
   })
 
-  cy.on('tap', 'edge', function (e) {
+  cy.on('tap', 'edge', function () {
     hideAllTippies()
   })
 
-  cy.on('zoom pan', function (e) {
+  cy.on('zoom pan', function () {
     hideAllTippies()
   })
 }
 
 function renderLayout (cy, layoutParams, opts) {
-  for (var i in opts) {
+  for (const i in opts) {
     layoutParams[i] = opts[i]
   }
 
-  var layout = cy.layout(layoutParams)
+  const layout = cy.layout(layoutParams)
 
   layout.run()
 
@@ -195,7 +195,7 @@ function loadGraph (graphData, container, bus, minDate, maxDate) {
     if (cy && (cy.height() > 600 || !graphData.sourcePaperId)) {
       cy.fit()
     } else {
-      var j = cy.$(`#${graphData.sourcePaperId}`)
+      const j = cy.$(`#${graphData.sourcePaperId}`)
       cy.reset().center(j)
     }
   }

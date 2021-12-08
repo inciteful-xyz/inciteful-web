@@ -62,11 +62,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import api from '../utils/api'
 import SqlView from './SqlView'
 import Stat from './Stat.vue'
 
-export default {
+export default Vue.extend({
   name: 'PaperHeroStats',
   components: {
     SqlView,
@@ -110,5 +111,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

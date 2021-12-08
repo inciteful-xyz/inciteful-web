@@ -204,10 +204,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import graphVis from '../utils/graphing/graph'
 import bus from '../utils/bus'
 
-export default {
+export default Vue.extend({
   name: 'GraphView',
   props: {
     graphData: Object,
@@ -330,5 +331,5 @@ export default {
       )
     }
   }
-}
+})
 </script>

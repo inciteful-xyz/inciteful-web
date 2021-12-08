@@ -8,7 +8,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'PaperPageTour',
   props: {
     name: String,
@@ -44,12 +45,10 @@ export default {
       document.getElementById('body').scrollIntoView({ behavior: 'smooth' })
     }
   }
-}
+})
 </script>
 <style lang="scss">
-
 .v-step {
   @apply bg-purple-600 #{!important};
 }
-
 </style>

@@ -158,10 +158,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import navigation from '../../navigation'
 
-export default {
+export default Vue.extend({
   name: 'Header',
   components: {
     GraphSearch
@@ -184,5 +185,5 @@ export default {
       this.mobileMenuExpanded = !this.mobileMenuExpanded
     }
   }
-}
+})
 </script>

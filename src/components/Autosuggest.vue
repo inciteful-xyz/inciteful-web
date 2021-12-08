@@ -56,12 +56,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { VueAutosuggest } from 'vue-autosuggest'
 import api from '../utils/api'
 import Author from './Authors'
 import numeral from 'numeral'
 
-export default {
+export default Vue.extend({
   name: 'Autosuggest',
   components: {
     VueAutosuggest,
@@ -152,7 +153,7 @@ export default {
     getPaperValue (paper) {
       return `${paper.title} (${paper.id})`
     },
-    selectHandler (suggestion, index) {
+    selectHandler (suggestion) {
       if (suggestion) {
         this.selected = suggestion.item.id
         this.sendSelect([suggestion.item.id])
@@ -164,7 +165,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

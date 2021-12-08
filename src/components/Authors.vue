@@ -24,8 +24,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Author from './Author.vue'
-export default {
+export default Vue.extend({
   components: { Author },
   name: 'Authors',
   props: {
@@ -53,5 +54,5 @@ export default {
       )
     }
   }
-}
+})
 </script>
