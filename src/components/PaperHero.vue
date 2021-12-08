@@ -56,9 +56,9 @@
     </div>
     <div>
       <PaperHeroStats
-        :num_cited_by="paper.num_cited_by"
-        :num_citing="paper.num_citing"
-        :published_year="paper.published_year"
+        :numCitedBy="paper.num_cited_by"
+        :numCiting="paper.num_citing"
+        :publishedYear="paper.published_year"
         :id="paperId"
         :doi="paper.doi"
         :graphStats="graphStats"

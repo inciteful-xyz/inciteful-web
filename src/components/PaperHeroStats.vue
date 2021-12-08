@@ -5,22 +5,22 @@
     <div class="flex flex-1" id="paper-stats">
       <stat>
         <template v-slot:name>Cited By</template>
-        <template v-slot:value> {{ num_cited_by }}</template>
+        <template v-slot:value> {{ numCitedBy }}</template>
       </stat>
       <stat>
         <template v-slot:name>Citing</template>
-        <template v-slot:value> {{ num_citing }}</template>
+        <template v-slot:value> {{ numCiting }}</template>
       </stat>
       <stat>
         <template v-slot:name>Published</template>
-        <template v-slot:value> {{ published_year }}</template>
+        <template v-slot:value> {{ publishedYear }}</template>
       </stat>
       <stat>
         <template v-slot:name>Open Access</template>
         <template v-slot:value
           ><a
-            v-if="oa_link"
-            :href="oa_link"
+            v-if="oaLink"
+            :href="oaLink"
             target="_blank"
             class="underline hover:no-underline"
             >Yes</a
@@ -75,14 +75,14 @@ export default Vue.extend({
   },
   data () {
     return {
-      oa_link: undefined,
+      oaLink: undefined,
       loading: true
     }
   },
   props: {
-    num_cited_by: Number,
-    num_citing: Number,
-    published_year: Number,
+    numCitedBy: Number,
+    numCiting: Number,
+    publishedYear: Number,
     id: String,
     doi: String,
     graphStats: { type: Boolean, default: false }
@@ -103,7 +103,7 @@ export default Vue.extend({
         api.unpaywall(doi).then(data => {
           this.loading = false
           if (data && data.best_oa_location) {
-            this.oa_link = data.best_oa_location.url
+            this.oaLink = data.best_oa_location.url
           }
         })
       } else {
