@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import { Core } from 'cytoscape'
+import { LayoutOptions, Core } from 'cytoscape'
 
 export type PaperID = number | string;
 
@@ -66,8 +66,16 @@ export interface GraphData {
 export class IncitefulGraph {
   cy: Core;
   sourcePaperId?: PaperID;
-  constructor (cy: Core) {
+  constructor (cy: Core, sourcePaperId?: PaperID) {
     this.cy = cy
+    this.sourcePaperId = sourcePaperId
+    this.cy.on('resize', () => {
+      this.centerSource()
+    })
+
+    this.cy.ready(() => {
+      this.centerSource()
+    })
   }
 
   centerSource () {
@@ -108,5 +116,14 @@ export class IncitefulGraph {
 
   zoom (level?: number) {
     return this.cy.zoom(level)
+  }
+
+  curZoom (): number {
+    return this.cy.zoom()
+  }
+
+  renderLayout (layoutParams: LayoutOptions) {
+    const layout = this.cy.layout(layoutParams)
+    layout.run()
   }
 }

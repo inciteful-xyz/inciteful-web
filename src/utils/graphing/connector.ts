@@ -9,7 +9,7 @@ function buildKlayLayout () {
     padding: 20, // Padding on fit
     animate: false, // Whether to transition the node positions
     animateFilter: function () {
-      return true
+      return false
     }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // Duration of animation in ms if enabled
     animationEasing: undefined, // Easing of animation if enabled

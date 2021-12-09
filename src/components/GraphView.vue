@@ -203,56 +203,56 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
 import graphVis from '../utils/graphing/graph'
 import bus from '../utils/bus'
+import { GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'GraphView',
   props: {
-    graphData: Object,
+    graphData: {} as PropType<GraphData>,
     errorMsg: String,
     filteredIds: {
       type: Set,
       default () {
-        return new Set()
+        return new Set<PaperID>()
       }
     },
     highlightedIds: {
       type: Array,
       default () {
-        return []
+        return [] as PaperID[]
       }
     }
   },
   data () {
     return {
       bus,
-      graph: undefined,
-      cyInstance: undefined,
+      cyInstance: {} as IncitefulGraph,
       isFullScreen: false
     }
   },
-  mounted () {
+  mounted (): void {
     if (this.graphData && this.graphData.papers) this.loadGraph()
   },
   computed: {
-    maxDate () {
+    maxDate (): number {
       return Math.max(
         ...Object.values(this.graphData.papers)
           .map(e => e.published_year)
           .filter(a => a)
       )
     },
-    minDate () {
+    minDate (): number {
       return Math.min(
         ...Object.values(this.graphData.papers)
           .map(e => e.published_year)
           .filter(a => a)
       )
     },
-    slotHasContent () {
+    slotHasContent (): boolean {
       return !!this.$slots.default && !!this.$slots.default[0]
     }
   },
@@ -282,11 +282,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    loadGraph () {
+    loadGraph (): void {
       if (this.graphData) {
         const cy = graphVis.loadGraph(
           this.graphData,
-          this.$refs.graph,
+          this.$refs.graph as HTMLElement,
           this.bus,
           this.minDate,
           this.maxDate
@@ -295,14 +295,14 @@ export default Vue.extend({
         this.cyInstance = Object.freeze(cy)
       }
     },
-    toggleFullScreen () {
+    toggleFullScreen (): void {
       this.isFullScreen = !this.isFullScreen
     },
-    centerGraph () {
+    centerGraph (): void {
       this.cyInstance.centerSource()
     },
-    zoomIn () {
-      let curZoom = this.cyInstance.zoom()
+    zoomIn (): void {
+      let curZoom = this.cyInstance.curZoom()
 
       if (curZoom > 1.35) {
         curZoom = 1.35
@@ -310,8 +310,8 @@ export default Vue.extend({
 
       this.cyInstance.zoom(curZoom + 0.15)
     },
-    zoomOut () {
-      let curZoom = this.cyInstance.zoom()
+    zoomOut (): void {
+      let curZoom = this.cyInstance.curZoom()
 
       if (curZoom < 0.3) {
         curZoom = 0.3
@@ -319,16 +319,8 @@ export default Vue.extend({
 
       this.cyInstance.zoom(curZoom - 0.15)
     },
-    closeFullScreen () {
+    closeFullScreen (): void {
       if (this.isFullScreen) this.isFullScreen = false
-    },
-    uuidv4 () {
-      return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (
-          c ^
-          (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-        ).toString(16)
-      )
     }
   }
 })

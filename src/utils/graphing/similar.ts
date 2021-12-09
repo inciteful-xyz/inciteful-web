@@ -60,7 +60,8 @@ function buildLayout () {
       return 0.1
       // return (edge.data().adamic_adar + 0.1);
     },
-    nodeRepulsion: () => 100
+    nodeRepulsion: () => 100,
+    animate: false
   }
   return layout
 }

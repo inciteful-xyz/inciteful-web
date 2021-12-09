@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import cytoscape, { Core, LayoutOptions, NodeSingular, ElementDefinition, EventObject } from 'cytoscape'
+import cytoscape, { Core, NodeSingular, ElementDefinition } from 'cytoscape'
 // @ts-ignore
 import contextMenus from 'cytoscape-context-menus'
 import 'cytoscape-context-menus/cytoscape-context-menus.css'
@@ -13,7 +13,7 @@ import connector from './connector'
 import popper from 'cytoscape-popper'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import { ModalOptions, GraphData, IncitefulGraph } from '@/types/inciteful'
+import { ModalOptions, GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
@@ -54,7 +54,7 @@ function createTippys (cy: Core) {
       })
 
       node.data('tippy', tip)
-      const els: any[] = node.data('elsToHighlight')
+      const els: PaperID[] = node.data('elsToHighlight')
 
       node.on('mouseover', function () {
         // If the context menu is open, don't trigger the mouseover actions.
@@ -71,7 +71,7 @@ function createTippys (cy: Core) {
         setTimeout(() => tip.hide(), 5000)
 
         if (els) {
-          els.forEach((id: number) => {
+          els.forEach((id: PaperID) => {
             const el = cy.$(`#${id}`)
             if (el) el.addClass('highlighted')
           })
@@ -122,16 +122,9 @@ function setupTippy (cy: Core, bus: Vue, modalOptions: ModalOptions) {
   })
 }
 
-function renderLayout (cy: Core, layoutParams: LayoutOptions) {
-  const layout = cy.layout(layoutParams)
-  layout.run()
-  return cy
-}
-
 function loadBaseGraph (
   elements: ElementDefinition[],
   container: HTMLElement,
-  layoutParams: LayoutOptions,
   bus: Vue,
   modalOptions: ModalOptions
 ) {
@@ -145,13 +138,6 @@ function loadBaseGraph (
     style: graphStyles.default,
     layout: { name: 'random' }
   })
-
-  cy.ready((e: EventObject) => {
-    // var j = e.cy.$("");
-    e.cy.center()
-  })
-
-  renderLayout(cy, layoutParams)
 
   setupTippy(cy, bus, modalOptions)
 
@@ -176,25 +162,24 @@ function loadGraph (graphData: GraphData, container: HTMLElement, bus: Vue, minD
 
   if (elements === undefined) {
     console.error('Graph type not supported: ' + graphData.type)
-    return undefined
+    return new IncitefulGraph(cytoscape())
   }
 
   const cy = loadBaseGraph(
     elements,
     container,
-    // @ts-ignore
-    layoutParams,
     bus,
     graphData.modalOptions
   )
-  const graph = new IncitefulGraph(cy)
+
+  const graph = new IncitefulGraph(cy, graphData.sourcePaperId)
 
   if (contextMenuOptions) {
     (cy as any).contextMenus(contextMenuOptions)
   }
-  graph.cy.on('resize', () => {
-    graph.centerSource()
-  })
+
+  // @ts-ignore
+  graph.renderLayout(layoutParams)
 
   return graph
 }
