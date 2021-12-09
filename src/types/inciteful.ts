@@ -107,6 +107,6 @@ export class IncitefulGraph {
   }
 
   zoom (level?: number) {
-    this.cy.zoom(level)
+    return this.cy.zoom(level)
   }
 }
