@@ -35,7 +35,7 @@ const routes: Array<RouteConfig> = [
     path: '/einstein',
     name: 'Einstein',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Einstein.vue'),
+      import(/* webpackChunkName: "connector" */ '../views/Einstein.vue'),
     meta: {
       title: 'Six Degrees of Albert Einstein',
       description:
@@ -56,7 +56,7 @@ const routes: Array<RouteConfig> = [
     path: '/search',
     name: 'Search',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Search.vue'),
+      import(/* webpackChunkName: "search" */ '../views/Search.vue'),
     meta: {
       title: 'Search for Papers'
     }
@@ -75,7 +75,7 @@ const routes: Array<RouteConfig> = [
     name: 'PaperDiscoveryQuery',
     component: () =>
       import(
-        /* webpackChunkName: "about" */ '../views/PaperDiscoveryQuery.vue'
+        /* webpackChunkName: "discovery" */ '../views/PaperDiscoveryQuery.vue'
       ),
     meta: {
       title: 'Paper Discovery Query',
@@ -88,7 +88,7 @@ const routes: Array<RouteConfig> = [
     name: 'LitReviewQuery',
     component: () =>
       import(
-        /* webpackChunkName: "paperDiscovery" */ '../views/LitReviewQuery.vue'
+        /* webpackChunkName: "discovery" */ '../views/LitReviewQuery.vue'
       ),
     meta: {
       title: 'Literature Review Query',
@@ -100,7 +100,7 @@ const routes: Array<RouteConfig> = [
     path: '/p',
     name: 'LitReview',
     component: () =>
-      import(/* webpackChunkName: "LitReview" */ '../views/LitReview.vue'),
+      import(/* webpackChunkName: "discovery" */ '../views/LitReview.vue'),
     meta: {
       title: 'Literature Review',
       description:
@@ -111,7 +111,7 @@ const routes: Array<RouteConfig> = [
     path: '/p/*',
     name: 'PaperDiscovery',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/PaperDiscovery.vue'),
+      import(/* webpackChunkName: "discovery" */ '../views/PaperDiscovery.vue'),
     meta: {
       title: 'Paper Discovery',
       description:
@@ -122,7 +122,7 @@ const routes: Array<RouteConfig> = [
     path: '/c',
     name: 'LitConnector',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/LitConnector.vue'),
+      import(/* webpackChunkName: "connector" */ '../views/LitConnector.vue'),
     meta: {
       title: 'Literature Connector',
       description:

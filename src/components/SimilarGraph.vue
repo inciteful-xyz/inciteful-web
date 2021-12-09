@@ -70,7 +70,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    results (newVal, oldVal) {
+    results () {
       if (!this.hasPaperID() && !this.loading) {
         this.errorMsg = 'SQL must be a list of `paper_id`s'
       } else {

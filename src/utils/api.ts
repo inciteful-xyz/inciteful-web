@@ -3,7 +3,8 @@ import axios, { AxiosError } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, SSPaper, SSAuthor } from '../shim-types'
+import { Paper, Author } from '../types/inciteful'
+import { SSPaper, SSAuthor } from '../types/semanticScholar'
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10

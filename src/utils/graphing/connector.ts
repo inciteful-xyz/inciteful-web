@@ -1,4 +1,5 @@
-import navigation from '../../navigation'
+import { EventObject, NodeDefinition, Position, ElementDefinition } from 'cytoscape'
+import { Paper, GraphData } from '@/types/inciteful'
 
 function buildKlayLayout () {
   return {
@@ -12,7 +13,7 @@ function buildKlayLayout () {
     }, // Whether to animate specific nodes when animation is on; non-animated nodes immediately go to their final positions
     animationDuration: 500, // Duration of animation in ms if enabled
     animationEasing: undefined, // Easing of animation if enabled
-    transform: function (_node, pos) {
+    transform: function (_node: NodeDefinition, pos: Position) {
       return pos
     }, // A function that applies a transform to the final node position
     ready: undefined, // Callback on layoutready
@@ -70,7 +71,7 @@ function buildLayout () {
   return buildKlayLayout()
 }
 
-function makeTippy (p, title) {
+function makeTippy (p: Paper, title: string) {
   const content = document.createElement('div')
 
   content.innerHTML = p.title + ', ' + title
@@ -78,17 +79,19 @@ function makeTippy (p, title) {
   return content
 }
 
-function buildElements (graphData, minDate, maxDate) {
-  const elements = []
+function buildElements (graphData: GraphData, minDate: number, maxDate: number) {
+  const elements: ElementDefinition[] = []
   const papers = graphData.papers
 
   Object.values(papers).forEach(p => {
     let author = 'NA'
+
     if (p.author && p.author.length > 0) {
-      author = p.author[0].name.split(' ').pop()
+      author = p.author[0].name.split(' ').pop() ?? author
     }
+
     const title = `${author}, ${p.published_year}`
-    let size = 75 * (1 + Math.log10(p.path_count))
+    let size = 75 * (1 + Math.log10(p.path_count ?? 1))
 
     const elsToHighlight = new Set()
 
@@ -115,7 +118,7 @@ function buildElements (graphData, minDate, maxDate) {
 
     elements.push({
       data: {
-        id: p.id,
+        id: p.id.toString(),
         title: title,
         lightness,
         size,
@@ -142,7 +145,7 @@ function buildElements (graphData, minDate, maxDate) {
   return elements
 }
 
-function contextMenu (bus) {
+function contextMenu (bus: Vue) {
   return {
     // Customize event to bring up the context menu
     // Possible options https://js.cytoscape.org/#events/user-input-device-events
@@ -154,8 +157,8 @@ function contextMenu (bus) {
         id: 'set-as-from',
         content: 'Set as From',
         selector: 'node',
-        onClickFunction: function (event) {
-          const target = event.target || event.cyTarget
+        onClickFunction: function (event: EventObject) {
+          const target = event.target
           const id = Number(target.data('id'))
           bus.$emit('set_as_from', id)
         },
@@ -165,8 +168,8 @@ function contextMenu (bus) {
         id: 'set-as-to',
         content: 'Set as To',
         selector: 'node',
-        onClickFunction: function (event) {
-          const target = event.target || event.cyTarget
+        onClickFunction: function (event: EventObject) {
+          const target = event.target
           const id = Number(target.data('id'))
           bus.$emit('set_as_to', id)
         },
@@ -177,8 +180,8 @@ function contextMenu (bus) {
         content: 'Lock Paper',
         selector: 'node',
         // tooltipText: 'Lock the graph to paths including paper',
-        onClickFunction: function (event) {
-          const target = event.target || event.cyTarget
+        onClickFunction: function (event: EventObject) {
+          const target = event.target
           const id = Number(target.data('id'))
           bus.$emit('lock_paper', id)
         },
@@ -189,8 +192,8 @@ function contextMenu (bus) {
         content: 'Add to Lit Review',
         selector: 'node',
         // tooltipText: 'Lock the graph to paths including paper',
-        onClickFunction: function (event) {
-          const target = event.target || event.cyTarget
+        onClickFunction: function (event: EventObject) {
+          const target = event.target
           const id = Number(target.data('id'))
           bus.$emit('add_to_lit_review', id)
         },
@@ -201,10 +204,10 @@ function contextMenu (bus) {
         content: 'Go to Graph',
         selector: 'node',
         // tooltipText: 'Create a graph around this paper',
-        onClickFunction: function (event) {
-          const target = event.target || event.cyTarget
+        onClickFunction: function (event: EventObject) {
+          const target = event.target
           const id = Number(target.data('id'))
-          navigation.goToPaper(id)
+          bus.$emit('go_to_paper', id)
         },
         disabled: false
       }

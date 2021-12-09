@@ -246,7 +246,7 @@ export default Vue.extend({
   },
   methods: {
     addToLitReview () {
-      bus.$emit('add_to_lit_review', this.options.id)
+      bus.$emit('add_to_lit_review', this.options.paperId)
       this.backButton()
     },
     clearPaper () {

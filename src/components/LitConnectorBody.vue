@@ -297,6 +297,7 @@ import ConnectorTable from './ConnectorTable'
 import keywordFuncs from '../utils/keywords'
 import { stemmer } from 'stemmer'
 import bus from '../utils/bus'
+import navigation from '../navigation'
 
 import FlexSearch from 'flexsearch'
 
@@ -326,11 +327,12 @@ export default Vue.extend({
     }
   },
   mounted () {
+    bus.$on('go_to_paper', id => {
+      this.$router.push({ path: navigation.getPaperUrl(id) })
+    })
     bus.$on('set_as_to', id => {
       if (this.to.id !== id && this.from.id) {
-        this.$router.push({
-          query: { to: id }
-        })
+        this.$router.push({ query: { to: id } })
       }
     })
     bus.$on('set_as_from', id => {

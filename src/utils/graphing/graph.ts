@@ -1,21 +1,26 @@
-import cytoscape from 'cytoscape'
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import cytoscape, { Core, LayoutOptions, NodeSingular, ElementDefinition, EventObject } from 'cytoscape'
+// @ts-ignore
 import contextMenus from 'cytoscape-context-menus'
 import 'cytoscape-context-menus/cytoscape-context-menus.css'
+// @ts-ignore
 import fcose from 'cytoscape-fcose'
+// @ts-ignore
 import klay from 'cytoscape-klay'
-import graphStyle from './graphStyle.json'
+import graphStyles from './graphStyles'
 import similar from './similar'
 import connector from './connector'
 import popper from 'cytoscape-popper'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
+import { ModalOptions, GraphData, IncitefulGraph } from '@/types/inciteful'
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
 cytoscape.use(klay)
 cytoscape.use(contextMenus)
 
-function hideTippy (node) {
+function hideTippy (node: NodeSingular) {
   const tippy = node.data('tippy')
 
   if (tippy != null) {
@@ -23,7 +28,7 @@ function hideTippy (node) {
   }
 }
 
-function createTippys (cy) {
+function createTippys (cy: Core) {
   cy.nodes().forEach(node => {
     const content = node.data('tippyContent')
 
@@ -49,7 +54,7 @@ function createTippys (cy) {
       })
 
       node.data('tippy', tip)
-      const els = node.data('elsToHighlight')
+      const els: any[] = node.data('elsToHighlight')
 
       node.on('mouseover', function () {
         // If the context menu is open, don't trigger the mouseover actions.
@@ -66,7 +71,7 @@ function createTippys (cy) {
         setTimeout(() => tip.hide(), 5000)
 
         if (els) {
-          els.forEach(id => {
+          els.forEach((id: number) => {
             const el = cy.$(`#${id}`)
             if (el) el.addClass('highlighted')
           })
@@ -92,7 +97,7 @@ function createTippys (cy) {
     }
   })
 }
-function setupTippy (cy, bus, modalOptions) {
+function setupTippy (cy: Core, bus: Vue, modalOptions: ModalOptions) {
   createTippys(cy)
 
   const hideAllTippies = function () {
@@ -117,25 +122,18 @@ function setupTippy (cy, bus, modalOptions) {
   })
 }
 
-function renderLayout (cy, layoutParams, opts) {
-  for (const i in opts) {
-    layoutParams[i] = opts[i]
-  }
-
+function renderLayout (cy: Core, layoutParams: LayoutOptions) {
   const layout = cy.layout(layoutParams)
-
   layout.run()
-
   return cy
 }
 
 function loadBaseGraph (
-  elements,
-  container,
-  layoutParams,
-  opts,
-  bus,
-  modalOptions
+  elements: ElementDefinition[],
+  container: HTMLElement,
+  layoutParams: LayoutOptions,
+  bus: Vue,
+  modalOptions: ModalOptions
 ) {
   const cy = cytoscape({
     container,
@@ -144,22 +142,23 @@ function loadBaseGraph (
     userZoomingEnabled: true,
     userPanningEnabled: true,
     elements,
-    ready: function (e) {
-      // var j = e.cy.$("");
-      e.cy.center()
-    },
-    style: graphStyle,
+    style: graphStyles.default,
     layout: { name: 'random' }
   })
 
-  renderLayout(cy, layoutParams, opts)
+  cy.ready((e: EventObject) => {
+    // var j = e.cy.$("");
+    e.cy.center()
+  })
+
+  renderLayout(cy, layoutParams)
 
   setupTippy(cy, bus, modalOptions)
 
   return cy
 }
 
-function loadGraph (graphData, container, bus, minDate, maxDate) {
+function loadGraph (graphData: GraphData, container: HTMLElement, bus: Vue, minDate: number, maxDate: number) {
   let elements
   let layoutParams
   let contextMenuOptions
@@ -175,55 +174,29 @@ function loadGraph (graphData, container, bus, minDate, maxDate) {
     contextMenuOptions = connector.contextMenu(bus)
   }
 
+  if (elements === undefined) {
+    console.error('Graph type not supported: ' + graphData.type)
+    return undefined
+  }
+
   const cy = loadBaseGraph(
     elements,
     container,
+    // @ts-ignore
     layoutParams,
-    undefined,
     bus,
     graphData.modalOptions
   )
+  const graph = new IncitefulGraph(cy)
 
   if (contextMenuOptions) {
-    cy.contextMenus(contextMenuOptions)
+    (cy as any).contextMenus(contextMenuOptions)
   }
-  cy.on('resize', ev => {
-    ev.cy.centerSource()
+  graph.cy.on('resize', () => {
+    graph.centerSource()
   })
 
-  cy.centerSource = () => {
-    if (cy && (cy.height() > 600 || !graphData.sourcePaperId)) {
-      cy.fit()
-    } else {
-      const j = cy.$(`#${graphData.sourcePaperId}`)
-      cy.reset().center(j)
-    }
-  }
-
-  cy.filterNodes = ids => {
-    cy.nodes().forEach(node => {
-      if (ids.has(Number(node.id()))) {
-        node.removeClass('disabled')
-      } else {
-        node.addClass('disabled')
-      }
-    })
-  }
-
-  cy.highlightNodes = ids => {
-    const idSet = new Set()
-    ids.forEach(id => idSet.add(id))
-
-    cy.nodes().forEach(node => {
-      if (idSet.has(Number(node.id()))) {
-        node.addClass('highlighted')
-      } else {
-        node.removeClass('highlighted')
-      }
-    })
-  }
-  window.cy = cy
-  return cy
+  return graph
 }
 
 export default {

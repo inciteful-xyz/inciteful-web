@@ -1,4 +1,4 @@
-import { Paper } from '@/shim-types'
+import { Paper } from '@/types/inciteful'
 import { stemmer } from 'stemmer'
 
 const stop = new Set([
