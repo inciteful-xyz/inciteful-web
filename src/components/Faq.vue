@@ -29,12 +29,13 @@
     </div>
   </div>
 </template>
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { Faq } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 export default Vue.extend({
   name: 'Faq',
   props: {
-    faqs: Array
+    faqs: {} as PropType<Faq[]>
   }
 })
 </script>

@@ -26,14 +26,15 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
 import TableView from './TableView.vue'
 import StatView from './StatView.vue'
-import SimilarGraph from './SimilarGraph'
+import SimilarGraph from './SimilarGraph.vue'
 import api from '../utils/api'
 import Sql from '../utils/sql'
 import bus from '../utils/bus'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'SqlView',
@@ -45,22 +46,22 @@ export default Vue.extend({
   props: {
     view: String,
     sql: String,
-    ids: Array,
+    ids: {} as PropType<Array<PaperID>>,
     emptyMessage: String
   },
   data () {
     return {
-      results: [],
-      errorMsg: undefined,
+      results: [] as any[][],
+      errorMsg: undefined as string | undefined,
       loading: true,
       bus
     }
   },
-  created () {
+  created (): void {
     this.runSQL()
   },
   computed: {
-    filters () {
+    filters (): any {
       return {
         keywords: this.$route.query.keywords,
         maxYear: this.$route.query.maxYear,
@@ -69,15 +70,8 @@ export default Vue.extend({
         minDistance: this.$route.query.minDistance
       }
     },
-    filteredSql () {
+    filteredSql (): string {
       return Sql.addFilters(this.sql, this.filters)
-    },
-    columns () {
-      if (this.results) {
-        return this.getColumnNames(this.results)
-      }
-
-      return undefined
     }
   },
   watch: {
@@ -93,7 +87,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    runSQL () {
+    runSQL (): void {
       if (this.ids && this.filteredSql) {
         this.errorMsg = undefined
         this.loading = true

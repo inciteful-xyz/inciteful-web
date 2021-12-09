@@ -74,20 +74,21 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
-import PaperHeroStats from './PaperHeroStats'
-import AbstractView from './AbstractView'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
+import PaperHeroStats from './PaperHeroStats.vue'
+import AbstractView from './AbstractView.vue'
 import bus from '../utils/bus'
 import ExternalLinks from './ExternalLinks.vue'
 import Authors from './Authors.vue'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'PaperHero',
   props: {
     paper: Object,
     graphStats: { type: Boolean, default: false },
-    paperId: String
+    paperId: {} as PropType<PaperID>
   },
   components: {
     PaperHeroStats,

@@ -212,7 +212,7 @@ import { GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
 export default Vue.extend({
   name: 'GraphView',
   props: {
-    graphData: {} as PropType<GraphData>,
+    graphData: {} as PropType<GraphData | undefined>,
     errorMsg: String,
     filteredIds: {
       type: Set,
@@ -239,18 +239,25 @@ export default Vue.extend({
   },
   computed: {
     maxDate (): number {
-      return Math.max(
-        ...Object.values(this.graphData.papers)
-          .map(e => e.published_year)
-          .filter(a => a)
-      )
+      if (this.graphData) {
+        return Math.max(
+          ...Object.values(this.graphData.papers ?? {})
+            .map(e => e.published_year)
+            .filter(a => a)
+        )
+      }
+
+      return 0
     },
     minDate (): number {
-      return Math.min(
-        ...Object.values(this.graphData.papers)
-          .map(e => e.published_year)
-          .filter(a => a)
-      )
+      if (this.graphData) {
+        return Math.min(
+          ...Object.values(this.graphData.papers ?? {})
+            .map(e => e.published_year)
+            .filter(a => a)
+        )
+      }
+      return 0
     },
     slotHasContent (): boolean {
       return !!this.$slots.default && !!this.$slots.default[0]

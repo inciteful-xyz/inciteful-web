@@ -61,10 +61,11 @@
   </dl>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 import api from '../utils/api'
-import SqlView from './SqlView'
+import SqlView from './SqlView.vue'
 import Stat from './Stat.vue'
 
 export default Vue.extend({
@@ -83,7 +84,7 @@ export default Vue.extend({
     numCitedBy: Number,
     numCiting: Number,
     publishedYear: Number,
-    id: String,
+    id: {} as PropType<PaperID>,
     doi: String,
     graphStats: { type: Boolean, default: false }
   },
@@ -94,11 +95,11 @@ export default Vue.extend({
       }
     }
   },
-  created () {
+  created (): void {
     this.queryOA(this.doi)
   },
   methods: {
-    queryOA (doi) {
+    queryOA (doi: string): void {
       if (doi) {
         api.unpaywall(doi).then(data => {
           this.loading = false

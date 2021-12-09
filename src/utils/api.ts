@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author } from '../types/inciteful'
+import { Paper, Author, PaperConnector, PaperID } from '../types/inciteful'
 import { SSPaper, SSAuthor } from '../types/semanticScholar'
 
 const MAX_INCITEFUL_REQUESTS = 100
@@ -100,7 +100,7 @@ function searchSemanticScholar (query: string) {
 
 // Inciteful API Calls
 
-function queryGraphSingle (id: string, sql: string, prune: number) {
+function queryGraphSingle (id: PaperID, sql: string, prune: number): Promise<any[][]> {
   let url = `${API_URL}/query/${id}`
 
   if (prune) {
@@ -110,7 +110,7 @@ function queryGraphSingle (id: string, sql: string, prune: number) {
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraphMulti (ids: Array<string>, sql: string, prune: number) {
+function queryGraphMulti (ids: Array<PaperID>, sql: string, prune: number): Promise<any[][]> {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
   let url = `${API_URL}/query?${idParams}`
 
@@ -121,7 +121,7 @@ function queryGraphMulti (ids: Array<string>, sql: string, prune: number) {
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraph (ids: Array<string>, sql: string) {
+function queryGraph (ids: Array<PaperID>, sql: string): Promise<any[][]> {
   const prune = options.getPruneLevel()
 
   if (Array.isArray(ids)) {
@@ -135,7 +135,7 @@ function queryGraph (ids: Array<string>, sql: string) {
   }
 }
 
-function connectPapers (from: string, to: string, extendedGraphs: number) {
+function connectPapers (from: PaperID, to: PaperID, extendedGraphs: number | undefined): Promise<PaperConnector> {
   return axios
     .get(
       `${API_URL}/connector?from=${encodeURIComponent(
@@ -148,7 +148,7 @@ function connectPapers (from: string, to: string, extendedGraphs: number) {
     })
 }
 
-function getPaper (id: string) {
+function getPaper (id: PaperID): Promise<Paper> {
   return axios
     .get(`${API_URL}/paper/${id}`)
     .then(response => response.data)
@@ -157,7 +157,7 @@ function getPaper (id: string) {
     })
 }
 
-function getPapers (ids: Array<string>, condensed: boolean) {
+function getPapers (ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
@@ -168,13 +168,11 @@ function getPapers (ids: Array<string>, condensed: boolean) {
     })
 }
 
-function getPaperIds (ids: Array<string>) {
-  return getPapers(ids, true).then(data =>
-    data.map((paper: { id: string }) => paper.id)
-  )
+function getPaperIds (ids: Array<PaperID>): Promise<PaperID[]> {
+  return getPapers(ids, true).then(data => { return data.map(p => p.id) })
 }
 
-function searchPapers (query: string) {
+function searchPapers (query: string): Promise<Paper[]> {
   if (query) {
     const params = new URLSearchParams([['q', query]])
     return axios
@@ -198,7 +196,7 @@ function searchPapers (query: string) {
   }
 }
 
-function getCitations (ids: Array<string>) {
+function getCitations (ids: Array<string>): Promise<PaperID[]> {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios

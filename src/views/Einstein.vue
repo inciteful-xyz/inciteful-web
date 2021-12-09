@@ -141,7 +141,7 @@
         />
       </div>
     </div>
-    <faq :faqs="faqs" />
+    <FaqComp :faqs="faqs" />
     <BetaSignup />
     <LitReviewBuilder />
     <PaperInfoModal />
@@ -156,7 +156,7 @@ import BetaSignup from '../components/BetaSignup'
 import api from '../utils/api'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
-import Faq from '../components/Faq.vue'
+import FaqComp from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 
 export default Vue.extend({
@@ -167,7 +167,7 @@ export default Vue.extend({
     BetaSignup,
     LitConnectorPaperSelector,
     LitConnectorBody,
-    Faq,
+    FaqComp,
     SingleColumn
   },
   data () {

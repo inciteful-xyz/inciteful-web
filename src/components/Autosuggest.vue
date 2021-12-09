@@ -15,7 +15,7 @@
           {{ suggestion.item.title }}
         </div>
         <div class="text-xs">
-          <Author :authors="suggestion.item.author" /> ({{
+          <Authors :authors="suggestion.item.author" /> ({{
             suggestion.item.published_year
           }}) -
           {{ format(suggestion.item.num_cited_by) }}
@@ -55,18 +55,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+
 import Vue from 'vue'
+// @ts-ignore
 import { VueAutosuggest } from 'vue-autosuggest'
 import api from '../utils/api'
-import Author from './Authors'
+import Authors from './Authors.vue'
 import numeral from 'numeral'
+import { Paper, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'Autosuggest',
   components: {
     VueAutosuggest,
-    Author
+    Authors
   },
   props: {
     clearOnSelect: {
@@ -86,12 +90,13 @@ export default Vue.extend({
     return {
       query: '',
       results: [],
-      timeout: null,
-      selected: null,
+      timeout: null as number | null,
+      selected: null as PaperID | null,
       debounceMilliseconds: 200,
       sectionConfigs: {
         default: {
           limit: 10,
+          // @ts-ignore
           onSelected: this.selectHandler
         }
       },
@@ -101,11 +106,11 @@ export default Vue.extend({
         class: 'form-control',
         name: 'hello'
       },
-      suggestions: [],
+      suggestions: [] as { name: string; data: Paper[] }[],
       selectIsValid: true
     }
   },
-  created () {
+  created (): void {
     this.query = this.defaultQuery
 
     if (this.defaultPaperId) {
@@ -120,18 +125,24 @@ export default Vue.extend({
       else return this.query
     },
     getSelectedId () {
+      // @ts-ignore
       if (this.$refs.autocomplete.currentItem) {
+        // @ts-ignore
         return this.$refs.autocomplete.currentItem.item.id
       }
       if (this.selected) return this.selected
     },
-    format (val) {
+    format (val: number) {
       return numeral(val).format('0,0.[000000]')
     },
-    fetchResults () {
+    fetchResults (): void {
       const query = this.query
       this.selectIsValid = true
-      clearTimeout(this.timeout)
+
+      if (this.timeout) {
+        clearTimeout(this.timeout)
+      }
+
       this.timeout = setTimeout(() => {
         this.selected = null
 
@@ -147,19 +158,19 @@ export default Vue.extend({
         })
       }, this.debounceMilliseconds)
     },
-    getSuggestionValue (suggestion) {
+    getSuggestionValue (suggestion: { item: Paper }): string {
       return this.getPaperValue(suggestion.item)
     },
-    getPaperValue (paper) {
+    getPaperValue (paper: Paper): string {
       return `${paper.title} (${paper.id})`
     },
-    selectHandler (suggestion) {
+    selectHandler (suggestion: { item: { id: string } }): void {
       if (suggestion) {
         this.selected = suggestion.item.id
         this.sendSelect([suggestion.item.id])
       }
     },
-    sendSelect (ids) {
+    sendSelect (ids: PaperID[]) {
       api.getPaperIds(ids).then(ids => {
         this.$emit('selected', ids)
       })

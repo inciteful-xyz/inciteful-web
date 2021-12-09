@@ -37,14 +37,16 @@
     </div>
   </div>
 </template>
-<script>
-import Vue from 'vue'
-import SqlView from './SqlView'
+<script lang="ts">
+import { PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
+import SqlView from './SqlView.vue'
+
 export default Vue.extend({
   name: 'DashboardRenderer',
   components: { SqlView },
   props: {
-    ids: Array,
+    ids: {} as PropType<PaperID[]>,
     template: Object
   }
 })

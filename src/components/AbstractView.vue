@@ -43,7 +43,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
   name: 'AbstractView',
@@ -57,19 +57,19 @@ export default Vue.extend({
     }
   },
   methods: {
-    toggleAbstractView () {
+    toggleAbstractView (): void {
       this.truncateAbstract = !this.truncateAbstract
     }
   },
   computed: {
-    canTruncate () {
+    canTruncate (): boolean {
       return this.abstract.length > this.shortenedLength
     },
-    shortenedLength () {
+    shortenedLength (): number {
       return this.length ? this.length : 550
     },
-    truncatedAbstract () {
-      if (!this.abstract) return undefined
+    truncatedAbstract (): string {
+      if (!this.abstract) return ''
 
       const text = this.abstract.slice()
 

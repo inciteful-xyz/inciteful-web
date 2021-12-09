@@ -5,10 +5,11 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { GraphData, Paper, PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 import api from '../utils/api'
-import GraphView from './GraphView'
+import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
 
 export default Vue.extend({
@@ -18,9 +19,9 @@ export default Vue.extend({
     Loader
   },
   props: {
-    results: Array,
+    results: {} as PropType<Array<any>>,
     errorMsg: String,
-    sourceIds: Array,
+    sourceIds: {} as PropType<Array<PaperID>>,
     loading: {
       type: Boolean,
       default () {
@@ -31,33 +32,32 @@ export default Vue.extend({
   },
   data () {
     return {
-      papers: undefined,
+      internalError: '',
+      papers: [] as Paper[],
       papersLoaded: false
     }
   },
   computed: {
-    ids () {
+    ids (): Array<PaperID> {
       if (this.hasPaperID()) {
         return this.results.map(r => r.paper_id)
       }
       return []
     },
-    sourcePaperId () {
-      if (
-        this.sourceIds &&
-        this.sourceIds.length === 1 &&
-        Number.parseInt(this.sourceIds[0])
-      ) {
-        return Number.parseInt(this.sourceIds[0])
+    sourcePaperId (): PaperID | undefined {
+      if (this.sourceIds && this.sourceIds.length === 1) {
+        return this.sourceIds[0]
       }
       return undefined
     },
-    graphData () {
+    graphData (): GraphData | undefined {
+      const type = 'similar'
+
       if (this.papersLoaded && !this.loading) {
         return {
           papers: this.papers,
           sourcePaperId: this.sourcePaperId,
-          type: 'similar',
+          type,
           modalOptions: {
             connectTo: this.sourcePaperId
               ? this.sourcePaperId.toString()
@@ -70,13 +70,13 @@ export default Vue.extend({
     }
   },
   watch: {
-    results () {
+    results (): void {
       if (!this.hasPaperID() && !this.loading) {
-        this.errorMsg = 'SQL must be a list of `paper_id`s'
+        this.internalError = 'SQL must be a list of `paper_id`s'
       } else {
         this.papersLoaded = false
         this.papers = []
-        api.getPapers(this.ids).then(data => {
+        api.getPapers(this.ids, false).then(data => {
           this.papers = data
           this.papersLoaded = true
         })
@@ -84,7 +84,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    hasPaperID () {
+    hasPaperID (): boolean {
       return (
         this.results &&
         this.results.length > 0 &&

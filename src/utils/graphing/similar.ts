@@ -78,7 +78,7 @@ function buildElements (graphData: GraphData, minDate: number, maxDate: number) 
   const elements: ElementDefinition[] = []
   const possibleEdges: { source: PaperID; destination: PaperID; score: number; coup: number; cocite: number }[] = []
   const edgeCounts: Record<PaperID, number> = {}
-  const papers = graphData.papers
+  const papers = graphData.papers ?? []
 
   Object.values(papers).forEach((p: Paper) => (edgeCounts[p.id] = 0))
 

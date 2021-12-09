@@ -203,10 +203,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import GraphSearch from './GraphSearch'
+import GraphSearch from './GraphSearch.vue'
 import bus from '../utils/bus'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'GraphFilters',
@@ -228,18 +229,18 @@ export default Vue.extend({
     }
   },
   methods: {
-    addToLitReview (ids) {
+    addToLitReview (ids: PaperID[]): void {
       ids.map(id => bus.$emit('add_to_lit_review', id))
     },
     applyFilters () {
       this.$router.push({
         query: {
           ...this.$route.query,
-          keywords: this.$refs.keywordFilter.value,
-          minDistance: this.$refs.minDistanceFilter.value,
-          maxDistance: this.$refs.maxDistanceFilter.value,
-          minYear: this.$refs.minYearFilter.value,
-          maxYear: this.$refs.maxYearFilter.value
+          keywords: this.keywords,
+          minDistance: this.minDistance,
+          maxDistance: this.maxDistance,
+          minYear: this.minYear,
+          maxYear: this.maxYear
         }
       })
     }

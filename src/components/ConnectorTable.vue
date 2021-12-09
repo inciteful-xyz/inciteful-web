@@ -4,7 +4,7 @@
       <thead>
         <tr>
           <th class="pl-3 py-3 bg-gray-50"></th>
-          <th class="bg-gray-50" v-if="hasID()"></th>
+          <th class="bg-gray-50"></th>
           <th
             class="
               px-2
@@ -71,7 +71,7 @@
           @mouseover="$emit('mouseoverRow', p[idColName])"
           @mouseleave="$emit('mouseleaveRow', p[idColName])"
         >
-          <td v-if="hasID()" class="pl-3 py-2">
+          <td class="pl-3 py-2">
             <LitReviewButton :id="p[idColName]" />
           </td>
           <td class="pl-3 py-2 text-sm sm:text-md">
@@ -188,13 +188,16 @@
     </div>
   </div>
 </template>
-<script>
-import Vue from 'vue'
+<script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import Vue, { PropType } from 'vue'
+// @ts-ignore
 import Paginate from 'vuejs-paginate'
-import Authors from './Authors'
-import LitReviewButton from './LitReviewButton'
+import Authors from './Authors.vue'
+import LitReviewButton from './LitReviewButton.vue'
 import bus from '../utils/bus'
 import api from '../utils/api'
+import { Paper, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'ConnectorTable',
@@ -204,7 +207,7 @@ export default Vue.extend({
     LitReviewButton
   },
   props: {
-    papers: Array,
+    papers: {} as PropType<Paper[]>,
     pageSize: {
       type: Number,
       default: 10
@@ -233,35 +236,36 @@ export default Vue.extend({
     return {
       bus,
       currentPage: 1,
-      sortedBy: undefined,
-      sortDescending: undefined
+      sortedBy: '' as string,
+      sortDescending: undefined as boolean | undefined
     }
   },
   computed: {
-    numPages () {
+    numPages (): number {
       if (this.papers) {
         return Math.ceil(this.papers.length / this.pageSize)
       } else {
         return 0
       }
     },
-    sortedResults () {
+    sortedResults (): Paper[] {
       const sorted = [...this.papers]
       if (this.sortedBy && this.papers && this.papers.length > 0) {
         sorted.sort((a, b) => {
           if (this.sortDescending) {
-            return b[this.sortedBy] - a[this.sortedBy]
+            return (b as any)[this.sortedBy] - (a as any)[this.sortedBy]
           } else {
-            return a[this.sortedBy] - b[this.sortedBy]
+            return (a as any)[this.sortedBy] - (b as any)[this.sortedBy]
           }
         })
       }
+
       sorted.sort((a, b) => {
-        return b.isLocked - a.isLocked
+        return (b as any).isLocked - (a as any).isLocked
       })
       return sorted
     },
-    pagedResults () {
+    pagedResults (): Paper[] {
       if (this.sortedResults) {
         const start = (this.currentPage - 1) * this.pageSize
         const end = this.currentPage * this.pageSize
@@ -270,7 +274,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    rowClass (index, isLocked) {
+    rowClass (index: number, isLocked: boolean): Record<string, boolean> {
       return {
         'bg-white': index % 2 === 0 && !isLocked,
         'bg-gray-50': index % 2 !== 0 && !isLocked,
@@ -279,22 +283,17 @@ export default Vue.extend({
         'bg-purple-100': isLocked
       }
     },
-    hasID () {
-      return (
-        this.papers.length > 0 && this.papers[0][this.idColName] !== undefined
-      )
-    },
-    downloadBibFile () {
-      const ids = new Set()
+    downloadBibFile (): void {
+      const ids = new Set<PaperID>()
 
       this.papers.forEach(x => ids.add(x.id))
 
-      api.downloadBibFile(ids)
+      api.downloadBibFile(Array.from(ids))
     },
-    turnPage (pageNum) {
+    turnPage (pageNum: number): void {
       this.currentPage = pageNum
     },
-    sortBy (column) {
+    sortBy (column: string): void {
       if ((this.sortedBy = column)) {
         this.sortDescending = !this.sortDescending
       } else {

@@ -55,19 +55,13 @@
   </span>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 export default Vue.extend({
   name: 'ExternalLinks',
   props: {
-    externalIds: Array
-  },
-  calculated: {
-    sortedIds: function () {
-      return this.externalIds.sort(
-        (a, b) => Object.keys(a)[0] < Object.keys(b)[0]
-      )
-    }
+    externalIds: {} as PropType<PaperID[]>
   }
 })
 </script>

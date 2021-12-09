@@ -2,7 +2,7 @@
   <span>
     <span v-for="(author, index) in sortedAuthors" :key="index">
       <span v-if="showAll || index == 0 || index == sortedAuthors.length - 1">
-        <author
+        <AuthorComp
           :author="author"
           :ids="ids"
           :showAffiliation="showAffiliation"
@@ -23,32 +23,34 @@
   </span>
 </template>
 
-<script>
-import Vue from 'vue'
-import Author from './Author.vue'
+<script lang="ts">
+import { Author, PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
+import AuthorComp from './Author.vue'
+
 export default Vue.extend({
-  components: { Author },
+  components: { AuthorComp },
   name: 'Authors',
   props: {
     showAffiliation: { type: Boolean, default: false },
-    authors: Array,
+    authors: {} as PropType<Author[]>,
     separator: { type: String, default: ', ' },
     showAll: { type: Boolean, default: false },
-    ids: Array
+    ids: {} as PropType<PaperID[]>
   },
   computed: {
-    sortedAuthors () {
+    sortedAuthors (): Author[] {
       if (this.authors) {
         const sortAuth = [...this.authors]
         sortAuth.sort((a, b) => a.sequence - b.sequence)
         return sortAuth
       } else {
-        return null
+        return []
       }
     }
   },
   methods: {
-    useSeperator (index) {
+    useSeperator (index: number) {
       return (
         this.sortedAuthors.length > 1 && index !== this.sortedAuthors.length - 1
       )

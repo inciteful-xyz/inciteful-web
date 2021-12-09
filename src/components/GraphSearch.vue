@@ -62,11 +62,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import Vue from 'vue'
 import api from '@/utils/api'
 import bib from '@/utils/bib'
-import Autosuggest from './Autosuggest'
+import Autosuggest from './Autosuggest.vue'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'GraphSearch',
@@ -101,15 +103,17 @@ export default Vue.extend({
     this.query = this.defaultQuery
   },
   methods: {
-    searchClick () {
+    searchClick (): void {
+      // @ts-ignore
       const id = this.$refs.autosuggest.getSelectedId()
       if (id) {
         this.sendSelect([id])
       } else {
+        // @ts-ignore
         let query = this.$refs.autosuggest.query
 
         if (query) {
-          const ids = query.split(',').map(id => id.trim())
+          const ids = query.split(',').map((id: string) => id.trim())
           api.getPaperIds(ids).then(ids => {
             if (ids.length > 0) {
               this.sendSelect(ids)
@@ -123,26 +127,30 @@ export default Vue.extend({
         }
       }
     },
-    uploadBib () {
+    uploadBib (): void {
+      // @ts-ignore
       this.$refs.bibUploadInput.click()
     },
-    parseBib (event) {
+    parseBib (event: Event): void {
+      // @ts-ignore
       if (event.target.files && event.target.files.length > 0) {
         const reader = new FileReader()
         reader.addEventListener('load', event => {
+          // @ts-ignore
           const ids = bib.idsFromBib(event.target.result)
           this.sendSelect(Array.from(ids))
         })
 
+        // @ts-ignore
         reader.readAsText(event.target.files[0])
       }
     },
-    sendSelect (ids) {
+    sendSelect (ids: PaperID[]): void {
       api.getPaperIds(ids).then(ids => {
         this.$emit('selected', ids)
       })
     },
-    sendSearched (query) {
+    sendSearched (query: string): void {
       this.$emit('searched', query)
     }
   }

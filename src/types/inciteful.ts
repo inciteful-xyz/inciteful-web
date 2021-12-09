@@ -2,7 +2,7 @@
 
 import { LayoutOptions, Core } from 'cytoscape'
 
-export type PaperID = number | string;
+export type PaperID = string;
 
 export interface Paper {
   id: PaperID;
@@ -30,6 +30,15 @@ export interface Author {
   affiliation: string;
 }
 
+export interface PaperConnector{
+  source: PaperID;
+  papers: Paper[];
+  paths: Path[];
+  connections: Connection[];
+  num_paths: number;
+  papers_searched: number;
+  max_hops: number;
+}
 export interface ExternalIds {
   S2ID?: string | null;
   DOI?: string | null;
@@ -41,8 +50,8 @@ export interface Connection {
 }
 
 export interface ModalOptions {
-  paperId: PaperID;
-  author: Author;
+  paperId?: PaperID;
+  author?: Author;
   previousScreen?: {
     options: ModalOptions;
   };
@@ -52,15 +61,19 @@ export interface ModalOptions {
 
 type Path = PaperID[];
 
+export interface Faq {
+  question: string;
+  answer: string;
+}
 export interface GraphData {
   type: string;
-  papers: Paper[];
-  connections: Connection[];
-  paths: Path[];
+  papers?: Paper[];
+  connections?: Connection[];
+  paths?: Path[];
   toId?: PaperID;
   fromId?: PaperID;
   sourcePaperId?: PaperID;
-  modalOptions: ModalOptions;
+  modalOptions?: ModalOptions;
 }
 
 export class IncitefulGraph {
@@ -89,7 +102,7 @@ export class IncitefulGraph {
 
   filterNodes (ids: Set<PaperID>) {
     this.cy.nodes().forEach(node => {
-      if (ids.has(Number(node.id()))) {
+      if (ids.has(node.id())) {
         node.removeClass('disabled')
       } else {
         node.addClass('disabled')

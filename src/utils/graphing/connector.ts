@@ -81,7 +81,7 @@ function makeTippy (p: Paper, title: string) {
 
 function buildElements (graphData: GraphData, minDate: number, maxDate: number) {
   const elements: ElementDefinition[] = []
-  const papers = graphData.papers
+  const papers = graphData.papers ?? []
 
   Object.values(papers).forEach(p => {
     let author = 'NA'
@@ -98,7 +98,7 @@ function buildElements (graphData: GraphData, minDate: number, maxDate: number) 
     if (graphData.toId === p.id || graphData.fromId === p.id) {
       size = 150
     } else {
-      graphData.paths.forEach(a => {
+      (graphData.paths ?? []).forEach(a => {
         if (a.includes(p.id)) {
           for (let i = 0; i < a.length; i++) {
             elsToHighlight.add(a[i])
@@ -129,19 +129,20 @@ function buildElements (graphData: GraphData, minDate: number, maxDate: number) 
     })
   })
 
-  graphData.connections.forEach(c => {
-    elements.push({
-      data: {
-        id: `${c.citing}-${c.cited}`,
-        source: c.citing,
-        target: c.cited,
-        weight: 0.5,
-        color: 'hsla(0, 0%, 13%, .5)',
-        opacity: 0.5
-      }
+  if (graphData.connections) {
+    graphData.connections.forEach(c => {
+      elements.push({
+        data: {
+          id: `${c.citing}-${c.cited}`,
+          source: c.citing,
+          target: c.cited,
+          weight: 0.5,
+          color: 'hsla(0, 0%, 13%, .5)',
+          opacity: 0.5
+        }
+      })
     })
-  })
-
+  }
   return elements
 }
 

@@ -37,9 +37,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import axios from 'axios'
 import options from '../utils/options'
 
 export default Vue.extend({
@@ -50,22 +49,9 @@ export default Vue.extend({
     }
   },
   computed: {
-    anySet () {
+    anySet (): boolean {
       if (this.pruneLevel) return true
       else return false
-    }
-  },
-  methods: {
-    handleSubmit () {
-      axios
-        .create({
-          transformRequest: [(data, _headers) => JSON.stringify(data)]
-        })
-        .post('https://hooks.zapier.com/hooks/catch/3747051/olkz0jl/silent/', {
-          email: this.$refs.emailInput.value
-        })
-
-      this.isSubmitted = true
     }
   }
 })

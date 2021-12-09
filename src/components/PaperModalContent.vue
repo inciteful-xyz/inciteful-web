@@ -13,11 +13,12 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
 import api from '../utils/api'
-import PaperHero from './PaperHero'
-import GraphView from './GraphView'
+import PaperHero from './PaperHero.vue'
+import GraphView from './GraphView.vue'
+import { GraphData, Paper, PaperConnector, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'PaperModalContent',
@@ -27,20 +28,26 @@ export default Vue.extend({
   },
   data () {
     return {
-      paper: undefined,
-      connectingResults: undefined,
+      paper: undefined as Paper | undefined,
+      connectingResults: undefined as PaperConnector | undefined,
       loaded: false
     }
   },
   props: {
-    paperId: Number,
+    paperId: {} as PropType<PaperID>,
     connectTo: String,
     options: Object
   },
   computed: {
-    graphData () {
+    graphData (): GraphData | undefined {
+      const type = 'connector'
+
+      if (this.connectingResults === undefined) {
+        return undefined
+      }
+
       return {
-        type: 'connector',
+        type,
         papers: this.connectingResults.papers,
         connections: this.connectingResults.connections,
         paths: this.connectingResults.paths,
@@ -55,7 +62,7 @@ export default Vue.extend({
       }
     }
   },
-  mounted () {
+  mounted (): void {
     if (!this.paperId) {
       this.paper = undefined
     } else {
@@ -63,7 +70,7 @@ export default Vue.extend({
     }
     if (this.connectTo) {
       this.loaded = false
-      api.connectPapers(this.connectTo, this.paperId, true).then(results => {
+      api.connectPapers(this.connectTo, this.paperId, 5).then(results => {
         this.connectingResults = results
         this.loaded = true
       })
@@ -82,7 +89,7 @@ export default Vue.extend({
     connectTo () {
       if (this.connectTo) {
         this.loaded = false
-        api.connectPapers(this.connectTo, this.paperId, true).then(results => {
+        api.connectPapers(this.connectTo, this.paperId, 5).then(results => {
           this.connectingResults = results
           this.loaded = true
         })
@@ -92,14 +99,16 @@ export default Vue.extend({
     }
   },
   methods: {
-    goToLitConnector () {
-      this.$router.push({
-        name: 'LitConnector',
-        query: {
-          to: this.graphData.toId,
-          from: this.graphData.fromId
-        }
-      })
+    goToLitConnector (): void {
+      if (this.graphData) {
+        this.$router.push({
+          name: 'LitConnector',
+          query: {
+            to: this.graphData.toId?.toString(),
+            from: this.graphData.fromId?.toString()
+          }
+        })
+      }
     }
   }
 })

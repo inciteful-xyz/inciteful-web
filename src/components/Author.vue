@@ -9,19 +9,20 @@
   </button>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { Author } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 import bus from '../utils/bus'
 
 export default Vue.extend({
   name: 'Author',
   props: {
     showAffiliation: { type: Boolean, default: false },
-    author: Object,
+    author: {} as PropType<Author>,
     ids: Array
   },
   methods: {
-    showModal (author) {
+    showModal (author: Author) {
       const options = {
         author,
         graphIds: this.ids

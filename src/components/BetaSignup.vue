@@ -30,7 +30,7 @@
         @submit.prevent="handleSubmit"
       >
         <input
-          ref="emailInput"
+          v-model="email"
           aria-label="Email address"
           type="email"
           required
@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import axios from 'axios'
 
@@ -57,7 +57,8 @@ export default Vue.extend({
   name: 'BetaSignup',
   data () {
     return {
-      isSubmitted: false
+      isSubmitted: false,
+      email: ''
     }
   },
   methods: {
@@ -67,7 +68,7 @@ export default Vue.extend({
           transformRequest: [(data, _headers) => JSON.stringify(data)]
         })
         .post('https://hooks.zapier.com/hooks/catch/3747051/olkz0jl/silent/', {
-          email: this.$refs.emailInput.value
+          email: this.email
         })
 
       this.isSubmitted = true

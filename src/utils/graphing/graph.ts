@@ -106,7 +106,7 @@ function setupTippy (cy: Core, bus: Vue, modalOptions: ModalOptions) {
 
   cy.on('tap', function (ev) {
     hideAllTippies()
-    const id = Number(ev.target.data('id'))
+    const id = ev.target.data('id')
     if (id) {
       modalOptions.paperId = id
       bus.$emit('show_paper_modal', modalOptions)
@@ -169,7 +169,7 @@ function loadGraph (graphData: GraphData, container: HTMLElement, bus: Vue, minD
     elements,
     container,
     bus,
-    graphData.modalOptions
+    graphData.modalOptions ?? {}
   )
 
   const graph = new IncitefulGraph(cy, graphData.sourcePaperId)

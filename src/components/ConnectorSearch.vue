@@ -56,9 +56,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+
 import Vue from 'vue'
-import Autosuggest from './Autosuggest'
+import Autosuggest from './Autosuggest.vue'
 
 export default Vue.extend({
   name: 'ConnectorSearch',
@@ -83,20 +85,11 @@ export default Vue.extend({
       default: undefined
     }
   },
-  data () {
-    return {
-      results: [],
-      timeout: null,
-      selected: null,
-      suggestions: [],
-      selectIsValid: true,
-      to: undefined,
-      from: undefined
-    }
-  },
   methods: {
     searchClick () {
+      // @ts-ignore
       const toParam = this.$refs.toAutosuggest.getValue()
+      // @ts-ignore
       const fromParam = this.$refs.fromAutosuggest.getValue()
       this.$router.push({
         name: 'LitConnector',
