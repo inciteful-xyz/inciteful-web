@@ -5,10 +5,9 @@ function getPruneLevel () {
   return val || 10000
 }
 
-function setPruneLevel (val: string) {
-  const i = Number(val)
-  if (i) {
-    localStorage.setItem(pruneKey, i.toString())
+function setPruneLevel (val: number) {
+  if (val) {
+    localStorage.setItem(pruneKey, val.toString())
   } else {
     localStorage.removeItem(pruneKey)
   }

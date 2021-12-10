@@ -148,16 +148,17 @@
   </single-column>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import LitReviewBuilder from '../components/LitReviewBuilder'
-import PaperInfoModal from '../components/PaperInfoModal'
-import BetaSignup from '../components/BetaSignup'
+import LitReviewBuilder from '../components/LitReviewBuilder.vue'
+import PaperInfoModal from '../components/PaperInfoModal.vue'
+import BetaSignup from '../components/BetaSignup.vue'
 import api from '../utils/api'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import FaqComp from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
+import { Paper } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'LitConnectorPage',
@@ -172,10 +173,10 @@ export default Vue.extend({
   },
   data () {
     return {
-      toParam: undefined,
-      to: undefined,
-      from: undefined,
-      minHops: undefined,
+      toParam: null as string | null,
+      to: undefined as Paper | undefined,
+      from: undefined as Paper | undefined,
+      minHops: undefined as number | undefined,
       faqs: [
         {
           question: 'How are the links made between papers?',
@@ -201,24 +202,24 @@ export default Vue.extend({
     }
   },
   created () {
-    this.toParam = this.$route.query.to
+    this.toParam = this.$route.query.to as string | null
     api.getPaper('81268560').then(paper => (this.from = paper))
   },
   computed: {
-    twitterLink () {
+    twitterLink (): string {
       const text = `My paper is only ${this.minHops} degrees away from Einstein: ${window.location}\n\nFind out how your paper is connected using @inciteful_xyz: https://inciteful.xyz/einstein\n\n#sixdegreesofeinstein`
 
       return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
     },
-    toolUrl () {
+    toolUrl (): string {
       return '/c' + (this.to ? '?from=' + this.to.id : '')
     }
   },
   methods: {
-    setMinHops (hopNum) {
+    setMinHops (hopNum: number): void {
       this.minHops = hopNum
     },
-    handleToSelect (paper, newParam) {
+    handleToSelect (paper: Paper, newParam: boolean): void {
       if (paper) {
         this.to = paper
       }

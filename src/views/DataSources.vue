@@ -89,7 +89,7 @@
   </single-column>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 

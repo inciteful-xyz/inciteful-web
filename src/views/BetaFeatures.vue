@@ -119,7 +119,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import options from '../utils/options'
 
@@ -127,7 +127,7 @@ export default Vue.extend({
   name: 'BetaPage',
   data () {
     return {
-      pruneLevel: options.getPruneLevel(),
+      pruneLevel: options.getPruneLevel() as number,
       saved: false
     }
   },
@@ -138,7 +138,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    saveSettings () {
+    saveSettings (): void {
       options.setPruneLevel(this.pruneLevel)
       this.saved = true
       setTimeout(() => {

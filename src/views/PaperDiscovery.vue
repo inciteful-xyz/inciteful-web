@@ -100,21 +100,22 @@
     <PaperPageTour :ready="pageReady" />
   </single-column>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import PaperHero from '../components/PaperHero'
-import GraphFilters from '../components/GraphFilters'
-import LitReviewBuilder from '../components/LitReviewBuilder'
-import PaperInfoModal from '../components/PaperInfoModal'
-import BetaSignup from '../components/BetaSignup'
-import BetaFeatures from '../components/BetaFeatures'
-import DashboardRenderer from '../components/DashboardRenderer'
-import PaperPageTour from '../components/PaperPageTour'
+import PaperHero from '../components/PaperHero.vue'
+import GraphFilters from '../components/GraphFilters.vue'
+import LitReviewBuilder from '../components/LitReviewBuilder.vue'
+import PaperInfoModal from '../components/PaperInfoModal.vue'
+import BetaSignup from '../components/BetaSignup.vue'
+import BetaFeatures from '../components/BetaFeatures.vue'
+import DashboardRenderer from '../components/DashboardRenderer.vue'
+import PaperPageTour from '../components/PaperPageTour.vue'
 import api from '../utils/api'
 import bus from '../utils/bus'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
+import { Paper, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'PaperDiscovery',
@@ -132,19 +133,25 @@ export default Vue.extend({
   data () {
     return {
       template,
-      id: undefined,
-      paper: undefined,
+      id: undefined as PaperID | undefined,
+      paper: undefined as Paper | undefined,
       pageReady: false
     }
   },
   computed: {
-    ids () {
-      return [this.id]
+    ids (): PaperID[] {
+      if (this.id !== undefined) {
+        return [this.id]
+      }
+      return []
     }
   },
   created () {
     this.id = this.$route.params.pathMatch
-    this.setData()
+
+    if (this.id !== undefined) {
+      this.setData(this.id)
+    }
   },
   mounted () {
     bus.$on('graph_loaded', () => {
@@ -167,7 +174,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    setData (id) {
+    setData (id: PaperID): void {
       if (id) {
         api.getPaper(id).then(data => {
           this.paper = data

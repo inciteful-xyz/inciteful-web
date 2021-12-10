@@ -20,19 +20,20 @@
     <paper-discovery-empty v-else />
   </div>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import GraphFilters from '../components/GraphFilters'
-import LitReviewBuilder from '../components/LitReviewBuilder'
-import LitReviewHero from '../components/LitReviewHero'
+import GraphFilters from '../components/GraphFilters.vue'
+import LitReviewBuilder from '../components/LitReviewBuilder.vue'
+import LitReviewHero from '../components/LitReviewHero.vue'
 
-import PaperInfoModal from '../components/PaperInfoModal'
-import BetaSignup from '../components/BetaSignup'
-import BetaFeatures from '../components/BetaFeatures'
-import DashboardRenderer from '../components/DashboardRenderer'
+import PaperInfoModal from '../components/PaperInfoModal.vue'
+import BetaSignup from '../components/BetaSignup.vue'
+import BetaFeatures from '../components/BetaFeatures.vue'
+import DashboardRenderer from '../components/DashboardRenderer.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'LitReview',
@@ -50,15 +51,19 @@ export default Vue.extend({
   data () {
     return {
       template,
-      ids: undefined
+      ids: undefined as undefined | PaperID[]
     }
   },
   created () {
-    this.ids = this.$route.query.ids
+    if (this.$route.query.ids !== undefined) {
+      this.ids = this.$route.query.ids as PaperID[]
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },
   methods: {
-    idsChanged (val) {
+    idsChanged (val: PaperID[]): void {
       this.ids = val
     }
   }

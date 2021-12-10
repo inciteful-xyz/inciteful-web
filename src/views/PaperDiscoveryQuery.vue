@@ -9,13 +9,14 @@
     <QueryPanel :sql="$route.query.sql" :ids="ids" />
   </single-column>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import PaperHero from '../components/PaperHero'
-import BetaFeatures from '../components/BetaFeatures'
-import QueryPanel from '../components/QueryPanel'
+import PaperHero from '../components/PaperHero.vue'
+import BetaFeatures from '../components/BetaFeatures.vue'
+import QueryPanel from '../components/QueryPanel.vue'
 import api from '../utils/api'
 import SingleColumn from '../components/layout/SingleColumn.vue'
+import { Paper, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'PaperDiscoveryQuery',
@@ -27,14 +28,14 @@ export default Vue.extend({
   },
   data () {
     return {
-      paper: undefined
+      paper: undefined as Paper | undefined
     }
   },
   computed: {
-    id () {
+    id (): PaperID {
       return this.$route.params.pathMatch
     },
-    ids () {
+    ids (): PaperID[] {
       return [this.id]
     }
   },
@@ -47,7 +48,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    setData (id) {
+    setData (id: PaperID): void {
       if (id) {
         api.getPaper(id).then(data => {
           this.paper = data

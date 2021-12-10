@@ -311,13 +311,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 // @ is an alias to /src
 import BetaSignup from '@/components/BetaSignup.vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import ConnectorSearch from '@/components/ConnectorSearch.vue'
 import navigation from '../navigation'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'Home',
@@ -327,14 +328,14 @@ export default Vue.extend({
     ConnectorSearch
   },
   methods: {
-    addLitReviewPapers (ids) {
+    addLitReviewPapers (ids: PaperID[]) {
       if (ids.length === 1) {
         this.$router.push({ path: navigation.getPaperUrl(ids[0]) })
       } else {
         this.$router.push({ name: 'LitReview', query: { ids } })
       }
     },
-    goToSearch (query) {
+    goToSearch (query: string) {
       this.$router.push({ name: 'Search', query: { q: query } })
     }
   }

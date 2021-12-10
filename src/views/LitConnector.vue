@@ -133,17 +133,18 @@
     <lit-connector-tour :ready="pageReady" />
   </single-column>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import LitReviewBuilder from '../components/LitReviewBuilder'
-import BetaSignup from '../components/BetaSignup'
+import LitReviewBuilder from '../components/LitReviewBuilder.vue'
+import BetaSignup from '../components/BetaSignup.vue'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
-import PaperInfoModal from '../components/PaperInfoModal'
+import PaperInfoModal from '../components/PaperInfoModal.vue'
 import Faq from '../components/Faq.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
 import bus from '../utils/bus'
 import SingleColumn from '../components/layout/SingleColumn.vue'
+import { Paper } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'LitConnectorPage',
@@ -160,10 +161,10 @@ export default Vue.extend({
   data () {
     return {
       pageReady: false,
-      toParam: undefined,
-      to: undefined,
-      fromParam: undefined,
-      from: undefined,
+      toParam: null as string | null,
+      to: undefined as Paper | undefined,
+      fromParam: null as string | null,
+      from: undefined as Paper | undefined,
       faqs: [
         {
           question: 'How are the links made between papers?',
@@ -203,21 +204,21 @@ export default Vue.extend({
     }
   },
   computed: {
-    isValid () {
-      return this.to && this.from
+    isValid (): boolean {
+      return this.to !== undefined && this.from !== undefined
     }
   },
   methods: {
-    handleFromSelect (paper, newParam) {
-      if (paper) {
+    handleFromSelect (paper: Paper | undefined) {
+      if (paper !== undefined) {
         this.from = paper
         if (paper && this.fromParam !== paper.id) {
           this.$router.push({ query: { ...this.$route.query, from: paper.id } })
         }
       }
     },
-    handleToSelect (paper, newParam) {
-      if (paper) {
+    handleToSelect (paper: Paper | undefined) {
+      if (paper !== undefined) {
         this.to = paper
         if (this.toParam !== paper.id) {
           this.$router.push({

@@ -8,11 +8,11 @@
     <QueryPanel :sql="$route.query.sql" :ids="this.$route.query.ids" />
   </single-column>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import LitReviewHero from '../components/LitReviewHero'
-import BetaFeatures from '../components/BetaFeatures'
-import QueryPanel from '../components/QueryPanel'
+import LitReviewHero from '../components/LitReviewHero.vue'
+import BetaFeatures from '../components/BetaFeatures.vue'
+import QueryPanel from '../components/QueryPanel.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 
 export default Vue.extend({
@@ -22,11 +22,6 @@ export default Vue.extend({
     QueryPanel,
     BetaFeatures,
     SingleColumn
-  },
-  data () {
-    return {
-      paper: undefined
-    }
   }
 })
 </script>

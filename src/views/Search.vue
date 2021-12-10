@@ -32,13 +32,14 @@
     </div>
   </single-column>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import LitReviewButton from '../components/LitReviewButton'
-import LitReviewBuilder from '../components/LitReviewBuilder'
+import LitReviewButton from '../components/LitReviewButton.vue'
+import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import SearchResults from '../components/SearchResults.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import navigation from '../navigation'
+import { Paper } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'SearchPage',
@@ -50,14 +51,14 @@ export default Vue.extend({
   },
   data () {
     return {
-      query: undefined,
-      errorMsg: undefined,
+      query: undefined as string | undefined,
+      errorMsg: undefined as string | undefined,
       emptyMessage:
         'Your search returned no results, please try a different query.'
     }
   },
   created () {
-    const q = this.$route.query.q
+    const q = this.$route.query.q as string | null
 
     if (!q) {
       this.errorMsg = 'Please enter a search term.'
@@ -73,7 +74,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    handleSelect (paper) {
+    handleSelect (paper: Paper): void {
       this.$router.push({
         path: navigation.getPaperUrl(paper.id)
       })
