@@ -214,18 +214,8 @@ export default Vue.extend({
   props: {
     graphData: {} as PropType<GraphData | undefined>,
     errorMsg: String,
-    filteredIds: {
-      type: Set,
-      default () {
-        return new Set<PaperID>()
-      }
-    },
-    highlightedIds: {
-      type: Array,
-      default () {
-        return [] as PaperID[]
-      }
-    }
+    filteredIds: {} as PropType<Set<PaperID>>,
+    highlightedIds: {} as PropType<Set<PaperID>>
   },
   data () {
     return {

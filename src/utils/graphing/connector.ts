@@ -160,7 +160,7 @@ function contextMenu (bus: Vue) {
         selector: 'node',
         onClickFunction: function (event: EventObject) {
           const target = event.target
-          const id = Number(target.data('id'))
+          const id = target.data('id')
           bus.$emit('set_as_from', id)
         },
         disabled: false
@@ -171,7 +171,7 @@ function contextMenu (bus: Vue) {
         selector: 'node',
         onClickFunction: function (event: EventObject) {
           const target = event.target
-          const id = Number(target.data('id'))
+          const id = target.data('id')
           bus.$emit('set_as_to', id)
         },
         disabled: false
@@ -183,7 +183,7 @@ function contextMenu (bus: Vue) {
         // tooltipText: 'Lock the graph to paths including paper',
         onClickFunction: function (event: EventObject) {
           const target = event.target
-          const id = Number(target.data('id'))
+          const id = target.data('id')
           bus.$emit('lock_paper', id)
         },
         disabled: false
@@ -195,7 +195,7 @@ function contextMenu (bus: Vue) {
         // tooltipText: 'Lock the graph to paths including paper',
         onClickFunction: function (event: EventObject) {
           const target = event.target
-          const id = Number(target.data('id'))
+          const id = target.data('id')
           bus.$emit('add_to_lit_review', id)
         },
         disabled: false
@@ -207,7 +207,7 @@ function contextMenu (bus: Vue) {
         // tooltipText: 'Create a graph around this paper',
         onClickFunction: function (event: EventObject) {
           const target = event.target
-          const id = Number(target.data('id'))
+          const id = target.data('id')
           bus.$emit('go_to_paper', id)
         },
         disabled: false

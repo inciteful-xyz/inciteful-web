@@ -43,7 +43,7 @@
           </div>
           <div class="ml-3">
             <p class="text-sm leading-5 text-yellow-700">
-              Constructing and analyzing a graph takes time, if it's not cached,
+              Constructing and analyzing a graph takes time. If it's not cached
               it may take up to a minute for the graph to load. Please be
               patient.
             </p>

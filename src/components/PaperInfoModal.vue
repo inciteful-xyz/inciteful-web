@@ -200,12 +200,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import bus from '../utils/bus'
 import navigation from '../navigation'
 import PaperModalContent from './PaperModalContent.vue'
 import AuthorModalContent from './AuthorModalContent.vue'
+import { ModalOptions } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'PaperInfoModal',
@@ -215,14 +216,14 @@ export default Vue.extend({
   },
   data () {
     return {
-      options: undefined,
+      options: undefined as ModalOptions | undefined,
       bus
     }
   },
   mounted () {
-    bus.$on('show_paper_modal', options => {
+    bus.$on('show_paper_modal', (options: ModalOptions) => {
       if (options) {
-        if (this.options) {
+        if (this.options !== undefined) {
           options.previousScreen = this.options
         }
 
@@ -231,28 +232,28 @@ export default Vue.extend({
     })
   },
   computed: {
-    hasPaper () {
+    hasPaper (): boolean {
       return !!(this.options && this.options.paperId)
     },
-    hasAuthor () {
+    hasAuthor (): boolean {
       return !!(this.options && this.options.author && this.options.graphIds)
     },
-    validState () {
+    validState (): boolean {
       return this.hasPaper || this.hasAuthor
     },
-    paperUrl () {
-      return navigation.getPaperUrl(this.options.paperId)
+    paperUrl (): string {
+      return navigation.getPaperUrl(this.options!.paperId!)
     }
   },
   methods: {
-    addToLitReview () {
-      bus.$emit('add_to_lit_review', this.options.paperId)
+    addToLitReview (): void {
+      bus.$emit('add_to_lit_review', this.options!.paperId!)
       this.backButton()
     },
-    clearPaper () {
+    clearPaper (): void {
       this.options = undefined
     },
-    backButton () {
+    backButton (): void {
       if (this.options && this.options.previousScreen) {
         this.options = this.options.previousScreen
       } else {

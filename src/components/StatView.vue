@@ -5,14 +5,13 @@
   >
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
 import numeral from 'numeral'
 export default Vue.extend({
   name: 'StatView',
   props: {
-    results: Array,
-    errorMsg: undefined,
+    results: {} as PropType<{ value: any }[]>,
     loading: {
       type: Boolean,
       default () {
@@ -21,12 +20,12 @@ export default Vue.extend({
     }
   },
   methods: {
-    getValue () {
+    getValue (): any {
       if (this.results && this.results.length > 0) {
         return this.format(this.results[0].value)
       }
     },
-    format (val) {
+    format (val: any): string {
       const parseVal = +val
       return !isNaN(parseVal) ? numeral(val).format('0,0.[000000]') : val
     }

@@ -138,7 +138,7 @@ export interface TermCount {
   count: number;
 }
 
-function extract (papers: Paper[]) {
+function extract (papers: Paper[]): TermCount[] {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keywords: Record<string, number> = {}
   papers.forEach(p => {

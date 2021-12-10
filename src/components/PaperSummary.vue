@@ -20,19 +20,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import Authors from './Authors.vue'
 import bus from '../utils/bus'
+import { PropType } from 'vue/types/umd'
+import { Paper, PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   components: { Authors },
   name: 'PaperCard',
   props: {
-    paper: Object
+    paper: {} as PropType<Paper>
   },
   computed: {
-    ids () {
+    ids (): PaperID[] {
       return [this.paper.id]
     }
   },

@@ -2,9 +2,9 @@
   <Tour :name="name" :steps="steps" :ready="ready" />
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import Tour from './Tour'
+import Tour from './Tour.vue'
 
 export default Vue.extend({
   name: 'LitConnectorTour',

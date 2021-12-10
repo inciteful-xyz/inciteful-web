@@ -54,9 +54,7 @@ export default Vue.extend({
         toId: this.paperId,
         fromId: this.connectTo,
         modalOptions: {
-          previousScreen: {
-            options: this.options
-          },
+          previousScreen: this.options,
           connectTo: this.connectTo
         }
       }
@@ -70,7 +68,7 @@ export default Vue.extend({
     }
     if (this.connectTo) {
       this.loaded = false
-      api.connectPapers(this.connectTo, this.paperId, 5).then(results => {
+      api.connectPapers(this.connectTo, this.paperId, true).then(results => {
         this.connectingResults = results
         this.loaded = true
       })
@@ -89,7 +87,7 @@ export default Vue.extend({
     connectTo () {
       if (this.connectTo) {
         this.loaded = false
-        api.connectPapers(this.connectTo, this.paperId, 5).then(results => {
+        api.connectPapers(this.connectTo, this.paperId, true).then(results => {
           this.connectingResults = results
           this.loaded = true
         })

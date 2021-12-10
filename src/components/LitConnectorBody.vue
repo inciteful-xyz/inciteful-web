@@ -287,19 +287,27 @@
     </div>
   </div>
 </template>
-<script>
-import Vue from 'vue'
-import GraphView from './GraphView'
-import Loader from './Loader'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
+import GraphView from './GraphView.vue'
+import Loader from './Loader.vue'
 import api from '../utils/api'
 import Stat from './Stat.vue'
-import ConnectorTable from './ConnectorTable'
-import keywordFuncs from '../utils/keywords'
+import ConnectorTable from './ConnectorTable.vue'
+import keywordFuncs, { TermCount } from '../utils/keywords'
 import { stemmer } from 'stemmer'
 import bus from '../utils/bus'
 import navigation from '../navigation'
 
 import FlexSearch from 'flexsearch'
+import {
+  Paper,
+  PaperID,
+  GraphData,
+  PaperConnector,
+  Path,
+  Connection
+} from '../types/inciteful'
 
 export default Vue.extend({
   name: 'LitConnectorBody',
@@ -310,73 +318,79 @@ export default Vue.extend({
     Stat
   },
   props: {
-    to: Object,
-    from: Object,
-    reccomendExtendedGraphs: { type: Boolean, default: true }
+    to: {} as PropType<Paper | undefined>,
+    from: {} as PropType<Paper | undefined>,
+    reccomendExtendedGraphs: {} as PropType<boolean>
   },
   data () {
     return {
-      error: undefined,
-      results: undefined,
-      lockedPaperIds: [],
-      textKeywords: undefined,
-      hoverKeywords: undefined,
-      minYear: undefined,
-      maxYear: undefined,
-      highlightedIds: []
+      error: undefined as string | undefined,
+      results: undefined as PaperConnector | undefined,
+      lockedPaperIds: [] as PaperID[],
+      textKeywords: undefined as string | undefined,
+      hoverKeywords: undefined as string | undefined,
+      minYear: undefined as number | undefined,
+      maxYear: undefined as number | undefined,
+      highlightedIds: new Set<PaperID>()
     }
   },
   mounted () {
-    bus.$on('go_to_paper', id => {
+    bus.$on('go_to_paper', (id: PaperID) => {
       this.$router.push({ path: navigation.getPaperUrl(id) })
     })
-    bus.$on('set_as_to', id => {
-      if (this.to.id !== id && this.from.id) {
+    bus.$on('set_as_to', (id: PaperID) => {
+      if (this.to?.id !== id && this.from?.id) {
         this.$router.push({ query: { to: id } })
       }
     })
-    bus.$on('set_as_from', id => {
-      if (this.from.id !== id && this.to.id) {
+    bus.$on('set_as_from', (id: PaperID) => {
+      if (this.from?.id !== id && this.to?.id) {
         this.$router.push({ query: { from: id } })
       }
     })
-    bus.$on('lock_paper', id => {
+    bus.$on('lock_paper', (id: PaperID) => {
       if (id) {
         this.registerLockPaper(id)
       }
     })
   },
   computed: {
-    extendedGraph () {
+    extendedGraph (): boolean {
       return this.$route.query.extendedGraph === 'true'
     },
-    effectiveKeyword () {
+    effectiveKeyword (): string | undefined {
       return this.hoverKeywords ? this.hoverKeywords : this.textKeywords
     },
-    graphData () {
+    graphData (): GraphData {
       return {
         type: 'connector',
         papers: this.lockedPapers,
         connections: this.lockedConnections,
         paths: this.lockedPaths,
-        toId: this.to.id,
-        fromId: this.from.id,
-        modalOptions: { connectTo: this.sourcePaperId }
+        toId: this.to ? this.to.id : undefined,
+        fromId: this.from ? this.from.id : undefined,
+        modalOptions: { connectTo: this.from ? this.from.id : undefined }
       }
     },
-    loaded () {
-      return this.to && this.from && this.results
-    },
-    validState () {
-      return this.from && this.to
-    },
-    foundPath () {
+    loaded (): boolean {
       return (
-        this.results && this.results.num_paths && this.results.num_paths > 0
+        this.to !== undefined &&
+        this.from !== undefined &&
+        this.results !== undefined
       )
     },
-    minHops () {
-      if (this.loaded) {
+    validState (): boolean {
+      return this.from !== undefined && this.to !== undefined
+    },
+    foundPath (): boolean {
+      return (
+        this.results !== undefined &&
+        this.results.num_paths !== undefined &&
+        this.results.num_paths > 0
+      )
+    },
+    minHops (): number | undefined {
+      if (this.loaded && this.results !== undefined) {
         const hops = Math.min(...this.results.paths.map(p => p.length)) - 1
         this.$emit('minHopsCalculated', hops)
         return hops
@@ -384,15 +398,17 @@ export default Vue.extend({
 
       return undefined
     },
-    maxHops () {
-      if (this.loaded) {
+    maxHops (): number | undefined {
+      if (this.loaded && this.results !== undefined) {
         const hops = Math.max(...this.results.paths.map(p => p.length)) - 1
         return hops
       }
 
       return undefined
     },
-    lockedPapers () {
+    lockedPapers (): Paper[] {
+      if (this.results === undefined) return []
+
       if (this.lockedPaperIds.length === 0) return this.results.papers
 
       const paperIds = new Set()
@@ -402,22 +418,25 @@ export default Vue.extend({
       const lockedPapers = this.results.papers.filter(p => paperIds.has(p.id))
 
       lockedPapers.forEach(
-        p => (p.isLocked = this.lockedPaperIds.includes(p.id))
+        p => ((p as any).isLocked = this.lockedPaperIds.includes(p.id))
       )
 
       return lockedPapers
     },
-    lockedPaths () {
+    lockedPaths (): Path[] {
+      if (this.results === undefined) return []
+
       if (this.lockedPaperIds.length === 0) return this.results.paths
 
       return this.results.paths.filter(p =>
         this.lockedPaperIds.every(el => p.includes(el))
       )
     },
-    lockedConnections () {
+    lockedConnections (): Connection[] {
+      if (this.results === undefined) return []
       if (this.lockedPaperIds.length === 0) return this.results.connections
 
-      const connections = new Set()
+      const connections = new Set<string>()
 
       this.lockedPaths.forEach(p => {
         for (let i = 1; i < p.length; i++) {
@@ -427,16 +446,16 @@ export default Vue.extend({
 
       return [...connections].map(c => JSON.parse(c))
     },
-    connectingPapers () {
-      if (this.loaded) {
+    connectingPapers (): Paper[] | undefined {
+      if (this.loaded && this.to !== undefined && this.from !== undefined) {
         return this.lockedPapers.filter(
-          p => p.id !== this.to.id && p.id !== this.from.id
+          p => p.id !== this.to!.id && p.id !== this.from!.id
         )
       }
 
       return undefined
     },
-    searchIndex () {
+    searchIndex (): FlexSearch.Index {
       const index = new FlexSearch.Index({
         encode: sentence => {
           const wordsArr = sentence.split(' ').map(word => {
@@ -449,36 +468,43 @@ export default Vue.extend({
         },
         tokenize: 'reverse'
       })
+      if (this.connectingPapers) {
+        this.connectingPapers.forEach(paper => {
+          let authors = ''
+          if (paper.author !== undefined) {
+            authors = paper.author
+              .map(author => {
+                return author.name
+              })
+              .join(' ')
+          }
 
-      this.connectingPapers.forEach(paper => {
-        const authors = paper.author
-          .map(author => {
-            return author.name
-          })
-          .join(' ')
+          index.add(paper.id, paper.title + ' ' + authors)
+        })
+      }
 
-        index.add(paper.id, paper.title + ' ' + authors)
-      })
-
-      window.si = index
       return index
     },
-    filteredPapers () {
+    filteredPapers (): Paper[] | undefined {
       const minYear = Number(this.minYear)
       const maxYear = Number(this.maxYear)
 
-      let papers
+      let papers: Paper[] = []
 
-      if (this.effectiveKeyword) {
-        const resultIds = new Set()
+      if (this.connectingPapers !== undefined) {
+        if (this.effectiveKeyword) {
+          const resultIds = new Set()
 
-        this.searchIndex
-          .search(this.effectiveKeyword)
-          .forEach(id => resultIds.add(id))
+          this.searchIndex
+            .search(this.effectiveKeyword)
+            .forEach(id => resultIds.add(id))
 
-        papers = this.connectingPapers.filter(paper => resultIds.has(paper.id))
-      } else {
-        papers = [...this.connectingPapers]
+          papers = this.connectingPapers.filter(paper =>
+            resultIds.has(paper.id)
+          )
+        } else {
+          papers = [...this.connectingPapers]
+        }
       }
 
       if (minYear) {
@@ -490,50 +516,53 @@ export default Vue.extend({
 
       return papers
     },
-    filteredIds () {
-      const ids = new Set()
+    filteredIds (): Set<PaperID> {
+      const ids = new Set<PaperID>()
 
-      this.filteredPapers.forEach(paper => ids.add(paper.id))
-      ids.add(this.to.id)
-      ids.add(this.from.id)
+      if (this.filteredPapers !== undefined) {
+        this.filteredPapers.forEach(paper => ids.add(paper.id))
+      }
+
+      if (this.to !== undefined) ids.add(this.to.id)
+      if (this.from !== undefined) ids.add(this.from.id)
 
       return ids
     },
-    sortedPapers () {
+    sortedPapers (): Paper[] | undefined {
       if (this.filteredPapers) {
         const sortPapers = [...this.filteredPapers]
         sortPapers.sort((a, b) => b.num_cited_by - a.num_cited_by)
-        sortPapers.sort((a, b) => a.distance - b.distance)
-        sortPapers.sort((a, b) => b.path_count - a.path_count)
+        sortPapers.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0))
+        sortPapers.sort((a, b) => (b.path_count ?? 0) - (a.path_count ?? 0))
         return sortPapers
       }
       return undefined
     },
-    titleKeywords () {
-      return keywordFuncs.extract(this.connectingPapers)
+    titleKeywords (): TermCount[] {
+      return keywordFuncs.extract(this.connectingPapers ?? [])
     },
-    showExtendedGraphsReccomendation () {
+    showExtendedGraphsReccomendation (): boolean {
       return (
-        this.reccomendExtendedGraphs &&
-        this.results &&
-        this.results.paths &&
+        (this.reccomendExtendedGraphs ?? false) &&
+        this.results !== undefined &&
+        this.results.paths !== undefined &&
         this.results.paths.length < 5
       )
     }
   },
   watch: {
-    validState (newVal) {
+    validState (newVal): void {
       if (newVal) {
         this.loadGraph()
       }
     },
-    to () {
+    to (): void {
       this.resetFilters()
     },
-    from () {
+    from (): void {
       this.resetFilters()
     },
-    extendedGraph (newVal, oldVal) {
+    extendedGraph (newVal, oldVal): void {
       if (newVal !== oldVal) {
         this.resetFilters()
         this.loadGraph()
@@ -541,30 +570,29 @@ export default Vue.extend({
     }
   },
   methods: {
-    loadGraph () {
+    loadGraph (): void {
       if (this.validState) {
+        this.results = undefined
         api
-          .connectPapers(this.from.id, this.to.id, this.extendedGraph)
+          .connectPapers(this.from!.id, this.to!.id, this.extendedGraph)
           .then(data => {
             this.results = data
             bus.$emit('graph_loaded')
           })
       }
     },
-    registerMouseoverRow (id) {
-      if (!this.highlightedIds.find(id1 => id1 === id)) {
-        this.highlightedIds.push(id)
-      }
+    registerMouseoverRow (id: PaperID): void {
+      this.highlightedIds = new Set(this.highlightedIds.add(id))
     },
-    registerMouseleaveRow (id) {
-      if (this.highlightedIds.find(id1 => id1 === id)) {
-        this.highlightedIds = this.highlightedIds.filter(id1 => id !== id1)
-      }
+    registerMouseleaveRow (id: PaperID): void {
+      this.highlightedIds.delete(id)
+
+      this.highlightedIds = new Set(this.highlightedIds)
     },
-    registerLockPaper (id) {
+    registerLockPaper (id: PaperID): void {
       if (this.lockedPaperIds.find(id1 => id1 === id)) {
         this.lockedPapers.forEach(p => {
-          if (p.id === id) p.isLocked = false
+          if (p.id === id) (p as any).isLocked = false
         })
 
         this.lockedPaperIds = this.lockedPaperIds.filter(id1 => id !== id1)
@@ -572,20 +600,21 @@ export default Vue.extend({
         this.lockedPaperIds.push(id)
       }
     },
-    keywordClick (keyword) {
+    keywordClick (keyword: string): void {
       this.textKeywords = keyword === this.textKeywords ? '' : keyword
     },
-    resetFilters () {
+    resetFilters (): void {
       this.textKeywords = ''
-      this.minYear = ''
-      this.maxYear = ''
+      this.minYear = undefined
+      this.maxYear = undefined
+
       this.lockedPaperIds = []
     },
-    toggleExtendedGraphs () {
+    toggleExtendedGraphs (): void {
       this.$router.push({
         query: {
           ...this.$route.query,
-          extendedGraph: this.extendedGraph ? undefined : true
+          extendedGraph: (!(this.extendedGraph === true)).toString()
         }
       })
     }

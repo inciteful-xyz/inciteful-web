@@ -115,7 +115,9 @@ export default Vue.extend({
 
     if (this.defaultPaperId) {
       api.getPaper(this.defaultPaperId).then(data => {
-        this.query = this.getPaperValue(data)
+        if (data !== undefined) {
+          this.query = this.getPaperValue(data)
+        }
       })
     }
   },

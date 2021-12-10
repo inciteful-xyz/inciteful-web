@@ -75,6 +75,15 @@ function convertToIncitefulPaper (ssPaper: SSPaper): Paper {
   }
 }
 
+function fixPaperID (p: Paper): Paper {
+  p.id = p.id.toString()
+  return p
+}
+
+function fixPaperIDs (p: Paper[]): Paper[] {
+  return p.map(p => fixPaperID(p))
+}
+
 function searchSemanticScholar (query: string) {
   return axios
     .get(
@@ -84,10 +93,7 @@ function searchSemanticScholar (query: string) {
     )
     .then(res => {
       if (res.data && res.data.data) {
-        res.data.data.forEach((p: SSPaper) => {
-          convertToIncitefulPaper(p)
-        })
-        return res.data.data
+        return res.data.data.map((p: SSPaper) => convertToIncitefulPaper(p)).filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
       } else {
         return []
       }
@@ -135,25 +141,36 @@ function queryGraph (ids: Array<PaperID>, sql: string): Promise<any[][]> {
   }
 }
 
-function connectPapers (from: PaperID, to: PaperID, extendedGraphs: number | undefined): Promise<PaperConnector> {
+function connectPapers (from: PaperID, to: PaperID, extendedGraphs: boolean): Promise<PaperConnector | undefined> {
   return axios
     .get(
       `${API_URL}/connector?from=${encodeURIComponent(
         from
       )}&to=${encodeURIComponent(to)}&extend=${extendedGraphs ? 5 : 0}`
     )
-    .then(response => response.data)
+    .then(response => {
+      const data = response.data as PaperConnector
+      data.papers = fixPaperIDs(data.papers)
+      data.paths = data.paths.map(p => p.map(id => id.toString()))
+      data.connections.forEach(p => {
+        p.cited = p.cited.toString()
+        p.citing = p.citing.toString()
+      })
+      return data
+    })
     .catch(err => {
       handleIncitefulErr(err)
+      return undefined
     })
 }
 
-function getPaper (id: PaperID): Promise<Paper> {
+function getPaper (id: PaperID): Promise<Paper | undefined> {
   return axios
     .get(`${API_URL}/paper/${id}`)
-    .then(response => response.data)
+    .then(response => fixPaperID(response.data))
     .catch(err => {
       handleIncitefulErr(err)
+      return undefined
     })
 }
 
@@ -162,9 +179,10 @@ function getPapers (ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
 
   return axios
     .get(`${API_URL}/paper?${idParams}&condensed=${!!condensed}`)
-    .then(response => response.data)
+    .then(response => fixPaperIDs(response.data as Paper[]))
     .catch(err => {
       handleIncitefulErr(err)
+      return []
     })
 }
 
@@ -180,7 +198,7 @@ function searchPapers (query: string): Promise<Paper[]> {
         params,
         timeout: 1000
       })
-      .then(response => response.data)
+      .then(response => fixPaperIDs(response.data))
       .catch(() => {
         return []
       })
@@ -201,9 +219,10 @@ function getCitations (ids: Array<string>): Promise<PaperID[]> {
 
   return axios
     .get(`${API_URL}/graph/citations?${idParams}`)
-    .then(response => response.data)
+    .then(response => response.data.map((p: PaperID) => p.toString()))
     .catch(err => {
       handleIncitefulErr(err)
+      return []
     })
 }
 

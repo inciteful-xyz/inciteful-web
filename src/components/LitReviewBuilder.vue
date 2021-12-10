@@ -35,7 +35,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { PaperID } from '@/types/inciteful'
 import Vue from 'vue'
 import bus from '../utils/bus'
 
@@ -44,11 +45,11 @@ export default Vue.extend({
   data () {
     return {
       doBounce: false,
-      ids: new Set()
+      ids: new Set<PaperID>()
     }
   },
   mounted () {
-    bus.$on('add_to_lit_review', id => {
+    bus.$on('add_to_lit_review', (id: PaperID) => {
       if (!this.ids.has(id)) {
         this.ids.add(id)
         this.doBounce = true
@@ -62,16 +63,22 @@ export default Vue.extend({
   methods: {
     toLitReview () {
       if (this.$route.query.ids) {
-        this.$route.query.ids.forEach(id => this.ids.add(id))
+        if (Array.isArray(this.$route.query.ids)) {
+          this.$route.query.ids.forEach(id => {
+            if (id) this.ids.add(id)
+          })
+        } else {
+          this.ids.add(this.$route.query.ids)
+        }
       }
       if (this.$route.name === 'PaperDiscovery') {
         this.ids.add(this.$route.params.pathMatch)
       }
-      if (this.$route.query.from && Number.parseInt(this.$route.query.from)) {
-        this.ids.add(this.$route.query.from)
+      if (this.$route.query.from !== undefined && this.$route.query.from) {
+        this.ids.add(this.$route.query.from as string)
       }
-      if (this.$route.query.to && Number.parseInt(this.$route.query.to)) {
-        this.ids.add(this.$route.query.to)
+      if (this.$route.query.to !== undefined && this.$route.query.to) {
+        this.ids.add(this.$route.query.to as string)
       }
 
       this.$router.push({

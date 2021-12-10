@@ -234,16 +234,17 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
 import Author from './Authors.vue'
 import numeral from 'numeral'
 import api from '../utils/api'
 import bus from '../utils/bus'
 import Paginate from 'vuejs-paginate'
-import Loader from './Loader'
-import LitReviewButton from './LitReviewButton'
+import Loader from './Loader.vue'
+import LitReviewButton from './LitReviewButton.vue'
 import navigation from '../navigation'
+import { PaperID } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'TableView',
@@ -254,17 +255,17 @@ export default Vue.extend({
     LitReviewButton
   },
   props: {
-    results: Array,
-    errorMsg: undefined,
-    sql: undefined,
+    results: {} as PropType<any[]>,
+    errorMsg: {} as PropType<string | undefined>,
+    sql: {} as PropType<string | undefined>,
     loading: {
       type: Boolean,
       default () {
         return true
       }
     },
-    ids: Array,
-    filters: Object,
+    ids: {} as PropType<PaperID[]>,
+    filters: {} as PropType<Record<string, string>>,
     emptyMessage: String,
     pageSize: {
       type: Number,
@@ -275,44 +276,52 @@ export default Vue.extend({
     return {
       bus,
       currentPage: 1,
-      sortedBy: undefined,
-      sortDescending: undefined
+      sortedBy: undefined as string | undefined,
+      sortDescending: undefined as boolean | undefined
     }
   },
   watch: {
-    results: function (newVal, oldVal) {
+    results: function () {
       this.currentPage = 1
     }
   },
   computed: {
-    columns () {
+    columns (): string[] | undefined {
       if (this.results) {
         return this.getColumnNames(this.results)
       }
 
       return undefined
     },
-    numPages () {
+    numPages (): number {
       if (this.results) {
         return Math.ceil(this.results.length / this.pageSize)
       } else {
         return 0
       }
     },
-    sortedResults () {
-      if (this.sortedBy && this.results && this.results.length > 0) {
+    sortedResults (): any[] | undefined {
+      if (
+        this.sortedBy !== undefined &&
+        this.results &&
+        this.results.length > 0
+      ) {
         const sorted = [...this.results].sort((a, b) => {
-          if (this.sortDescending) {
-            return b[this.sortedBy] - a[this.sortedBy]
+          if (this.sortedBy !== undefined) {
+            if (this.sortDescending) {
+              return b[this.sortedBy] - a[this.sortedBy]
+            } else {
+              return a[this.sortedBy] - b[this.sortedBy]
+            }
           } else {
-            return a[this.sortedBy] - b[this.sortedBy]
+            return 0
           }
         })
         return sorted
       }
       return this.results
     },
-    pagedResults () {
+    pagedResults (): any[] | undefined {
       if (this.sortedResults) {
         const start = (this.currentPage - 1) * this.pageSize
         const end = this.currentPage * this.pageSize
@@ -321,7 +330,7 @@ export default Vue.extend({
 
       return undefined
     },
-    queryLink () {
+    queryLink (): any {
       if (this.ids.length === 1) {
         return {
           path: navigation.getPaperQueryUrl(this.ids[0]),
@@ -339,13 +348,13 @@ export default Vue.extend({
     }
   },
   methods: {
-    format (val) {
+    format (val: any): string {
       return typeof val === 'number' ? numeral(val).format('0.[000000]') : val
     },
-    rowClass (index) {
+    rowClass (index: number): string {
       return index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
     },
-    getColumnNames (val) {
+    getColumnNames (val: any): string[] {
       if (typeof val !== 'object' || val.length === 0 || val[0] === undefined) {
         return []
       }
@@ -360,18 +369,18 @@ export default Vue.extend({
       ]
       return cols.filter(v => !specialCols.includes(v))
     },
-    hasPaperID () {
+    hasPaperID (): boolean {
       return (
         this.results &&
         this.results.length > 0 &&
         this.results[0].paper_id !== undefined
       )
     },
-    canViewGraphs () {
+    canViewGraphs (): boolean {
       // return this.hasPaperID() && options.getGraphStatus();
       return false
     },
-    viewGraph () {
+    viewGraph (): void {
       const ids = [...this.ids]
       this.results.forEach(r => {
         if (ids.indexOf(r.paper_id) === -1) {
@@ -381,8 +390,8 @@ export default Vue.extend({
 
       bus.$emit('render_graph', ids)
     },
-    downloadBibFile () {
-      const ids = new Set()
+    downloadBibFile (): void {
+      const ids = new Set<PaperID>()
 
       if (this.hasPaperID()) {
         this.results.forEach(x => ids.add(x.paper_id))
@@ -390,10 +399,10 @@ export default Vue.extend({
 
       api.downloadBibFile(Array.from(ids))
     },
-    turnPage (pageNum) {
+    turnPage (pageNum: number): void {
       this.currentPage = pageNum
     },
-    sortBy (column) {
+    sortBy (column: string): void {
       if ((this.sortedBy = column)) {
         this.sortDescending = !this.sortDescending
       } else {
@@ -401,8 +410,12 @@ export default Vue.extend({
       }
       this.currentPage = 1
     },
-    showModal (id) {
-      const options = { paperId: id }
+    showModal (id: PaperID): void {
+      const options = {
+        paperId: id,
+        connectTo: undefined as undefined | PaperID
+      }
+
       if (this.ids.length === 1) {
         options.connectTo = this.ids[0]
       }

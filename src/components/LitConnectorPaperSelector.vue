@@ -5,6 +5,25 @@
     <div>
       <loader v-if="!loaded" />
       <div v-else-if="(!valid && loaded) || editing">
+        <div v-if="paper" class="absolute right-2 top-2">
+          <button @click="cancelEdit()" title="Cancel">
+            <svg
+              class="w-5 h-5 text-purple-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
         <label
           for="searchBox"
           class="block text-sm font-medium text-gray-700 mb-1"
@@ -82,7 +101,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Paper, PaperID } from '@/types/inciteful'
 import Vue from 'vue'
 import api from '../utils/api'
 import GraphSearch from './GraphSearch.vue'
@@ -112,12 +132,12 @@ export default Vue.extend({
   data () {
     return {
       editing: false,
-      paperId: undefined,
-      paper: undefined,
+      paperId: undefined as PaperID | undefined,
+      paper: undefined as Paper | undefined,
       valid: true,
       loaded: false,
-      currentQuery: undefined,
-      defaultQuery: undefined
+      currentQuery: undefined as string | undefined,
+      defaultQuery: undefined as string | undefined
     }
   },
   created () {
@@ -138,12 +158,15 @@ export default Vue.extend({
     }
   },
   methods: {
+    cancelEdit () {
+      this.editing = false
+    },
     setEdit () {
       this.editing = true
       this.defaultQuery = undefined
       this.currentQuery = undefined
     },
-    loadPaper (param) {
+    loadPaper (param: PaperID) {
       if (param) {
         this.connectPaperId(param, false)
       } else {
@@ -151,15 +174,15 @@ export default Vue.extend({
         this.loaded = true
       }
     },
-    paperIdsSelected (ids) {
+    paperIdsSelected (ids: PaperID[]) {
       if (ids.length > 0) {
         this.connectPaperId(ids[0], true)
       }
     },
-    paperSelected (paper) {
+    paperSelected (paper: Paper) {
       this.connectPaper(paper, true)
     },
-    connectPaper (paper, setParam) {
+    connectPaper (paper: Paper, setParam: boolean) {
       this.paper = paper
       const param = setParam ? paper.id : undefined
       this.$emit('paperSelected', paper, param)
@@ -167,7 +190,7 @@ export default Vue.extend({
       this.loaded = true
       this.editing = false
     },
-    connectPaperId (id, setParam) {
+    connectPaperId (id: PaperID, setParam: boolean) {
       api
         .getPaper(id)
         .then(data => {
@@ -177,14 +200,14 @@ export default Vue.extend({
             this.valid = false
           }
         })
-        .catch(_ => {
+        .catch(() => {
           this.valid = false
         })
         .finally(() => {
           this.loaded = true
         })
     },
-    handleSearched (query) {
+    handleSearched (query: string) {
       this.currentQuery = query
     }
   }

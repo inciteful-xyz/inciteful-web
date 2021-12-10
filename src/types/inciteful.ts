@@ -30,7 +30,7 @@ export interface Author {
   affiliation: string;
 }
 
-export interface PaperConnector{
+export interface PaperConnector {
   source: PaperID;
   papers: Paper[];
   paths: Path[];
@@ -52,14 +52,12 @@ export interface Connection {
 export interface ModalOptions {
   paperId?: PaperID;
   author?: Author;
-  previousScreen?: {
-    options: ModalOptions;
-  };
+  previousScreen?: ModalOptions;
   graphIds?: PaperID[];
   connectTo?: PaperID;
 }
 
-type Path = PaperID[];
+export type Path = PaperID[];
 
 export interface Faq {
   question: string;
@@ -111,11 +109,8 @@ export class IncitefulGraph {
   }
 
   highlightNodes (ids: Set<PaperID>) {
-    const idSet = new Set()
-    ids.forEach(id => idSet.add(id))
-
     this.cy.nodes().forEach(node => {
-      if (idSet.has(Number(node.id()))) {
+      if (ids.has(node.id())) {
         node.addClass('highlighted')
       } else {
         node.removeClass('highlighted')

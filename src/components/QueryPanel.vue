@@ -237,7 +237,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import { CodeJar } from 'codejar'
 import Prism from 'prismjs'
@@ -246,8 +246,8 @@ import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism.css'
 
 import SqlView from './SqlView.vue'
-import PaperInfoModal from './PaperInfoModal'
-import LitReviewBuilder from './LitReviewBuilder'
+import PaperInfoModal from './PaperInfoModal.vue'
+import LitReviewBuilder from './LitReviewBuilder.vue'
 
 export default Vue.extend({
   name: 'QueryPanel',
@@ -261,18 +261,19 @@ export default Vue.extend({
   },
   data () {
     return {
-      editor: undefined,
-      dashSql: undefined,
-      returnUrl: undefined
+      editor: undefined as any,
+      dashSql: undefined as string | undefined,
+      returnUrl: undefined as undefined | string
     }
   },
   mounted () {
-    const node = document.querySelector('#query-editor')
+    const node = document.querySelector('#query-editor') as HTMLElement
     this.editor = CodeJar(node, withLineNumbers(Prism.highlightElement))
-    this.returnUrl = this.$route.query.returnUrl
 
-    if (this.$route.query.sql) {
-      this.setCode(this.$route.query.sql)
+    this.returnUrl = this.$route.query.returnUrl as string | undefined
+
+    if (this.$route.query.sql !== undefined) {
+      this.setCode(this.$route.query.sql as string)
       this.runCode()
     } else {
       this.runExample('basic')
@@ -287,24 +288,26 @@ export default Vue.extend({
     }
   },
   methods: {
-    getCode () {
+    getCode (): string {
       return this.editor.toString()
     },
-    setCode (code) {
+    setCode (code: string): void {
       this.editor.updateCode(code)
     },
-    runCodeClick () {
+    runCodeClick (): void {
       this.$router.push({
         query: { ...this.$route.query, sql: this.getCode() }
       })
     },
-    runCode () {
+    runCode (): void {
       this.dashSql = this.getCode()
     },
-    returnToPage () {
-      window.location.href = this.returnUrl
+    returnToPage (): void {
+      if (this.returnUrl !== undefined) {
+        window.location.href = this.returnUrl
+      }
     },
-    runExample (example) {
+    runExample (example: string) {
       switch (example) {
         case 'most_journals':
           this.setCode(

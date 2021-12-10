@@ -111,13 +111,14 @@
     </li>
   </ul>
 </template>
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
 import api from '../utils/api'
-import AbstractView from './AbstractView'
-import Loader from './Loader'
-import LitReviewButton from './LitReviewButton'
-import Authors from './Authors'
+import AbstractView from './AbstractView.vue'
+import Loader from './Loader.vue'
+import LitReviewButton from './LitReviewButton.vue'
+import Authors from './Authors.vue'
+import { Paper } from '@/types/inciteful'
 
 export default Vue.extend({
   name: 'SearchResults',
@@ -140,17 +141,12 @@ export default Vue.extend({
       type: Number,
       default: 300
     },
-    query: {
-      type: String,
-      default () {
-        return false
-      }
-    }
+    query: {} as PropType<string>
   },
   data () {
     return {
-      papers: undefined,
-      errorMsg: undefined,
+      papers: undefined as Paper[] | undefined,
+      errorMsg: undefined as string | undefined,
       emptyMessage:
         'Your search returned no results, please try a different query.'
     }
@@ -166,13 +162,13 @@ export default Vue.extend({
     }
   },
   computed: {
-    loading () {
+    loading (): boolean {
       if (this.papers) return false
       return true
     }
   },
   methods: {
-    updateResults () {
+    updateResults (): void {
       if (this.query) {
         this.papers = undefined
         api.searchSemanticScholar(this.query).then(data => {
@@ -180,7 +176,7 @@ export default Vue.extend({
         })
       }
     },
-    registerSelect (paper) {
+    registerSelect (paper: Paper): void {
       this.$emit('selected', paper)
     }
   }

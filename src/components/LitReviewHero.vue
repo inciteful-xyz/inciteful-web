@@ -289,20 +289,21 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { Paper, PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
 
 export default Vue.extend({
   name: 'LitReviewHero',
   props: {
-    ids: Array
+    ids: {} as PropType<PaperID[]>
   },
   components: { Author },
   data () {
     return {
-      papers: undefined,
+      papers: undefined as Paper[] | undefined,
       numVisible: 5,
       hidePapers: true
     }
@@ -311,14 +312,14 @@ export default Vue.extend({
     this.setData(this.ids)
   },
   computed: {
-    visiblePapers () {
+    visiblePapers (): Paper[] {
       if (this.papers) {
         return this.papers.slice(
           0,
           this.hidePapers ? this.numVisible : this.papers.length
         )
       }
-      return undefined
+      return []
     }
   },
   watch: {
@@ -329,10 +330,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    idList () {
-      this.ids.join(',')
-    },
-    setData (ids) {
+    setData (ids: PaperID[]): void {
       if (ids) {
         api.getPapers(ids, true).then(data => {
           this.papers = data
@@ -341,7 +339,7 @@ export default Vue.extend({
         this.papers = undefined
       }
     },
-    removePaper (removeId) {
+    removePaper (removeId: PaperID): void {
       const strId = removeId.toString()
       this.$router.push({
         query: {
@@ -349,10 +347,10 @@ export default Vue.extend({
         }
       })
     },
-    downloadBib () {
+    downloadBib (): void {
       api.downloadBibFile(this.ids)
     },
-    togglePaperView () {
+    togglePaperView (): void {
       this.hidePapers = !this.hidePapers
     }
   }

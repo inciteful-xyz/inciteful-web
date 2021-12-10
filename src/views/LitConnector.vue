@@ -211,7 +211,7 @@ export default Vue.extend({
     handleFromSelect (paper, newParam) {
       if (paper) {
         this.from = paper
-        if (paper && parseInt(this.fromParam) !== paper.id) {
+        if (paper && this.fromParam !== paper.id) {
           this.$router.push({ query: { ...this.$route.query, from: paper.id } })
         }
       }
@@ -219,7 +219,7 @@ export default Vue.extend({
     handleToSelect (paper, newParam) {
       if (paper) {
         this.to = paper
-        if (parseInt(this.toParam) !== paper.id) {
+        if (this.toParam !== paper.id) {
           this.$router.push({
             query: { ...this.$route.query, to: paper.id }
           })

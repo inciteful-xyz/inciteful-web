@@ -19,29 +19,30 @@
   </button>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { PaperID } from '@/types/inciteful'
+import Vue, { PropType } from 'vue'
 import bus from '../utils/bus'
 
 export default Vue.extend({
   name: 'LitReviewButton',
   props: {
-    ids: Array,
-    id: undefined
+    ids: {} as PropType<PaperID[]>,
+    id: {} as PropType<PaperID[] | undefined>
   },
   data () {
     return {
       isSubmitted: false,
-      idsToHide: []
+      idsToHide: [] as PaperID[]
     }
   },
   computed: {
-    isHidden () {
+    isHidden (): boolean {
       return !this.id || this.idsToHide.indexOf(this.id.toString()) !== -1
     }
   },
   mounted () {
-    bus.$on('add_to_lit_review', id => {
+    bus.$on('add_to_lit_review', (id: PaperID) => {
       this.idsToHide.push(id)
     })
   },
@@ -51,7 +52,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    addToLitReview () {
+    addToLitReview (): void {
       if (this.id) {
         bus.$emit('add_to_lit_review', this.id.toString())
       }
