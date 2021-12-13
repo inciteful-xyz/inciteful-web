@@ -158,11 +158,11 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import navigation from '../../navigation'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Header',
   components: {
     GraphSearch

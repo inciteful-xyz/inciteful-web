@@ -1,10 +1,10 @@
 import qs from 'qs'
 import Vue from 'vue'
-import { Route, RouteConfig, createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteLocationNormalized } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
 
-const routes: Array<RouteConfig> = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -128,8 +128,18 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/*',
-    name: 'NotFound',
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
+    meta: {
+      title: 'Page Not Found'
+    }
+  },
+  // if you omit the last `*`, the `/` character in params will be encoded when resolving or pushing
+  {
+    path: '/:pathMatch(.*)',
+    name: 'bad-not-found',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
     meta: {
@@ -146,13 +156,13 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      return { left: 0, top: 0 }
     }
   },
 
-  parseQuery: function (queryString) {
-    return qs.parse(queryString)
-  },
+  // parseQuery: function (queryString) {
+  //   return qs.parse(queryString)
+  // },
 
   stringifyQuery: function (params) {
     const result = qs.stringify(params, {
@@ -162,13 +172,12 @@ const router = createRouter({
   }
 })
 
-router.afterEach((to: Route) => {
+router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   Vue.nextTick(() => {
-    pagedata.setTitle(to?.meta?.title)
-    pagedata.setDescription(to?.meta?.description)
+    pagedata.setTitle(to.meta.title as string)
+    pagedata.setDescription(to.meta.description as string)
   })
 })
-
 export default router

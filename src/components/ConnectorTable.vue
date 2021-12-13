@@ -76,7 +76,9 @@
           </td>
           <td class="pl-3 py-2 text-sm sm:text-md">
             <button
-              v-on:click="bus.$emit('show_paper_modal', { paperId: p.id })"
+              v-on:click="
+                this.emitter.emit('show_paper_modal', { paperId: p.id })
+              "
               class="underline block font-semibold pb-2 text-left"
             >
               {{ p.title }}
@@ -154,11 +156,9 @@
       <div class="flex-auto"></div>
       <div v-if="numPages > 1" class="flex-none whitespace-nowrap paging">
         <paginate
-          :page-count="numPages"
+          :page="numPages"
           :click-handler="turnPage"
-          :prev-text="'Prev'"
-          :next-text="'Next'"
-          :container-class="'pager'"
+          @update:modelValue="turnPage"
         >
         </paginate>
       </div>
@@ -190,16 +190,15 @@
 </template>
 <script lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 // @ts-ignore
-import Paginate from 'vuejs-paginate'
+import Paginate from '@hennge/vue3-pagination'
 import Authors from './Authors.vue'
 import LitReviewButton from './LitReviewButton.vue'
-import bus from '../utils/bus'
 import api from '../utils/api'
 import { Paper, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ConnectorTable',
   components: {
     Paginate,
@@ -215,16 +214,6 @@ export default Vue.extend({
     idColName: {
       type: String,
       default: 'id'
-    },
-    columns: {
-      type: Array,
-      default () {
-        return [
-          { name: 'path_count', displayName: 'Paths' },
-          { name: 'distance', displayName: 'Distance' },
-          { name: 'num_cited_by', displayName: 'Citations' }
-        ]
-      }
     }
   },
   watch: {
@@ -232,12 +221,17 @@ export default Vue.extend({
       if (newVal !== oldVal) this.currentPage = 1
     }
   },
+  emits: ['mouseoverRow', 'mouseleaveRow', 'lockPaper'],
   data () {
     return {
-      bus,
       currentPage: 1,
       sortedBy: '' as string,
-      sortDescending: undefined as boolean | undefined
+      sortDescending: undefined as boolean | undefined,
+      columns: [
+        { name: 'path_count', displayName: 'Paths' },
+        { name: 'distance', displayName: 'Distance' },
+        { name: 'num_cited_by', displayName: 'Citations' }
+      ]
     }
   },
   computed: {
@@ -249,7 +243,7 @@ export default Vue.extend({
       }
     },
     sortedResults (): Paper[] {
-      const sorted = [...this.papers]
+      const sorted = [...(this.papers ?? [])]
       if (this.sortedBy && this.papers && this.papers.length > 0) {
         sorted.sort((a, b) => {
           if (this.sortDescending) {
@@ -284,11 +278,13 @@ export default Vue.extend({
       }
     },
     downloadBibFile (): void {
-      const ids = new Set<PaperID>()
+      if (this.papers) {
+        const ids = new Set<PaperID>()
 
-      this.papers.forEach(x => ids.add(x.id))
+        this.papers.forEach(x => ids.add(x.id))
 
-      api.downloadBibFile(Array.from(ids))
+        api.downloadBibFile(Array.from(ids))
+      }
     },
     turnPage (pageNum: number): void {
       this.currentPage = pageNum

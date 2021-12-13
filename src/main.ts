@@ -1,17 +1,22 @@
-import Vue, { createApp } from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
+import mitt from 'mitt'
 import router from './router'
 import store from './store'
 
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
-import VueTour from 'vue-tour'
+import VueTour from 'v3-tour'
 
 import './assets/tailwind.css'
 
+const emitter = mitt()
+const app = createApp(App)
+app.config.globalProperties.emitter = emitter
+
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    Vue: Vue,
+    app,
     dsn:
       'https://e0f9638a22234f65b69a22a10537ab95@o415910.ingest.sentry.io/5512736',
     integrations: [new Integrations.BrowserTracing()],
@@ -24,7 +29,6 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-createApp(App).use(router).use(store).mount('#app')
-
-require('vue-tour/dist/vue-tour.css')
-Vue.use(VueTour)
+require('v3-tour/dist/vue-tour.css')
+app.use(router).use(store).use(VueTour)
+app.mount('#app')

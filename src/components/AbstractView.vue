@@ -44,8 +44,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   name: 'AbstractView',
   props: {
     abstract: String,
@@ -63,7 +63,7 @@ export default Vue.extend({
   },
   computed: {
     canTruncate (): boolean {
-      return this.abstract.length > this.shortenedLength
+      return (this.abstract ?? '').length > this.shortenedLength
     },
     shortenedLength (): number {
       return this.length ? this.length : 550

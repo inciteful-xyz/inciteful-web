@@ -288,7 +288,7 @@
   </div>
 </template>
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
 import api from '../utils/api'
@@ -296,7 +296,6 @@ import Stat from './Stat.vue'
 import ConnectorTable from './ConnectorTable.vue'
 import keywordFuncs, { TermCount } from '../utils/keywords'
 import { stemmer } from 'stemmer'
-import bus from '../utils/bus'
 import navigation from '../navigation'
 
 import FlexSearch from 'flexsearch'
@@ -309,7 +308,7 @@ import {
   Connection
 } from '../types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitConnectorBody',
   components: {
     Loader,
@@ -317,6 +316,7 @@ export default Vue.extend({
     ConnectorTable,
     Stat
   },
+  emits: ['minHopsCalculated'],
   props: {
     to: {} as PropType<Paper | undefined>,
     from: {} as PropType<Paper | undefined>,
@@ -335,20 +335,20 @@ export default Vue.extend({
     }
   },
   mounted () {
-    bus.$on('go_to_paper', (id: PaperID) => {
+    this.emitter.on('go_to_paper', (id: PaperID) => {
       this.$router.push({ path: navigation.getPaperUrl(id) })
     })
-    bus.$on('set_as_to', (id: PaperID) => {
+    this.emitter.on('set_as_to', (id: PaperID) => {
       if (this.to?.id !== id && this.from?.id) {
         this.$router.push({ query: { to: id } })
       }
     })
-    bus.$on('set_as_from', (id: PaperID) => {
+    this.emitter.on('set_as_from', (id: PaperID) => {
       if (this.from?.id !== id && this.to?.id) {
         this.$router.push({ query: { from: id } })
       }
     })
-    bus.$on('lock_paper', (id: PaperID) => {
+    this.emitter.on('lock_paper', (id: PaperID) => {
       if (id) {
         this.registerLockPaper(id)
       }
@@ -577,7 +577,7 @@ export default Vue.extend({
           .connectPapers(this.from!.id, this.to!.id, this.extendedGraph)
           .then(data => {
             this.results = data
-            bus.$emit('graph_loaded')
+            this.emitter.emit('graph_loaded')
           })
       }
     },

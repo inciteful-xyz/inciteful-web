@@ -238,7 +238,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import { CodeJar } from 'codejar'
 import Prism from 'prismjs'
 import { withLineNumbers } from 'codejar/linenumbers'
@@ -249,7 +249,7 @@ import SqlView from './SqlView.vue'
 import PaperInfoModal from './PaperInfoModal.vue'
 import LitReviewBuilder from './LitReviewBuilder.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QueryPanel',
   components: {
     SqlView,

@@ -204,12 +204,11 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import graphVis from '../utils/graphing/graph'
-import bus from '../utils/bus'
 import { GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'GraphView',
   props: {
     graphData: {} as PropType<GraphData | undefined>,
@@ -219,7 +218,6 @@ export default Vue.extend({
   },
   data () {
     return {
-      bus,
       cyInstance: {} as IncitefulGraph,
       isFullScreen: false
     }
@@ -250,7 +248,7 @@ export default Vue.extend({
       return 0
     },
     slotHasContent (): boolean {
-      return !!this.$slots.default && !!this.$slots.default[0]
+      return !!this.$slots.default && !!this.$slots.default
     }
   },
   watch: {
@@ -284,7 +282,7 @@ export default Vue.extend({
         const cy = graphVis.loadGraph(
           this.graphData,
           this.$refs.graph as HTMLElement,
-          this.bus,
+          this.emitter,
           this.minDate,
           this.maxDate
         )

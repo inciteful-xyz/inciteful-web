@@ -171,11 +171,9 @@
                   class="flex-none whitespace-nowrap paging"
                 >
                   <paginate
-                    :page-count="numPages"
+                    :page="numPages"
                     :click-handler="turnPage"
-                    :prev-text="'Prev'"
-                    :next-text="'Next'"
-                    :container-class="'pager'"
+                    @update:modelValue="turnPage"
                   >
                   </paginate>
                 </div>
@@ -235,18 +233,17 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import Author from './Authors.vue'
 import numeral from 'numeral'
 import api from '../utils/api'
-import bus from '../utils/bus'
-import Paginate from 'vuejs-paginate'
+import Paginate from '@hennge/vue3-pagination'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'TableView',
   components: {
     Author,
@@ -258,12 +255,7 @@ export default Vue.extend({
     results: {} as PropType<any[]>,
     errorMsg: {} as PropType<string | undefined>,
     sql: {} as PropType<string | undefined>,
-    loading: {
-      type: Boolean,
-      default () {
-        return true
-      }
-    },
+    loading: {} as PropType<boolean>,
     ids: {} as PropType<PaperID[]>,
     filters: {} as PropType<Record<string, string>>,
     emptyMessage: String,
@@ -274,7 +266,6 @@ export default Vue.extend({
   },
   data () {
     return {
-      bus,
       currentPage: 1,
       sortedBy: undefined as string | undefined,
       sortDescending: undefined as boolean | undefined
@@ -331,7 +322,7 @@ export default Vue.extend({
       return undefined
     },
     queryLink (): any {
-      if (this.ids.length === 1) {
+      if (this.ids && this.ids.length === 1) {
         return {
           path: navigation.getPaperQueryUrl(this.ids[0]),
           query: { sql: this.sql }
@@ -371,7 +362,7 @@ export default Vue.extend({
     },
     hasPaperID (): boolean {
       return (
-        this.results &&
+        this.results !== undefined &&
         this.results.length > 0 &&
         this.results[0].paper_id !== undefined
       )
@@ -381,19 +372,21 @@ export default Vue.extend({
       return false
     },
     viewGraph (): void {
-      const ids = [...this.ids]
-      this.results.forEach(r => {
-        if (ids.indexOf(r.paper_id) === -1) {
-          ids.push(r.paper_id)
-        }
-      })
+      if (this.results) {
+        const ids = [...(this.ids ?? [])]
+        this.results.forEach(r => {
+          if (ids.indexOf(r.paper_id) === -1) {
+            ids.push(r.paper_id)
+          }
+        })
 
-      bus.$emit('render_graph', ids)
+        this.emitter.emit('render_graph', ids)
+      }
     },
     downloadBibFile (): void {
       const ids = new Set<PaperID>()
 
-      if (this.hasPaperID()) {
+      if (this.hasPaperID() && this.results) {
         this.results.forEach(x => ids.add(x.paper_id))
       }
 
@@ -416,10 +409,10 @@ export default Vue.extend({
         connectTo: undefined as undefined | PaperID
       }
 
-      if (this.ids.length === 1) {
+      if (this.ids && this.ids.length === 1) {
         options.connectTo = this.ids[0]
       }
-      bus.$emit('show_paper_modal', options)
+      this.emitter.emit('show_paper_modal', options)
     }
   }
 })

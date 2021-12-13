@@ -134,7 +134,7 @@
   </single-column>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import BetaSignup from '../components/BetaSignup.vue'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
@@ -142,11 +142,10 @@ import LitConnectorBody from '../components/LitConnectorBody.vue'
 import PaperInfoModal from '../components/PaperInfoModal.vue'
 import Faq from '../components/Faq.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
-import bus from '../utils/bus'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitConnectorPage',
   components: {
     PaperInfoModal,
@@ -191,7 +190,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    bus.$on('graph_loaded', () => {
+    this.emitter.on('graph_loaded', () => {
       this.pageReady = true
     })
   },

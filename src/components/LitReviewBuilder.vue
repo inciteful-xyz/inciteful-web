@@ -37,10 +37,9 @@
 
 <script lang="ts">
 import { PaperID } from '@/types/inciteful'
-import Vue from 'vue'
-import bus from '../utils/bus'
+import { defineComponent } from 'vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitReviewBuilder',
   data () {
     return {
@@ -49,7 +48,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    bus.$on('add_to_lit_review', (id: PaperID) => {
+    this.emitter.on('add_to_lit_review', (id: PaperID) => {
       if (!this.ids.has(id)) {
         this.ids.add(id)
         this.doBounce = true

@@ -112,7 +112,7 @@
   </ul>
 </template>
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import AbstractView from './AbstractView.vue'
 import Loader from './Loader.vue'
@@ -120,7 +120,7 @@ import LitReviewButton from './LitReviewButton.vue'
 import Authors from './Authors.vue'
 import { Paper } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SearchResults',
   components: {
     AbstractView,
@@ -143,6 +143,7 @@ export default Vue.extend({
     },
     query: {} as PropType<string>
   },
+  emits: ['selected'],
   data () {
     return {
       papers: undefined as Paper[] | undefined,

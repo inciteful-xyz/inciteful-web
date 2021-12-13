@@ -8,12 +8,12 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { defineComponent } from 'vue'
 import Header from '@/components/layout/Header.vue'
 import Footer from '@/components/layout/Footer.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'App',
   components: {
     Header,

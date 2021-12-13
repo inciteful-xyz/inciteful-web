@@ -10,7 +10,7 @@
   </single-column>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import PaperHero from '../components/PaperHero.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import QueryPanel from '../components/QueryPanel.vue'
@@ -18,7 +18,7 @@ import api from '../utils/api'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperDiscoveryQuery',
   components: {
     PaperHero,

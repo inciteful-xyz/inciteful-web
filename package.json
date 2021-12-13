@@ -11,6 +11,7 @@
     "watch": "vue-cli-service build --watch"
   },
   "dependencies": {
+    "@hennge/vue3-pagination": "^1.0.17",
     "@sentry/browser": "^6.15.0",
     "@sentry/tracing": "^6.15.0",
     "@sentry/vue": "^6.15.0",
@@ -27,16 +28,16 @@
     "cytoscape-popper": "^2.0.0",
     "doi-regex": "^0.1.10",
     "flexsearch": "^0.7.11",
+    "mitt": "^3.0.0",
     "numeral": "^2.0.6",
     "prismjs": "^1.25.0",
     "qs": "^6.10.1",
     "stemmer": "^2.0.0",
     "tippy.js": "^6.3.1",
+    "v3-tour": "^3.0.16",
     "vue": "^3.0.0-beta.1",
     "vue-autosuggest": "^2.2.0",
     "vue-router": "^4.0.0-alpha.6",
-    "vue-tour": "^1.5.0",
-    "vuejs-paginate": "^2.1.0",
     "vuex": "^4.0.0-alpha.1"
   },
   "devDependencies": {

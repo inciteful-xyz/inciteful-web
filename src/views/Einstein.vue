@@ -149,7 +149,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import PaperInfoModal from '../components/PaperInfoModal.vue'
 import BetaSignup from '../components/BetaSignup.vue'
@@ -160,7 +160,7 @@ import FaqComp from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitConnectorPage',
   components: {
     PaperInfoModal,

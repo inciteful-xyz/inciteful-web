@@ -3,7 +3,9 @@
     <div v-if="paper">
       <button
         :title="paper.title"
-        v-on:click="bus.$emit('show_paper_modal', { paperId: paper.id })"
+        v-on:click="
+          this.emitter.emit('show_paper_modal', { paperId: paper.id })
+        "
         class="underline block font-semibold pb-2 text-left"
       >
         {{ paper.title }}
@@ -21,13 +23,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, PropType } from 'vue'
 import Authors from './Authors.vue'
-import bus from '../utils/bus'
-import { PropType } from 'vue/types/umd'
 import { Paper, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   components: { Authors },
   name: 'PaperCard',
   props: {
@@ -35,12 +35,9 @@ export default Vue.extend({
   },
   computed: {
     ids (): PaperID[] {
-      return [this.paper.id]
-    }
-  },
-  data () {
-    return {
-      bus
+      if (this.paper) {
+        return [this.paper.id]
+      } else return []
     }
   }
 })

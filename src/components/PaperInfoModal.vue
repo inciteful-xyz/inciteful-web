@@ -201,14 +201,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import bus from '../utils/bus'
+import { defineComponent } from 'vue'
 import navigation from '../navigation'
 import PaperModalContent from './PaperModalContent.vue'
 import AuthorModalContent from './AuthorModalContent.vue'
 import { ModalOptions } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperInfoModal',
   components: {
     PaperModalContent,
@@ -216,12 +215,11 @@ export default Vue.extend({
   },
   data () {
     return {
-      options: undefined as ModalOptions | undefined,
-      bus
+      options: undefined as ModalOptions | undefined
     }
   },
   mounted () {
-    bus.$on('show_paper_modal', (options: ModalOptions) => {
+    this.emitter.on('show_paper_modal', (options: ModalOptions) => {
       if (options) {
         if (this.options !== undefined) {
           options.previousScreen = this.options
@@ -247,7 +245,7 @@ export default Vue.extend({
   },
   methods: {
     addToLitReview (): void {
-      bus.$emit('add_to_lit_review', this.options!.paperId!)
+      this.emitter.emit('add_to_lit_review', this.options!.paperId!)
       this.backButton()
     },
     clearPaper (): void {

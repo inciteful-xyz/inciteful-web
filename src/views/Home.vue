@@ -312,7 +312,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 // @ is an alias to /src
 import BetaSignup from '@/components/BetaSignup.vue'
 import GraphSearch from '@/components/GraphSearch.vue'
@@ -320,7 +320,7 @@ import ConnectorSearch from '@/components/ConnectorSearch.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Home',
   components: {
     BetaSignup,

@@ -21,7 +21,7 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import GraphFilters from '../components/GraphFilters.vue'
 import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import LitReviewHero from '../components/LitReviewHero.vue'
@@ -35,7 +35,7 @@ import template from '../dashboard_templates/default_paper_template.json'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitReview',
   components: {
     GraphFilters,

@@ -1,6 +1,6 @@
 <template>
   <div class="text-gray-800 relative">
-    <vue-autosuggest
+    <!-- <vue-autosuggest
       ref="autocomplete"
       v-model="query"
       :suggestions="suggestions"
@@ -22,7 +22,7 @@
           citations
         </div>
       </template>
-    </vue-autosuggest>
+    </vue-autosuggest> -->
     <div
       v-if="!selectIsValid"
       class="
@@ -58,19 +58,19 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 // @ts-ignore
-import { VueAutosuggest } from 'vue-autosuggest'
+// import { VueAutosuggest } from 'vue-autosuggest'
 import api from '../utils/api'
-import Authors from './Authors.vue'
+// import Authors from './Authors.vue'
 import numeral from 'numeral'
 import { Paper, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Autosuggest',
   components: {
-    VueAutosuggest,
-    Authors
+    // VueAutosuggest,
+    // Authors
   },
   props: {
     clearOnSelect: {
@@ -86,6 +86,7 @@ export default Vue.extend({
       default: undefined
     }
   },
+  emits: ['selected'],
   data () {
     return {
       query: '',

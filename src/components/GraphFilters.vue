@@ -204,12 +204,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import GraphSearch from './GraphSearch.vue'
-import bus from '../utils/bus'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'GraphFilters',
   components: { GraphSearch },
   props: {
@@ -220,7 +219,6 @@ export default Vue.extend({
   },
   data () {
     return {
-      bus,
       keywords: this.$route.query.keyword,
       minDistance: this.$route.query.minDistance,
       maxDistance: this.$route.query.maxDistance,
@@ -230,7 +228,7 @@ export default Vue.extend({
   },
   methods: {
     addToLitReview (ids: PaperID[]): void {
-      ids.map(id => bus.$emit('add_to_lit_review', id))
+      ids.map(id => this.emitter.emit('add_to_lit_review', id))
     },
     applyFilters () {
       this.$router.push({

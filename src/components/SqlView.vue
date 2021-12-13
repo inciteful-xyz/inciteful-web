@@ -27,16 +27,15 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import TableView from './TableView.vue'
 import StatView from './StatView.vue'
 import SimilarGraph from './SimilarGraph.vue'
 import api from '../utils/api'
 import Sql from '../utils/sql'
-import bus from '../utils/bus'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SqlView',
   components: {
     TableView,
@@ -49,29 +48,29 @@ export default Vue.extend({
     ids: {} as PropType<Array<PaperID>>,
     emptyMessage: String
   },
+  emits: ['results'],
   data () {
     return {
       results: [] as any[][],
       errorMsg: undefined as string | undefined,
-      loading: true,
-      bus
+      loading: true
     }
   },
   created (): void {
     this.runSQL()
   },
   computed: {
-    filters (): any {
+    filters (): Record<string, string | undefined> {
       return {
-        keywords: this.$route.query.keywords,
-        maxYear: this.$route.query.maxYear,
-        minYear: this.$route.query.minYear,
-        maxDistance: this.$route.query.maxDistance,
-        minDistance: this.$route.query.minDistance
+        keywords: this.$route.query.keywords?.toString(),
+        maxYear: this.$route.query.maxYear?.toString(),
+        minYear: this.$route.query.minYear?.toString(),
+        maxDistance: this.$route.query.maxDistance?.toString(),
+        minDistance: this.$route.query.minDistance?.toString()
       }
     },
     filteredSql (): string {
-      return Sql.addFilters(this.sql, this.filters)
+      return Sql.addFilters(this.sql ?? '', this.filters)
     }
   },
   watch: {
@@ -97,7 +96,7 @@ export default Vue.extend({
           .then(response => {
             this.results = response
             this.loading = false
-            this.bus.$emit('graph_loaded')
+            this.emitter.emit('graph_loaded')
             this.$emit('results', this.results)
           })
           .catch(error => {

@@ -291,11 +291,11 @@
 
 <script lang="ts">
 import { Paper, PaperID } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitReviewHero',
   props: {
     ids: {} as PropType<PaperID[]>

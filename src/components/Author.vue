@@ -11,10 +11,9 @@
 
 <script lang="ts">
 import { Author } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
-import bus from '../utils/bus'
+import { defineComponent, PropType } from 'vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Author',
   props: {
     showAffiliation: { type: Boolean, default: false },
@@ -27,7 +26,7 @@ export default Vue.extend({
         author,
         graphIds: this.ids
       }
-      bus.$emit('show_paper_modal', options)
+      this.emitter.emit('show_paper_modal', options)
     }
   }
 })

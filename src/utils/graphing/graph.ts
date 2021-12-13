@@ -14,6 +14,7 @@ import popper from 'cytoscape-popper'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import { ModalOptions, GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
+import { Emitter } from 'mitt'
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
@@ -97,7 +98,7 @@ function createTippys (cy: Core) {
     }
   })
 }
-function setupTippy (cy: Core, bus: Vue, modalOptions: ModalOptions) {
+function setupTippy (cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
   createTippys(cy)
 
   const hideAllTippies = function () {
@@ -109,7 +110,7 @@ function setupTippy (cy: Core, bus: Vue, modalOptions: ModalOptions) {
     const id = ev.target.data('id')
     if (id) {
       modalOptions.paperId = id
-      bus.$emit('show_paper_modal', modalOptions)
+      bus.emit('show_paper_modal', modalOptions)
     }
   })
 
@@ -125,7 +126,7 @@ function setupTippy (cy: Core, bus: Vue, modalOptions: ModalOptions) {
 function loadBaseGraph (
   elements: ElementDefinition[],
   container: HTMLElement,
-  bus: Vue,
+  bus: Emitter<any>,
   modalOptions: ModalOptions
 ) {
   const cy = cytoscape({
@@ -144,7 +145,7 @@ function loadBaseGraph (
   return cy
 }
 
-function loadGraph (graphData: GraphData, container: HTMLElement, bus: Vue, minDate: number, maxDate: number) {
+function loadGraph (graphData: GraphData, container: HTMLElement, bus: Emitter<any>, minDate: number, maxDate: number) {
   let elements
   let layoutParams
   let contextMenuOptions

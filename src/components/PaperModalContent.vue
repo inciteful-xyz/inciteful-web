@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import PaperHero from './PaperHero.vue'
 import GraphView from './GraphView.vue'
 import { GraphData, Paper, PaperConnector, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperModalContent',
   components: {
     PaperHero,

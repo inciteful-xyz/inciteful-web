@@ -39,10 +39,10 @@
 </template>
 <script lang="ts">
 import { PaperID } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import SqlView from './SqlView.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'DashboardRenderer',
   components: { SqlView },
   props: {

@@ -103,14 +103,14 @@
 
 <script lang="ts">
 import { Paper, PaperID } from '@/types/inciteful'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import api from '../utils/api'
 import GraphSearch from './GraphSearch.vue'
 import Loader from './Loader.vue'
 import PaperSummary from './PaperSummary.vue'
 import SearchResults from './SearchResults.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'LitConnectorPaperSelector',
   components: {
     PaperSummary,
@@ -150,6 +150,8 @@ export default Vue.extend({
     }
   },
   computed: {},
+  emits: ['paperSelected'],
+
   watch: {
     currentQuery (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {

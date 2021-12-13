@@ -248,13 +248,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 // @ is an alias to /src
 import GraphSearch from './GraphSearch.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperDiscoveryEmpty',
   components: {
     GraphSearch

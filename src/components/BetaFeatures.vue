@@ -38,10 +38,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import options from '../utils/options'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'BetaFeatures',
   data () {
     return {

@@ -31,8 +31,8 @@
 </template>
 <script lang="ts">
 import { Faq } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
-export default Vue.extend({
+import { defineComponent, PropType } from 'vue'
+export default defineComponent({
   name: 'Faq',
   props: {
     faqs: {} as PropType<Faq[]>

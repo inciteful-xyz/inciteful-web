@@ -64,13 +64,13 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import api from '@/utils/api'
 import bib from '@/utils/bib'
 import Autosuggest from './Autosuggest.vue'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'GraphSearch',
   components: {
     Autosuggest
@@ -89,6 +89,7 @@ export default Vue.extend({
       default: ''
     }
   },
+  emits: ['selected', 'searched'],
   data () {
     return {
       query: '',

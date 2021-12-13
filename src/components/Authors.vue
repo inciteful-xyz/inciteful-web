@@ -25,10 +25,10 @@
 
 <script lang="ts">
 import { Author, PaperID } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import AuthorComp from './Author.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: { AuthorComp },
   name: 'Authors',
   props: {

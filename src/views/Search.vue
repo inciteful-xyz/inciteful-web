@@ -33,7 +33,7 @@
   </single-column>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import LitReviewButton from '../components/LitReviewButton.vue'
 import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import SearchResults from '../components/SearchResults.vue'
@@ -41,7 +41,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import navigation from '../navigation'
 import { Paper } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SearchPage',
   components: {
     LitReviewButton,

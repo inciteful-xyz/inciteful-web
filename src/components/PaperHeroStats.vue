@@ -63,12 +63,12 @@
 
 <script lang="ts">
 import { PaperID } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import SqlView from './SqlView.vue'
 import Stat from './Stat.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperHeroStats',
   components: {
     SqlView,

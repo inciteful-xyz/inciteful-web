@@ -101,7 +101,7 @@
   </single-column>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import PaperHero from '../components/PaperHero.vue'
 import GraphFilters from '../components/GraphFilters.vue'
 import LitReviewBuilder from '../components/LitReviewBuilder.vue'
@@ -111,13 +111,12 @@ import BetaFeatures from '../components/BetaFeatures.vue'
 import DashboardRenderer from '../components/DashboardRenderer.vue'
 import PaperPageTour from '../components/PaperPageTour.vue'
 import api from '../utils/api'
-import bus from '../utils/bus'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
 import { Paper, PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperDiscovery',
   components: {
     GraphFilters,
@@ -154,7 +153,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    bus.$on('graph_loaded', () => {
+    this.emitter.on('graph_loaded', () => {
       this.pageReady = true
     })
   },

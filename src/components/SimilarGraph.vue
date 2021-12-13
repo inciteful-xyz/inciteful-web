@@ -7,12 +7,12 @@
 
 <script lang="ts">
 import { GraphData, Paper, PaperID } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'SimilarGraph',
   components: {
     GraphView,

@@ -57,8 +57,8 @@
 
 <script lang="ts">
 import { PaperID } from '@/types/inciteful'
-import Vue, { PropType } from 'vue'
-export default Vue.extend({
+import { defineComponent, PropType } from 'vue'
+export default defineComponent({
   name: 'ExternalLinks',
   props: {
     externalIds: {} as PropType<PaperID[]>

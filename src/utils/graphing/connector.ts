@@ -1,5 +1,6 @@
 import { EventObject, NodeDefinition, Position, ElementDefinition } from 'cytoscape'
 import { Paper, GraphData } from '@/types/inciteful'
+import { Emitter } from 'mitt'
 
 function buildKlayLayout () {
   return {
@@ -146,7 +147,7 @@ function buildElements (graphData: GraphData, minDate: number, maxDate: number) 
   return elements
 }
 
-function contextMenu (bus: Vue) {
+function contextMenu (bus: Emitter<any>) {
   return {
     // Customize event to bring up the context menu
     // Possible options https://js.cytoscape.org/#events/user-input-device-events
@@ -161,7 +162,7 @@ function contextMenu (bus: Vue) {
         onClickFunction: function (event: EventObject) {
           const target = event.target
           const id = target.data('id')
-          bus.$emit('set_as_from', id)
+          bus.emit('set_as_from', id)
         },
         disabled: false
       },
@@ -172,7 +173,7 @@ function contextMenu (bus: Vue) {
         onClickFunction: function (event: EventObject) {
           const target = event.target
           const id = target.data('id')
-          bus.$emit('set_as_to', id)
+          bus.emit('set_as_to', id)
         },
         disabled: false
       },
@@ -184,7 +185,7 @@ function contextMenu (bus: Vue) {
         onClickFunction: function (event: EventObject) {
           const target = event.target
           const id = target.data('id')
-          bus.$emit('lock_paper', id)
+          bus.emit('lock_paper', id)
         },
         disabled: false
       },
@@ -196,7 +197,7 @@ function contextMenu (bus: Vue) {
         onClickFunction: function (event: EventObject) {
           const target = event.target
           const id = target.data('id')
-          bus.$emit('add_to_lit_review', id)
+          bus.emit('add_to_lit_review', id)
         },
         disabled: false
       },
@@ -208,7 +209,7 @@ function contextMenu (bus: Vue) {
         onClickFunction: function (event: EventObject) {
           const target = event.target
           const id = target.data('id')
-          bus.$emit('go_to_paper', id)
+          bus.emit('go_to_paper', id)
         },
         disabled: false
       }

@@ -75,15 +75,14 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import PaperHeroStats from './PaperHeroStats.vue'
 import AbstractView from './AbstractView.vue'
-import bus from '../utils/bus'
 import ExternalLinks from './ExternalLinks.vue'
 import Authors from './Authors.vue'
 import { PaperID } from '@/types/inciteful'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PaperHero',
   props: {
     paper: Object,
@@ -98,8 +97,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      receivedLoaded: false,
-      bus
+      receivedLoaded: false
     }
   },
   watch: {
@@ -108,7 +106,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.bus.$on('graph_loaded', () => {
+    this.emitter.on('graph_loaded', () => {
       this.receivedLoaded = true
     })
   }

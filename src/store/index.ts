@@ -1,6 +1,6 @@
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
-export default Vuex.createStore({
+export default createStore({
   strict: process.env.NODE_ENV !== 'production',
   state: {},
   mutations: {},

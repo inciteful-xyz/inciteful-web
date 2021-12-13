@@ -59,10 +59,10 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import Autosuggest from './Autosuggest.vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ConnectorSearch',
   components: {
     Autosuggest
