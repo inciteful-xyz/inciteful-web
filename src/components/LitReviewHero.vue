@@ -340,10 +340,12 @@ export default Vue.extend({
       }
     },
     removePaper (removeId: PaperID): void {
-      const strId = removeId.toString()
+      const ids = this.papers!.filter(paper => paper.id !== removeId).map(
+        paper => paper.id
+      )
       this.$router.push({
         query: {
-          ids: this.ids.filter(id => id !== strId)
+          ids: ids
         }
       })
     },

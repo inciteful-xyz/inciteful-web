@@ -543,7 +543,7 @@ export default Vue.extend({
     },
     showExtendedGraphsReccomendation (): boolean {
       return (
-        (this.reccomendExtendedGraphs ?? false) &&
+        (this.reccomendExtendedGraphs ?? true) &&
         this.results !== undefined &&
         this.results.paths !== undefined &&
         this.results.paths.length < 5
