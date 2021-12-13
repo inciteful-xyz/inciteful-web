@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -24,13 +24,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App).use(router).use(store).mount('#app')
 
 require('vue-tour/dist/vue-tour.css')
 Vue.use(VueTour)

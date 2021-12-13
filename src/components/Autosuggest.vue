@@ -10,7 +10,7 @@
       @selected="selectHandler"
       @input="fetchResults"
     >
-      <template slot-scope="{ suggestion }">
+      <template v-slot="{ suggestion }">
         <div class="pb-1 text-sm">
           {{ suggestion.item.title }}
         </div>

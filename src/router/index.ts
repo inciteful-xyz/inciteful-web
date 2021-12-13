@@ -1,10 +1,8 @@
 import qs from 'qs'
 import Vue from 'vue'
-import VueRouter, { Route, RouteConfig } from 'vue-router'
+import { Route, RouteConfig, createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
-
-Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
@@ -140,10 +138,10 @@ const routes: Array<RouteConfig> = [
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes,
+
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -151,9 +149,11 @@ const router = new VueRouter({
       return { x: 0, y: 0 }
     }
   },
+
   parseQuery: function (queryString) {
     return qs.parse(queryString)
   },
+
   stringifyQuery: function (params) {
     const result = qs.stringify(params, {
       arrayFormat: 'brackets'
