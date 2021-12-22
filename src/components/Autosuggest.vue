@@ -1,6 +1,15 @@
 <template>
-  <div class="text-gray-800 relative">
+  <div
+    class="text-gray-800 relative"
+    @keydown.esc="hideResults()"
+    @keydown.left="registerKeypress('up')"
+    @keydown.up="registerKeypress('up')"
+    @keydown.right="registerKeypress('down')"
+    @keydown.down="registerKeypress('down')"
+    @keydown.enter="sendSelect([results[highlighted].id])"
+  >
     <input
+      @click="displayResults()"
       class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
     bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
       ref="searchBox"
@@ -9,7 +18,7 @@
       v-model="query"
     />
     <div
-      v-if="results"
+      v-if="results && showResults"
       class="
         origin-top-right
         absolute
@@ -27,13 +36,13 @@
         max-h-96;
       "
     >
-      test
       <ul class="list-none p-0 m-0">
         <li
           class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200"
-          v-for="result in results"
-          :key="result.id"
+          v-for="(result, index) in results"
+          :key="index"
           @click="sendSelect([result.id])"
+          :class="{ 'bg-gray-200': highligthed === index }"
         >
           <div class="pb-1 text-sm">{{ result.title }} title</div>
           <div class="text-xs">
@@ -80,9 +89,11 @@ export default defineComponent({
   data () {
     return {
       query: '',
+      showResults: true,
       results: undefined as Paper[] | undefined,
       timeout: null as number | null,
       selected: null as PaperID | null,
+      highlighted: null as number | null,
       debounceMilliseconds: 200,
       selectIsValid: true
     }
@@ -113,12 +124,40 @@ export default defineComponent({
         api.searchPapers(query).then(papers => {
           if (papers && papers.length > 0) {
             this.results = papers
+            this.displayResults()
           }
         })
       }, this.debounceMilliseconds)
     }
   },
   methods: {
+    registerKeypress (direction: 'up' | 'down') {
+      if (this.results) {
+        if (this.highlighted === null) {
+          this.highlighted = 0
+        } else if (direction === 'down') {
+          this.highlighted = this.highlighted + 1
+        } else {
+          this.highlighted = this.highlighted - 1
+        }
+
+        if (this.highlighted < 0) {
+          this.highlighted = this.results.length
+        } else {
+          this.highlighted = this.highlighted % this.results.length
+        }
+      }
+
+      console.log('highlighted: ' + this.highlighted)
+    },
+    hideResults () {
+      this.showResults = false
+      this.highlighted = null
+    },
+    displayResults () {
+      this.showResults = true
+    },
+
     getValue () {
       if (this.getSelectedId()) return this.getSelectedId()
       else return this.query
@@ -139,37 +178,10 @@ export default defineComponent({
     },
     sendSelect (ids: PaperID[]) {
       api.getPaperIds(ids).then(ids => {
+        this.showResults = false
         this.$emit('selected', ids)
       })
     }
   }
 })
 </script>
-
-<style lang="scss">
-// placeholder-gray-500  sm:text-sm  placeholder-gray-400;
-
-#autosuggest__input.autosuggest__input-open {
-  @apply rounded-b;
-}
-
-.autosuggest__results .autosuggest__results-item {
-  @apply cursor-pointer p-2 border-t border-gray-200;
-}
-
-#autosuggest ul:nth-child(1) > .autosuggest__results_title {
-  @apply border-t-0;
-}
-
-.autosuggest__results .autosuggest__results-before {
-  @apply bg-gray-300 ml-0 px-5 py-6 border-t border-gray-200;
-}
-
-.autosuggest__results .autosuggest__results-item:active,
-.autosuggest__results .autosuggest__results-item:hover,
-.autosuggest__results .autosuggest__results-item:focus,
-.autosuggest__results
-  .autosuggest__results-item.autosuggest__results-item--highlighted {
-  @apply bg-gray-200;
-}
-</style>

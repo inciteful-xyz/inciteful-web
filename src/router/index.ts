@@ -1,8 +1,8 @@
 import qs from 'qs'
-import Vue from 'vue'
-import { createRouter, createWebHistory, RouteLocationNormalized } from 'vue-router'
+// import Vue from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import pagedata from '../utils/pagedata'
+// import pagedata from '../utils/pagedata'
 
 const routes = [
   {
@@ -69,7 +69,7 @@ const routes = [
     }
   },
   {
-    path: '/p/q/*',
+    path: '/p/q/:pathMatch(.*)',
     name: 'PaperDiscoveryQuery',
     component: () =>
       import(
@@ -106,7 +106,7 @@ const routes = [
     }
   },
   {
-    path: '/p/*',
+    path: '/p/:pathMatch(.*)',
     name: 'PaperDiscovery',
     component: () =>
       import(/* webpackChunkName: "discovery" */ '../views/PaperDiscovery.vue'),
@@ -172,12 +172,13 @@ const router = createRouter({
   }
 })
 
-router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  // Use next tick to handle router history correctly
-  // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
-  Vue.nextTick(() => {
-    pagedata.setTitle(to.meta.title as string)
-    pagedata.setDescription(to.meta.description as string)
-  })
-})
+// router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+//   // Use next tick to handle router history correctly
+//   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+//   Vue.nextTick(() => {
+//     pagedata.setTitle(to.meta.title as string)
+//     pagedata.setDescription(to.meta.description as string)
+//   })
+// })
+
 export default router
