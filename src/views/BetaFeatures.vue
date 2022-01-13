@@ -127,7 +127,7 @@ export default defineComponent({
   name: 'BetaPage',
   data () {
     return {
-      pruneLevel: options.getPruneLevel() as number,
+      pruneLevel: options.getPruneLevel(),
       saved: false
     }
   },

@@ -93,7 +93,9 @@ function searchSemanticScholar (query: string) {
     )
     .then(res => {
       if (res.data && res.data.data) {
-        return res.data.data.map((p: SSPaper) => convertToIncitefulPaper(p)).filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
+        return res.data.data
+          .map((p: SSPaper) => convertToIncitefulPaper(p))
+          .filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
       } else {
         return []
       }
@@ -106,7 +108,11 @@ function searchSemanticScholar (query: string) {
 
 // Inciteful API Calls
 
-function queryGraphSingle (id: PaperID, sql: string, prune: number): Promise<any[][]> {
+function queryGraphSingle (
+  id: PaperID,
+  sql: string,
+  prune: number
+): Promise<any[][]> {
   let url = `${API_URL}/query/${id}`
 
   if (prune) {
@@ -116,7 +122,11 @@ function queryGraphSingle (id: PaperID, sql: string, prune: number): Promise<any
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraphMulti (ids: Array<PaperID>, sql: string, prune: number): Promise<any[][]> {
+function queryGraphMulti (
+  ids: Array<PaperID>,
+  sql: string,
+  prune: number
+): Promise<any[][]> {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
   let url = `${API_URL}/query?${idParams}`
 
@@ -128,7 +138,7 @@ function queryGraphMulti (ids: Array<PaperID>, sql: string, prune: number): Prom
 }
 
 function queryGraph (ids: Array<PaperID>, sql: string): Promise<any[][]> {
-  const prune = options.getPruneLevel()
+  const prune = options.getPruneLevel() || 10000
 
   if (Array.isArray(ids)) {
     if (ids.length === 1) {
@@ -141,7 +151,11 @@ function queryGraph (ids: Array<PaperID>, sql: string): Promise<any[][]> {
   }
 }
 
-function connectPapers (from: PaperID, to: PaperID, extendedGraphs: boolean): Promise<PaperConnector | undefined> {
+function connectPapers (
+  from: PaperID,
+  to: PaperID,
+  extendedGraphs: boolean
+): Promise<PaperConnector | undefined> {
   return axios
     .get(
       `${API_URL}/connector?from=${encodeURIComponent(
@@ -187,7 +201,9 @@ function getPapers (ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
 }
 
 function getPaperIds (ids: Array<PaperID>): Promise<PaperID[]> {
-  return getPapers(ids, true).then(data => { return data.map(p => p.id) })
+  return getPapers(ids, true).then(data => {
+    return data.map(p => p.id)
+  })
 }
 
 function searchPapers (query: string): Promise<Paper[]> {
