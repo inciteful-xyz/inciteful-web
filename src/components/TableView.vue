@@ -166,13 +166,13 @@
                     SQL
                   </router-link>
                 </div>
-                <div
-                  v-if="numPages > 1"
-                  class="flex-none whitespace-nowrap paging"
-                >
+                <div v-if="numPages > 1" class="flex-none whitespace-nowrap">
                   <paginate
-                    :page="numPages"
-                    :click-handler="turnPage"
+                    v-model="currentPage"
+                    :pages="numPages"
+                    active-color="rgba(139, 92, 246)"
+                    :hideFirstButton="true"
+                    :hideLastButton="true"
                     @update:modelValue="turnPage"
                   >
                   </paginate>
@@ -418,17 +418,24 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.pager {
-  @apply py-4;
+.Pagination {
+  @apply py-2;
 }
-.pager li {
+.Pagination li {
   @apply inline;
 }
-.pager li a {
-  @apply p-2 border-gray-200 border rounded m-1;
+.PaginationControl .Control {
+  @apply h-4 w-4 inline;
+}
+.PaginationControl .Control:hover {
+  @apply cursor-pointer;
 }
 
-.pager .active a {
+.Pagination li button {
+  @apply p-2 py-1 border-gray-200 border rounded m-1;
+}
+
+.Pagination .Page-active {
   @apply bg-purple-500 border-purple-800 text-white;
 }
 </style>

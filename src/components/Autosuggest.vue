@@ -2,14 +2,13 @@
   <div
     class="text-gray-800 relative"
     @keydown.esc="hideResults()"
-    @keydown.left="registerKeypress('up')"
-    @keydown.up="registerKeypress('up')"
-    @keydown.right="registerKeypress('down')"
-    @keydown.down="registerKeypress('down')"
-    @keydown.enter="sendSelect([results[highlighted].id])"
+    @keydown.enter="sendSelect(results[highlighted])"
+    v-click-outside="hideResults"
   >
     <input
       @click="displayResults()"
+      @keydown.up="registerKeypress('up')"
+      @keydown.down="registerKeypress('down')"
       class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
     bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
       ref="searchBox"
@@ -36,13 +35,19 @@
         max-h-96;
       "
     >
-      <ul class="list-none p-0 m-0">
+      <ul
+        class="list-none p-0 m-0"
+        @keydown.left="registerKeypress('up')"
+        @keydown.up="registerKeypress('up')"
+        @keydown.right="registerKeypress('down')"
+        @keydown.down="registerKeypress('down')"
+      >
         <li
           class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200"
           v-for="(result, index) in results"
           :key="index"
-          @click="sendSelect([result.id])"
-          :class="{ 'bg-gray-200': highligthed === index }"
+          @click="sendSelect(result)"
+          :class="{ 'bg-gray-200': highlighted === index }"
         >
           <div class="pb-1 text-sm">{{ result.title }} title</div>
           <div class="text-xs">
@@ -61,7 +66,7 @@
 
 import { defineComponent } from 'vue'
 import api from '../utils/api'
-// import Authors from './Authors.vue'
+import Authors from './Authors.vue'
 import numeral from 'numeral'
 import { Paper, PaperID } from '@/types/inciteful'
 
@@ -69,7 +74,7 @@ export default defineComponent({
   name: 'Autosuggest',
   components: {
     // VueAutosuggest,
-    // Authors
+    Authors
   },
   props: {
     clearOnSelect: {
@@ -147,8 +152,6 @@ export default defineComponent({
           this.highlighted = this.highlighted % this.results.length
         }
       }
-
-      console.log('highlighted: ' + this.highlighted)
     },
     hideResults () {
       this.showResults = false
@@ -176,11 +179,14 @@ export default defineComponent({
     getPaperValue (paper: Paper): string {
       return `${paper.title} (${paper.id})`
     },
-    sendSelect (ids: PaperID[]) {
-      api.getPaperIds(ids).then(ids => {
+    sendSelect (paper: Paper) {
+      api.getPaperIds([paper.id]).then(ids => {
         this.showResults = false
         this.$emit('selected', ids)
       })
+
+      // this.query = `${paper.title} (${paper.id})`
+      // this.results = undefined
     }
   }
 })
