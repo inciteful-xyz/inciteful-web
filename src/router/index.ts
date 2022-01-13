@@ -1,8 +1,7 @@
 import qs from 'qs'
-// import Vue from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-// import pagedata from '../utils/pagedata'
+import pagedata from '../utils/pagedata'
 
 const routes = [
   {
@@ -85,9 +84,7 @@ const routes = [
     path: '/p/q',
     name: 'LitReviewQuery',
     component: () =>
-      import(
-        /* webpackChunkName: "discovery" */ '../views/LitReviewQuery.vue'
-      ),
+      import(/* webpackChunkName: "discovery" */ '../views/LitReviewQuery.vue'),
     meta: {
       title: 'Literature Review Query',
       description:
@@ -159,26 +156,20 @@ const router = createRouter({
       return { left: 0, top: 0 }
     }
   },
-
-  // parseQuery: function (queryString) {
-  //   return qs.parse(queryString)
-  // },
-
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  parseQuery: qs.parse,
   stringifyQuery: function (params) {
     const result = qs.stringify(params, {
       arrayFormat: 'brackets'
     })
-    return result ? '?' + result : ''
+    return result || ''
   }
 })
 
-// router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-//   // Use next tick to handle router history correctly
-//   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
-//   Vue.nextTick(() => {
-//     pagedata.setTitle(to.meta.title as string)
-//     pagedata.setDescription(to.meta.description as string)
-//   })
-// })
+router.afterEach(to => {
+  pagedata.setTitle(to.meta.title as string)
+  pagedata.setDescription(to.meta.description as string)
+})
 
 export default router

@@ -551,16 +551,17 @@ export default defineComponent({
     }
   },
   watch: {
-    validState (newVal): void {
-      if (newVal) {
+    to (newVal, oldVal): void {
+      if (newVal !== oldVal) {
+        this.resetFilters()
         this.loadGraph()
       }
     },
-    to (): void {
-      this.resetFilters()
-    },
-    from (): void {
-      this.resetFilters()
+    from (newVal, oldVal): void {
+      if (newVal !== oldVal) {
+        this.resetFilters()
+        this.loadGraph()
+      }
     },
     extendedGraph (newVal, oldVal): void {
       if (newVal !== oldVal) {

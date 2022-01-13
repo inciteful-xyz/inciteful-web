@@ -165,13 +165,14 @@ export default defineComponent({
       if (this.getSelectedId()) return this.getSelectedId()
       else return this.query
     },
-    getSelectedId () {
-      // @ts-ignore
-      if (this.$refs.autocomplete.currentItem) {
-        // @ts-ignore
-        return this.$refs.autocomplete.currentItem.item.id
+    getSelectedId (): string | undefined {
+      if (
+        this.results &&
+        this.highlighted !== null &&
+        this.results[this.highlighted] !== undefined
+      ) {
+        return this.results[this.highlighted].id
       }
-      if (this.selected) return this.selected
     },
     format (val: number) {
       return numeral(val).format('0,0.[000000]')
@@ -179,14 +180,16 @@ export default defineComponent({
     getPaperValue (paper: Paper): string {
       return `${paper.title} (${paper.id})`
     },
-    sendSelect (paper: Paper) {
-      api.getPaperIds([paper.id]).then(ids => {
-        this.showResults = false
-        this.$emit('selected', ids)
-      })
+    sendSelect (paper: Paper | undefined) {
+      if (paper) {
+        api.getPaperIds([paper.id]).then(ids => {
+          this.showResults = false
+          this.$emit('selected', ids)
+        })
 
-      // this.query = `${paper.title} (${paper.id})`
-      // this.results = undefined
+        // this.query = `${paper.title} (${paper.id})`
+        // this.results = undefined
+      }
     }
   }
 })
