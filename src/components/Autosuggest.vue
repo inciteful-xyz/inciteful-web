@@ -2,14 +2,14 @@
   <div
     class="text-gray-800 relative"
     @keydown.esc="hideResults()"
-    @keydown.enter="sendSelect(results[highlighted])"
+    @keydown.enter="sendSelect()"
     v-click-away="hideResults"
   >
     <input
       @click="displayResults()"
       @keydown.up="registerKeypress('up')"
       @keydown.down="registerKeypress('down')"
-      @keydown.enter="sendSearched()"
+      @keydown.enter="sendSearched(highlighted)"
       @focus="isFocused = true"
       @blur="isFocused = false"
       class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
@@ -202,19 +202,22 @@ export default defineComponent({
           if (paper) {
             api.getPaperIds([paper.id]).then(ids => {
               this.showResults = false
+              // @ts-ignore
+              this.$refs.searchBox.blur()
               this.$emit('selected', ids)
             })
-
-            // this.query = `${paper.title} (${paper.id})`
-            // this.results = undefined
           }
         }
       }
     },
     sendSearched () {
-      if (this.query) {
+      if (this.highlighted) {
+        this.sendSelect(this.highlighted)()
+      } else if (this.query) {
         this.$emit('searched', this.query)
         this.showResults = false
+        // @ts-ignore
+        this.$refs.searchBox.blur()
       }
     }
   }
