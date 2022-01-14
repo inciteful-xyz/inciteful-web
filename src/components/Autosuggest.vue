@@ -9,6 +9,9 @@
       @click="displayResults()"
       @keydown.up="registerKeypress('up')"
       @keydown.down="registerKeypress('down')"
+      @keydown.enter="sendSearched()"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
       class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
     bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
       ref="searchBox"
@@ -17,7 +20,7 @@
       v-model="query"
     />
     <div
-      v-if="results && showResults"
+      v-if="shouldShowResults"
       class="
         origin-top-right
         absolute
@@ -90,7 +93,7 @@ export default defineComponent({
       default: undefined
     }
   },
-  emits: ['selected'],
+  emits: ['selected', 'searched'],
   data () {
     return {
       query: '',
@@ -100,7 +103,8 @@ export default defineComponent({
       selected: null as PaperID | null,
       highlighted: null as number | null,
       debounceMilliseconds: 200,
-      selectIsValid: true
+      selectIsValid: true,
+      isFocused: false
     }
   },
   created (): void {
@@ -112,6 +116,16 @@ export default defineComponent({
           this.query = this.getPaperValue(data)
         }
       })
+    }
+  },
+  computed: {
+    shouldShowResults (): boolean {
+      return (
+        this.showResults &&
+        this.isFocused &&
+        this.results !== undefined &&
+        this.results.length > 0
+      )
     }
   },
   watch: {
@@ -189,6 +203,12 @@ export default defineComponent({
 
         // this.query = `${paper.title} (${paper.id})`
         // this.results = undefined
+      }
+    },
+    sendSearched () {
+      if (this.query) {
+        this.$emit('searched', this.query)
+        this.showResults = false
       }
     }
   }

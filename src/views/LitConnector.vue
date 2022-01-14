@@ -221,7 +221,6 @@ export default defineComponent({
   },
   methods: {
     handleFromSelect (paper: Paper | undefined) {
-      console.log('from ' + paper)
       if (paper !== undefined) {
         this.from = paper
         if (paper && this.fromParam !== paper.id) {
@@ -230,7 +229,6 @@ export default defineComponent({
       }
     },
     handleToSelect (paper: Paper | undefined) {
-      console.log('to ' + paper)
       if (paper !== undefined) {
         this.to = paper
         if (this.toParam !== paper.id) {

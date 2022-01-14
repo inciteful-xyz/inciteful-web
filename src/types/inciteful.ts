@@ -2,7 +2,7 @@
 
 import { LayoutOptions, Core } from 'cytoscape'
 
-export type PaperID = string;
+export type PaperID = string
 
 export interface Paper {
   id: PaperID;
@@ -57,7 +57,7 @@ export interface ModalOptions {
   connectTo?: PaperID;
 }
 
-export type Path = PaperID[];
+export type Path = PaperID[]
 
 export interface Faq {
   question: string;
@@ -75,8 +75,8 @@ export interface GraphData {
 }
 
 export class IncitefulGraph {
-  cy: Core;
-  sourcePaperId?: PaperID;
+  cy: Core
+  sourcePaperId?: PaperID
   constructor (cy: Core, sourcePaperId?: PaperID) {
     this.cy = cy
     this.sourcePaperId = sourcePaperId
@@ -93,7 +93,7 @@ export class IncitefulGraph {
     if (this.cy && (this.cy.height() > 600 || !this.sourcePaperId)) {
       this.cy.fit()
     } else {
-      const j = this.cy.$(`#${this.sourcePaperId}`)
+      const j = this.cy.$(`[id = "${this.sourcePaperId}"]`)
       this.cy.reset().center(j)
     }
   }

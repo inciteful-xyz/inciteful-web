@@ -6,6 +6,7 @@
           ref="autosuggest"
           :defaultQuery="defaultQuery"
           @selected="sendSelect"
+          @searched="sendSearched"
         />
         <div v-if="showImport" class="text-right pt-1 text-sm">
           <input

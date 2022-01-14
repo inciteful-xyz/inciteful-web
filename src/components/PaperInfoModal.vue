@@ -252,6 +252,8 @@ export default defineComponent({
       this.$router.push({
         path: navigation.getPaperUrl(this.options!.paperId!)
       })
+
+      this.clearPaper()
     },
     backButton (): void {
       if (this.options && this.options.previousScreen) {

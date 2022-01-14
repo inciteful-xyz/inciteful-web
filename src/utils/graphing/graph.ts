@@ -13,7 +13,12 @@ import connector from './connector'
 import popper from 'cytoscape-popper'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import { ModalOptions, GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
+import {
+  ModalOptions,
+  GraphData,
+  IncitefulGraph,
+  PaperID
+} from '@/types/inciteful'
 import { Emitter } from 'mitt'
 
 cytoscape.use(popper)
@@ -73,7 +78,7 @@ function createTippys (cy: Core) {
 
         if (els) {
           els.forEach((id: PaperID) => {
-            const el = cy.$(`#${id}`)
+            const el = cy.$(`[id = "${id}"]`)
             if (el) el.addClass('highlighted')
           })
         }
@@ -87,7 +92,7 @@ function createTippys (cy: Core) {
       node.on('mouseout', function () {
         if (els) {
           els.forEach(id => {
-            const el = cy.$(`#${id}`)
+            const el = cy.$(`[id = "${id}"]`)
             if (el) el.removeClass('highlighted')
           })
         }
@@ -132,7 +137,6 @@ function loadBaseGraph (
   const cy = cytoscape({
     container,
     autounselectify: true,
-    wheelSensitivity: 0.15,
     userZoomingEnabled: true,
     userPanningEnabled: true,
     elements,
@@ -145,7 +149,13 @@ function loadBaseGraph (
   return cy
 }
 
-function loadGraph (graphData: GraphData, container: HTMLElement, bus: Emitter<any>, minDate: number, maxDate: number) {
+function loadGraph (
+  graphData: GraphData,
+  container: HTMLElement,
+  bus: Emitter<any>,
+  minDate: number,
+  maxDate: number
+) {
   let elements
   let layoutParams
   let contextMenuOptions
@@ -176,7 +186,8 @@ function loadGraph (graphData: GraphData, container: HTMLElement, bus: Emitter<a
   const graph = new IncitefulGraph(cy, graphData.sourcePaperId)
 
   if (contextMenuOptions) {
-    (cy as any).contextMenus(contextMenuOptions)
+    const cyany = cy as any
+    cyany.contextMenus(contextMenuOptions)
   }
 
   // @ts-ignore

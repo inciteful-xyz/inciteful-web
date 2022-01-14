@@ -186,11 +186,9 @@ export default defineComponent({
       if (param) {
         this.currentQuery = param
         this.defaultQuery = param
-
-        if (!param) {
-          this.loaded = true
-          this.valid = false
-        }
+      } else {
+        this.loaded = true
+        this.valid = false
       }
     },
     connectPaper (paper: Paper, setParam: boolean) {

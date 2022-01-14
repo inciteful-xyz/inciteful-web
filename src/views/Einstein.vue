@@ -203,7 +203,7 @@ export default defineComponent({
   },
   created () {
     this.toParam = this.$route.query.to as string | null
-    api.getPaper('81268560').then(paper => (this.from = paper))
+    api.getPaper('208883929').then(paper => (this.from = paper))
   },
   computed: {
     twitterLink (): string {
