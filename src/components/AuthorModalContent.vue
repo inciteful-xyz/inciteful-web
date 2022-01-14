@@ -16,10 +16,19 @@ export default defineComponent({
   components: {
     SqlView
   },
+
   props: {
     author: Object,
     ids: Array,
     options: Object
+  },
+  computed: {
+    sql () {
+      if (this.author) {
+        return `SELECT paper_id, doi, authors, title, published_year, num_cited_by\nFROM papers p\nWHERE {{filters}} AND p.paper_id IN (SELECT paper_id FROM authors WHERE author_id = ${this.author.author_id}) ORDER BY published_year DESC`
+      }
+      return ''
+    }
   }
 })
 </script>

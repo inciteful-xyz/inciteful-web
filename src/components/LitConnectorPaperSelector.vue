@@ -141,21 +141,19 @@ export default defineComponent({
     }
   },
   created () {
-    this.currentQuery = this.paperParam
-    this.defaultQuery = this.paperParam
-
-    if (!this.paperParam) {
-      this.loaded = true
-      this.valid = false
-    }
+    this.setupPaper(this.paperParam)
   },
   computed: {},
   emits: ['paperSelected'],
-
   watch: {
     currentQuery (newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
         this.loadPaper(newVal)
+      }
+    },
+    paperParam (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.setupPaper(newVal)
       }
     }
   },
@@ -183,6 +181,17 @@ export default defineComponent({
     },
     paperSelected (paper: Paper) {
       this.connectPaper(paper, true)
+    },
+    setupPaper (param: PaperID) {
+      if (param) {
+        this.currentQuery = param
+        this.defaultQuery = param
+
+        if (!param) {
+          this.loaded = true
+          this.valid = false
+        }
+      }
     },
     connectPaper (paper: Paper, setParam: boolean) {
       this.paper = paper

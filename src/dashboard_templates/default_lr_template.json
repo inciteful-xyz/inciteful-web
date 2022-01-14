@@ -14,7 +14,7 @@
     {
       "title": "Most Important Papers in the Graph",
       "subtext": "These are the \"Most Important\" papers in the network based on PageRank, these tend to be older papers and represent where the literature has come from.",
-      "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+      "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY (page_rank / (strftime('%Y', 'now') - published_year + 1)) DESC, adamic_adar DESC"
     },
     {
       "id": "recent-papers",

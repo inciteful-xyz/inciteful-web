@@ -207,6 +207,18 @@ export default defineComponent({
       return this.to !== undefined && this.from !== undefined
     }
   },
+  watch: {
+    '$route.query.to' (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.toParam = newVal ? newVal.toString() : null
+      }
+    },
+    '$route.query.from' (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.fromParam = newVal ? newVal.toString() : null
+      }
+    }
+  },
   methods: {
     handleFromSelect (paper: Paper | undefined) {
       console.log('from ' + paper)

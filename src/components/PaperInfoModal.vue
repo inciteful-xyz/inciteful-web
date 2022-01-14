@@ -91,6 +91,8 @@
               :paperId="options.paperId"
               :connectTo="options.connectTo"
               :options="options"
+              :graphIds="options.graphIds"
+              @clearModal="clearPaper"
             />
             <author-modal-content
               v-if="hasAuthor"
@@ -131,13 +133,11 @@
               </div>
               <div class="flex-1 sm:text-center">
                 <span class="inline-flex rounded-md shadow-sm">
-                  <a
+                  <button
                     v-if="hasPaper"
-                    v-on:click="paperUrl"
-                    :href="paperUrl"
+                    v-on:click="goToPaper"
                     class="
                       inline-flex
-                      cursor-pointer
                       items-center
                       px-4
                       py-2
@@ -159,7 +159,7 @@
                     "
                   >
                     Go to Graph
-                  </a>
+                  </button>
                 </span>
               </div>
               <div class="flex-1 text-right">
@@ -238,9 +238,6 @@ export default defineComponent({
     },
     validState (): boolean {
       return this.hasPaper || this.hasAuthor
-    },
-    paperUrl (): string {
-      return navigation.getPaperUrl(this.options!.paperId!)
     }
   },
   methods: {
@@ -250,6 +247,11 @@ export default defineComponent({
     },
     clearPaper (): void {
       this.options = undefined
+    },
+    goToPaper (): void {
+      this.$router.push({
+        path: navigation.getPaperUrl(this.options!.paperId!)
+      })
     },
     backButton (): void {
       if (this.options && this.options.previousScreen) {

@@ -35,6 +35,7 @@ export default defineComponent({
   },
   props: {
     paperId: {} as PropType<PaperID>,
+    graphIds: Array,
     connectTo: String,
     options: Object
   },
@@ -66,37 +67,42 @@ export default defineComponent({
     } else {
       api.getPaper(this.paperId).then(paper => (this.paper = paper))
     }
-    if (this.connectTo) {
-      this.loaded = false
-      api.connectPapers(this.connectTo, this.paperId, true).then(results => {
-        this.connectingResults = results
-        this.loaded = true
-      })
+    if (this.connectTo && this.paperId) {
+      this.connectPapers(this.connectTo, this.paperId)
     } else {
       this.connectingResults = undefined
     }
   },
   watch: {
-    paperId () {
+    paperId (newVal: string, oldVal: string) {
       if (!this.paperId) {
         this.paper = undefined
-      } else {
+      } else if (newVal !== oldVal) {
         api.getPaper(this.paperId).then(paper => (this.paper = paper))
+        if (this.connectTo) {
+          this.connectPapers(this.connectTo, this.paperId)
+        }
       }
     },
-    connectTo () {
-      if (this.connectTo) {
-        this.loaded = false
-        api.connectPapers(this.connectTo, this.paperId, true).then(results => {
-          this.connectingResults = results
-          this.loaded = true
-        })
-      } else {
-        this.connectingResults = undefined
+    connectTo (newVal: string, oldVal: string) {
+      if (newVal !== oldVal) {
+        if (this.connectTo && this.paperId) {
+          this.connectPapers(this.connectTo, this.paperId)
+        } else {
+          this.connectingResults = undefined
+        }
       }
     }
   },
+  emits: ['clearModal'],
   methods: {
+    connectPapers (from: string, to: string): void {
+      this.loaded = false
+      api.connectPapers(from, to, false).then(results => {
+        this.connectingResults = results
+        this.loaded = true
+      })
+    },
     goToLitConnector (): void {
       if (this.graphData) {
         this.$router.push({
@@ -106,6 +112,7 @@ export default defineComponent({
             from: this.graphData.fromId?.toString()
           }
         })
+        this.$emit('clearModal')
       }
     }
   }

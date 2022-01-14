@@ -543,6 +543,7 @@ export default defineComponent({
     },
     showExtendedGraphsReccomendation (): boolean {
       return (
+        !this.extendedGraph &&
         (this.reccomendExtendedGraphs ?? true) &&
         this.results !== undefined &&
         this.results.paths !== undefined &&

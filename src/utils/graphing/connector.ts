@@ -1,4 +1,9 @@
-import { EventObject, NodeDefinition, Position, ElementDefinition } from 'cytoscape'
+import {
+  EventObject,
+  NodeDefinition,
+  Position,
+  ElementDefinition
+} from 'cytoscape'
 import { Paper, GraphData } from '@/types/inciteful'
 import { Emitter } from 'mitt'
 
@@ -80,7 +85,11 @@ function makeTippy (p: Paper, title: string) {
   return content
 }
 
-function buildElements (graphData: GraphData, minDate: number, maxDate: number) {
+function buildElements (
+  graphData: GraphData,
+  minDate: number,
+  maxDate: number
+) {
   const elements: ElementDefinition[] = []
   const papers = graphData.papers ?? []
 
@@ -99,7 +108,8 @@ function buildElements (graphData: GraphData, minDate: number, maxDate: number) 
     if (graphData.toId === p.id || graphData.fromId === p.id) {
       size = 150
     } else {
-      (graphData.paths ?? []).forEach(a => {
+      const paths = graphData.paths ?? []
+      paths.forEach(a => {
         if (a.includes(p.id)) {
           for (let i = 0; i < a.length; i++) {
             elsToHighlight.add(a[i])
@@ -113,7 +123,10 @@ function buildElements (graphData: GraphData, minDate: number, maxDate: number) 
     }
 
     const date = p.published_year
-    const lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
+    let lightness = 70
+    if (minDate !== maxDate) {
+      lightness = 20 + 50 * (1 - (date - minDate) / (maxDate - minDate))
+    }
 
     const content = makeTippy(p, title)
 
