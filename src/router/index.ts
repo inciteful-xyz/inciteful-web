@@ -16,6 +16,30 @@ const routes = [
     }
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+    meta: {
+      title: 'Using Citations to Explore Academic Literature',
+      description:
+        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/'
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Register.vue'),
+    meta: {
+      title: 'Using Citations to Explore Academic Literature',
+      description:
+        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/'
+    }
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

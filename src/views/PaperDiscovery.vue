@@ -146,7 +146,7 @@ export default defineComponent({
     }
   },
   created () {
-    this.id = this.$route.params.pathMatch
+    this.id = this.$route.params.pathMatch as string
 
     if (this.id !== undefined) {
       this.setData(this.id)
