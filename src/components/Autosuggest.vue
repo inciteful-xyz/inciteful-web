@@ -3,7 +3,7 @@
     class="text-gray-800 relative"
     @keydown.esc="hideResults()"
     @keydown.enter="sendSelect(results[highlighted])"
-    v-click-outside="hideResults"
+    v-click-away="hideResults"
   >
     <input
       @click="displayResults()"
@@ -49,7 +49,8 @@
           class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200"
           v-for="(result, index) in results"
           :key="index"
-          @click="sendSelect(result)"
+          @click="sendSelect(index)"
+          v-touch:tap="sendSelect(index)"
           :class="{ 'bg-gray-200': highlighted === index }"
         >
           <div class="pb-1 text-sm">{{ result.title }} title</div>
@@ -174,7 +175,6 @@ export default defineComponent({
     displayResults () {
       this.showResults = true
     },
-
     getValue () {
       if (this.getSelectedId()) return this.getSelectedId()
       else return this.query
@@ -194,15 +194,20 @@ export default defineComponent({
     getPaperValue (paper: Paper): string {
       return `${paper.title} (${paper.id})`
     },
-    sendSelect (paper: Paper | undefined) {
-      if (paper) {
-        api.getPaperIds([paper.id]).then(ids => {
-          this.showResults = false
-          this.$emit('selected', ids)
-        })
+    sendSelect (index: number) {
+      return () => {
+        if (this.results) {
+          const paper = this.results[index]
+          if (paper) {
+            api.getPaperIds([paper.id]).then(ids => {
+              this.showResults = false
+              this.$emit('selected', ids)
+            })
 
-        // this.query = `${paper.title} (${paper.id})`
-        // this.results = undefined
+            // this.query = `${paper.title} (${paper.id})`
+            // this.results = undefined
+          }
+        }
       }
     },
     sendSearched () {

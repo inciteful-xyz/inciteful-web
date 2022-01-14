@@ -7,6 +7,8 @@ import store from './store'
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import VueTour from 'v3-tour'
+import VueClickAway from 'vue3-click-away'
+import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
 
@@ -34,19 +36,7 @@ app
   .use(router)
   .use(store)
   .use(VueTour)
-
-app.directive('click-outside', {
-  beforeMount (el, binding) {
-    el.clickOutsideEvent = function (event: Event) {
-      if (!(el === event.target || el.contains(event.target))) {
-        binding.value(event, el)
-      }
-    }
-    document.body.addEventListener('click', el.clickOutsideEvent)
-  },
-  unmounted (el) {
-    document.body.removeEventListener('click', el.clickOutsideEvent)
-  }
-})
+  .use(VueClickAway)
+  .use(Vue3TouchEvents)
 
 app.mount('#app')
