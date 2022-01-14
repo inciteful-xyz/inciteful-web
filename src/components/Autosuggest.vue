@@ -17,7 +17,8 @@
       ref="searchBox"
       type="text"
       placeholder="Paper title, DOI, PubMed URL, or arXiv URL"
-      v-model="query"
+      :value="query"
+      @input="e => (query = e.target.value)"
     />
     <div
       v-if="shouldShowResults"
