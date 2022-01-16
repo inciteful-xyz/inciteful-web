@@ -72,6 +72,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 export default defineComponent({
   data () {
@@ -117,7 +118,20 @@ export default defineComponent({
     },
     signUp () {
       // @TODO signUn logic will come here
-      console.log('sign up', this.email, this.password)
+      const auth = getAuth()
+      createUserWithEmailAndPassword(auth, this.email!, this.password!)
+        .then(userCredential => {
+          // Signed in
+          // const user = userCredential.user
+          console.log('Success! ', userCredential)
+          // ...
+        })
+        .catch(error => {
+          // const errorCode = error.code
+          // const errorMessage = error.message
+          console.log('Failed!', error)
+          // ..
+        })
     }
   }
 })

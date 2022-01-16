@@ -11,10 +11,7 @@ import VueClickAway from 'vue3-click-away'
 import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
-
-// Import the functions you need from the SDKs you need
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import '@/plugins/firebase'
 
 const emitter = mitt()
 const app = createApp(App)
@@ -44,19 +41,3 @@ app
   .use(Vue3TouchEvents)
 
 app.mount('#app')
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: 'AIzaSyB9dUX17PnfFy3z5zc6AQLvTKhCbiTU_As',
-  authDomain: 'inciteful-xyz.firebaseapp.com',
-  projectId: 'inciteful-xyz',
-  storageBucket: 'inciteful-xyz.appspot.com',
-  messagingSenderId: '1019177502693',
-  appId: '1:1019177502693:web:14a3ba42f1256dbd56110c'
-}
-
-// Initialize Firebase
-// const fbapp = initializeApp(firebaseConfig)
-firebase.initializeApp(firebaseConfig)
