@@ -33,7 +33,7 @@ export default defineComponent({
   },
   computed: {
     id (): PaperID {
-      return this.$route.params.pathMatch
+      return this.$route.params.pathMatch as string
     },
     ids (): PaperID[] {
       return [this.id]

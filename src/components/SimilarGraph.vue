@@ -24,9 +24,7 @@ export default defineComponent({
     sourceIds: {} as PropType<Array<PaperID>>,
     loading: {
       type: Boolean,
-      default () {
-        return true
-      }
+      default: true
     },
     emptyMessage: String
   },
@@ -39,7 +37,7 @@ export default defineComponent({
   },
   computed: {
     ids (): Array<PaperID> {
-      if (this.hasPaperID()) {
+      if (this.hasPaperID() && this.results) {
         return this.results.map(r => r.paper_id)
       }
       return []
@@ -86,9 +84,10 @@ export default defineComponent({
   methods: {
     hasPaperID (): boolean {
       return (
-        this.results &&
-        this.results.length > 0 &&
-        this.results[0].paper_id !== undefined
+        (this.results &&
+          this.results.length > 0 &&
+          this.results[0].paper_id !== undefined) ??
+        false
       )
     }
   }

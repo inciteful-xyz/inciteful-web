@@ -309,7 +309,9 @@ export default defineComponent({
     }
   },
   created () {
-    this.setData(this.ids)
+    if (this.ids) {
+      this.setData(this.ids)
+    }
   },
   computed: {
     visiblePapers (): Paper[] {
@@ -350,7 +352,9 @@ export default defineComponent({
       })
     },
     downloadBib (): void {
-      api.downloadBibFile(this.ids)
+      if (this.ids) {
+        api.downloadBibFile(this.ids)
+      }
     },
     togglePaperView (): void {
       this.hidePapers = !this.hidePapers

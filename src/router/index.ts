@@ -185,14 +185,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior (_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
       return { left: 0, top: 0 }
     }
   },
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   parseQuery: qs.parse,
   stringifyQuery: function (params) {

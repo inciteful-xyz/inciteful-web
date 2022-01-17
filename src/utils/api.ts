@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import axios, { AxiosError } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'

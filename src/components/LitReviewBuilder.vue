@@ -71,7 +71,7 @@ export default defineComponent({
         }
       }
       if (this.$route.name === 'PaperDiscovery') {
-        this.ids.add(this.$route.params.pathMatch)
+        this.ids.add(this.$route.params.pathMatch as string)
       }
       if (this.$route.query.from !== undefined && this.$route.query.from) {
         this.ids.add(this.$route.query.from as string)

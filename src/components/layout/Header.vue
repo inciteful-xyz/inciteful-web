@@ -157,10 +157,11 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import navigation from '../../navigation'
+import { PaperID } from '@/types/inciteful'
 
 export default defineComponent({
   name: 'Header',
@@ -173,10 +174,10 @@ export default defineComponent({
     }
   },
   methods: {
-    goToPaper (id) {
+    goToPaper (id: PaperID) {
       this.$router.push({ path: navigation.getPaperUrl(id) })
     },
-    goToSearch (query) {
+    goToSearch (query: string) {
       if (query && this.$route.query.q !== query) {
         this.$router.push({ name: 'Search', query: { q: query } })
       }

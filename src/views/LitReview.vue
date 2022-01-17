@@ -58,7 +58,6 @@ export default defineComponent({
     if (this.$route.query.ids !== undefined) {
       this.ids = this.$route.query.ids as PaperID[]
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },

@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { defineComponent } from 'vue'
 import api from '@/utils/api'
 import bib from '@/utils/bib'

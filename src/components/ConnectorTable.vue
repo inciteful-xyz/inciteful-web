@@ -192,7 +192,6 @@
   </div>
 </template>
 <script lang="ts">
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { defineComponent, PropType } from 'vue'
 // @ts-ignore
 import Paginate from '@hennge/vue3-pagination'

@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import mitt from 'mitt'
 import router from './router'
-import store from './store'
+// import store from './store'
 
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
 require('v3-tour/dist/vue-tour.css')
 app
   .use(router)
-  .use(store)
+  // .use(store)
   .use(VueTour)
   .use(VueClickAway)
   .use(Vue3TouchEvents)
