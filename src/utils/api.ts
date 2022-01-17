@@ -10,7 +10,7 @@ const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
 const idParamName = 'ids[]'
 const pruneParamName = 'prune'
-const queryApi = axios.create()
+const queryApi = axios.create() 
 const API_URL =
   process.env.VUE_APP_CLIENT_API_URL || 'https://api.inciteful.xyz'
 

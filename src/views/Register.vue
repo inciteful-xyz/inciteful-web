@@ -109,76 +109,79 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user'
 
 export default defineComponent({
-  data () {
-    return {
-      email: null as string | null,
-      password: null as string | null,
-      passwordRepeat: null as string | null,
-      validationErrors: [] as Array<string>
+  setup () {
+    const router = useRouter()
+    const userStore = useUserStore()
+
+    if (userStore.user) {
+      router.push('/')
     }
-  },
-  created () {
-    // getAuth().(user => {
-    //   if (user) {
-    //     this.$router.push('/')
-    //   }
-    // })
-  },
-  methods: {
-    resetError () {
-      this.validationErrors = []
-    },
-    validate () {
-      // Clear the errors before we validate again
-      this.resetError()
+
+    let email = ref(null as string | null)
+    let password = ref(null as string | null)
+
+    let passwordRepeat = ref(null as string | null)
+    let validationErrors = ref([] as Array<string>)
+
+    const signUp = () => {
+      // @TODO signIn logic will come here
+      if (email.value && password.value) {
+        userStore
+          .signInWithEmailAndPassword(email.value, password.value)
+          .then(() => {
+            if (userStore.user) {
+              router.push('/')
+            } else if (userStore.error) {
+              validationErrors.value.push(userStore.error.message)
+            }
+          })
+      }
+    }
+
+    const resetError = () => {
+      validationErrors.value = []
+    }
+
+    const validate = () => {
+      resetError()
 
       // email validation
-      if (!this.email) {
-        this.validationErrors.push('<strong>E-mail</strong> cannot be empty.')
+      if (!email.value) {
+        validationErrors.value.push('<strong>E-mail</strong> cannot be empty.')
       }
-      if (this.email && /.+@.+/.test(this.email) !== true) {
-        this.validationErrors.push('<strong>E-mail</strong> must be valid.')
+      if (email.value && /.+@.+/.test(email.value) !== true) {
+        validationErrors.value.push('<strong>E-mail</strong> must be valid.')
       }
       // password validation
-      if (!this.password) {
-        this.validationErrors.push('<strong>Password</strong> cannot be empty')
+      if (!password.value) {
+        validationErrors.value.push('<strong>Password</strong> cannot be empty')
       }
-      if (this.password && /.{6,}/.test(this.password) !== true) {
-        this.validationErrors.push(
+      if (password.value && /.{6,}/.test(password.value) !== true) {
+        validationErrors.value.push(
           '<strong>Password</strong> must be at least 6 characters long'
         )
       }
-      if (!(this.password === this.passwordRepeat)) {
-        this.validationErrors.push('<strong>Passwords</strong> did not match')
+      if (!(password.value === passwordRepeat.value)) {
+        validationErrors.value.push('<strong>Passwords</strong> do not match')
       }
 
-      // when valid then sign in
-      if (this.validationErrors.length <= 0) {
-        this.signUp()
+      if (validationErrors.value.length <= 0) {
+        signUp()
       }
-    },
-    signUp () {
-      // @TODO signUn logic will come here
-      const auth = getAuth()
-      createUserWithEmailAndPassword(auth, this.email!, this.password!)
-        .then(userCredential => {
-          // Signed in
-          // const user = userCredential.user
-          console.log('Success! ', userCredential)
-          // ...
-          this.$router.back()
-        })
-        .catch(error => {
-          // const errorCode = error.code
-          // const errorMessage = error.message
-          console.log('Failed!', error)
-          this.validationErrors.push('Error: ' + error.message)
-          // ..
-        })
+    }
+
+    return {
+      email,
+      password,
+      passwordRepeat,
+      validationErrors,
+      resetError,
+      validate
     }
   }
 })

@@ -69,6 +69,7 @@
             <div>
               <button
                 type="submit"
+                @click.prevent="validate()"
                 class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
               >
                 Sign in
@@ -88,111 +89,80 @@
         </div>
       </div>
     </div>
-
-    <div class="columns">
-      <div class="column is-half is-offset-one-quarter">
-        <div class="card">
-          <div class="card-content">
-            <div
-              v-if="validationErrors.length"
-              class="notification is-danger is-light"
-            >
-              <button @click="resetError()" class="delete"></button>
-              <div class="content">
-                Please resolve the following error(s) before proceeding.
-                <ul style="margin-top:0.3em; margin-left: 1em">
-                  <li
-                    v-for="(error, index) in validationErrors"
-                    :key="`error-${index}`"
-                    v-html="error"
-                  />
-                </ul>
-              </div>
-            </div>
-            <form>
-              <div class="field">
-                <label class="label">E-mail</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    type="text"
-                    autocomplete="email"
-                    v-model="email"
-                    placeholder="example@email.com"
-                  />
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">Password</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    type="password"
-                    autocomplete="current-password"
-                    v-model="password"
-                    placeholder="Password"
-                  />
-                </div>
-              </div>
-              <div class="field">
-                <p class="control">
-                  <button @click.prevent="validate()" class="button is-success">
-                    Login
-                  </button>
-                </p>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user'
 
 export default defineComponent({
-  data () {
-    return {
-      email: null as string | null,
-      password: null as string | null,
-      validationErrors: [] as Array<string>
+  setup (props) {
+    const router = useRouter()
+    const userStore = useUserStore()
+
+    console.log(props)
+    console.log('test')
+
+    if (userStore.user) {
+      router.push('/')
     }
-  },
-  methods: {
-    resetError () {
-      this.validationErrors = []
-    },
-    validate () {
+
+    let email = ref(null as string | null)
+    let password = ref(null as string | null)
+    let validationErrors = ref([] as Array<string>)
+
+    const signIn = () => {
+      if (email.value && password.value) {
+        userStore
+          .signInWithEmailAndPassword(email.value, password.value)
+          .then(() => {
+            if (userStore.user) {
+              router.push('/')
+            } else if (userStore.error) {
+              validationErrors.value.push(userStore.error.message)
+            }
+          })
+      }
+    }
+
+    const resetError = () => {
+      validationErrors.value = []
+    }
+
+    const validate = () => {
       // Clear the errors before we validate again
-      this.resetError()
+      resetError()
 
       // email validation
-      if (!this.email) {
-        this.validationErrors.push('<strong>E-mail</strong> cannot be empty.')
+      if (!email.value) {
+        validationErrors.value.push('<strong>E-mail</strong> cannot be empty.')
       }
-      if (this.email && /.+@.+/.test(this.email) !== true) {
-        this.validationErrors.push('<strong>E-mail</strong> must be valid.')
+      if (email.value && /.+@.+/.test(email.value) !== true) {
+        validationErrors.value.push('<strong>E-mail</strong> must be valid.')
       }
       // password validation
-      if (!this.password) {
-        this.validationErrors.push('<strong>Password</strong> cannot be empty')
+      if (!password.value) {
+        validationErrors.value.push('<strong>Password</strong> cannot be empty')
       }
-      if (this.password && /.{6,}/.test(this.password) !== true) {
-        this.validationErrors.push(
+      if (password.value != null && /.{6,}/.test(password.value) !== true) {
+        validationErrors.value.push(
           '<strong>Password</strong> must be at least 6 characters long'
         )
       }
       // when valid then sign in
-      if (this.validationErrors.length <= 0) {
-        this.signIn()
+      if (validationErrors.value.length <= 0) {
+        signIn()
       }
-    },
-    signIn () {
-      // @TODO signIn logic will come here
-      console.log('sign in', this.email, this.password)
-      this.$router.back()
+    }
+
+    return {
+      email,
+      password,
+      validationErrors,
+      resetError,
+      validate
     }
   }
 })

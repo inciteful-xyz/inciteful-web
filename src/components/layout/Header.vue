@@ -4,7 +4,7 @@
       <div class="flex justify-between h-16">
         <div class="flex px-2 lg:px-0">
           <div class="flex-shrink-0 flex items-center">
-            <a href="/" id="logo">
+            <router-link to="/" id="logo">
               <img
                 class="h-8 hidden sm:block"
                 src="../../assets/images/logo-300.png"
@@ -15,25 +15,9 @@
                 src="../../assets/images/profile-transparent.png"
                 alt="Inciteful Logo"
               />
-            </a>
+            </router-link>
           </div>
           <div class="hidden lg:ml-6 lg:flex">
-            <!-- <a href="/p"
-                            class="inline-flex items-center px-1 pt-1 border-b-2 border-purple-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-purple-700 transition duration-150 ease-in-out">
-                            Discovery
-                        </a> -->
-            <a
-              href="/p"
-              class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-            >
-              Discovery
-            </a>
-            <a
-              href="/c"
-              class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-            >
-              Connector
-            </a>
             <a
               href="https://help.inciteful.xyz"
               class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
@@ -66,6 +50,26 @@
             v-on:selected="goToPaper"
             v-on:searched="goToSearch"
           />
+        </div>
+        <div class="flex px-2 lg:px-0">
+          <div class="hidden lg:ml-6 lg:flex">
+            <div>
+              <router-link
+                to="/login"
+                class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+              >
+                Login
+              </router-link>
+            </div>
+            <div>
+              <router-link
+                to="/register"
+                class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+              >
+                Register
+              </router-link>
+            </div>
+          </div>
         </div>
         <div class="flex items-center lg:hidden">
           <button
@@ -119,17 +123,15 @@
       }"
     >
       <div class="pt-2 pb-3">
-        <!-- <a href="/p"
-                    class="block pl-3 pr-4 py-2 border-l-4 border-purple-500 text-base font-medium text-purple-700 bg-purple-50 focus:outline-none focus:text-purple-800 focus:bg-purple-100 focus:border-purple-700 transition duration-150 ease-in-out">Discovery</a> -->
-        <a
-          href="/p"
+        <router-link
+          to="/p"
           class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-          >Discovery</a
+          >Discovery</router-link
         >
-        <a
-          href="/c"
+        <router-link
+          to="/c"
           class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-          >Connector</a
+          >Connector</router-link
         >
         <a
           href="https://help.inciteful.xyz"
@@ -158,32 +160,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import navigation from '../../navigation'
 import { PaperID } from '@/types/inciteful'
+import { useRouter, useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import router from '../../router/index'
 
 export default defineComponent({
   name: 'Header',
   components: {
     GraphSearch
   },
-  data () {
-    return {
-      mobileMenuExpanded: false
+  setup () {
+    const router = useRouter()
+    const route = useRoute()
+    const userStore = useUserStore()
+    let mobileMenuExpanded = ref(false)
+
+    const toggleMobileMenu = () => {
+      mobileMenuExpanded.value = !mobileMenuExpanded.value
     }
-  },
-  methods: {
-    goToPaper (id: PaperID) {
-      this.$router.push({ path: navigation.getPaperUrl(id) })
-    },
-    goToSearch (query: string) {
-      if (query && this.$route.query.q !== query) {
-        this.$router.push({ name: 'Search', query: { q: query } })
+    const goToPaper = (id: PaperID) => {
+      router.push({ path: navigation.getPaperUrl(id) })
+    }
+
+    const goToSearch = (query: string) => {
+      if (query && route.query.q !== query) {
+        router.push({ name: 'Search', query: { q: query } })
       }
-    },
-    toggleMobileMenu () {
-      this.mobileMenuExpanded = !this.mobileMenuExpanded
+    }
+
+    return {
+      mobileMenuExpanded,
+      toggleMobileMenu,
+      goToPaper,
+      userStore,
+      goToSearch
     }
   }
 })
