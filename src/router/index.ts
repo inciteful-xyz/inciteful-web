@@ -21,10 +21,10 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/Login.vue'),
     meta: {
-      title: 'Using Citations to Explore Academic Literature',
+      title: 'Login',
       description:
         'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
-      canonical: '/'
+      canonical: '/login'
     }
   },
   {
@@ -33,10 +33,22 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/Register.vue'),
     meta: {
-      title: 'Using Citations to Explore Academic Literature',
+      title: 'Register',
       description:
         'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
-      canonical: '/'
+      canonical: '/register'
+    }
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Forgot.vue'),
+    meta: {
+      title: 'Forgot password',
+      description:
+        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/forgot'
     }
   },
   {
@@ -190,7 +202,6 @@ const router = createRouter({
     return result || ''
   }
 })
-
 router.afterEach(to => {
   pagedata.setTitle(to.meta.title as string)
   pagedata.setDescription(to.meta.description as string)
