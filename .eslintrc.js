@@ -12,7 +12,6 @@ module.exports = {
   ],
   parserOptions: {
     parser: '@typescript-eslint/parser'
-    // parser: 'babel-eslint'
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
