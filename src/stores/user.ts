@@ -1,5 +1,5 @@
 
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, getIdTokenResult, IdTokenResult, AuthError, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, getIdTokenResult, IdTokenResult, AuthError, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { defineStore } from 'pinia'
 import '@/plugins/firebase'
 
@@ -13,7 +13,8 @@ export const useUserStore = defineStore({
         return {
             user: auth.currentUser,
             error: null as null | AuthError,
-            token: null as null | IdTokenResult
+            token: null as null | IdTokenResult,
+            enabled: process.env.VUE_APP_SHOW_LOGIN == "true"
         }
     },
     actions: {
@@ -63,6 +64,16 @@ export const useUserStore = defineStore({
                     }
                 },
             );
+        },
+        async sendPasswordResetEmail(email: string) {
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    // Password reset email sent!
+                    // ..
+                })
+                .catch((error) => {
+                    this.error = error
+                });
         }
     },
     getters: {

@@ -7,6 +7,9 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div v-if="success" class="rounded-md bg-green-50 p-8 mb-8 shadow">
+        If the user was found, an email has been sent to the user's email.
+      </div>
       <div
         v-if="validationErrors.length"
         class="rounded-md bg-red-50 p-8 mb-8 shadow"
@@ -45,6 +48,7 @@
 
           <div>
             <button
+              @click.prevent="validate"
               type="submit"
               class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
             >
@@ -60,18 +64,35 @@
 <script lang="ts">
 import { useUserStore } from '@/stores/user'
 import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup () {
-    let email = ref(null as string | null)
-    let validationErrors = ref([] as Array<string>)
+    const router = useRouter()
     const userStore = useUserStore()
+
+    if (userStore.isSignedIn) {
+      router.push('/')
+    }
+
+    let email = ref(null as string | null)
+    let success = ref(false)
+
+    let validationErrors = ref([] as Array<string>)
 
     const resetError = () => {
       validationErrors.value = []
     }
     const recover = () => {
-      validationErrors.value = []
+      if (email.value) {
+        userStore.sendPasswordResetEmail(email.value).then(() => {
+          if (userStore.error) {
+            validationErrors.value.push(userStore.error.message)
+          } else {
+            success.value = true
+          }
+        })
+      }
     }
 
     const validate = () => {
@@ -93,7 +114,8 @@ export default defineComponent({
     return {
       email,
       validationErrors,
-      validate
+      validate,
+      success
     }
   }
 })

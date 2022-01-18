@@ -52,6 +52,18 @@ const routes = [
     }
   },
   {
+    path: '/user',
+    name: 'UserIndex',
+    component: () =>
+      import(/* webpackChunkName: "user" */ '../views/user/UserIndex.vue'),
+    meta: {
+      title: 'My Dashboard',
+      description:
+        'Your user dashboard',
+      canonical: '/user'
+    }
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -185,7 +197,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 
-  scrollBehavior (_to, _from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {

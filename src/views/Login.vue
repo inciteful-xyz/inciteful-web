@@ -105,7 +105,7 @@ export default defineComponent({
     console.log(props)
     console.log('test')
 
-    if (userStore.user) {
+    if (userStore.isSignedIn) {
       router.push('/')
     }
 
@@ -119,7 +119,7 @@ export default defineComponent({
           .signInWithEmailAndPassword(email.value, password.value)
           .then(() => {
             if (userStore.user) {
-              router.push('/')
+              router.push('/user')
             } else if (userStore.error) {
               validationErrors.value.push(userStore.error.message)
             }

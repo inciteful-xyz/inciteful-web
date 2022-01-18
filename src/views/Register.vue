@@ -118,7 +118,7 @@ export default defineComponent({
     const router = useRouter()
     const userStore = useUserStore()
 
-    if (userStore.user) {
+    if (userStore.isSignedIn) {
       router.push('/')
     }
 
