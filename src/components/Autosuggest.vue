@@ -211,7 +211,7 @@ export default defineComponent({
       }
     },
     sendSearched () {
-      if (this.highlighted) {
+      if (this.highlighted !== null && this.highlighted >= 0) {
         this.sendSelect(this.highlighted)()
       } else if (this.query) {
         this.$emit('searched', this.query)
