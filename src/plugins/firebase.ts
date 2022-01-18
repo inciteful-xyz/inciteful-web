@@ -1,8 +1,5 @@
 import { initializeApp } from 'firebase/app'
 
-// Import needed firebase modules
-import 'firebase/auth'
-
 // Firebase app config
 const config = {
   apiKey: process.env.VUE_APP_API_KEY,

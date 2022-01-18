@@ -58,38 +58,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  data () {
-    return {
-      email: null as string | null,
-      validationErrors: [] as Array<string>
+  setup () {
+    let email = ref(null as string | null)
+    let validationErrors = ref([] as Array<string>)
+    const userStore = useUserStore()
+
+    const resetError = () => {
+      validationErrors.value = []
     }
-  },
-  methods: {
-    resetError () {
-      this.validationErrors = []
-    },
-    validate () {
-      // Clear the errors before we validate again
-      this.resetError()
+    const recover = () => {
+      validationErrors.value = []
+    }
+
+    const validate = () => {
+      resetError()
 
       // email validation
-      if (!this.email) {
-        this.validationErrors.push('<strong>E-mail</strong> cannot be empty.')
+      if (!email.value) {
+        validationErrors.value.push('<strong>E-mail</strong> cannot be empty.')
       }
-      if (this.email && /.+@.+/.test(this.email) !== true) {
-        this.validationErrors.push('<strong>E-mail</strong> must be valid.')
+      if (email.value && /.+@.+/.test(email.value) !== true) {
+        validationErrors.value.push('<strong>E-mail</strong> must be valid.')
       }
       // when valid then sign in
-      if (this.validationErrors.length <= 0) {
-        this.recover()
+      if (validationErrors.value.length <= 0) {
+        recover()
       }
-    },
-    recover () {
-      // @TODO signIn logic will come here
-      console.log('sign in', this.email)
+    }
+
+    return {
+      email,
+      validationErrors,
+      validate
     }
   }
 })
