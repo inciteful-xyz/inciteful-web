@@ -22,12 +22,10 @@ export const useUserStore = defineStore({
             return createUserWithEmailAndPassword(auth, email, password)
                 .then(userCredential => {
                     // Signed in
-                    console.log('Success! ', userCredential)
                     this.user = userCredential.user
                     this.error = null
                 })
                 .catch(error => {
-                    console.log('Failed!', error)
                     this.error = error
                     this.user = null
                 })
@@ -36,20 +34,17 @@ export const useUserStore = defineStore({
             return signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     // Signed in
-                    console.log('Success! ', userCredential)
                     this.user = userCredential.user
                     this.error = null
                     this.token = await getIdTokenResult(userCredential.user);
                 })
                 .catch(error => {
-                    console.log('Failed!', error)
                     this.error = error
                     this.user = null
                     this.token = null
                 })
         },
         signOut() {
-            console.log('Signing out...')
             getAuth().signOut()
         },
         async bindUser() {
