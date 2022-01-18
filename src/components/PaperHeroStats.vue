@@ -96,7 +96,9 @@ export default defineComponent({
     }
   },
   created (): void {
-    this.queryOA(this.doi)
+    if (this.doi) {
+      this.queryOA(this.doi)
+    }
   },
   methods: {
     queryOA (doi: string): void {

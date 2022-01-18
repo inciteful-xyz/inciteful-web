@@ -5,19 +5,22 @@
     >
       <nav class="-mx-5 -my-2 flex flex-wrap justify-center">
         <div class="px-5 py-2">
-          <a href="/p" class="text-base leading-6 hover:text-gray-300">
+          <router-link to="/p" class="text-base leading-6 hover:text-gray-300">
             Paper Discovery
-          </a>
+          </router-link>
         </div>
         <div class="px-5 py-2">
-          <a href="/c" class="text-base leading-6 hover:text-gray-300">
+          <router-link to="/c" class="text-base leading-6 hover:text-gray-300">
             Literature Connector
-          </a>
+          </router-link>
         </div>
         <div class="px-5 py-2">
-          <a href="/einstein" class="text-base leading-6 hover:text-gray-300">
+          <router-link
+            to="/einstein"
+            class="text-base leading-6 hover:text-gray-300"
+          >
             6° of Einstein
-          </a>
+          </router-link>
         </div>
         <div class="px-5 py-2">
           <a
@@ -65,16 +68,21 @@
       </nav>
       <div class="mt-8">
         <p class="text-center text-base leading-6 ">
-          &copy; 2020 Inciteful. All rights reserved.
+          &copy; {{ year }} Inciteful. All rights reserved.
         </p>
       </div>
     </div>
   </footer>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({
-  name: 'Footer'
+  name: 'Footer',
+  setup () {
+    return {
+      year: new Date().getFullYear()
+    }
+  }
 })
 </script>

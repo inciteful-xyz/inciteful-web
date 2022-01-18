@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import mitt from 'mitt'
 import router from './router'
-import store from './store'
+import { createPinia } from 'pinia'
 
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
@@ -11,9 +11,13 @@ import VueClickAway from 'vue3-click-away'
 import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
+import { useUserStore } from './stores/user'
+require('v3-tour/dist/vue-tour.css')
+
 
 const emitter = mitt()
 const app = createApp(App)
+
 app.config.globalProperties.emitter = emitter
 
 if (process.env.NODE_ENV === 'production') {
@@ -31,12 +35,20 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-require('v3-tour/dist/vue-tour.css')
-app
-  .use(router)
-  .use(store)
-  .use(VueTour)
-  .use(VueClickAway)
-  .use(Vue3TouchEvents)
 
-app.mount('#app')
+(async () => {
+  app
+    .use(createPinia())
+
+  app.use(createPinia());
+  const { bindUser } = useUserStore();
+  await bindUser();
+
+  app.use(router)
+    .use(VueTour)
+    .use(VueClickAway)
+    .use(Vue3TouchEvents)
+
+  app.mount('#app')
+
+})();

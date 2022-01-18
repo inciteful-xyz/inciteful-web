@@ -57,8 +57,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-
 import { defineComponent } from 'vue'
 import Autosuggest from './Autosuggest.vue'
 

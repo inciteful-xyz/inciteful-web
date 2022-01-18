@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import cytoscape, { Core, NodeSingular, ElementDefinition } from 'cytoscape'
 // @ts-ignore
 import contextMenus from 'cytoscape-context-menus'

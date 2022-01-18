@@ -7,7 +7,7 @@
   ></v-tour>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'PaperPageTour',
@@ -26,15 +26,16 @@ export default defineComponent({
     }
   },
   mounted: function () {
-    if (localStorage[this.name]) {
+    if (this.name && localStorage[this.name]) {
       this.sawTour = true
     }
   },
   watch: {
     ready (newVal, oldVal) {
       if (newVal && !oldVal) {
-        if (!this.sawTour) {
+        if (!this.sawTour && this.name) {
           this.sawTour = localStorage[this.name] = true
+          // @ts-ignore
           this.$tours[this.name].start()
         }
       }
@@ -42,7 +43,10 @@ export default defineComponent({
   },
   methods: {
     finish () {
-      document.getElementById('body').scrollIntoView({ behavior: 'smooth' })
+      let ele = document.getElementById('body')
+      if (ele) {
+        ele.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 })

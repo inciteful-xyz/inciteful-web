@@ -16,6 +16,54 @@ const routes = [
     }
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+    meta: {
+      title: 'Login',
+      description:
+        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/login'
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Register.vue'),
+    meta: {
+      title: 'Register',
+      description:
+        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/register'
+    }
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Forgot.vue'),
+    meta: {
+      title: 'Forgot password',
+      description:
+        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/forgot'
+    }
+  },
+  {
+    path: '/user',
+    name: 'UserIndex',
+    component: () =>
+      import(/* webpackChunkName: "user" */ '../views/user/UserIndex.vue'),
+    meta: {
+      title: 'My Dashboard',
+      description:
+        'Your user dashboard',
+      canonical: '/user'
+    }
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -149,14 +197,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
       return { left: 0, top: 0 }
     }
   },
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   parseQuery: qs.parse,
   stringifyQuery: function (params) {
@@ -166,7 +213,6 @@ const router = createRouter({
     return result || ''
   }
 })
-
 router.afterEach(to => {
   pagedata.setTitle(to.meta.title as string)
   pagedata.setDescription(to.meta.description as string)
