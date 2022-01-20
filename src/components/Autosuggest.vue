@@ -11,7 +11,6 @@
       @keydown.down="registerKeypress('down')"
       @keydown.enter="sendSearched(highlighted)"
       @focus="isFocused = true"
-      @blur="isFocused = false"
       class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
     bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
       ref="searchBox"

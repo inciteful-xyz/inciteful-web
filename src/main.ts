@@ -37,10 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 (async () => {
-  app
-    .use(createPinia())
-
-  app.use(createPinia());
+  app.use(createPinia())
   const { bindUser } = useUserStore();
   await bindUser();
 
