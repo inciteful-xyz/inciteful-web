@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, PaperConnector, PaperID } from '../types/inciteful'
+import { Paper, Author, PaperConnector, PaperID, ZoteroToken } from '../types/inciteful';
 import { SSPaper, SSAuthor } from '../types/semanticScholar'
 
 const MAX_INCITEFUL_REQUESTS = 100
@@ -10,7 +10,7 @@ const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
 const idParamName = 'ids[]'
 const pruneParamName = 'prune'
-const queryApi = axios.create() 
+const queryApi = axios.create()
 const API_URL =
   process.env.VUE_APP_CLIENT_API_URL || 'https://api.inciteful.xyz'
 
@@ -39,17 +39,17 @@ queryApi.interceptors.response.use(
 
 axiosRetry(queryApi, { retries: 3 })
 
-function handleIncitefulErr (err: AxiosError) {
+function handleIncitefulErr(err: AxiosError) {
   logError(err)
 }
 
-function handleServiceErr (err: AxiosError) {
+function handleServiceErr(err: AxiosError) {
   if (err.response && err.response.status !== 404) {
     logError(err)
   }
 }
 
-function convertToIncitefulAuthor (ssAuthor: SSAuthor): Author {
+function convertToIncitefulAuthor(ssAuthor: SSAuthor): Author {
   return {
     author_id: ssAuthor.id,
     name: ssAuthor.name,
@@ -58,7 +58,7 @@ function convertToIncitefulAuthor (ssAuthor: SSAuthor): Author {
   }
 }
 
-function convertToIncitefulPaper (ssPaper: SSPaper): Paper {
+function convertToIncitefulPaper(ssPaper: SSPaper): Paper {
   return {
     id: `s2id:${ssPaper.paperId}`,
     title: ssPaper.title,
@@ -74,16 +74,16 @@ function convertToIncitefulPaper (ssPaper: SSPaper): Paper {
   }
 }
 
-function fixPaperID (p: Paper): Paper {
+function fixPaperID(p: Paper): Paper {
   p.id = p.id.toString()
   return p
 }
 
-function fixPaperIDs (p: Paper[]): Paper[] {
+function fixPaperIDs(p: Paper[]): Paper[] {
   return p.map(p => fixPaperID(p))
 }
 
-function searchSemanticScholar (query: string) {
+function searchSemanticScholar(query: string): Promise<Paper[]> {
   return axios
     .get(
       `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title,year&query=${encodeURIComponent(
@@ -91,23 +91,23 @@ function searchSemanticScholar (query: string) {
       )}`
     )
     .then(res => {
-      if (res.data && res.data.data) {
+      if (res.data && res.data.data && res.data.data.length > 0) {
         return res.data.data
           .map((p: SSPaper) => convertToIncitefulPaper(p))
           .filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
       } else {
-        return []
+        return Promise.reject()
       }
     })
     .catch(err => {
       handleServiceErr(err)
-      return Promise.resolve([])
+      return Promise.reject()
     })
 }
 
 // Inciteful API Calls
 
-function queryGraphSingle (
+function queryGraphSingle(
   id: PaperID,
   sql: string,
   prune: number
@@ -121,7 +121,7 @@ function queryGraphSingle (
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraphMulti (
+function queryGraphMulti(
   ids: Array<PaperID>,
   sql: string,
   prune: number
@@ -136,7 +136,7 @@ function queryGraphMulti (
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraph (ids: Array<PaperID>, sql: string): Promise<any[][]> {
+function queryGraph(ids: Array<PaperID>, sql: string): Promise<any[][]> {
   const prune = options.getPruneLevel() || 10000
 
   if (Array.isArray(ids)) {
@@ -150,7 +150,7 @@ function queryGraph (ids: Array<PaperID>, sql: string): Promise<any[][]> {
   }
 }
 
-function connectPapers (
+function connectPapers(
   from: PaperID,
   to: PaperID,
   extendedGraphs: boolean
@@ -177,7 +177,7 @@ function connectPapers (
     })
 }
 
-function getPaper (id: PaperID): Promise<Paper | undefined> {
+function getPaper(id: PaperID): Promise<Paper | undefined> {
   return axios
     .get(`${API_URL}/paper/${id}`)
     .then(response => fixPaperID(response.data))
@@ -187,7 +187,27 @@ function getPaper (id: PaperID): Promise<Paper | undefined> {
     })
 }
 
-function getPapers (ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
+function getZoteroAuthUrl(): Promise<string | undefined> {
+  return axios
+    .get(`${API_URL}/zotero/auth/initiate`)
+    .then(response => response.data)
+    .catch(err => {
+      handleIncitefulErr(err)
+      return undefined
+    })
+}
+
+function getZoteroAuth(oauthToken: string): Promise<ZoteroToken | undefined> {
+  return axios
+    .get(`${API_URL}/zotero/auth/fetch?oauth_token=${oauthToken}`)
+    .then(response => response.data)
+    .catch(err => {
+      handleIncitefulErr(err)
+      return undefined
+    })
+}
+
+function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
@@ -199,13 +219,30 @@ function getPapers (ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
     })
 }
 
-function getPaperIds (ids: Array<PaperID>): Promise<PaperID[]> {
+function getPaperIds(ids: Array<PaperID>): Promise<PaperID[]> {
   return getPapers(ids, true).then(data => {
     return data.map(p => p.id)
   })
 }
 
-function searchPapers (query: string): Promise<Paper[]> {
+function searchPapers(query: string): Promise<Paper[]> {
+  if (query) {
+    const incitefulSearch = searchInciteful(query)
+    const ssSearch = searchSemanticScholar(query)
+
+    return Promise.any([incitefulSearch, ssSearch])
+      .then(data => data)
+      .catch(err => {
+        handleIncitefulErr(err)
+        return Promise.resolve([])
+      })
+  } else {
+    return Promise.resolve([])
+  }
+}
+
+
+function searchInciteful(query: string): Promise<Paper[]> {
   if (query) {
     const params = new URLSearchParams([['q', query]])
     return axios
@@ -213,23 +250,23 @@ function searchPapers (query: string): Promise<Paper[]> {
         params,
         timeout: 1000
       })
-      .then(response => fixPaperIDs(response.data))
-      .catch(() => {
-        return []
-      })
-      .then(data => {
-        if (data.length > 0) {
-          return data
+      .then(response => {
+        if (response.data.length > 0) {
+          return fixPaperIDs(response.data)
         } else {
-          return searchSemanticScholar(query).then(data => data)
+          return Promise.reject()
         }
+      })
+      .catch(() => {
+        return Promise.reject()
       })
   } else {
     return Promise.resolve([])
   }
 }
 
-function getCitations (ids: Array<string>): Promise<PaperID[]> {
+
+function getCitations(ids: Array<string>): Promise<PaperID[]> {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   return axios
@@ -241,13 +278,13 @@ function getCitations (ids: Array<string>): Promise<PaperID[]> {
     })
 }
 
-function downloadBibFile (ids: Array<string>) {
+function downloadBibFile(ids: Array<string>) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
   window.location.href = `${API_URL}/bib?${idParams}`
 }
 
-function unpaywall (doi: string) {
+function unpaywall(doi: string) {
   return axios
     .get(`https://api.unpaywall.org/v2/${doi}?email=info@inciteful.xyz`)
     .then(response => response.data)
@@ -265,6 +302,8 @@ export default {
   getPapers,
   connectPapers,
   getPaperIds,
+  getZoteroAuthUrl,
+  getZoteroAuth,
   searchPapers,
   downloadBibFile,
   getCitations

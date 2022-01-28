@@ -40,7 +40,8 @@
     "vue": "^3.2.0",
     "vue-router": "^4.0.0-alpha.6",
     "vue3-click-away": "^1.2.1",
-    "vue3-touch-events": "^4.1.0"
+    "vue3-touch-events": "^4.1.0",
+    "zotero-api-client": "^0.37.1"
   },
   "devDependencies": {
     "@sentry/webpack-plugin": "^1.18.3",
@@ -52,13 +53,13 @@
     "@types/prismjs": "^1.16.6",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "@vue/cli": "^5.0.0-rc.2",
     "@vue/cli-plugin-babel": "^5.0.0-rc.2",
     "@vue/cli-plugin-eslint": "^5.0.0-rc.2",
     "@vue/cli-plugin-router": "^5.0.0-rc.2",
     "@vue/cli-plugin-typescript": "^5.0.0-rc.2",
     "@vue/cli-plugin-unit-jest": "^5.0.0-rc.2",
     "@vue/cli-service": "^5.0.0-rc.2",
-    "@vue/cli": "^5.0.0-rc.2",
     "@vue/compiler-sfc": "^3.0.0-beta.1",
     "@vue/eslint-config-typescript": "^9.1.0",
     "@vue/test-utils": "^2.0.0-alpha.1",

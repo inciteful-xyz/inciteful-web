@@ -35,7 +35,6 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-
 (async () => {
   app.use(createPinia())
   const { bindUser } = useUserStore();

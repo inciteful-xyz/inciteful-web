@@ -25,7 +25,7 @@ cytoscape.use(fcose)
 cytoscape.use(klay)
 cytoscape.use(contextMenus)
 
-function hideTippy (node: NodeSingular) {
+function hideTippy(node: NodeSingular) {
   const tippy = node.data('tippy')
 
   if (tippy != null) {
@@ -33,7 +33,7 @@ function hideTippy (node: NodeSingular) {
   }
 }
 
-function createTippys (cy: Core) {
+function createTippys(cy: Core) {
   cy.nodes().forEach(node => {
     const content = node.data('tippyContent')
 
@@ -102,7 +102,7 @@ function createTippys (cy: Core) {
     }
   })
 }
-function setupTippy (cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
+function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
   createTippys(cy)
 
   const hideAllTippies = function () {
@@ -127,7 +127,7 @@ function setupTippy (cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
   })
 }
 
-function loadBaseGraph (
+function loadBaseGraph(
   elements: ElementDefinition[],
   container: HTMLElement,
   bus: Emitter<any>,
@@ -148,7 +148,7 @@ function loadBaseGraph (
   return cy
 }
 
-function loadGraph (
+function loadGraph(
   graphData: GraphData,
   container: HTMLElement,
   bus: Emitter<any>,

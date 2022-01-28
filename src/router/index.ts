@@ -64,6 +64,18 @@ const routes = [
     }
   },
   {
+    path: '/user/zotero',
+    name: 'Zotero',
+    component: () =>
+      import(/* webpackChunkName: "user" */ '../views/user/Zotero.vue'),
+    meta: {
+      title: 'Zotero Integration',
+      description:
+        'Zotero Integration',
+      canonical: '/user/zotero'
+    }
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

@@ -12,4 +12,5 @@ const config = {
 }
 
 // Init our firebase app
-initializeApp(config)
+const app = initializeApp(config)
+

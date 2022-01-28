@@ -4,6 +4,12 @@ import { LayoutOptions, Core } from 'cytoscape'
 
 export type PaperID = string
 
+export interface ZoteroToken {
+  oauthToken: string,
+  oauthTokenSecret: string,
+  username: string | undefined,
+  userId: string | undefined
+}
 export interface Paper {
   id: PaperID;
   doi: string;
@@ -77,7 +83,7 @@ export interface GraphData {
 export class IncitefulGraph {
   cy: Core
   sourcePaperId?: PaperID
-  constructor (cy: Core, sourcePaperId?: PaperID) {
+  constructor(cy: Core, sourcePaperId?: PaperID) {
     this.cy = cy
     this.sourcePaperId = sourcePaperId
     this.cy.on('resize', () => {
@@ -89,7 +95,7 @@ export class IncitefulGraph {
     })
   }
 
-  centerSource () {
+  centerSource() {
     if (this.cy && (this.cy.height() > 600 || !this.sourcePaperId)) {
       this.cy.fit()
     } else {
@@ -98,7 +104,7 @@ export class IncitefulGraph {
     }
   }
 
-  filterNodes (ids: Set<PaperID>) {
+  filterNodes(ids: Set<PaperID>) {
     this.cy.nodes().forEach(node => {
       if (ids.has(node.id())) {
         node.removeClass('disabled')
@@ -108,7 +114,7 @@ export class IncitefulGraph {
     })
   }
 
-  highlightNodes (ids: Set<PaperID>) {
+  highlightNodes(ids: Set<PaperID>) {
     this.cy.nodes().forEach(node => {
       if (ids.has(node.id())) {
         node.addClass('highlighted')
@@ -118,19 +124,19 @@ export class IncitefulGraph {
     })
   }
 
-  resize () {
+  resize() {
     this.cy.resize()
   }
 
-  zoom (level?: number) {
+  zoom(level?: number) {
     return this.cy.zoom(level)
   }
 
-  curZoom (): number {
+  curZoom(): number {
     return this.cy.zoom()
   }
 
-  renderLayout (layoutParams: LayoutOptions) {
+  renderLayout(layoutParams: LayoutOptions) {
     const layout = this.cy.layout(layoutParams)
     layout.run()
   }
