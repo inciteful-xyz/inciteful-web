@@ -197,12 +197,10 @@ export default defineComponent({
         if (this.results) {
           const paper = this.results[index]
           if (paper) {
-            api.getPaperIds([paper.id]).then(ids => {
-              this.showResults = false
-              // @ts-ignore
-              this.$refs.searchBox.blur()
-              this.$emit('selected', ids)
-            })
+            this.showResults = false
+            // @ts-ignore
+            this.$refs.searchBox.blur()
+            this.$emit('selected', [paper.id])
           }
         }
       }

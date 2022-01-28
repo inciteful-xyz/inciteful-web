@@ -220,9 +220,19 @@ function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
 }
 
 function getPaperIds(ids: Array<PaperID>): Promise<PaperID[]> {
-  return getPapers(ids, true).then(data => {
-    return data.map(p => p.id)
-  })
+  if (ids.length == 1) {
+    return getPaper(ids[0]).then(data => {
+      if (data) {
+        return [data.id]
+      } else {
+        return []
+      }
+    })
+  } else {
+    return getPapers(ids, true).then(data => {
+      return data.map(p => p.id)
+    })
+  }
 }
 
 function searchPapers(query: string): Promise<Paper[]> {

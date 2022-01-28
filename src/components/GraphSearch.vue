@@ -147,9 +147,7 @@ export default defineComponent({
       }
     },
     sendSelect (ids: PaperID[]): void {
-      api.getPaperIds(ids).then(ids => {
-        this.$emit('selected', ids)
-      })
+      this.$emit('selected', ids)
     },
     sendSearched (query: string): void {
       this.$emit('searched', query)
