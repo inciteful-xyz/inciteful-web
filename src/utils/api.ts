@@ -181,8 +181,14 @@ function getPaper(id: PaperID): Promise<Paper | undefined> {
   return axios
     .get(`${API_URL}/paper/${id}`)
     .then(response => fixPaperID(response.data))
-    .catch(err => {
-      handleIncitefulErr(err)
+    .catch((err: AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        const aerr = err as AxiosError
+
+        if (aerr.response?.status != 400) {
+          handleIncitefulErr(err)
+        }
+      }
       return undefined
     })
 }
