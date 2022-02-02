@@ -4,12 +4,6 @@ import { LayoutOptions, Core } from 'cytoscape'
 
 export type PaperID = string
 
-export interface ZoteroToken {
-  oauthToken: string,
-  oauthTokenSecret: string,
-  username: string | undefined,
-  userId: string | undefined
-}
 export interface Paper {
   id: PaperID;
   doi: string;

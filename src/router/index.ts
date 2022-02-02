@@ -2,6 +2,7 @@ import qs from 'qs'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
+import { useUserStore } from '../stores/user';
 
 const routes = [
   {
@@ -13,7 +14,8 @@ const routes = [
       description:
         'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
       canonical: '/'
-    }
+    },
+    isSecureContext
   },
   {
     path: '/login',
@@ -225,6 +227,19 @@ const router = createRouter({
     return result || ''
   }
 })
+
+router.beforeEach((to) => {
+  const userStore = useUserStore()
+
+  if (to.path.toLowerCase().startsWith("/user") && !userStore.isSignedIn) {
+    return '/login'
+  }
+
+  if ((to.path.toLowerCase().startsWith("/login") || to.path.toLowerCase().startsWith("/register")) && userStore.isSignedIn) {
+    return '/user'
+  }
+})
+
 router.afterEach(to => {
   pagedata.setTitle(to.meta.title as string)
   pagedata.setDescription(to.meta.description as string)

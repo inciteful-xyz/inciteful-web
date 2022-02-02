@@ -98,16 +98,9 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 
 export default defineComponent({
-  setup (props) {
+  setup () {
     const router = useRouter()
     const userStore = useUserStore()
-
-    console.log(props)
-    console.log('test')
-
-    if (userStore.isSignedIn) {
-      router.push('/')
-    }
 
     let email = ref(null as string | null)
     let password = ref(null as string | null)

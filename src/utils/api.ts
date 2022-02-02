@@ -2,8 +2,9 @@ import axios, { AxiosError } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, PaperConnector, PaperID, ZoteroToken } from '../types/inciteful';
+import { Paper, Author, PaperConnector, PaperID } from '../types/inciteful';
 import { SSPaper, SSAuthor } from '../types/semanticScholar'
+import { ZoteroToken } from '../types/user';
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10
@@ -185,7 +186,7 @@ function getPaper(id: PaperID): Promise<Paper | undefined> {
       if (axios.isAxiosError(err)) {
         const aerr = err as AxiosError
 
-        if (aerr.response?.status != 400) {
+        if (aerr.response?.status != 400 && aerr.response?.status != 404) {
           handleIncitefulErr(err)
         }
       }

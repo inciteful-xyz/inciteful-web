@@ -76,7 +76,7 @@
             </button>
             <router-link
               v-if="user.isSignedIn && user.enabled"
-              to="/dashboard"
+              to="/user"
               class="ml-4 inline-flex items-center px-1 pt-1"
             >
               <span

@@ -14,14 +14,14 @@
 import { defineComponent } from 'vue'
 import api from '../../utils/api'
 import { useRoute } from 'vue-router'
-import { useDB } from '../../stores/firestore'
+import { useDBStore } from '../../stores/db'
 
 export default defineComponent({
   name: 'Dashboard',
   setup () {
     let route = useRoute()
     let id = route.query.id?.toString()
-    let db = useDB()
+    let db = useDBStore()
     // db.store.
     // if (id) {
     //   api.getZoteroAuth(id).then(token => {

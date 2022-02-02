@@ -21,3 +21,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# firebase
+firestore-*.log
+ui-*.log
+/firebase-backup

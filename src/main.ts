@@ -12,6 +12,7 @@ import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
 import { useUserStore } from './stores/user'
+import { useDBStore } from './stores/db'
 require('v3-tour/dist/vue-tour.css')
 
 
@@ -38,7 +39,8 @@ if (process.env.NODE_ENV === 'production') {
 (async () => {
   app.use(createPinia())
   const { bindUser } = useUserStore();
-  await bindUser();
+  const { bind } = useDBStore()
+  await bindUser([bind]);
 
   app.use(router)
     .use(VueTour)

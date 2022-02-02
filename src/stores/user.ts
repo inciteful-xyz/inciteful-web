@@ -1,23 +1,29 @@
 
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, getIdTokenResult, IdTokenResult, AuthError, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
+import { onAuthStateChanged, createUserWithEmailAndPassword, getIdTokenResult, IdTokenResult, AuthError, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { defineStore } from 'pinia'
-import '@/plugins/firebase'
+import { auth, usersCol } from '@/plugins/firebase'
+import { User } from '../types/user';
+import { doc, setDoc } from 'firebase/firestore';
 
-const auth = getAuth()
+// avoid null value before initialization from async onAuthStateChanged
+const storageId = 'firebase:uid';
+type OnChangeFn = (userId: string | undefined) => Promise<void>;
 
 export const useUserStore = defineStore({
     id: 'loggedInUser',
     state: () => {
-        const auth = getAuth()
-
         return {
             user: auth.currentUser,
+            userData: undefined as undefined | User,
             error: null as null | AuthError,
             token: null as null | IdTokenResult,
             enabled: process.env.VUE_APP_SHOW_LOGIN == "true"
         }
     },
     actions: {
+        async saveUser(user: User) {
+            await setDoc(doc(usersCol, user.id), user)
+        },
         async signUpWithEmailAndPassword(email: string, password: string) {
             return createUserWithEmailAndPassword(auth, email, password)
                 .then(userCredential => {
@@ -45,18 +51,24 @@ export const useUserStore = defineStore({
                 })
         },
         signOut() {
-            getAuth().signOut()
+            auth.signOut()
         },
-        async bindUser() {
+        async bindUser(executeOnChange: OnChangeFn[]) {
             onAuthStateChanged(
                 auth,
                 async (user) => {
                     this.user = user;
                     if (user) {
+                        localStorage.setItem(storageId, user.uid);
                         this.token = await getIdTokenResult(user);
                         this.user = user
                         this.error = null
+                    } else {
+                        localStorage.removeItem(storageId);
                     }
+
+                    console.log("changed")
+                    await Promise.all(executeOnChange.map(x => x(user?.uid)))
                 },
             );
         },
@@ -73,10 +85,13 @@ export const useUserStore = defineStore({
     },
     getters: {
         isSignedIn(state): boolean {
-            return state.user !== null
+            return state.user !== null || localStorage[storageId]
         },
         userName(state): string | null {
             return state.user ? state.user.email : null;
+        },
+        userId(state): string | null {
+            return state.user ? state.user.uid : null;
         },
         initial(): string | null {
             return (this.userName && this.userName.length > 0 ? this.userName[0].toUpperCase() : null)
