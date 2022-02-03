@@ -45,7 +45,7 @@ function handleIncitefulErr(err: AxiosError) {
 }
 
 function handleServiceErr(err: AxiosError) {
-  if (err.response && err.response.status !== 404) {
+  if (err && err.response && err.response.status !== 404) {
     logError(err)
   }
 }
