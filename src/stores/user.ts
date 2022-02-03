@@ -67,7 +67,6 @@ export const useUserStore = defineStore({
                         localStorage.removeItem(storageId);
                     }
 
-                    console.log("changed")
                     await Promise.all(executeOnChange.map(x => x(user?.uid)))
                 },
             );

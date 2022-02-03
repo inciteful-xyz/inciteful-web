@@ -1,6 +1,6 @@
 
 import { defineStore } from 'pinia'
-import { collection, setDoc, addDoc, doc, query, where, onSnapshot } from 'firebase/firestore';
+import { setDoc, addDoc, doc, query, where, onSnapshot } from 'firebase/firestore';
 import { usersCol, paperCollectionsCol } from '@/plugins/firebase'
 import { PaperCollection, User } from '../types/user';
 
@@ -24,24 +24,27 @@ export const useDBStore = defineStore({
             await setDoc(doc(this.db.users, user.id), user)
         },
         async bind(userId: string | undefined) {
-            console.log("binding " + userId)
-            const q = query(paperCollectionsCol, where("ownerId", "==", userId));
+            await Promise.all([this.bindCollections(userId), this.bindUserData(userId)])
+        },
+        async bindCollections(userId: string | undefined) {
+            if (userId) {
+                const q = query(paperCollectionsCol, where("ownerId", "==", userId));
 
-            onSnapshot(q, (querySnapshot) => {
-                this.paperCollections = []
-                querySnapshot.forEach((doc) => {
-                    this.paperCollections.push(doc.data());
+                onSnapshot(q, (querySnapshot) => {
+                    this.paperCollections = []
+                    querySnapshot.forEach((doc) => {
+                        this.paperCollections.push(doc.data());
+                    });
+                    return this.paperCollections
                 });
-
-                console.log("Current collections: ", JSON.stringify(this.paperCollections));
-
-                return this.paperCollections
-            });
-
-            onSnapshot(doc(usersCol, userId), (doc) => {
-                this.user = doc.data()
-                console.log("Current data: ", doc.data());
-            });
+            }
+        },
+        async bindUserData(userId: string | undefined) {
+            if (userId) {
+                onSnapshot(doc(usersCol, userId), (doc) => {
+                    this.user = doc.data()
+                });
+            }
         }
     },
     getters: {
