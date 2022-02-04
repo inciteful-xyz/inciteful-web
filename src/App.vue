@@ -5,8 +5,6 @@
       <router-view />
     </main>
     <Footer />
-    <LitReviewBuilder />
-    <PaperInfoModal />
   </div>
 </template>
 

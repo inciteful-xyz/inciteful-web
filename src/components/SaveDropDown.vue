@@ -21,7 +21,7 @@
         class="origin-top-right absolute right-0 mt-2 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
       >
         <div class="py-1">
-          <MenuItem v-slot="{ active }" v-if="user.enabled">
+          <MenuItem v-slot="{ active }" v-if="user.enabled && user.isSignedIn">
             <button
               :class="[
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -63,13 +63,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, inject, PropType } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { DocumentDownloadIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user'
-import { PaperID } from '../types/inciteful'
+import { IncitefulEmitter, PaperID } from '../types/inciteful'
 import api from '@/utils/api'
+
 export default defineComponent({
   name: 'SaveDropDown',
   components: {
@@ -82,11 +83,16 @@ export default defineComponent({
   props: {
     ids: {} as PropType<PaperID[]>
   },
-  emits: ['saveCollection'],
-  setup (props, { emit }) {
+  setup (props) {
+    const emitter = inject('emitter') as IncitefulEmitter
+
     let user = useUserStore()
     const saveCollection = () => {
-      if (props.ids !== undefined) emit('saveCollection', props.ids)
+      if (props.ids !== undefined) {
+        console.log('save collection')
+
+        emitter.emit('save_collection', props.ids)
+      }
     }
     const downloadBibFile = () => {
       if (props.ids !== undefined) api.downloadBibFile(props.ids)

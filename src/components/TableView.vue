@@ -143,7 +143,11 @@
                   </paginate>
                 </div>
                 <div class="flex-auto text-right bibtex-export">
-                  <SaveDropDown :ids="resultIds" class="pt-2" />
+                  <SaveDropDown
+                    :ids="resultIds"
+                    v-if="hasPaperID()"
+                    class="pt-2"
+                  />
                   <button
                     v-if="canViewGraphs()"
                     v-on:click="viewGraph()"

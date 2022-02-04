@@ -1,6 +1,9 @@
 /* eslint-disable camelcase */
 
 import { LayoutOptions, Core } from 'cytoscape'
+import { Emitter, EventType } from 'mitt';
+
+export type IncitefulEmitter = Emitter<Record<EventType, unknown>>
 
 export type PaperID = string
 
