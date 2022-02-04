@@ -298,13 +298,13 @@ function getCitations(ids: Array<string>): Promise<PaperID[]> {
 function downloadBibFile(ids: Array<string>) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
-  window.location.href = `${API_URL}/bib?${idParams}`
+  window.location.href = `${API_URL}/export/bib?${idParams}`
 }
 
 function downloadRisFile(ids: Array<string>) {
   const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
 
-  window.location.href = `${API_URL}/ris?${idParams}`
+  window.location.href = `${API_URL}/export/ris?${idParams}`
 }
 
 function unpaywall(doi: string) {

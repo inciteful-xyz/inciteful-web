@@ -143,7 +143,7 @@
                   </paginate>
                 </div>
                 <div class="flex-auto text-right bibtex-export">
-                  <SaveDropDown :ids="ids" class="pt-2" />
+                  <SaveDropDown :ids="resultIds" class="pt-2" />
                   <button
                     v-if="canViewGraphs()"
                     v-on:click="viewGraph()"
@@ -290,6 +290,11 @@ export default defineComponent({
           }
         }
       }
+    },
+    resultIds (): PaperID[] {
+      if (this.results && this.hasPaperID)
+        return this.results.map(p => p.paper_id)
+      else return []
     }
   },
   methods: {
