@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-right z-10">
     <div>
       <MenuButton
-        class="inline-flex justify-center px-4 py-2 bg-white hover:bg-gray-50 focus:outline-none "
+        class="inline-flex justify-center px-4 py-2 mx-2 bg-white hover:bg-gray-50 focus:outline-none "
       >
         <DocumentDownloadIcon class="h-4 w-4 inline" />
         Save
@@ -27,10 +27,12 @@
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                 'group flex items-center px-4 py-2 text-sm text-right'
               ]"
+              @click="saveCollection"
             >
               Save to Collection
-            </button> </MenuItem
-          ><MenuItem v-slot="{ active }">
+            </button>
+          </MenuItem>
+          <MenuItem v-slot="{ active }">
             <button
               href="#"
               :class="[
@@ -80,31 +82,24 @@ export default defineComponent({
   props: {
     ids: {} as PropType<PaperID[]>
   },
-  setup (props) {
+  emits: ['saveCollection'],
+  setup (props, { emit }) {
     let user = useUserStore()
-
+    const saveCollection = () => {
+      if (props.ids !== undefined) emit('saveCollection', props.ids)
+    }
     const downloadBibFile = () => {
-      const ids = new Set<PaperID>()
-
-      if (props.ids && props.ids.length > 0) {
-        props.ids.forEach(x => ids.add(x))
-      }
-
-      api.downloadBibFile(Array.from(ids))
+      if (props.ids !== undefined) api.downloadBibFile(props.ids)
     }
     const downloadRisFile = () => {
-      const ids = new Set<PaperID>()
-
-      if (props.ids && props.ids.length > 0) {
-        props.ids.forEach(x => ids.add(x))
-      }
-
-      api.downloadRisFile(Array.from(ids))
+      if (props.ids !== undefined) api.downloadRisFile(props.ids)
     }
+
     return {
       user,
       downloadBibFile,
-      downloadRisFile
+      downloadRisFile,
+      saveCollection
     }
   }
 })

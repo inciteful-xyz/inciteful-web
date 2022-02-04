@@ -342,15 +342,6 @@ export default defineComponent({
         this.emitter.emit('render_graph', ids)
       }
     },
-    downloadBibFile (): void {
-      const ids = new Set<PaperID>()
-
-      if (this.hasPaperID() && this.results) {
-        this.results.forEach(x => ids.add(x.paper_id))
-      }
-
-      api.downloadBibFile(Array.from(ids))
-    },
     turnPage (pageNum: number): void {
       this.currentPage = pageNum
     },

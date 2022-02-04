@@ -9,7 +9,6 @@ import { ZoteroToken } from '../types/user';
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10
 let PENDING_REQUESTS = 0
-const idParamName = 'ids[]'
 const pruneParamName = 'prune'
 const queryApi = axios.create()
 const API_URL =
@@ -48,6 +47,18 @@ function handleServiceErr(err: AxiosError) {
   if (err && err.response && err.response.status !== 404) {
     logError(err)
   }
+}
+
+function buildIDParams(ids: string[]) {
+  const idParamName = 'ids[]'
+
+  const id_set = new Set<PaperID>();
+
+  if (ids && ids.length > 0)
+    ids.forEach(x => id_set.add(x));
+
+  const idParams = Array.from(id_set).map(id => `${idParamName}=${id}`).join('&');
+  return idParams;
 }
 
 function convertToIncitefulAuthor(ssAuthor: SSAuthor): Author {
@@ -127,8 +138,7 @@ function queryGraphMulti(
   sql: string,
   prune: number
 ): Promise<any[][]> {
-  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
-  let url = `${API_URL}/query?${idParams}`
+  let url = `${API_URL}/query?${buildIDParams(ids)}`
 
   if (prune) {
     url = url + `&${pruneParamName}=${prune}`
@@ -215,7 +225,7 @@ function getZoteroAuth(oauthToken: string): Promise<ZoteroToken | undefined> {
 }
 
 function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
-  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
+  const idParams = buildIDParams(ids)
 
   return axios
     .get(`${API_URL}/paper?${idParams}&condensed=${!!condensed}`)
@@ -284,7 +294,7 @@ function searchInciteful(query: string): Promise<Paper[]> {
 
 
 function getCitations(ids: Array<string>): Promise<PaperID[]> {
-  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
+  const idParams = buildIDParams(ids)
 
   return axios
     .get(`${API_URL}/graph/citations?${idParams}`)
@@ -296,15 +306,17 @@ function getCitations(ids: Array<string>): Promise<PaperID[]> {
 }
 
 function downloadBibFile(ids: Array<string>) {
-  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
-
-  window.location.href = `${API_URL}/export/bib?${idParams}`
+  if (ids.length > 0) {
+    const idParams = buildIDParams(ids);
+    window.location.href = `${API_URL}/export/bib?${idParams}`
+  }
 }
 
 function downloadRisFile(ids: Array<string>) {
-  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
-
-  window.location.href = `${API_URL}/export/ris?${idParams}`
+  if (ids.length > 0) {
+    const idParams = buildIDParams(ids);
+    window.location.href = `${API_URL}/export/ris?${idParams}`
+  }
 }
 
 function unpaywall(doi: string) {

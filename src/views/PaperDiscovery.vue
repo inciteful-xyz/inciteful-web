@@ -61,8 +61,6 @@
     </div>
     <div class="pb-6"><BetaSignup /></div>
 
-    <LitReviewBuilder />
-    <PaperInfoModal />
     <PaperPageTour :ready="pageReady" />
   </single-column>
 </template>
@@ -70,8 +68,6 @@
 import { defineComponent } from 'vue'
 import PaperHero from '../components/PaperHero.vue'
 import GraphFilters from '../components/GraphFilters.vue'
-import LitReviewBuilder from '../components/LitReviewBuilder.vue'
-import PaperInfoModal from '../components/PaperInfoModal.vue'
 import BetaSignup from '../components/BetaSignup.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import DashboardRenderer from '../components/DashboardRenderer.vue'
@@ -89,8 +85,6 @@ export default defineComponent({
   components: {
     GraphFilters,
     PaperHero,
-    PaperInfoModal,
-    LitReviewBuilder,
     BetaSignup,
     DashboardRenderer,
     PaperPageTour,

@@ -223,15 +223,6 @@ export default defineComponent({
         'bg-purple-100': isLocked
       }
     },
-    downloadBibFile (): void {
-      if (this.papers) {
-        const ids = new Set<PaperID>()
-
-        this.papers.forEach(x => ids.add(x.id))
-
-        api.downloadBibFile(Array.from(ids))
-      }
-    },
     turnPage (pageNum: number): void {
       this.currentPage = pageNum
     },

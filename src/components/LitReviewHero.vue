@@ -281,11 +281,6 @@ export default defineComponent({
         }
       })
     },
-    downloadBib (): void {
-      if (this.ids) {
-        api.downloadBibFile(this.ids)
-      }
-    },
     togglePaperView (): void {
       this.hidePapers = !this.hidePapers
     },

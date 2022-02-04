@@ -28,14 +28,12 @@
           />
         </div>
       </div>
-      <LitReviewBuilder />
     </div>
   </single-column>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import LitReviewButton from '../components/LitReviewButton.vue'
-import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import SearchResults from '../components/SearchResults.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import navigation from '../navigation'
@@ -45,7 +43,6 @@ export default defineComponent({
   name: 'SearchPage',
   components: {
     LitReviewButton,
-    LitReviewBuilder,
     SearchResults,
     SingleColumn
   },

@@ -102,18 +102,14 @@
 
     <faq v-if="!isValid" :faqs="faqs" />
     <BetaSignup />
-    <LitReviewBuilder />
-    <PaperInfoModal />
     <lit-connector-tour :ready="pageReady" />
   </single-column>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import BetaSignup from '../components/BetaSignup.vue'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
-import PaperInfoModal from '../components/PaperInfoModal.vue'
 import Faq from '../components/Faq.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
@@ -123,8 +119,6 @@ import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
 export default defineComponent({
   name: 'LitConnectorPage',
   components: {
-    PaperInfoModal,
-    LitReviewBuilder,
     BetaSignup,
     LitConnectorPaperSelector,
     LitConnectorBody,

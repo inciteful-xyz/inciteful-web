@@ -143,15 +143,11 @@
     </div>
     <FaqComp :faqs="faqs" />
     <BetaSignup />
-    <LitReviewBuilder />
-    <PaperInfoModal />
   </single-column>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import LitReviewBuilder from '../components/LitReviewBuilder.vue'
-import PaperInfoModal from '../components/PaperInfoModal.vue'
 import BetaSignup from '../components/BetaSignup.vue'
 import api from '../utils/api'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
@@ -163,8 +159,6 @@ import { Paper } from '@/types/inciteful'
 export default defineComponent({
   name: 'LitConnectorPage',
   components: {
-    PaperInfoModal,
-    LitReviewBuilder,
     BetaSignup,
     LitConnectorPaperSelector,
     LitConnectorBody,
