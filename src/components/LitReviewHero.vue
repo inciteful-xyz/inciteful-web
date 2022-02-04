@@ -3,25 +3,13 @@
     <h1 class="text-gray-800 font-bold text-lg sm:text-2xl pb-5">
       Seed Papers
     </h1>
-
     <div
       v-if="ids.length < 5"
       class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-5"
     >
       <div class="flex">
         <div class="flex-shrink-0">
-          <svg
-            class="h-5 w-5 text-yellow-400"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <ExclamationIcon class="h-5 w-5 text-yellow-400" />
         </div>
         <div class="ml-3">
           <p class="text-sm leading-5 text-yellow-700">
@@ -34,7 +22,7 @@
 
     <div
       v-if="papers"
-      class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-3"
+      class="shadow border-b border-gray-200 sm:rounded-lg mb-3"
     >
       <table class="min-w-full divide-y divide-gray-200 table-auto">
         <thead>
@@ -159,9 +147,9 @@
                 text-gray-500
               "
             >
-              <span :title="paper.title">
+              <button v-on:click="showModal(paper.id)" class="underline">
                 {{ paper.title }}
-              </span>
+              </button>
             </td>
             <td
               class="
@@ -225,62 +213,18 @@
                 class="underline hover:no-underline text-purple-700"
               >
                 <span v-if="hidePapers"
-                  ><svg
-                    class="w-4 h-4 inline"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 13l-7 7-7-7m14-8l-7 7-7-7"
-                    ></path>
-                  </svg>
+                  ><ChevronDoubleDownIcon class="w-4 h-4 inline" />
                   View All
                   <span class="font-bold">{{ ids.length }}</span></span
                 ><span v-if="!hidePapers"
-                  ><svg
-                    class="w-4 h-4 inline"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 11l7-7 7 7M5 19l7-7 7 7"
-                    ></path></svg
-                  >View Less</span
+                  ><ChevronDoubleUpIcon class="w-4 h-4 inline" />View Less</span
                 >
               </button>
             </td>
-            <td colspan="2" class="text-xs text-right">
-              <button
-                @click="downloadBib()"
-                title="Download Bibtex File"
-                class="p-2"
-              >
-                <svg
-                  class="w-4 h-4 inline"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  ></path>
-                </svg>
-                BibTeX
-              </button>
+            <td colspan="2" class="text-xs text-right whitespace-nowrap">
+              <div>
+                <save-modal />
+              </div>
             </td>
           </tr>
         </tfoot>
@@ -294,13 +238,25 @@ import { Paper, PaperID } from '@/types/inciteful'
 import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
+import SaveModal from './SaveModal.vue'
+import {
+  ExclamationIcon,
+  ChevronDoubleDownIcon,
+  ChevronDoubleUpIcon
+} from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'LitReviewHero',
   props: {
     ids: {} as PropType<PaperID[]>
   },
-  components: { Author },
+  components: {
+    Author,
+    SaveModal,
+    ExclamationIcon,
+    ChevronDoubleDownIcon,
+    ChevronDoubleUpIcon
+  },
   data () {
     return {
       papers: undefined as Paper[] | undefined,
@@ -358,6 +314,17 @@ export default defineComponent({
     },
     togglePaperView (): void {
       this.hidePapers = !this.hidePapers
+    },
+    showModal (id: PaperID): void {
+      const options = {
+        paperId: id,
+        connectTo: undefined as undefined | PaperID
+      }
+
+      if (this.ids && this.ids.length === 1) {
+        options.connectTo = this.ids[0]
+      }
+      this.emitter.emit('show_paper_modal', options)
     }
   }
 })

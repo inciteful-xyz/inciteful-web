@@ -9,7 +9,7 @@ export const useDBStore = defineStore({
     state: () => {
         return {
             paperCollections: [] as PaperCollection[],
-            user: undefined as User | undefined,
+            userData: undefined as User | undefined,
             db: {
                 users: usersCol,
                 paperCollections: paperCollectionsCol
@@ -42,7 +42,7 @@ export const useDBStore = defineStore({
         async bindUserData(userId: string | undefined) {
             if (userId) {
                 onSnapshot(doc(usersCol, userId), (doc) => {
-                    this.user = doc.data()
+                    this.userData = doc.data()
                 });
             }
         }

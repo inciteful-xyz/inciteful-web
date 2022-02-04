@@ -208,20 +208,7 @@
               class=" flex items-center float-left justify-center h-12 w-12 rounded-md mr-3 mb-1 bg-purple-500
                     text-white"
             >
-              <svg
-                class="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                />
-              </svg>
+              <GlobeAltIcon class="h-6 w-6" />
             </div>
             <div class="mt-3">
               <h5 class="text-lg leading-6 font-medium text-gray-900">
@@ -239,20 +226,7 @@
               class=" flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-purple-500
                         text-white"
             >
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
-                ></path>
-              </svg>
+              <CubeTransparentIcon class="w-6 h-6" fill="none" />
             </div>
             <div class="mt-3">
               <h5 class="text-lg leading-6 font-medium text-gray-900">
@@ -274,20 +248,7 @@
             <div
               class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-purple-500 text-white"
             >
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                ></path>
-              </svg>
+              <DocumentReportIcon class="w-6 h-6" />
             </div>
             <div class="mt-3">
               <h5 class="text-lg leading-6 font-medium text-gray-900">
@@ -319,13 +280,21 @@ import GraphSearch from '@/components/GraphSearch.vue'
 import ConnectorSearch from '@/components/ConnectorSearch.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/inciteful'
+import {
+  DocumentReportIcon,
+  CubeTransparentIcon,
+  GlobeAltIcon
+} from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'Home',
   components: {
     BetaSignup,
     GraphSearch,
-    ConnectorSearch
+    ConnectorSearch,
+    DocumentReportIcon,
+    CubeTransparentIcon,
+    GlobeAltIcon
   },
   methods: {
     addLitReviewPapers (ids: PaperID[]) {

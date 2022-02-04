@@ -42,38 +42,14 @@
                         :class="{ 'font-bold': column == sortedBy }"
                       >
                         {{ column }}
-                        <span v-if="column == sortedBy && sortDescending">
-                          <svg
-                            class="w-4 h-4 inline"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 9l-7 7-7-7"
-                            ></path>
-                          </svg>
-                        </span>
-                        <span v-if="column == sortedBy && !sortDescending">
-                          <svg
-                            class="w-4 h-4 inline"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M5 15l7-7 7 7"
-                            ></path>
-                          </svg>
-                        </span>
+                        <ChevronDownIcon
+                          v-if="column == sortedBy && sortDescending"
+                          class="w-4 h-4 inline"
+                        />
+                        <ChevronUpIcon
+                          class="w-4 h-4 inline"
+                          v-if="column == sortedBy && !sortDescending"
+                        />
                       </button>
                     </th>
                   </tr>
@@ -149,20 +125,7 @@
                     title="View SQL"
                     class="p-3 sql-button cursor-pointer inline-block"
                   >
-                    <svg
-                      class="w-4 h-4 inline"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      ></path>
-                    </svg>
+                    <DocumentReportIcon class="w-4 h-4 inline" />
                     SQL
                   </router-link>
                 </div>
@@ -184,20 +147,7 @@
                     title="Download Bibtex File"
                     class="p-3 bibtex-export"
                   >
-                    <svg
-                      class="w-4 h-4 inline"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      ></path>
-                    </svg>
+                    <DocumentDownloadIcon class="w-4 h-4 inline" />
                     BibTeX
                   </button>
                   <button
@@ -242,6 +192,12 @@ import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/inciteful'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DocumentReportIcon,
+  DocumentDownloadIcon
+} from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'TableView',
@@ -249,7 +205,11 @@ export default defineComponent({
     Author,
     Paginate,
     Loader,
-    LitReviewButton
+    LitReviewButton,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    DocumentReportIcon,
+    DocumentDownloadIcon
   },
   props: {
     results: {} as PropType<any[]>,

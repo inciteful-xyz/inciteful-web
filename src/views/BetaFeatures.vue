@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-3">
+  <div class="py-5">
     <div class="flex justify-center">
       <div class="flex-auto max-w-2xl">
         <div>
@@ -51,8 +51,9 @@
             <div class="mt-1 relative rounded-md shadow-sm w-40">
               <input
                 id="pruneLevel"
-                class="form-input block w-40 sm:text-sm sm:leading-5"
-                placeholder="5000"
+                class="form-input block w-40
+px-4 py-2 border border-gray-300 rounded-md leading-5 bg-white
+transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
                 v-model="pruneLevel"
               />
             </div>
@@ -92,18 +93,7 @@
             <div class="rounded-md bg-green-50 p-4">
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <svg
-                    class="h-5 w-5 text-green-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <CheckCircleIcon class="h-5 w-5 text-green-400" />
                 </div>
                 <div class="ml-3">
                   <p class="text-sm leading-5 font-medium text-green-800">
@@ -122,9 +112,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import options from '../utils/options'
+import { CheckCircleIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'BetaPage',
+  components: { CheckCircleIcon },
   data () {
     return {
       pruneLevel: options.getPruneLevel(),

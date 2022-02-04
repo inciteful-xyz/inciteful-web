@@ -11,7 +11,9 @@
     "watch": "vue-cli-service build --watch"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.4.3",
     "@hennge/vue3-pagination": "^1.0.17",
+    "@heroicons/vue": "^1.0.5",
     "@sentry/browser": "^6.15.0",
     "@sentry/tracing": "^6.15.0",
     "@sentry/vue": "^6.15.0",
@@ -29,7 +31,9 @@
     "doi-regex": "^0.1.10",
     "firebase": "^9.6.3",
     "flexsearch": "^0.7.11",
+    "install": "^0.13.0",
     "mitt": "^3.0.0",
+    "npm": "^8.4.0",
     "numeral": "^2.0.6",
     "pinia": "^2.0.9",
     "prismjs": "^1.25.0",

@@ -10,20 +10,8 @@
           class="text-purple-700"
           href="https://help.inciteful.xyz/power-users.html#graph-filters"
           target="_blank"
-          ><svg
-            class="w-5 h-5 inline"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path></svg
-        ></a>
+          ><InformationCircleIcon class="w-5 h-5 inline" />
+        </a>
       </h3>
       <form class="w-full pt-2 lg:flex flex-wrap">
         <div class="flex-grow pb-3 pr-3">
@@ -207,10 +195,11 @@
 import { defineComponent } from 'vue'
 import GraphSearch from './GraphSearch.vue'
 import { PaperID } from '@/types/inciteful'
+import { InformationCircleIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'GraphFilters',
-  components: { GraphSearch },
+  components: { GraphSearch, InformationCircleIcon },
   props: {
     hideAddSingle: {
       type: Boolean,

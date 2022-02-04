@@ -85,34 +85,8 @@
           />
         </div>
         <div class="flex-none text-center py-3 sm:py-6">
-          <svg
-            class="w-12 h-12 hidden sm:inline"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-            ></path>
-          </svg>
-          <svg
-            class="w-12 h-12 sm:hidden m-auto"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            ></path>
-          </svg>
+          <ArrowRightIcon class="w-12 h-12 hidden sm:inline" />
+          <ArrowDownIcon class="w-12 h-12 sm:hidden m-auto" />
         </div>
         <div class="flex-1 sm:pl-3">
           <lit-connector-paper-selector
@@ -144,6 +118,7 @@ import Faq from '../components/Faq.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/inciteful'
+import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'LitConnectorPage',
@@ -155,7 +130,9 @@ export default defineComponent({
     LitConnectorBody,
     Faq,
     LitConnectorTour,
-    SingleColumn
+    SingleColumn,
+    ArrowRightIcon,
+    ArrowDownIcon
   },
   data () {
     return {

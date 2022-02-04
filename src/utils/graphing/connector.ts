@@ -7,7 +7,7 @@ import {
 import { Paper, GraphData } from '@/types/inciteful'
 import { Emitter } from 'mitt'
 
-function buildKlayLayout () {
+function buildKlayLayout() {
   return {
     name: 'klay',
     nodeDimensionsIncludeLabels: false, // Boolean which changes whether label dimensions are included when calculating node dimensions
@@ -73,11 +73,11 @@ function buildKlayLayout () {
     } // Edges with a non-nil value are skipped when greedy edge cycle breaking is enabled
   }
 }
-function buildLayout () {
+function buildLayout() {
   return buildKlayLayout()
 }
 
-function makeTippy (p: Paper, title: string) {
+function makeTippy(p: Paper, title: string) {
   const content = document.createElement('div')
 
   content.innerHTML = p.title + ', ' + title
@@ -85,7 +85,7 @@ function makeTippy (p: Paper, title: string) {
   return content
 }
 
-function buildElements (
+function buildElements(
   graphData: GraphData,
   minDate: number,
   maxDate: number
@@ -160,7 +160,7 @@ function buildElements (
   return elements
 }
 
-function contextMenu (bus: Emitter<any>) {
+function contextMenu(bus: Emitter<any>) {
   return {
     // Customize event to bring up the context menu
     // Possible options https://js.cytoscape.org/#events/user-input-device-events
