@@ -114,13 +114,7 @@
         </paginate>
       </div>
       <div class="flex-auto text-right">
-        <button
-          v-on:click="downloadBibFile()"
-          title="Download Bibtex File"
-          class="p-3 bibtex-export"
-        >
-          <DocumentDownloadIcon class="w-4 h-4 inline" /> BibTeX
-        </button>
+        <save-drop-down :ids="ids" />
       </div>
     </div>
   </div>
@@ -137,9 +131,9 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   LockClosedIcon,
-  LockOpenIcon,
-  DocumentDownloadIcon
+  LockOpenIcon
 } from '@heroicons/vue/outline'
+import SaveDropDown from './SaveDropDown.vue'
 
 export default defineComponent({
   name: 'ConnectorTable',
@@ -151,7 +145,7 @@ export default defineComponent({
     ChevronUpIcon,
     LockClosedIcon,
     LockOpenIcon,
-    DocumentDownloadIcon
+    SaveDropDown
   },
   props: {
     papers: {} as PropType<Paper[]>,
@@ -213,6 +207,10 @@ export default defineComponent({
         const end = this.currentPage * this.pageSize
         return this.sortedResults.slice(start, end)
       } else return []
+    },
+    ids (): PaperID[] {
+      if (this.papers) return this.papers.map(x => x.id)
+      else return []
     }
   },
   methods: {

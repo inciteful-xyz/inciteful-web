@@ -1,12 +1,11 @@
 <template>
   <div class="pt-3">
     <div class="flex flex-col">
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="-my-2 sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
             class="
               shadow
-              overflow-hidden
               border-b border-gray-200
               sm:rounded-lg
             "
@@ -16,7 +15,10 @@
               <Loader />
             </div>
             <div v-else>
-              <table class="min-w-full divide-y divide-gray-200">
+              <table
+                class="min-w-full divide-y divide-gray-200 
+              overflow-hidden overflow-x-auto"
+              >
                 <thead>
                   <tr>
                     <th class="pl-3 py-3 bg-gray-50"></th>
@@ -140,16 +142,8 @@
                   >
                   </paginate>
                 </div>
-                <div class="flex-auto text-right">
-                  <button
-                    v-if="hasPaperID()"
-                    v-on:click="downloadBibFile()"
-                    title="Download Bibtex File"
-                    class="p-3 bibtex-export"
-                  >
-                    <DocumentDownloadIcon class="w-4 h-4 inline" />
-                    BibTeX
-                  </button>
+                <div class="flex-auto text-right bibtex-export">
+                  <SaveDropDown :ids="ids" class="pt-2" />
                   <button
                     v-if="canViewGraphs()"
                     v-on:click="viewGraph()"
@@ -195,9 +189,9 @@ import { PaperID } from '@/types/inciteful'
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-  DocumentReportIcon,
-  DocumentDownloadIcon
+  DocumentReportIcon
 } from '@heroicons/vue/outline'
+import SaveDropDown from './SaveDropDown.vue'
 
 export default defineComponent({
   name: 'TableView',
@@ -209,7 +203,7 @@ export default defineComponent({
     ChevronDownIcon,
     ChevronUpIcon,
     DocumentReportIcon,
-    DocumentDownloadIcon
+    SaveDropDown
   },
   props: {
     results: {} as PropType<any[]>,

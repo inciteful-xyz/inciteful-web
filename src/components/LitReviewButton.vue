@@ -1,29 +1,20 @@
 <template>
   <button
     v-if="!isHidden"
-    class="
-      add-paper-button
-      font-extrabold
-      text-sm
-      rounded-full
-      h-5
-      w-5
-      bg-purple-500
-      text-white
-      justify-center
-    "
     title="Add paper to a literature review search"
     v-on:click="addToLitReview()"
   >
-    +
+    <PlusCircleIcon class="h-5 w-5 text-purple-500 inline" />
   </button>
 </template>
 
 <script lang="ts">
 import { PaperID } from '@/types/inciteful'
 import { defineComponent, PropType } from 'vue'
+import { PlusCircleIcon } from '@heroicons/vue/solid'
 export default defineComponent({
   name: 'LitReviewButton',
+  components: { PlusCircleIcon },
   props: {
     ids: {} as PropType<PaperID[]>,
     id: {} as PropType<PaperID[] | undefined>

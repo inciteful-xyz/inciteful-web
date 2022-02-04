@@ -15,20 +15,9 @@
           </div>
           <div class="ml-3 flex-1 md:flex md:justify-between">
             <p class="text-sm leading-5 text-blue-700">
-              Click on the purple plus signs (<span
-                class="
-                  font-extrabold
-                  text-sm
-                  rounded-full
-                  h-5
-                  w-5
-                  bg-purple-500
-                  text-white
-                  justify-center
-                "
-              >
-                + </span
-              >) to add the most interesting papers to the graph. We recommend
+              Click on the purple plus signs (<PlusCircleIcon
+                class="h-5 w-5 text-purple-500 inline"
+              />) to add the most interesting papers to the graph. We recommend
               that you <b>add at least five papers to the graph</b> in order to
               find the most relevant results. If the papers below don't seem
               relevant, <b>use the keyword filter</b> to find the ones which
@@ -92,7 +81,8 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
 import { Paper, PaperID } from '@/types/inciteful'
-import { InformationCircleIcon, ExclamationIcon } from '@heroicons/vue/outline'
+import { ExclamationIcon } from '@heroicons/vue/outline'
+import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'PaperDiscovery',
@@ -107,7 +97,8 @@ export default defineComponent({
     BetaFeatures,
     SingleColumn,
     InformationCircleIcon,
-    ExclamationIcon
+    ExclamationIcon,
+    PlusCircleIcon
   },
   data () {
     return {

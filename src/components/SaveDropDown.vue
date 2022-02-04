@@ -1,11 +1,10 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <Menu as="div" class="relative inline-block text-left z-10">
+  <Menu as="div" class="relative inline-block text-right z-10">
     <div>
       <MenuButton
         class="inline-flex justify-center px-4 py-2 bg-white hover:bg-gray-50 focus:outline-none "
       >
-        <DocumentDownloadIcon class="-ml-1 mr-1 h-4 w-4" aria-hidden="true" />
+        <DocumentDownloadIcon class="h-4 w-4 inline" />
         Save
       </MenuButton>
     </div>
@@ -26,7 +25,7 @@
             <button
               :class="[
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                'group flex items-center px-4 py-2 text-sm'
+                'group flex items-center px-4 py-2 text-sm text-right'
               ]"
             >
               Save to Collection
@@ -36,8 +35,9 @@
               href="#"
               :class="[
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                'group flex items-center px-4 py-2 text-sm'
+                'group flex items-center px-4 py-2 text-sm w-full text-right'
               ]"
+              @click="downloadBibFile"
             >
               BibTex
             </button>
@@ -47,8 +47,9 @@
               href="#"
               :class="[
                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                'group flex items-center px-4 py-2 text-sm'
+                'group flex items-center px-4 py-2 text-sm w-full text-right'
               ]"
+              @click="downloadRisFile"
             >
               RIS
             </button>
@@ -60,13 +61,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { DocumentDownloadIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user'
+import { PaperID } from '../types/inciteful'
+import api from '@/utils/api'
 export default defineComponent({
-  name: 'SaveModal',
+  name: 'SaveDropDown',
   components: {
     Menu,
     MenuButton,
@@ -74,10 +77,34 @@ export default defineComponent({
     MenuItems,
     DocumentDownloadIcon
   },
-  setup () {
+  props: {
+    ids: {} as PropType<PaperID[]>
+  },
+  setup (props) {
     let user = useUserStore()
+
+    const downloadBibFile = () => {
+      const ids = new Set<PaperID>()
+
+      if (props.ids && props.ids.length > 0) {
+        props.ids.forEach(x => ids.add(x))
+      }
+
+      api.downloadBibFile(Array.from(ids))
+    }
+    const downloadRisFile = () => {
+      const ids = new Set<PaperID>()
+
+      if (props.ids && props.ids.length > 0) {
+        props.ids.forEach(x => ids.add(x))
+      }
+
+      api.downloadRisFile(Array.from(ids))
+    }
     return {
-      user
+      user,
+      downloadBibFile,
+      downloadRisFile
     }
   }
 })

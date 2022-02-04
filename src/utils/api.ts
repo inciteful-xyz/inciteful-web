@@ -301,6 +301,12 @@ function downloadBibFile(ids: Array<string>) {
   window.location.href = `${API_URL}/bib?${idParams}`
 }
 
+function downloadRisFile(ids: Array<string>) {
+  const idParams = ids.map(id => `${idParamName}=${id}`).join('&')
+
+  window.location.href = `${API_URL}/ris?${idParams}`
+}
+
 function unpaywall(doi: string) {
   return axios
     .get(`https://api.unpaywall.org/v2/${doi}?email=info@inciteful.xyz`)
@@ -323,5 +329,6 @@ export default {
   getZoteroAuth,
   searchPapers,
   downloadBibFile,
+  downloadRisFile,
   getCitations
 }

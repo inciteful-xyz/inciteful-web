@@ -99,21 +99,6 @@
           >
             Cited By
           </th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-center text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-          >
-            Citing
-          </th>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(paper, index) in visiblePapers" :key="index">
@@ -189,24 +174,12 @@
             >
               {{ paper.num_cited_by }}
             </td>
-            <td
-              class="
-                px-3
-                py-2
-                whitespace-nowrap
-                text-sm text-center
-                leading-5
-                text-gray-500
-              "
-            >
-              {{ paper.num_citing }}
-            </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td></td>
-            <td colspan="3" class="text-center">
+            <td colspan="2" class="text-center">
               <button
                 v-if="papers.length > numVisible"
                 @click="togglePaperView()"
@@ -223,7 +196,7 @@
             </td>
             <td colspan="2" class="text-xs text-right whitespace-nowrap">
               <div>
-                <save-modal />
+                <SaveDropDown :ids="ids" />
               </div>
             </td>
           </tr>
@@ -238,7 +211,8 @@ import { Paper, PaperID } from '@/types/inciteful'
 import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
-import SaveModal from './SaveModal.vue'
+import SaveDropDown from './SaveDropDown.vue'
+
 import {
   ExclamationIcon,
   ChevronDoubleDownIcon,
@@ -252,7 +226,7 @@ export default defineComponent({
   },
   components: {
     Author,
-    SaveModal,
+    SaveDropDown,
     ExclamationIcon,
     ChevronDoubleDownIcon,
     ChevronDoubleUpIcon
