@@ -14,8 +14,6 @@
         </div>
         <div class="pb-6"><BetaSignup /></div>
       </div>
-      <LitReviewBuilder />
-      <PaperInfoModal />
     </single-column>
     <paper-discovery-empty v-else />
   </div>
@@ -23,10 +21,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import GraphFilters from '../components/GraphFilters.vue'
-import LitReviewBuilder from '../components/LitReviewBuilder.vue'
 import LitReviewHero from '../components/LitReviewHero.vue'
-
-import PaperInfoModal from '../components/PaperInfoModal.vue'
 import BetaSignup from '../components/BetaSignup.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import DashboardRenderer from '../components/DashboardRenderer.vue'
@@ -39,8 +34,6 @@ export default defineComponent({
   name: 'LitReview',
   components: {
     GraphFilters,
-    PaperInfoModal,
-    LitReviewBuilder,
     LitReviewHero,
     BetaSignup,
     DashboardRenderer,

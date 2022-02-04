@@ -1,12 +1,11 @@
 <template>
   <div class="pt-3">
     <div class="flex flex-col">
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="-my-2 sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
             class="
               shadow
-              overflow-hidden
               border-b border-gray-200
               sm:rounded-lg
             "
@@ -16,7 +15,10 @@
               <Loader />
             </div>
             <div v-else>
-              <table class="min-w-full divide-y divide-gray-200">
+              <table
+                class="min-w-full divide-y divide-gray-200 
+              overflow-hidden overflow-x-auto"
+              >
                 <thead>
                   <tr>
                     <th class="pl-3 py-3 bg-gray-50"></th>
@@ -42,38 +44,14 @@
                         :class="{ 'font-bold': column == sortedBy }"
                       >
                         {{ column }}
-                        <span v-if="column == sortedBy && sortDescending">
-                          <svg
-                            class="w-4 h-4 inline"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 9l-7 7-7-7"
-                            ></path>
-                          </svg>
-                        </span>
-                        <span v-if="column == sortedBy && !sortDescending">
-                          <svg
-                            class="w-4 h-4 inline"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M5 15l7-7 7 7"
-                            ></path>
-                          </svg>
-                        </span>
+                        <ChevronDownIcon
+                          v-if="column == sortedBy && sortDescending"
+                          class="w-4 h-4 inline"
+                        />
+                        <ChevronUpIcon
+                          class="w-4 h-4 inline"
+                          v-if="column == sortedBy && !sortDescending"
+                        />
                       </button>
                     </th>
                   </tr>
@@ -149,20 +127,7 @@
                     title="View SQL"
                     class="p-3 sql-button cursor-pointer inline-block"
                   >
-                    <svg
-                      class="w-4 h-4 inline"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      ></path>
-                    </svg>
+                    <DocumentReportIcon class="w-4 h-4 inline" />
                     SQL
                   </router-link>
                 </div>
@@ -177,29 +142,12 @@
                   >
                   </paginate>
                 </div>
-                <div class="flex-auto text-right">
-                  <button
+                <div class="flex-auto text-right bibtex-export">
+                  <SaveDropDown
+                    :ids="resultIds"
                     v-if="hasPaperID()"
-                    v-on:click="downloadBibFile()"
-                    title="Download Bibtex File"
-                    class="p-3 bibtex-export"
-                  >
-                    <svg
-                      class="w-4 h-4 inline"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      ></path>
-                    </svg>
-                    BibTeX
-                  </button>
+                    class="pt-2"
+                  />
                   <button
                     v-if="canViewGraphs()"
                     v-on:click="viewGraph()"
@@ -242,6 +190,12 @@ import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/inciteful'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DocumentReportIcon
+} from '@heroicons/vue/outline'
+import SaveDropDown from './SaveDropDown.vue'
 
 export default defineComponent({
   name: 'TableView',
@@ -249,7 +203,11 @@ export default defineComponent({
     Author,
     Paginate,
     Loader,
-    LitReviewButton
+    LitReviewButton,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    DocumentReportIcon,
+    SaveDropDown
   },
   props: {
     results: {} as PropType<any[]>,
@@ -336,6 +294,11 @@ export default defineComponent({
           }
         }
       }
+    },
+    resultIds (): PaperID[] {
+      if (this.results && this.hasPaperID)
+        return this.results.map(p => p.paper_id)
+      else return []
     }
   },
   methods: {
@@ -382,15 +345,6 @@ export default defineComponent({
 
         this.emitter.emit('render_graph', ids)
       }
-    },
-    downloadBibFile (): void {
-      const ids = new Set<PaperID>()
-
-      if (this.hasPaperID() && this.results) {
-        this.results.forEach(x => ids.add(x.paper_id))
-      }
-
-      api.downloadBibFile(Array.from(ids))
     },
     turnPage (pageNum: number): void {
       this.currentPage = pageNum

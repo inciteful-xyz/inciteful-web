@@ -13,13 +13,17 @@ import Vue3TouchEvents from 'vue3-touch-events'
 import './assets/tailwind.css'
 import { useUserStore } from './stores/user'
 import { useDBStore } from './stores/db'
+import { IncitefulEmitter } from './types/inciteful';
 require('v3-tour/dist/vue-tour.css')
 
 
-const emitter = mitt()
+const emitter = mitt() as IncitefulEmitter
 const app = createApp(App)
 
+// For options API
 app.config.globalProperties.emitter = emitter
+// For composition API
+app.provide('emitter', emitter);
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({

@@ -232,8 +232,6 @@
       </div>
     </div>
     <SqlView :view="'table'" :sql="dashSql" :ids="ids" :filters="{}" />
-    <LitReviewBuilder />
-    <PaperInfoModal />
   </div>
 </template>
 
@@ -246,15 +244,11 @@ import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism.css'
 
 import SqlView from './SqlView.vue'
-import PaperInfoModal from './PaperInfoModal.vue'
-import LitReviewBuilder from './LitReviewBuilder.vue'
 
 export default defineComponent({
   name: 'QueryPanel',
   components: {
-    SqlView,
-    LitReviewBuilder,
-    PaperInfoModal
+    SqlView
   },
   props: {
     ids: Array

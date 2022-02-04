@@ -8,8 +8,8 @@ export const useDBStore = defineStore({
     id: 'firestoreDB',
     state: () => {
         return {
-            paperCollections: [] as PaperCollection[],
-            user: undefined as User | undefined,
+            paperCollections: undefined as PaperCollection[] | undefined,
+            userData: undefined as User | undefined,
             db: {
                 users: usersCol,
                 paperCollections: paperCollectionsCol
@@ -24,26 +24,40 @@ export const useDBStore = defineStore({
             await setDoc(doc(this.db.users, user.id), user)
         },
         async bind(userId: string | undefined) {
-            await Promise.all([this.bindCollections(userId), this.bindUserData(userId)])
+            const promises = [];
+            promises.push(this.bindCollections(userId))
+            promises.push(this.bindUserData(userId))
+            return await Promise.all(promises)
         },
         async bindCollections(userId: string | undefined) {
             if (userId) {
                 const q = query(paperCollectionsCol, where("ownerId", "==", userId));
 
-                onSnapshot(q, (querySnapshot) => {
+                const unsub = onSnapshot(q, (querySnapshot) => {
                     this.paperCollections = []
+
                     querySnapshot.forEach((doc) => {
-                        this.paperCollections.push(doc.data());
+                        if (this.paperCollections)
+                            this.paperCollections.push(doc.data());
                     });
-                    return this.paperCollections
                 });
+
+                return () => {
+                    unsub()
+                    this.paperCollections = []
+                }
             }
         },
         async bindUserData(userId: string | undefined) {
             if (userId) {
-                onSnapshot(doc(usersCol, userId), (doc) => {
-                    this.user = doc.data()
+                const unsub = onSnapshot(doc(usersCol, userId), (doc) => {
+                    this.userData = doc.data()
                 });
+
+                return () => {
+                    unsub()
+                    this.userData = undefined
+                }
             }
         }
     },

@@ -26,38 +26,14 @@
               :class="{ 'font-bold': column.name == sortedBy }"
             >
               {{ column.displayName }}
-              <span v-if="column.name == sortedBy && sortDescending">
-                <svg
-                  class="w-4 h-4 inline"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </span>
-              <span v-if="column.name == sortedBy && !sortDescending">
-                <svg
-                  class="w-4 h-4 inline"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 15l7-7 7 7"
-                  ></path>
-                </svg>
-              </span>
+              <ChevronDownIcon
+                v-if="column.name == sortedBy && sortDescending"
+                class="w-4 h-4 inline"
+              />
+              <ChevronUpIcon
+                v-if="column.name == sortedBy && !sortDescending"
+                class="w-4 h-4 inline"
+              />
             </button>
           </th>
           <th class="pl-3 py-3 bg-gray-50"></th>
@@ -120,36 +96,8 @@
                   : 'Lock the graph to this paper'
               "
             >
-              <svg
-                v-if="!p.isLocked"
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                ></path>
-              </svg>
-              <svg
-                v-if="p.isLocked"
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                ></path>
-              </svg>
+              <LockClosedIcon v-if="p.isLocked" class="w-6 h-6" />
+              <LockOpenIcon v-if="p.isLocked" class="w-6 h-6" />
             </button>
           </td>
         </tr>
@@ -166,27 +114,7 @@
         </paginate>
       </div>
       <div class="flex-auto text-right">
-        <button
-          v-on:click="downloadBibFile()"
-          title="Download Bibtex File"
-          class="p-3 bibtex-export"
-        >
-          <svg
-            class="w-4 h-4 inline"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            ></path>
-          </svg>
-          BibTeX
-        </button>
+        <save-drop-down :ids="ids" />
       </div>
     </div>
   </div>
@@ -199,13 +127,25 @@ import Authors from './Authors.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import api from '../utils/api'
 import { Paper, PaperID } from '@/types/inciteful'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  LockClosedIcon,
+  LockOpenIcon
+} from '@heroicons/vue/outline'
+import SaveDropDown from './SaveDropDown.vue'
 
 export default defineComponent({
   name: 'ConnectorTable',
   components: {
     Paginate,
     Authors,
-    LitReviewButton
+    LitReviewButton,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    LockClosedIcon,
+    LockOpenIcon,
+    SaveDropDown
   },
   props: {
     papers: {} as PropType<Paper[]>,
@@ -267,6 +207,10 @@ export default defineComponent({
         const end = this.currentPage * this.pageSize
         return this.sortedResults.slice(start, end)
       } else return []
+    },
+    ids (): PaperID[] {
+      if (this.papers) return this.papers.map(x => x.id)
+      else return []
     }
   },
   methods: {
@@ -277,15 +221,6 @@ export default defineComponent({
         'border-2': isLocked,
         'border-purple-300': isLocked,
         'bg-purple-100': isLocked
-      }
-    },
-    downloadBibFile (): void {
-      if (this.papers) {
-        const ids = new Set<PaperID>()
-
-        this.papers.forEach(x => ids.add(x.id))
-
-        api.downloadBibFile(Array.from(ids))
       }
     },
     turnPage (pageNum: number): void {

@@ -18,17 +18,7 @@
           v-on:click="toLitReview()"
         >
           Add Papers ({{ ids.size }})
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            class="w-4 h-4 ml-2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
+          <ArrowRightIcon class="w-4 h-4 ml-2" />
         </button>
       </span>
     </div>
@@ -38,9 +28,11 @@
 <script lang="ts">
 import { PaperID } from '@/types/inciteful'
 import { defineComponent } from 'vue'
+import { ArrowRightIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'LitReviewBuilder',
+  components: { ArrowRightIcon },
   data () {
     return {
       doBounce: false,

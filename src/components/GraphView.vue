@@ -49,34 +49,11 @@
             >
               <button class="justify-center p-3" v-on:click="toggleFullScreen">
                 <div :class="{ hidden: isFullScreen }">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    class="w-6 h-6"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z"
-                    />
-                  </svg>
+                  <ArrowsExpandIcon class="h-6 w-6" />
                 </div>
 
                 <div :class="{ hidden: !isFullScreen }">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M16.586 19.414l-2.586 2.586v-8h8l-2.586 2.586 4.586 4.586-2.828 2.828-4.586-4.586zm-13.758-19.414l-2.828 2.828 4.586 4.586-2.586 2.586h8v-8l-2.586 2.586-4.586-4.586zm16.586 7.414l2.586 2.586h-8v-8l2.586 2.586 4.586-4.586 2.828 2.828-4.586 4.586zm-19.414 13.758l2.828 2.828 4.586-4.586 2.586 2.586v-8h-8l2.586 2.586-4.586 4.586z"
-                    />
-                  </svg>
+                  <XCircleIcon class="h-6 w-6" />
                 </div>
               </button>
             </div>
@@ -95,26 +72,7 @@
               "
             >
               <button class="justify-center p-3" v-on:click="centerGraph">
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  ></path>
-                </svg>
+                <LocationMarkerIcon class="h-6 w-6" />
               </button>
             </div>
             <div
@@ -131,20 +89,7 @@
               "
             >
               <button class="justify-center p-3" v-on:click="zoomIn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                  />
-                </svg>
+                <ZoomInIcon class="h-6 w-6" />
               </button>
             </div>
             <div
@@ -162,20 +107,7 @@
               "
             >
               <button class="justify-center p-3" v-on:click="zoomOut">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"
-                  />
-                </svg>
+                <ZoomOutIcon class="h-6 w-6" />
               </button>
             </div>
           </div>
@@ -207,6 +139,13 @@
 import { defineComponent, PropType } from 'vue'
 import graphVis from '../utils/graphing/graph'
 import { GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
+import {
+  ArrowsExpandIcon,
+  LocationMarkerIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
+  XCircleIcon
+} from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'GraphView',
@@ -215,6 +154,13 @@ export default defineComponent({
     errorMsg: String,
     filteredIds: {} as PropType<Set<PaperID>>,
     highlightedIds: {} as PropType<Set<PaperID>>
+  },
+  components: {
+    ArrowsExpandIcon,
+    LocationMarkerIcon,
+    ZoomInIcon,
+    ZoomOutIcon,
+    XCircleIcon
   },
   data () {
     return {

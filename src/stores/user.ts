@@ -3,11 +3,11 @@ import { onAuthStateChanged, createUserWithEmailAndPassword, getIdTokenResult, I
 import { defineStore } from 'pinia'
 import { auth, usersCol } from '@/plugins/firebase'
 import { User } from '../types/user';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, Unsubscribe } from 'firebase/firestore';
 
 // avoid null value before initialization from async onAuthStateChanged
 const storageId = 'firebase:uid';
-type OnChangeFn = (userId: string | undefined) => Promise<void>;
+type OnChangeFn = (userId: string | undefined) => Promise<((() => void) | undefined)[]>;
 
 export const useUserStore = defineStore({
     id: 'loggedInUser',
@@ -17,7 +17,8 @@ export const useUserStore = defineStore({
             userData: undefined as undefined | User,
             error: null as null | AuthError,
             token: null as null | IdTokenResult,
-            enabled: process.env.VUE_APP_SHOW_LOGIN == "true"
+            enabled: process.env.VUE_APP_SHOW_LOGIN == "true",
+            unsubs: undefined as undefined | (Unsubscribe | undefined)[]
         }
     },
     actions: {
@@ -51,6 +52,12 @@ export const useUserStore = defineStore({
                 })
         },
         signOut() {
+            this.unsubs?.forEach(u => {
+                if (u) u()
+            })
+
+            this.unsubs = undefined
+
             auth.signOut()
         },
         async bindUser(executeOnChange: OnChangeFn[]) {
@@ -67,7 +74,7 @@ export const useUserStore = defineStore({
                         localStorage.removeItem(storageId);
                     }
 
-                    await Promise.all(executeOnChange.map(x => x(user?.uid)))
+                    this.unsubs = (await Promise.all(executeOnChange.map(x => x(user?.uid)))).flatMap(x => x)
                 },
             );
         },

@@ -7,37 +7,9 @@
       class="underline hover:no-underline text-purple-700"
     >
       <span v-if="truncateAbstract"
-        ><svg
-          class="w-4 h-4 inline"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 13l-7 7-7-7m14-8l-7 7-7-7"
-          ></path>
-        </svg>
-        more</span
+        ><ChevronDoubleDownIcon class="h-4 w-4 inline-block" /> more</span
       ><span v-if="!truncateAbstract"
-        ><svg
-          class="w-4 h-4 inline"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 11l7-7 7 7M5 19l7-7 7 7"
-          ></path>
-        </svg>
-        less</span
+        ><ChevronDoubleUpIcon class="h-4 w-4 inline-block" /> less</span
       >
     </button>
   </div>
@@ -45,8 +17,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import {
+  ChevronDoubleDownIcon,
+  ChevronDoubleUpIcon
+} from '@heroicons/vue/outline'
 export default defineComponent({
   name: 'AbstractView',
+  components: {
+    ChevronDoubleUpIcon,
+    ChevronDoubleDownIcon
+  },
   props: {
     abstract: String,
     length: Number

@@ -7,20 +7,7 @@
       <div v-else-if="(!valid && loaded) || editing">
         <div v-if="paper" class="absolute right-2 top-2">
           <button @click="cancelEdit()" title="Cancel">
-            <svg
-              class="w-5 h-5 text-purple-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
+            <XCircleIcon class="w-5 h-5 text-purple-500" />
           </button>
         </div>
 
@@ -79,20 +66,7 @@
       <div v-else-if="paper">
         <div class="absolute right-2 top-2">
           <button @click="setEdit()" title="Edit">
-            <svg
-              class="w-5 h-5 text-purple-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-              ></path>
-            </svg>
+            <PencilIcon class="w-5 h-5 text-purple-500" />
           </button>
         </div>
         <paper-summary :paper="paper" />
@@ -109,6 +83,7 @@ import GraphSearch from './GraphSearch.vue'
 import Loader from './Loader.vue'
 import PaperSummary from './PaperSummary.vue'
 import SearchResults from './SearchResults.vue'
+import { XCircleIcon, PencilIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'LitConnectorPaperSelector',
@@ -116,7 +91,9 @@ export default defineComponent({
     PaperSummary,
     SearchResults,
     GraphSearch,
-    Loader
+    Loader,
+    XCircleIcon,
+    PencilIcon
   },
   props: {
     paperParam: {
