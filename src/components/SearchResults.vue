@@ -173,6 +173,7 @@ export default defineComponent({
       if (this.query) {
         this.papers = undefined
         api.searchSemanticScholar(this.query).then(data => {
+          console.log('returned search')
           this.papers = data
         })
       }

@@ -96,25 +96,27 @@ function fixPaperIDs(p: Paper[]): Paper[] {
 }
 
 function searchSemanticScholar(query: string): Promise<Paper[]> {
-  return axios
-    .get(
-      `https://api.semanticscholar.org/graph/v1/paper/search?fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title,year&query=${encodeURIComponent(
-        query
-      )}`
-    )
-    .then(res => {
-      if (res.data && res.data.data && res.data.data.length > 0) {
-        return res.data.data
-          .map((p: SSPaper) => convertToIncitefulPaper(p))
-          .filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
-      } else {
+  if (query) {
+    console.log("search ss")
+    return axios
+      .get(
+        `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title,year`
+      )
+      .then(res => {
+        if (res.data && res.data.data) {
+          return res.data.data
+            .map((p: SSPaper) => convertToIncitefulPaper(p))
+            .filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
+        } else {
+          return Promise.reject()
+        }
+      })
+      .catch(err => {
+        handleServiceErr(err)
         return Promise.reject()
-      }
-    })
-    .catch(err => {
-      handleServiceErr(err)
-      return Promise.reject()
-    })
+      })
+  }
+  return Promise.resolve([])
 }
 
 // Inciteful API Calls
@@ -271,6 +273,7 @@ function searchPapers(query: string): Promise<Paper[]> {
 
 function searchInciteful(query: string): Promise<Paper[]> {
   if (query) {
+    console.log("search in")
     const params = new URLSearchParams([['q', query]])
     return axios
       .get(`${API_URL}/paper/search`, {
@@ -311,6 +314,7 @@ function downloadBibFile(ids: Array<string>) {
     window.location.href = `${API_URL}/export/bib?${idParams}`
   }
 }
+
 
 function downloadRisFile(ids: Array<string>) {
   if (ids.length > 0) {
