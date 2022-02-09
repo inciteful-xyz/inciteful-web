@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="validState"
-    class="fixed inset-0 overflow-y-auto z-40"
-    @keydown.esc="clearPaper"
-  >
+  <div v-if="validState" class="fixed inset-0 overflow-y-auto z-40">
     <div
       class="
         flex
@@ -91,13 +87,12 @@
               :paperId="options.paperId"
               :connectTo="options.connectTo"
               :options="options"
-              :graphIds="options.graphIds"
               @clearModal="clearPaper"
             />
             <author-modal-content
               v-if="hasAuthor"
               :author="options.author"
-              :ids="options.graphIds"
+              :ids="options.ids"
               :options="options"
             />
             <div class="flex whitespace-nowrap pt-6">
@@ -234,7 +229,7 @@ export default defineComponent({
       return !!(this.options && this.options.paperId)
     },
     hasAuthor (): boolean {
-      return !!(this.options && this.options.author && this.options.graphIds)
+      return !!(this.options && this.options.author && this.options.contextIds)
     },
     validState (): boolean {
       return this.hasPaper || this.hasAuthor

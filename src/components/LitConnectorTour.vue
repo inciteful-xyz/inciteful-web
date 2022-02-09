@@ -59,14 +59,6 @@ export default defineComponent({
           offset: -200
         },
         {
-          target: '#paper-keywords',
-          content: 'Common keywords that appear in the title of the papers.',
-          params: {
-            placement: 'top'
-          },
-          offset: -200
-        },
-        {
           target: '#connector-table',
           content: 'A table view of all of the papers in the above graph.',
           params: {
@@ -91,6 +83,15 @@ export default defineComponent({
             placement: 'left'
           },
           offset: -100
+        },
+        {
+          target: '.save-export',
+          content:
+            'You can also export the whole table into your reference manager',
+          offset: -200,
+          params: {
+            placement: 'left'
+          }
         }
       ]
     }

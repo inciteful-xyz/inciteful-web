@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+  <div class="shadow border-b border-gray-200 sm:rounded-lg">
     <table class="min-w-full divide-y divide-gray-200 border-collapse">
       <thead>
         <tr>
@@ -51,17 +51,12 @@
             <LitReviewButton :id="p[idColName]" />
           </td>
           <td class="pl-3 py-2 text-sm sm:text-md">
-            <button
-              v-on:click="
-                this.emitter.emit('show_paper_modal', {
-                  paperId: p.id,
-                  graphIds: this.papers.map(x => x.id)
-                })
-              "
+            <paper-modal-button
+              :id="p.id"
+              :text="p.title"
               class="underline block font-semibold pb-2 text-left"
-            >
-              {{ p.title }}
-            </button>
+              :contextIds="this.papers.map(x => x.id)"
+            />
             <div v-if="p.author" class="font-semibold text-gray-500">
               <Authors :authors="p.author" />
             </div>
@@ -97,7 +92,7 @@
               "
             >
               <LockClosedIcon v-if="p.isLocked" class="w-6 h-6" />
-              <LockOpenIcon v-if="p.isLocked" class="w-6 h-6" />
+              <LockOpenIcon v-if="!p.isLocked" class="w-6 h-6" />
             </button>
           </td>
         </tr>
@@ -134,6 +129,7 @@ import {
   LockOpenIcon
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
+import PaperModalButton from './PaperModalButton.vue'
 
 export default defineComponent({
   name: 'ConnectorTable',
@@ -145,7 +141,8 @@ export default defineComponent({
     ChevronUpIcon,
     LockClosedIcon,
     LockOpenIcon,
-    SaveDropDown
+    SaveDropDown,
+    PaperModalButton
   },
   props: {
     papers: {} as PropType<Paper[]>,

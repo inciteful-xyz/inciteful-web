@@ -4,6 +4,7 @@
       <h1
         class="text-lg font-bold text-gray-800 leading-tight lg:text-2xl pr-3"
       >
+        <favorite-paper-button :id="paper.id" />
         {{ paper.title }}
       </h1>
       <div class="lg:flex lg:flex-row-reverse">
@@ -67,6 +68,7 @@ import { defineComponent, PropType } from 'vue'
 import PaperHeroStats from './PaperHeroStats.vue'
 import AbstractView from './AbstractView.vue'
 import ExternalLinks from './ExternalLinks.vue'
+import FavoritePaperButton from './FavoritePaperButton.vue'
 import Authors from './Authors.vue'
 import { PaperID } from '@/types/inciteful'
 import { ExclamationIcon } from '@heroicons/vue/outline'
@@ -83,7 +85,8 @@ export default defineComponent({
     AbstractView,
     Authors,
     ExternalLinks,
-    ExclamationIcon
+    ExclamationIcon,
+    FavoritePaperButton
   },
   data () {
     return {

@@ -85,7 +85,19 @@
               X
             </button>
           </div>
-          It's a modal!
+          <table-base>
+            <template v-slot:header>
+              <th>Collection</th>
+            </template>
+            <template v-slot:rows>
+              <tr
+                v-for="collection in db.paperCollections"
+                :key="collection.id"
+              >
+                <td>{{ collection.name }}</td>
+              </tr>
+            </template>
+          </table-base>
         </div>
       </transition>
     </div>
@@ -95,19 +107,21 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ModalOptions, PaperID } from '@/types/inciteful'
+import TableBase from './TableBase.vue'
+import { useDBStore } from '@/stores/db'
 
 export default defineComponent({
   name: 'CollectionManagerModal',
-  components: {},
+  components: { TableBase },
   data () {
     return {
       options: undefined as ModalOptions | undefined,
-      ids: undefined as PaperID[] | undefined
+      ids: undefined as PaperID[] | undefined,
+      db: useDBStore()
     }
   },
   mounted () {
     this.emitter.on('save_collection', (ids: PaperID[]) => {
-      console.log('received')
       if (ids) {
         this.ids = ids
       }

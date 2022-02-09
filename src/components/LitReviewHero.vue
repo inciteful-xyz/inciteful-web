@@ -38,6 +38,7 @@
               uppercase
               tracking-wider
             "
+            v-if="userEnabled"
           ></th>
           <th
             class="
@@ -99,26 +100,24 @@
           >
             Cited By
           </th>
+          <th
+            class="
+              px-2
+              py-2
+              bg-gray-50
+              text-left text-xs
+              leading-4
+              font-medium
+              text-gray-500
+              uppercase
+              tracking-wider
+            "
+          ></th>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(paper, index) in visiblePapers" :key="index">
-            <td class="px-3 py-2 w-3 text-left text-gray-500">
-              <button
-                title="Remove from Graph"
-                class="
-                  font-extrabold
-                  text-xs
-                  rounded-full
-                  h-5
-                  w-5
-                  bg-purple-500
-                  text-white
-                  justify-center
-                "
-                @click="removePaper(paper.id)"
-              >
-                X
-              </button>
+            <td class="pt-2 pl-2" v-if="userEnabled">
+              <FavoritePaperButton :id="paper.id" />
             </td>
             <td
               class="
@@ -132,9 +131,7 @@
                 text-gray-500
               "
             >
-              <button v-on:click="showModal(paper.id)" class="underline">
-                {{ paper.title }}
-              </button>
+              <paper-modal-button :id="paper.id" :text="paper.title" />
             </td>
             <td
               class="
@@ -174,11 +171,16 @@
             >
               {{ paper.num_cited_by }}
             </td>
+            <td class="pt-2 pr-2">
+              <button title="Remove from Graph" @click="removePaper(paper.id)">
+                <XCircleIcon class="h-5 w-5 text-purple-500" />
+              </button>
+            </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td></td>
+            <td v-if="userEnabled"></td>
             <td colspan="2" class="text-center">
               <button
                 v-if="papers.length > numVisible"
@@ -194,9 +196,9 @@
                 >
               </button>
             </td>
-            <td colspan="2" class="text-xs text-right whitespace-nowrap">
+            <td colspan="3" class="text-xs text-right whitespace-nowrap">
               <div>
-                <SaveDropDown :ids="ids" />
+                <SaveDropDown :ids="papers.map(p => p.id)" />
               </div>
             </td>
           </tr>
@@ -212,12 +214,18 @@ import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
 import SaveDropDown from './SaveDropDown.vue'
+import { XCircleIcon } from '@heroicons/vue/solid'
+import FavoritePaperButton from './FavoritePaperButton.vue'
 
 import {
   ExclamationIcon,
   ChevronDoubleDownIcon,
   ChevronDoubleUpIcon
 } from '@heroicons/vue/outline'
+import { useUserStore } from '@/stores/user'
+import PaperModalButton from './PaperModalButton.vue'
+
+let user = useUserStore()
 
 export default defineComponent({
   name: 'LitReviewHero',
@@ -229,7 +237,10 @@ export default defineComponent({
     SaveDropDown,
     ExclamationIcon,
     ChevronDoubleDownIcon,
-    ChevronDoubleUpIcon
+    ChevronDoubleUpIcon,
+    XCircleIcon,
+    FavoritePaperButton,
+    PaperModalButton
   },
   data () {
     return {
@@ -244,6 +255,9 @@ export default defineComponent({
     }
   },
   computed: {
+    userEnabled (): boolean {
+      return user.enabled
+    },
     visiblePapers (): Paper[] {
       if (this.papers) {
         return this.papers.slice(
@@ -283,17 +297,6 @@ export default defineComponent({
     },
     togglePaperView (): void {
       this.hidePapers = !this.hidePapers
-    },
-    showModal (id: PaperID): void {
-      const options = {
-        paperId: id,
-        connectTo: undefined as undefined | PaperID
-      }
-
-      if (this.ids && this.ids.length === 1) {
-        options.connectTo = this.ids[0]
-      }
-      this.emitter.emit('show_paper_modal', options)
     }
   }
 })

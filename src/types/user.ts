@@ -3,6 +3,7 @@ import { PaperID } from "./inciteful";
 export interface User {
     id: string,
     zoteroToken: ZoteroToken | null,
+    favoritePapers: PaperID[]
 }
 
 enum ItemVisibility {

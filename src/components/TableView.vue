@@ -19,15 +19,14 @@
                 class="min-w-full divide-y divide-gray-200 
               overflow-hidden overflow-x-auto"
               >
-                <thead>
+                <thead class="bg-gray-50">
                   <tr>
-                    <th class="pl-3 py-3 bg-gray-50"></th>
-                    <th class="bg-gray-50" v-if="hasPaperID()"></th>
+                    <th class="pl-3 py-3"></th>
+                    <th v-if="hasPaperID()"></th>
                     <th
                       class="
                         px-2
                         py-2
-                        bg-gray-50
                         text-right text-xs
                         leading-4
                         font-medium
@@ -75,13 +74,12 @@
                     </td>
 
                     <td class="pl-3 py-2 text-sm sm:text-md">
-                      <button
-                        v-if="result.title || result.paper_id"
-                        v-on:click="showModal(result['paper_id'])"
-                        class="underline block font-semibold pb-2 text-left"
-                      >
-                        {{ result.title ? result.title : result.paper_id }}
-                      </button>
+                      <paper-modal-button
+                        class="block font-semibold pb-2 text-left"
+                        :id="result['paper_id']"
+                        :contextIds="ids"
+                        :text="result.title ? result.title : result.paper_id"
+                      />
                       <div
                         v-if="result.authors"
                         class="font-semibold text-gray-500"
@@ -127,8 +125,7 @@
                     title="View SQL"
                     class="p-3 sql-button cursor-pointer inline-block"
                   >
-                    <DocumentReportIcon class="w-4 h-4 inline" />
-                    SQL
+                    <DocumentReportIcon class="w-4 h-4 inline" /> SQL
                   </router-link>
                 </div>
                 <div v-if="numPages > 1" class="flex-none whitespace-nowrap">
@@ -142,7 +139,7 @@
                   >
                   </paginate>
                 </div>
-                <div class="flex-auto text-right bibtex-export">
+                <div class="flex-auto text-right">
                   <SaveDropDown
                     :ids="resultIds"
                     v-if="hasPaperID()"
@@ -152,7 +149,7 @@
                     v-if="canViewGraphs()"
                     v-on:click="viewGraph()"
                     title="ViewGraph"
-                    class="p-3 bibtex-export"
+                    class="p-3"
                   >
                     <svg
                       class="w-4 h-4 inline"
@@ -184,7 +181,6 @@
 import { defineComponent, PropType } from 'vue'
 import Author from './Authors.vue'
 import numeral from 'numeral'
-import api from '../utils/api'
 import Paginate from '@hennge/vue3-pagination'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
@@ -196,6 +192,7 @@ import {
   DocumentReportIcon
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
+import PaperModalButton from './PaperModalButton.vue'
 
 export default defineComponent({
   name: 'TableView',
@@ -207,7 +204,8 @@ export default defineComponent({
     ChevronDownIcon,
     ChevronUpIcon,
     DocumentReportIcon,
-    SaveDropDown
+    SaveDropDown,
+    PaperModalButton
   },
   props: {
     results: {} as PropType<any[]>,
@@ -356,17 +354,6 @@ export default defineComponent({
         this.sortedBy = column
       }
       this.currentPage = 1
-    },
-    showModal (id: PaperID): void {
-      const options = {
-        paperId: id,
-        connectTo: undefined as undefined | PaperID
-      }
-
-      if (this.ids && this.ids.length === 1) {
-        options.connectTo = this.ids[0]
-      }
-      this.emitter.emit('show_paper_modal', options)
     }
   }
 })

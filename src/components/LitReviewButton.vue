@@ -3,6 +3,7 @@
     v-if="!isHidden"
     title="Add paper to a literature review search"
     v-on:click="addToLitReview()"
+    class="add-paper-button"
   >
     <PlusCircleIcon class="h-5 w-5 text-purple-500 inline" />
   </button>

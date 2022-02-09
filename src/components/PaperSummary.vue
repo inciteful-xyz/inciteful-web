@@ -1,15 +1,11 @@
 <template>
   <div>
     <div v-if="paper">
-      <button
-        :title="paper.title"
-        v-on:click="
-          this.emitter.emit('show_paper_modal', { paperId: paper.id })
-        "
+      <paper-modal-button
+        :text="paper.title"
+        :id="paper.id"
         class="underline block font-semibold pb-2 text-left"
-      >
-        {{ paper.title }}
-      </button>
+      />
       <div v-if="paper.author" class="font-semibold text-gray-500">
         <Authors :authors="paper.author" :ids="ids" />
       </div>
@@ -26,9 +22,10 @@
 import { defineComponent, PropType } from 'vue'
 import Authors from './Authors.vue'
 import { Paper, PaperID } from '@/types/inciteful'
+import PaperModalButton from './PaperModalButton.vue'
 
 export default defineComponent({
-  components: { Authors },
+  components: { Authors, PaperModalButton },
   name: 'PaperCard',
   props: {
     paper: {} as PropType<Paper>

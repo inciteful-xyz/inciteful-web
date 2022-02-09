@@ -109,7 +109,7 @@ function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
     cy.nodes().forEach(hideTippy)
   }
 
-  cy.on('tap', function (ev) {
+  cy.on('tap', 'node', function (ev) {
     hideAllTippies()
     const id = ev.target.data('id')
     if (id) {

@@ -24,7 +24,7 @@ export default defineComponent({
     showModal (author: Author) {
       const options = {
         author,
-        graphIds: this.ids
+        contextIds: this.ids
       }
       this.emitter.emit('show_paper_modal', options)
     }

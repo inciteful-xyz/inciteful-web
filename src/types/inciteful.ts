@@ -56,7 +56,7 @@ export interface ModalOptions {
   paperId?: PaperID;
   author?: Author;
   previousScreen?: ModalOptions;
-  graphIds?: PaperID[];
+  contextIds?: PaperID[];
   connectTo?: PaperID;
 }
 

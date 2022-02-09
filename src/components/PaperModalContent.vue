@@ -35,7 +35,6 @@ export default defineComponent({
   },
   props: {
     paperId: {} as PropType<PaperID>,
-    graphIds: Array,
     connectTo: String,
     options: Object
   },

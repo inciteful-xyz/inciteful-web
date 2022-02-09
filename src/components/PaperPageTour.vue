@@ -106,7 +106,7 @@ export default defineComponent({
           }
         },
         {
-          target: '.bibtex-export',
+          target: '.save-export',
           content: 'Or just export the whole table into your reference manager',
           offset: -200,
           params: {

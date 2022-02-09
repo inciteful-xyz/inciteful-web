@@ -97,7 +97,6 @@ function fixPaperIDs(p: Paper[]): Paper[] {
 
 function searchSemanticScholar(query: string): Promise<Paper[]> {
   if (query) {
-    console.log("search ss")
     return axios
       .get(
         `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title,year`
@@ -273,7 +272,6 @@ function searchPapers(query: string): Promise<Paper[]> {
 
 function searchInciteful(query: string): Promise<Paper[]> {
   if (query) {
-    console.log("search in")
     const params = new URLSearchParams([['q', query]])
     return axios
       .get(`${API_URL}/paper/search`, {

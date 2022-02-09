@@ -1,10 +1,10 @@
 <template>
-  <Menu as="div" class="relative inline-block text-right z-10">
+  <Menu as="div" class="relative inline-block text-right z-10 save-export">
     <div>
       <MenuButton
         class="inline-flex justify-center px-4 py-2 mx-2 bg-white hover:bg-gray-50 focus:outline-none "
       >
-        <DocumentDownloadIcon class="h-4 w-4 inline" />
+        <DocumentDownloadIcon class="h-4 w-4" />
         Save
       </MenuButton>
     </div>
@@ -32,6 +32,18 @@
               Save to Collection
             </button>
           </MenuItem>
+          <MenuItem v-slot="{ active }" v-if="user.enabled && user.isSignedIn">
+            <button
+              :class="[
+                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                'group flex items-center px-4 py-2 text-sm text-right'
+              ]"
+              @click="saveToFavorites"
+            >
+              Save to Favorites
+            </button>
+          </MenuItem>
+
           <MenuItem v-slot="{ active }">
             <button
               href="#"
@@ -70,6 +82,7 @@ import { DocumentDownloadIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user'
 import { IncitefulEmitter, PaperID } from '../types/inciteful'
 import api from '@/utils/api'
+import { useDBStore } from '@/stores/db'
 
 export default defineComponent({
   name: 'SaveDropDown',
@@ -85,13 +98,18 @@ export default defineComponent({
   },
   setup (props) {
     const emitter = inject('emitter') as IncitefulEmitter
+    let db = useDBStore()
 
     let user = useUserStore()
     const saveCollection = () => {
       if (props.ids !== undefined) {
-        console.log('save collection')
-
         emitter.emit('save_collection', props.ids)
+      }
+    }
+
+    const saveToFavorites = () => {
+      if (props.ids !== undefined) {
+        db.addFavorites(props.ids)
       }
     }
     const downloadBibFile = () => {
@@ -105,7 +123,8 @@ export default defineComponent({
       user,
       downloadBibFile,
       downloadRisFile,
-      saveCollection
+      saveCollection,
+      saveToFavorites
     }
   }
 })
