@@ -89,13 +89,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 
 export default defineComponent({
   name: 'LoginForm',
-  setup () {
-    const router = useRouter()
+  emits: ['success'],
+  setup (_prop, { emit }) {
     const userStore = useUserStore()
 
     let email = ref(null as string | null)
@@ -108,7 +107,7 @@ export default defineComponent({
           .signInWithEmailAndPassword(email.value, password.value)
           .then(() => {
             if (userStore.user) {
-              router.push('/user')
+              emit('success')
             } else if (userStore.error) {
               validationErrors.value.push(userStore.error.message)
             }

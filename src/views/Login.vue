@@ -1,9 +1,10 @@
 <template>
-  <div><login-form /></div>
+  <div><login-form @success="success" /></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 import LoginForm from '../components/LoginForm.vue'
 
 export default defineComponent({
@@ -11,7 +12,10 @@ export default defineComponent({
     LoginForm
   },
   setup () {
-    return {}
+    const router = useRouter()
+    return {
+      success: () => router.push('/user')
+    }
   }
 })
 </script>

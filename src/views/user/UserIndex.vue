@@ -1,42 +1,41 @@
 <template>
-  <div class="py-3">
-    <div class="flex justify-center">
-      <div class="flex-auto  max-w-2xl">
-        <h1 class="text-xl">User Dashboard</h1>
-        <p class="py-2">
-          Body
-        </p>
-        <div v-for="(collection, index) in paperCollections" :key="index">
-          {{ collection.name }}
-        </div>
-        <div v-if="!userData">
-          Favorite Papers
-          <div v-for="(paper, index) in favoritePapers" :key="index">
-            {{ paper.title }}
+  <single-column>
+    <div class="py-3">
+      <div class="flex justify-center">
+        <div class="flex-auto  max-w-6xl">
+          <h1 class="text-xl">User Dashboard</h1>
+          <p class="py-2">
+            Body
+          </p>
+          <div v-for="(collection, index) in paperCollections" :key="index">
+            {{ collection.name }}
+          </div>
+          <div>
+            Favorite Papers
+            <favorite-papers />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </single-column>
 </template>
 <script lang="ts">
+import SingleColumn from '@/components/layout/SingleColumn.vue'
 import { useDBStore } from '@/stores/db'
-import api from '@/utils/api'
 import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
+import FavoritePapers from '../../components/FavoritePapers.vue'
 
 export default defineComponent({
+  components: {
+    FavoritePapers,
+    SingleColumn
+  },
   setup () {
     let db = useDBStore()
     let { paperCollections } = storeToRefs(db)
-    let favoritePapers = () => {
-      if (db.userData) {
-        return api.getPapers(db.userData.favoritePapers, true)
-      }
-      return Promise.resolve([])
-    }
 
-    return { paperCollections, favoritePapers }
+    return { paperCollections }
   }
 })
 </script>

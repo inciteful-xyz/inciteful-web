@@ -11,14 +11,13 @@
   .base-table thead {
     @apply bg-gray-50;
   }
-  .base-table thead th {
-    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+  .base-table th {
+    @apply pl-3 pr-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider;
   }
-
   .base-table tbody {
     @apply bg-white divide-y divide-gray-200;
   }
   .base-table tbody td {
-    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-500;
+    @apply px-3 py-3 text-sm text-gray-500;
   }
 }

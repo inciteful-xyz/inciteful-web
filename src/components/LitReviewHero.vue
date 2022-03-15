@@ -19,7 +19,6 @@
         </div>
       </div>
     </div>
-
     <div
       v-if="papers"
       class="shadow border-b border-gray-200 sm:rounded-lg mb-3"

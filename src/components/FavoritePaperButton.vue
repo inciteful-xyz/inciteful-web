@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="id && user.enabled"
-    title="Add paper to a literature review search"
+    title="Add paper to your favorites"
     v-on:click="toggleFavorite"
   >
     <OutlineHeartIcon v-if="!isFavorite()" class="h-5 w-5 text-purple-500" />
@@ -30,9 +30,16 @@ export default defineComponent({
     let isFavorite = function (): boolean {
       return props.id ? db.isPaperFavorite(props.id) : false
     }
+
     let toggleFavorite = function () {
       if (props.id) db.toggleFavorite(props.id)
     }
+
+    // if(!user.isSignedIn) {
+    //   toggleFavorite = () => {
+
+    //   }
+    // }
 
     return {
       isSubmitted: false,

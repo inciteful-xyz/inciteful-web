@@ -109,7 +109,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 
 export default defineComponent({
-  setup () {
+  emits: ['success'],
+  setup (props, { emit }) {
     const router = useRouter()
     const userStore = useUserStore()
 
@@ -130,7 +131,7 @@ export default defineComponent({
           .signUpWithEmailAndPassword(email.value, password.value)
           .then(() => {
             if (userStore.user) {
-              router.push('/')
+              emit('success')
             } else if (userStore.error) {
               validationErrors.value.push(userStore.error.message)
             }

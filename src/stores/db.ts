@@ -4,6 +4,7 @@ import { setDoc, addDoc, updateDoc, arrayUnion, arrayRemove, doc, query, where, 
 import { usersCol, paperCollectionsCol } from '@/plugins/firebase'
 import { PaperCollection, User } from '../types/user';
 import { PaperID } from '@/types/inciteful';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export const useDBStore = defineStore({
     id: 'firestoreDB',
@@ -14,7 +15,7 @@ export const useDBStore = defineStore({
             db: {
                 users: usersCol,
                 paperCollections: paperCollectionsCol
-            }
+            },
         }
     },
     actions: {

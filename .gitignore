@@ -24,5 +24,6 @@ pnpm-debug.log*
 
 # firebase
 firestore-*.log
+firebase-*.log
 ui-*.log
 /firebase-backup
