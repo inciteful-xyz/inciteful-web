@@ -52,12 +52,34 @@ export interface Connection {
   cited: string;
 }
 
-export interface ModalOptions {
-  paperId?: PaperID;
-  author?: Author;
+export interface IModalOptions {
   previousScreen?: ModalOptions;
-  contextIds?: PaperID[];
+}
+
+export interface PaperModalOptions extends IModalOptions {
+  paperId: PaperID;
   connectTo?: PaperID;
+}
+export interface AuthorModalOptions extends IModalOptions {
+  author: Author;
+  contextIds?: PaperID[];
+}
+export interface GraphModalOptions extends IModalOptions {
+  connectTo?: PaperID;
+}
+
+export type ModalOptions = PaperModalOptions | AuthorModalOptions;
+
+export function isPaperModalOptons(
+  options: ModalOptions
+): options is PaperModalOptions {
+  return (options as PaperModalOptions).paperId !== undefined;
+}
+
+export function isAuthorModalOptions(
+  options: ModalOptions
+): options is AuthorModalOptions {
+  return (options as AuthorModalOptions).author !== undefined;
 }
 
 export type Path = PaperID[]
@@ -74,7 +96,7 @@ export interface GraphData {
   toId?: PaperID;
   fromId?: PaperID;
   sourcePaperId?: PaperID;
-  modalOptions?: ModalOptions;
+  modalOptions?: GraphModalOptions;
 }
 
 export class IncitefulGraph {

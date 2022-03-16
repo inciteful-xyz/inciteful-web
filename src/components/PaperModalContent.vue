@@ -18,7 +18,12 @@ import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import PaperHero from './PaperHero.vue'
 import GraphView from './GraphView.vue'
-import { GraphData, Paper, PaperConnector, PaperID } from '@/types/inciteful'
+import {
+  GraphData,
+  Paper,
+  PaperConnector,
+  PaperModalOptions
+} from '@/types/inciteful'
 
 export default defineComponent({
   name: 'PaperModalContent',
@@ -34,9 +39,7 @@ export default defineComponent({
     }
   },
   props: {
-    paperId: {} as PropType<PaperID>,
-    connectTo: String,
-    options: Object
+    options: Object() as PropType<PaperModalOptions>
   },
   computed: {
     graphData (): GraphData | undefined {
@@ -51,42 +54,42 @@ export default defineComponent({
         papers: this.connectingResults.papers,
         connections: this.connectingResults.connections,
         paths: this.connectingResults.paths,
-        toId: this.paperId,
-        fromId: this.connectTo,
+        toId: this.options?.paperId,
+        fromId: this.options?.connectTo,
         modalOptions: {
           previousScreen: this.options,
-          connectTo: this.connectTo
+          connectTo: this.options?.connectTo
         }
       }
     }
   },
   mounted (): void {
-    if (!this.paperId) {
+    if (!this.options?.paperId) {
       this.paper = undefined
     } else {
-      api.getPaper(this.paperId).then(paper => (this.paper = paper))
+      api.getPaper(this.options.paperId).then(paper => (this.paper = paper))
     }
-    if (this.connectTo && this.paperId) {
-      this.connectPapers(this.connectTo, this.paperId)
+    if (this.options?.connectTo) {
+      this.connectPapers(this.options.connectTo, this.options.paperId)
     } else {
       this.connectingResults = undefined
     }
   },
   watch: {
     paperId (newVal: string, oldVal: string) {
-      if (!this.paperId) {
+      if (!this.options) {
         this.paper = undefined
       } else if (newVal !== oldVal) {
-        api.getPaper(this.paperId).then(paper => (this.paper = paper))
-        if (this.connectTo) {
-          this.connectPapers(this.connectTo, this.paperId)
+        api.getPaper(this.options.paperId).then(paper => (this.paper = paper))
+        if (this.options.connectTo) {
+          this.connectPapers(this.options.connectTo, this.options.paperId)
         }
       }
     },
     connectTo (newVal: string, oldVal: string) {
       if (newVal !== oldVal) {
-        if (this.connectTo && this.paperId) {
-          this.connectPapers(this.connectTo, this.paperId)
+        if (this.options?.connectTo) {
+          this.connectPapers(this.options.connectTo, this.options.paperId)
         } else {
           this.connectingResults = undefined
         }

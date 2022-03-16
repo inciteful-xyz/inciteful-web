@@ -25,7 +25,7 @@
         <div v-show="validState" class="fixed inset-0 transition-opacity">
           <div
             class="absolute inset-0 bg-gray-500 opacity-75"
-            v-on:click="clearPaper()"
+            v-on:click="clearModal()"
           ></div>
         </div>
       </transition>
@@ -76,52 +76,26 @@
                 text-white
                 justify-center
               "
-              v-on:click="clearPaper()"
+              v-on:click="clearModal()"
             >
               X
             </button>
           </div>
           <div class="text-sm">
             <paper-modal-content
-              v-if="hasPaper"
-              :paperId="options.paperId"
-              :connectTo="options.connectTo"
+              v-if="isPaper"
               :options="options"
-              @clearModal="clearPaper"
+              @clearModal="clearModal"
             />
             <author-modal-content
-              v-if="hasAuthor"
-              :author="options.author"
-              :ids="options.contextIds"
+              v-if="isAuthor"
               :options="options"
+              @clearModal="clearModal"
             />
             <div class="flex whitespace-nowrap pt-6">
               <div class="sm:flex-1 hidden sm:flex">
                 <span class="inline-flex rounded-md shadow-sm">
-                  <button
-                    v-on:click="backButton()"
-                    class="
-                      inline-flex
-                      items-center
-                      px-4
-                      py-2
-                      border border-transparent
-                      text-sm
-                      leading-5
-                      font-medium
-                      rounded-md
-                      text-white
-                      bg-gray-500
-                      hover:bg-gray-400
-                      focus:outline-none
-                      focus:border-gray-600
-                      focus:ring-gray
-                      active:bg-gray-600
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
-                  >
+                  <button v-on:click="backButton()" class="button-gray">
                     Back
                   </button>
                 </span>
@@ -129,29 +103,9 @@
               <div class="flex-1 sm:text-center">
                 <span class="inline-flex rounded-md shadow-sm">
                   <button
-                    v-if="hasPaper"
+                    v-if="isPaper"
                     v-on:click="goToPaper"
-                    class="
-                      inline-flex
-                      items-center
-                      px-4
-                      py-2
-                      border border-transparent
-                      text-sm
-                      leading-5
-                      font-medium
-                      rounded-md
-                      text-white
-                      bg-purple-400
-                      hover:bg-purple-300
-                      focus:outline-none
-                      focus:border-purple-500
-                      focus:ring-purple
-                      active:bg-purple-500
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
+                    class="button-light-purple"
                   >
                     Go to Graph
                   </button>
@@ -160,28 +114,9 @@
               <div class="flex-1 text-right">
                 <span class="inline-flex rounded-md shadow-sm">
                   <button
+                    v-if="isPaper"
                     v-on:click="addToLitReview()"
-                    class="
-                      inline-flex
-                      items-center
-                      px-4
-                      py-2
-                      border border-transparent
-                      text-sm
-                      leading-5
-                      font-medium
-                      rounded-md
-                      text-white
-                      bg-purple-600
-                      hover:bg-purple-500
-                      focus:outline-none
-                      focus:border-purple-700
-                      focus:ring-purple
-                      active:bg-purple-700
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
+                    class="button-purple"
                   >
                     Add to Lit Review
                   </button>
@@ -200,10 +135,14 @@ import { defineComponent } from 'vue'
 import navigation from '../navigation'
 import PaperModalContent from './PaperModalContent.vue'
 import AuthorModalContent from './AuthorModalContent.vue'
-import { ModalOptions } from '@/types/inciteful'
+import {
+  isAuthorModalOptions,
+  isPaperModalOptons,
+  ModalOptions
+} from '@/types/inciteful'
 
 export default defineComponent({
-  name: 'PaperInfoModal',
+  name: 'Modal',
   components: {
     PaperModalContent,
     AuthorModalContent
@@ -225,36 +164,40 @@ export default defineComponent({
     })
   },
   computed: {
-    hasPaper (): boolean {
-      return !!(this.options && this.options.paperId)
+    isPaper (): boolean {
+      return this.options !== undefined && isPaperModalOptons(this.options)
     },
-    hasAuthor (): boolean {
-      return !!(this.options && this.options.author && this.options.contextIds)
+    isAuthor (): boolean {
+      return this.options !== undefined && isAuthorModalOptions(this.options)
     },
     validState (): boolean {
-      return this.hasPaper || this.hasAuthor
+      return this.isPaper || this.isAuthor
     }
   },
   methods: {
     addToLitReview (): void {
-      this.emitter.emit('add_to_lit_review', this.options!.paperId!)
-      this.backButton()
+      if (this.options !== undefined && isPaperModalOptons(this.options)) {
+        this.emitter.emit('add_to_lit_review', this.options.paperId)
+        this.backButton()
+      }
     },
-    clearPaper (): void {
+    clearModal (): void {
       this.options = undefined
     },
     goToPaper (): void {
-      this.$router.push({
-        path: navigation.getPaperUrl(this.options!.paperId!)
-      })
+      if (this.options !== undefined && isPaperModalOptons(this.options)) {
+        this.$router.push({
+          path: navigation.getPaperUrl(this.options.paperId)
+        })
 
-      this.clearPaper()
+        this.clearModal()
+      }
     },
     backButton (): void {
       if (this.options && this.options.previousScreen) {
         this.options = this.options.previousScreen
       } else {
-        this.clearPaper()
+        this.clearModal()
       }
     }
   }

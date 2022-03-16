@@ -19,6 +19,7 @@ import {
   PaperID
 } from '@/types/inciteful'
 import { Emitter } from 'mitt'
+import { PaperModalOptions, GraphModalOptions } from '../../types/inciteful';
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
@@ -102,7 +103,7 @@ function createTippys(cy: Core) {
     }
   })
 }
-function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
+function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: GraphModalOptions) {
   createTippys(cy)
 
   const hideAllTippies = function () {
@@ -113,7 +114,7 @@ function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: ModalOptions) {
     hideAllTippies()
     const id = ev.target.data('id')
     if (id) {
-      modalOptions.paperId = id
+      (modalOptions as PaperModalOptions).paperId = id
       bus.emit('show_paper_modal', modalOptions)
     }
   })
@@ -131,7 +132,7 @@ function loadBaseGraph(
   elements: ElementDefinition[],
   container: HTMLElement,
   bus: Emitter<any>,
-  modalOptions: ModalOptions
+  modalOptions: GraphModalOptions
 ) {
   const cy = cytoscape({
     container,

@@ -15,29 +15,7 @@
       </div>
       <div class="pt-3">
         <span class="rounded-md shadow-sm">
-          <button
-            type="button"
-            class="
-              px-3
-              py-2
-              border border-transparent
-              text-sm
-              leading-5
-              font-medium
-              rounded-md
-              text-white
-              bg-purple-600
-              hover:bg-purple-500
-              focus:outline-none
-              focus:border-purple-700
-              focus:ring-purple
-              active:bg-purple-700
-              transition
-              ease-in-out
-              duration-150
-            "
-            v-on:click="searchClick"
-          >
+          <button type="button" class="button-purple" v-on:click="searchClick">
             <SearchIcon class="h-5 w-5 text-white" />
           </button>
         </span>

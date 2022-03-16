@@ -39,7 +39,7 @@
         />
         <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
           <button
-            class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-purple-500 hover:bg-purple-400 focus:outline-none focus:bg-purple-400 transition duration-150 ease-in-out"
+            class="button-light-purple w-full px-5 py-3 leading-6 text-base"
           >
             Join
           </button>

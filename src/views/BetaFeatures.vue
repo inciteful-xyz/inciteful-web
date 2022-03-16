@@ -63,27 +63,7 @@ transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
               <button
                 type="button"
                 v-on:click="saveSettings"
-                class="
-                  inline-flex
-                  items-center
-                  px-4
-                  py-2
-                  border border-transparent
-                  text-sm
-                  leading-5
-                  font-medium
-                  rounded-md
-                  text-white
-                  bg-purple-600
-                  hover:bg-purple-500
-                  focus:outline-none
-                  focus:border-purple-700
-                  focus:ring-purple
-                  active:bg-purple-700
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="button-purple"
               >
                 Save
               </button>

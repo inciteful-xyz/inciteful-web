@@ -169,28 +169,7 @@
                   v-if="returnUrl"
                   type="button"
                   :href="returnUrl"
-                  class="
-                    inline-flex
-                    cursor-pointer
-                    items-center
-                    px-4
-                    py-2
-                    border border-transparent
-                    text-sm
-                    leading-5
-                    font-medium
-                    rounded-md
-                    text-white
-                    bg-gray-600
-                    hover:bg-gray-500
-                    focus:outline-none
-                    focus:border-gray-700
-                    focus:ring-purple
-                    active:bg-gray-700
-                    transition
-                    ease-in-out
-                    duration-150
-                  "
+                  class="button-gray"
                 >
                   &lt;&lt; Back
                 </a>
@@ -201,27 +180,7 @@
                 <button
                   type="button"
                   @click="runCodeClick"
-                  class="
-                    inline-flex
-                    items-center
-                    px-4
-                    py-2
-                    border border-transparent
-                    text-sm
-                    leading-5
-                    font-medium
-                    rounded-md
-                    text-white
-                    bg-purple-600
-                    hover:bg-purple-500
-                    focus:outline-none
-                    focus:border-purple-700
-                    focus:ring-purple
-                    active:bg-purple-700
-                    transition
-                    ease-in-out
-                    duration-150
-                  "
+                  class="button-purple"
                 >
                   Run Query
                 </button>

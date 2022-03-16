@@ -103,29 +103,7 @@
                 "
               >
                 <span class="inline-flex rounded-md shadow-sm">
-                  <a
-                    :href="toolUrl"
-                    class="
-                      inline-flex
-                      items-center
-                      px-4
-                      py-2
-                      border border-transparent
-                      text-sm
-                      leading-5
-                      font-medium
-                      rounded-md
-                      text-white
-                      bg-purple-500
-                      hover:bg-purple-400
-                      focus:outline-none
-                      focus:border-purple-400
-                      focus:ring-purple
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
-                  >
+                  <a :href="toolUrl" class="button-purple">
                     Use the Real Tool!
                   </a>
                 </span>

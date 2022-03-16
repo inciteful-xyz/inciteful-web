@@ -60,7 +60,7 @@
                       <LitReviewButton :ids="ids" :id="result.paper_id" />
                     </td>
 
-                    <td class="pl-3 py-2 text-left">
+                    <td class="pl-3 py-2 text-left text-sm">
                       <paper-modal-button
                         class="block font-semibold pb-2 text-left"
                         :id="result['paper_id']"
@@ -80,7 +80,7 @@
                       </span>
                     </td>
                     <td
-                      class="whitespace-nowrap"
+                      class="whitespace-nowrap text-sm"
                       v-for="(column, index) in columns"
                       :key="index"
                     >
