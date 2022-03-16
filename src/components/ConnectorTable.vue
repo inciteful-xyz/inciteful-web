@@ -1,29 +1,15 @@
 <template>
   <div class="shadow border-b border-gray-200 sm:rounded-lg">
-    <table class="min-w-full divide-y divide-gray-200 border-collapse">
+    <table class="base-table">
       <thead>
         <tr>
-          <th class="pl-3 py-3 bg-gray-50"></th>
-          <th class="bg-gray-50"></th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-right text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-              whitespace-nowrap
-            "
-            v-for="(column, index) in columns"
-            :key="index"
-          >
+          <th></th>
+          <th></th>
+          <th v-for="(column, index) in columns" :key="index">
             <button
               @click="sortBy(column.name)"
               :class="{ 'font-bold': column.name == sortedBy }"
+              class="uppercase"
             >
               {{ column.displayName }}
               <ChevronDownIcon
@@ -36,7 +22,7 @@
               />
             </button>
           </th>
-          <th class="pl-3 py-3 bg-gray-50"></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -47,14 +33,14 @@
           @mouseover="$emit('mouseoverRow', p[idColName])"
           @mouseleave="$emit('mouseleaveRow', p[idColName])"
         >
-          <td class="pl-3 py-2">
+          <td>
             <LitReviewButton :id="p[idColName]" />
           </td>
-          <td class="pl-3 py-2 text-sm sm:text-md">
+          <td class="text-left">
             <paper-modal-button
               :id="p.id"
               :text="p.title"
-              class="underline block font-semibold pb-2 text-left"
+              class="underline block font-semibold text-left"
               :contextIds="this.papers.map(x => x.id)"
             />
             <div v-if="p.author" class="font-semibold text-gray-500">
@@ -71,12 +57,7 @@
             v-for="(column, index) in columns"
             :key="index"
             class="
-              px-3
-              py-2
               whitespace-nowrap
-              text-sm text-right
-              leading-5
-              text-gray-500
             "
           >
             {{ p[column.name] }}

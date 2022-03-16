@@ -74,7 +74,6 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
     "file-loader": "^6.1.0",
     "json-loader": "^0.5.7",

@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { useDBStore } from '@/stores/db'
-import { Author, Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/inciteful'
 import api from '@/utils/api'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, ref, watch } from 'vue'

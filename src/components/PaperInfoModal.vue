@@ -92,7 +92,7 @@
             <author-modal-content
               v-if="hasAuthor"
               :author="options.author"
-              :ids="options.ids"
+              :ids="options.contextIds"
               :options="options"
             />
             <div class="flex whitespace-nowrap pt-6">

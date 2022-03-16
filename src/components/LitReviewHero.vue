@@ -23,95 +23,22 @@
       v-if="papers"
       class="shadow border-b border-gray-200 sm:rounded-lg mb-3"
     >
-      <table class="min-w-full divide-y divide-gray-200 table-auto">
+      <table class="base-table">
         <thead>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-left text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-            v-if="userEnabled"
-          ></th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-left text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-          >
+          <th v-if="userEnabled"></th>
+          <th>
             Title
           </th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-center text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-          >
+          <th>
             First Author
           </th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-center text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-          >
+          <th>
             Year
           </th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-center text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-          >
+          <th>
             Cited By
           </th>
-          <th
-            class="
-              px-2
-              py-2
-              bg-gray-50
-              text-left text-xs
-              leading-4
-              font-medium
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
-          ></th>
+          <th></th>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(paper, index) in visiblePapers" :key="index">
@@ -120,54 +47,27 @@
             </td>
             <td
               class="
-                px-3
-                py-2
                 xl:whitespace-nowrap
-                text-sm text-left
-                leading-5
                 overflow-hidden
                 max-w-2xl
-                text-gray-500
               "
             >
               <paper-modal-button :id="paper.id" :text="paper.title" />
             </td>
             <td
               class="
-                px-3
-                py-2
                 lg:whitespace-nowrap
-                text-sm text-center
-                leading-5
-                text-gray-500
+                text-center
               "
             >
               <span v-if="paper.author.length > 0">
                 <author :author="paper.author[0]" :ids="ids" />
               </span>
             </td>
-            <td
-              class="
-                px-3
-                py-2
-                whitespace-nowrap
-                text-sm text-center
-                leading-5
-                text-gray-500
-              "
-            >
+            <td class="text-center">
               {{ paper.published_year }}
             </td>
-            <td
-              class="
-                px-3
-                py-2
-                whitespace-nowrap
-                text-sm text-center
-                leading-5
-                text-gray-500
-              "
-            >
+            <td class="text-center">
               {{ paper.num_cited_by }}
             </td>
             <td class="pt-2 pr-2">
@@ -213,6 +113,7 @@ import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
 import SaveDropDown from './SaveDropDown.vue'
+import TableBase from './TableBase.vue'
 import { XCircleIcon } from '@heroicons/vue/solid'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 

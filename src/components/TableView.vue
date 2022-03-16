@@ -15,26 +15,13 @@
               <Loader />
             </div>
             <div v-else>
-              <table
-                class="min-w-full divide-y divide-gray-200 
-              overflow-hidden overflow-x-auto"
-              >
+              <table class="base-table overflow-hidden overflow-x-auto">
                 <thead class="bg-gray-50">
                   <tr>
                     <th class="pl-3 py-3"></th>
                     <th v-if="hasPaperID()"></th>
                     <th
-                      class="
-                        px-2
-                        py-2
-                        text-right text-xs
-                        leading-4
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                        whitespace-nowrap
-                      "
+                      class="whitespace-nowrap"
                       v-for="(column, index) in columns"
                       :key="index"
                     >
@@ -55,7 +42,7 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody>
                   <tr v-if="!results || results.length == 0">
                     <td class="p-3 text-center">
                       <span v-if="emptyMessage">{{ emptyMessage }}</span
@@ -69,28 +56,19 @@
                     :key="index"
                     :class="rowClass(index)"
                   >
-                    <td v-if="hasPaperID()" class="pl-3 py-2">
+                    <td v-if="hasPaperID()">
                       <LitReviewButton :ids="ids" :id="result.paper_id" />
                     </td>
 
-                    <td class="pl-3 py-2 text-sm sm:text-md">
+                    <td class="pl-3 py-2 text-left">
                       <paper-modal-button
                         class="block font-semibold pb-2 text-left"
                         :id="result['paper_id']"
                         :contextIds="ids"
                         :text="result.title ? result.title : result.paper_id"
                       />
-                      <div
-                        v-if="result.authors"
-                        class="font-semibold text-gray-500"
-                      >
+                      <div v-if="result.authors">
                         <Author :authors="result.authors" :ids="ids" />
-                      </div>
-                      <div
-                        v-if="result.name"
-                        class="whitespace-nowrap font-semibold text-gray-500"
-                      >
-                        {{ result.name }}
                       </div>
                       <span
                         v-if="
@@ -102,14 +80,7 @@
                       </span>
                     </td>
                     <td
-                      class="
-                        px-3
-                        py-2
-                        whitespace-nowrap
-                        text-sm text-right
-                        leading-5
-                        text-gray-500
-                      "
+                      class="whitespace-nowrap"
                       v-for="(column, index) in columns"
                       :key="index"
                     >

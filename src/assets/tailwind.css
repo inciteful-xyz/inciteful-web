@@ -6,18 +6,18 @@
 
 @layer components {
   .base-table {
-    @apply min-w-full divide-y divide-gray-200 overflow-hidden overflow-x-auto;
+    @apply min-w-full divide-y divide-gray-200 table-auto text-sm  text-gray-500;
   }
   .base-table thead {
-    @apply bg-gray-50;
+    @apply bg-gray-50 uppercase;
   }
   .base-table th {
-    @apply pl-3 pr-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider;
+    @apply px-2 py-2 font-medium uppercase tracking-wider text-center;
   }
   .base-table tbody {
-    @apply bg-white divide-y divide-gray-200;
+    @apply bg-white divide-y divide-gray-200 text-center;
   }
   .base-table tbody td {
-    @apply px-3 py-3 text-sm text-gray-500;
+    @apply px-2 py-2 text-sm sm:text-base;
   }
 }
