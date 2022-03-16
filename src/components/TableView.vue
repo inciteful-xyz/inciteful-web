@@ -70,6 +70,13 @@
                       <div v-if="result.authors">
                         <Author :authors="result.authors" :ids="ids" />
                       </div>
+                      <div
+                        v-if="result.name"
+                        class="whitespace-nowrap font-semibold text-gray-500"
+                      >
+                        {{ result.name }}
+                      </div>
+
                       <span
                         v-if="
                           result.year || result.published_year || result.journal

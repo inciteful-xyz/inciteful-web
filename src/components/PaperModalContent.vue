@@ -97,13 +97,17 @@ export default defineComponent({
     }
   },
   watch: {
-    paperId (newVal: string, oldVal: string) {
-      if (!this.options) {
-        this.paper = undefined
-      } else if (newVal !== oldVal) {
-        api.getPaper(this.options.paperId).then(paper => (this.paper = paper))
-        if (this.options.connectTo) {
-          this.connectPapers(this.options.connectTo, this.options.paperId)
+    options (newVal: PaperModalOptions, oldVal: PaperModalOptions) {
+      if (newVal.paperId !== oldVal.paperId) {
+        api.getPaper(newVal.paperId).then(paper => (this.paper = paper))
+        if (newVal.connectTo) {
+          this.connectPapers(newVal.connectTo, newVal.paperId)
+        }
+      } else if (newVal.connectTo !== oldVal.connectTo) {
+        if (newVal.connectTo) {
+          this.connectPapers(newVal.connectTo, newVal.paperId)
+        } else {
+          this.connectingResults = undefined
         }
       }
     },
