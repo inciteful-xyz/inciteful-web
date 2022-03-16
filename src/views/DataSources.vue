@@ -1,17 +1,17 @@
 <template>
   <single-column>
     <div class="pb-3">
-      <h1 class="text-xl sm:text-3xl">Data Sources</h1>
-      <div>
-        Without all of the work that has gone into coordinating, parsing, and
-        categorizing all of the academic literature undertaken by a variety of
-        different projects, Inciteful, and other sites like it, wouldn't exists.
-        We have pulled both data and/or inspiration from all of the projects
-        listed below:
-      </div>
       <div class="flex justify-center">
-        <div class="max-w-4xl pt-8">
+        <div class="max-w-4xl">
+          <h1>Data Sources</h1>
           <div>
+            Without all of the work that has gone into coordinating, parsing,
+            and categorizing all of the academic literature undertaken by a
+            variety of different projects, Inciteful, and other sites like it,
+            wouldn't exists. We have pulled both data and/or inspiration from
+            all of the projects listed below:
+          </div>
+          <div class="pt-6 mt-6 border-gray-300 border-t">
             <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
               <a
                 class="underline hover:no-underline"

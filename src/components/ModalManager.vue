@@ -86,43 +86,19 @@
               v-if="isPaper"
               :options="options"
               @clearModal="clearModal"
+              @back="back"
             />
             <author-modal-content
               v-if="isAuthor"
               :options="options"
               @clearModal="clearModal"
+              @back="back"
             />
-            <div class="flex whitespace-nowrap pt-6">
-              <div class="sm:flex-1 hidden sm:flex">
-                <span class="inline-flex rounded-md shadow-sm">
-                  <button v-on:click="backButton()" class="button-gray">
-                    Back
-                  </button>
-                </span>
-              </div>
-              <div class="flex-1 sm:text-center">
-                <span class="inline-flex rounded-md shadow-sm">
-                  <button
-                    v-if="isPaper"
-                    v-on:click="goToPaper"
-                    class="button-light-purple"
-                  >
-                    Go to Graph
-                  </button>
-                </span>
-              </div>
-              <div class="flex-1 text-right">
-                <span class="inline-flex rounded-md shadow-sm">
-                  <button
-                    v-if="isPaper"
-                    v-on:click="addToLitReview()"
-                    class="button-purple"
-                  >
-                    Add to Lit Review
-                  </button>
-                </span>
-              </div>
-            </div>
+            <collection-modal-content
+              v-if="isCollection"
+              :options="options"
+              @back="back"
+            />
           </div>
         </div>
       </transition>
@@ -132,20 +108,23 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import navigation from '../navigation'
 import PaperModalContent from './PaperModalContent.vue'
 import AuthorModalContent from './AuthorModalContent.vue'
+import CollectionModalContent from './CollectionModalContent.vue'
+
 import {
   isAuthorModalOptions,
+  isCollectionModalOptions,
   isPaperModalOptons,
   ModalOptions
-} from '@/types/inciteful'
+} from '@/types/modalTypes'
 
 export default defineComponent({
   name: 'Modal',
   components: {
     PaperModalContent,
-    AuthorModalContent
+    AuthorModalContent,
+    CollectionModalContent
   },
   data () {
     return {
@@ -154,13 +133,10 @@ export default defineComponent({
   },
   mounted () {
     this.emitter.on('show_paper_modal', (options: ModalOptions) => {
-      if (options) {
-        if (this.options !== undefined) {
-          options.previousScreen = this.options
-        }
-
-        this.options = options
+      if (this.options !== undefined) {
+        options.previousScreen = this.options
       }
+      this.options = options
     })
   },
   computed: {
@@ -170,30 +146,21 @@ export default defineComponent({
     isAuthor (): boolean {
       return this.options !== undefined && isAuthorModalOptions(this.options)
     },
+    isCollection (): boolean {
+      return (
+        this.options !== undefined && isCollectionModalOptions(this.options)
+      )
+    },
+
     validState (): boolean {
-      return this.isPaper || this.isAuthor
+      return this.isPaper || this.isAuthor || this.isCollection
     }
   },
   methods: {
-    addToLitReview (): void {
-      if (this.options !== undefined && isPaperModalOptons(this.options)) {
-        this.emitter.emit('add_to_lit_review', this.options.paperId)
-        this.backButton()
-      }
-    },
     clearModal (): void {
       this.options = undefined
     },
-    goToPaper (): void {
-      if (this.options !== undefined && isPaperModalOptons(this.options)) {
-        this.$router.push({
-          path: navigation.getPaperUrl(this.options.paperId)
-        })
-
-        this.clearModal()
-      }
-    },
-    backButton (): void {
+    back (): void {
       if (this.options && this.options.previousScreen) {
         this.options = this.options.previousScreen
       } else {

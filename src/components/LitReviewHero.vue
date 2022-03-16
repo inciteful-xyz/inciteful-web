@@ -1,6 +1,6 @@
 <template>
   <div class="text-sm">
-    <h1 class="text-gray-800 font-bold text-lg sm:text-2xl pb-5">
+    <h1>
       Seed Papers
     </h1>
     <div
@@ -108,7 +108,7 @@
 </template>
 
 <script lang="ts">
-import { Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'

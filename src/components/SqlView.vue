@@ -33,7 +33,7 @@ import StatView from './StatView.vue'
 import SimilarGraph from './SimilarGraph.vue'
 import api from '../utils/api'
 import Sql from '../utils/sql'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'SqlView',

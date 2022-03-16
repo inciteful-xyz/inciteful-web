@@ -113,7 +113,7 @@ import LitConnectorBody from '../components/LitConnectorBody.vue'
 import Faq from '../components/Faq.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
-import { Paper } from '@/types/inciteful'
+import { Paper } from '@/types/incitefulTypes'
 import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({

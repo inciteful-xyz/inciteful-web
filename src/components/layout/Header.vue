@@ -168,7 +168,7 @@
 import { defineComponent, ref } from 'vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import navigation from '../../navigation'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { MenuIcon, XIcon } from '@heroicons/vue/outline'

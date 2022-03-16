@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Author } from '@/types/inciteful'
+import { Author } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({

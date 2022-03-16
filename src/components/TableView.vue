@@ -156,7 +156,7 @@ import Paginate from '@hennge/vue3-pagination'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import navigation from '../navigation'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import {
   ChevronDownIcon,
   ChevronUpIcon,

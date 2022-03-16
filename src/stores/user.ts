@@ -2,7 +2,7 @@
 import { onAuthStateChanged, createUserWithEmailAndPassword, getIdTokenResult, IdTokenResult, AuthError, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { defineStore } from 'pinia'
 import { auth, usersCol } from '@/plugins/firebase'
-import { User } from '../types/user';
+import { User } from '../types/userTypes';
 import { doc, setDoc, Unsubscribe } from 'firebase/firestore';
 
 // avoid null value before initialization from async onAuthStateChanged

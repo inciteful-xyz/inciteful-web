@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Faq } from '@/types/inciteful'
+import { Faq } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'Faq',

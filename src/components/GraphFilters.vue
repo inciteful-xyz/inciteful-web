@@ -174,7 +174,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import GraphSearch from './GraphSearch.vue'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { InformationCircleIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({

@@ -6,7 +6,8 @@
 </template>
 
 <script lang="ts">
-import { GraphData, Paper, PaperID } from '@/types/inciteful'
+import { GraphData } from '@/types/graphTypes'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import GraphView from './GraphView.vue'

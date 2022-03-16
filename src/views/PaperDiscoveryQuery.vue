@@ -16,7 +16,7 @@ import BetaFeatures from '../components/BetaFeatures.vue'
 import QueryPanel from '../components/QueryPanel.vue'
 import api from '../utils/api'
 import SingleColumn from '../components/layout/SingleColumn.vue'
-import { Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'PaperDiscoveryQuery',

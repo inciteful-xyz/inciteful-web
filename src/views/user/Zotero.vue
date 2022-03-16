@@ -2,7 +2,7 @@
   <div class="py-3">
     <div class="flex justify-center">
       <div class="flex-auto  max-w-2xl">
-        <h1 class="text-xl">Zotero</h1>
+        <h1>Zotero</h1>
         <p class="py-2">
           <button @click.prevent="zoteroInit">Start Zotero</button>
         </p>

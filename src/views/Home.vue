@@ -65,10 +65,10 @@
     </div>
     <div class="py-6 xl:py-12 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
       <div class="max-w-max-content lg:max-w-7xl mx-auto">
-        <div class="relative z-10 mb-8 md:mb-2 md:px-6">
+        <div class="relative z-10 mb-4 md:mb-2 md:px-6">
           <div class="text-base max-w-prose lg:max-w-none">
             <h1
-              class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+              class="mt-2 pb-0 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
               Find the most relevant literature, faster
             </h1>
@@ -279,7 +279,7 @@ import BetaSignup from '@/components/BetaSignup.vue'
 import GraphSearch from '@/components/GraphSearch.vue'
 import ConnectorSearch from '@/components/ConnectorSearch.vue'
 import navigation from '../navigation'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import {
   DocumentReportIcon,
   CubeTransparentIcon,

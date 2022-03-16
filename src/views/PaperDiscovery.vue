@@ -60,7 +60,6 @@
       </div>
     </div>
     <div class="pb-6"><BetaSignup /></div>
-
     <PaperPageTour :ready="pageReady" />
   </single-column>
 </template>
@@ -76,7 +75,7 @@ import api from '../utils/api'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
-import { Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 

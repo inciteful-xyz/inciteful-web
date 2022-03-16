@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent } from 'vue'
 import api from '../utils/api'
 import GraphSearch from './GraphSearch.vue'

@@ -13,7 +13,7 @@ import Vue3TouchEvents from 'vue3-touch-events'
 import './assets/tailwind.css'
 import { useUserStore } from './stores/user'
 import { useDBStore } from './stores/db'
-import { IncitefulEmitter } from './types/inciteful';
+import { IncitefulEmitter } from './types/incitefulTypes';
 require('v3-tour/dist/vue-tour.css')
 
 

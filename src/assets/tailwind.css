@@ -6,7 +6,7 @@
 
 @layer components {
   .base-table {
-    @apply min-w-full divide-y divide-gray-200 table-auto text-sm text-gray-500;
+    @apply min-w-full divide-y divide-gray-200 table-auto text-sm text-gray-600;
   }
   .base-table thead {
     @apply bg-gray-50 uppercase;
@@ -37,5 +37,9 @@
                       hover:bg-purple-500
                       focus:border-purple-700
                       focus:ring-purple-600;
+  }
+
+  h1 {
+    @apply text-gray-800 font-bold text-lg sm:text-2xl;
   }
 }

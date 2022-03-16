@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator, DocumentData, CollectionReference, collection } from 'firebase/firestore';
-import { User, PaperCollection } from '../types/user';
+import { User, PaperCollection } from '../types/userTypes';
 
 // Firebase app config
 const config = {

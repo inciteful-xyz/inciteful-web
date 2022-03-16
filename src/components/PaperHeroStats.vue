@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import SqlView from './SqlView.vue'

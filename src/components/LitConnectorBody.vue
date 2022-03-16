@@ -279,23 +279,23 @@
 import { defineComponent, PropType } from 'vue'
 import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
-import api from '../utils/api'
+import api from '@/utils/api'
 import Stat from './Stat.vue'
 import ConnectorTable from './ConnectorTable.vue'
-import keywordFuncs, { TermCount } from '../utils/keywords'
+import keywordFuncs, { TermCount } from '@/utils/keywords'
 import { stemmer } from 'stemmer'
-import navigation from '../navigation'
+import navigation from '@/navigation'
 
 import FlexSearch from 'flexsearch'
 import { InformationCircleIcon } from '@heroicons/vue/outline'
 import {
   Paper,
   PaperID,
-  GraphData,
   PaperConnector,
   Path,
   Connection
-} from '../types/inciteful'
+} from '@/types/incitefulTypes'
+import { GraphData } from '@/types/graphTypes'
 
 export default defineComponent({
   name: 'LitConnectorBody',

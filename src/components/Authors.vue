@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Author, PaperID } from '@/types/inciteful'
+import { Author, PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import AuthorComp from './Author.vue'
 

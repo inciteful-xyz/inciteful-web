@@ -3,7 +3,7 @@
     <div class="py-3">
       <div class="flex justify-center">
         <div class="flex-auto  max-w-6xl">
-          <h1 class="text-xl">User Dashboard</h1>
+          <h1>User Dashboard</h1>
           <p class="py-2">
             Body
           </p>

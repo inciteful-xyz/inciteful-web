@@ -70,7 +70,7 @@ import { defineComponent } from 'vue'
 import api from '../utils/api'
 import Authors from './Authors.vue'
 import numeral from 'numeral'
-import { Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'Autosuggest',

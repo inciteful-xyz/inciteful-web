@@ -10,6 +10,29 @@
         View in Literature Connector >>
       </button>
     </div>
+    <div class="flex whitespace-nowrap pt-6">
+      <div class="sm:flex-1 hidden sm:flex">
+        <span class="inline-flex rounded-md shadow-sm">
+          <button v-on:click="back()" class="button-gray">
+            Back
+          </button>
+        </span>
+      </div>
+      <div class="flex-1 sm:text-center">
+        <span class="inline-flex rounded-md shadow-sm">
+          <button v-on:click="goToPaper" class="button-light-purple">
+            Go to Graph
+          </button>
+        </span>
+      </div>
+      <div class="flex-1 text-right">
+        <span class="inline-flex rounded-md shadow-sm">
+          <button v-on:click="addToLitReview()" class="button-purple">
+            Add to Lit Review
+          </button>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,12 +41,10 @@ import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import PaperHero from './PaperHero.vue'
 import GraphView from './GraphView.vue'
-import {
-  GraphData,
-  Paper,
-  PaperConnector,
-  PaperModalOptions
-} from '@/types/inciteful'
+import { Paper, PaperConnector } from '@/types/incitefulTypes'
+import navigation from '../navigation'
+import { PaperModalOptions } from '@/types/modalTypes'
+import { GraphData } from '@/types/graphTypes'
 
 export default defineComponent({
   name: 'PaperModalContent',
@@ -96,7 +117,7 @@ export default defineComponent({
       }
     }
   },
-  emits: ['clearModal'],
+  emits: ['clearModal', 'back'],
   methods: {
     connectPapers (from: string, to: string): void {
       this.loaded = false
@@ -116,6 +137,24 @@ export default defineComponent({
         })
         this.$emit('clearModal')
       }
+    },
+    addToLitReview (): void {
+      if (this.options !== undefined) {
+        this.emitter.emit('add_to_lit_review', this.options.paperId)
+        this.back()
+      }
+    },
+    goToPaper (): void {
+      if (this.options !== undefined) {
+        this.$router.push({
+          path: navigation.getPaperUrl(this.options.paperId)
+        })
+
+        this.$emit('clearModal')
+      }
+    },
+    back (): void {
+      this.$emit('back')
     }
   }
 })

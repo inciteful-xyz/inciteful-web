@@ -19,7 +19,7 @@
             <LitReviewButton :ids="[]" :id="paper.id" />
           </div>
           <div class="flex-grow">
-            <h1 class="pr-3">
+            <div class="pr-3">
               <button
                 @click="registerSelect(paper)"
                 class="
@@ -34,7 +34,7 @@
               >
                 {{ paper.title }}
               </button>
-            </h1>
+            </div>
           </div>
         </div>
         <div class="lg:flex lg:flex-row-reverse">
@@ -118,7 +118,7 @@ import AbstractView from './AbstractView.vue'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import Authors from './Authors.vue'
-import { Paper } from '@/types/inciteful'
+import { Paper } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'SearchResults',

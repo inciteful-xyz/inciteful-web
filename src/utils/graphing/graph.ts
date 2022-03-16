@@ -13,13 +13,15 @@ import popper from 'cytoscape-popper'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import {
-  ModalOptions,
+  PaperID
+} from '@/types/incitefulTypes'
+import {
   GraphData,
   IncitefulGraph,
-  PaperID
-} from '@/types/inciteful'
+  GraphModalOptions
+} from "@/types/graphTypes"
 import { Emitter } from 'mitt'
-import { PaperModalOptions, GraphModalOptions } from '../../types/inciteful';
+import { PaperModalOptions } from "../../types/modalTypes"
 
 cytoscape.use(popper)
 cytoscape.use(fcose)

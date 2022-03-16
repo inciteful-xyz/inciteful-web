@@ -1,4 +1,4 @@
-import { PaperID } from "./inciteful";
+import { PaperID } from "./incitefulTypes";
 
 export interface User {
     id: string,

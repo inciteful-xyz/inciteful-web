@@ -28,7 +28,7 @@ import DashboardRenderer from '../components/DashboardRenderer.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'LitReview',

@@ -36,7 +36,7 @@ import { defineComponent } from 'vue'
 import api from '@/utils/api'
 import bib from '@/utils/bib'
 import Autosuggest from './Autosuggest.vue'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { SearchIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({

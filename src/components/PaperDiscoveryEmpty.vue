@@ -102,11 +102,11 @@
       <div class="max-w-max-content lg:max-w-7xl mx-auto">
         <div class="relative z-10 mb-8 md:mb-2 md:px-6">
           <div class="text-base max-w-prose lg:max-w-none">
-            <h1
+            <div
               class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
               Find the most relevant literature, faster
-            </h1>
+            </div>
           </div>
         </div>
         <div class="relative">
@@ -252,7 +252,7 @@ import { defineComponent } from 'vue'
 // @ is an alias to /src
 import GraphSearch from './GraphSearch.vue'
 import navigation from '../navigation'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'PaperDiscoveryEmpty',

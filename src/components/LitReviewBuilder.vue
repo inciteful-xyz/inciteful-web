@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent } from 'vue'
 import { ArrowRightIcon } from '@heroicons/vue/outline'
 

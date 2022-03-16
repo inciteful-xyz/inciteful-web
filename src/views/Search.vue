@@ -1,9 +1,7 @@
 <template>
   <single-column>
     <div class="min-h-full align-top text-sm">
-      <h1 class="text-xl sm:text-lg font-semibold">
-        Search Results for "{{ query }}"
-      </h1>
+      <h1>Search Results for "{{ query }}"</h1>
       <div class="lg:flex lg:flex-row-reverse pt-4">
         <div>
           <div
@@ -37,7 +35,7 @@ import LitReviewButton from '../components/LitReviewButton.vue'
 import SearchResults from '../components/SearchResults.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import navigation from '../navigation'
-import { Paper } from '@/types/inciteful'
+import { Paper } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'SearchPage',

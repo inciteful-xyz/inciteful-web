@@ -138,7 +138,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import graphVis from '../utils/graphing/graph'
-import { GraphData, IncitefulGraph, PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import {
   ArrowsExpandIcon,
   LocationMarkerIcon,
@@ -146,6 +146,7 @@ import {
   ZoomOutIcon,
   XCircleIcon
 } from '@heroicons/vue/outline'
+import { GraphData, IncitefulGraph } from '@/types/graphTypes'
 
 export default defineComponent({
   name: 'GraphView',

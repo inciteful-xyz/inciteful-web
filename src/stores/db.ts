@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia'
 import { setDoc, addDoc, updateDoc, arrayUnion, arrayRemove, doc, query, where, onSnapshot, DocumentSnapshot } from 'firebase/firestore';
 import { usersCol, paperCollectionsCol } from '@/plugins/firebase'
-import { PaperCollection, User } from '../types/user';
-import { PaperID } from '@/types/inciteful';
+import { PaperCollection, User } from '../types/userTypes';
+import { PaperID } from '@/types/incitefulTypes';
 
 export const useDBStore = defineStore({
     id: 'firestoreDB',

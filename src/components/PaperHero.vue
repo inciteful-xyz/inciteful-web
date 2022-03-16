@@ -1,9 +1,7 @@
 <template>
   <div v-if="paper" class="text-sm">
     <div id="paper-info">
-      <h1
-        class="text-lg font-bold text-gray-800 leading-tight lg:text-2xl pr-3"
-      >
+      <h1>
         <favorite-paper-button :id="paper.id" />
         {{ paper.title }}
       </h1>
@@ -70,7 +68,7 @@ import AbstractView from './AbstractView.vue'
 import ExternalLinks from './ExternalLinks.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 import Authors from './Authors.vue'
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({

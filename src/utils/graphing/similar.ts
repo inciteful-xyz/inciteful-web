@@ -1,11 +1,12 @@
-import { GraphData, Paper, PaperID } from '../../types/inciteful'
+import { Paper, PaperID } from '../../types/incitefulTypes'
+import { GraphData } from "../../types/graphTypes"
 import { ElementDefinition, EdgeSingular, EdgeDataDefinition } from 'cytoscape'
 
-function edgeLength (edge: EdgeSingular) {
+function edgeLength(edge: EdgeSingular) {
   return 15 / Math.pow(0.2 + edge.data('weight'), 2)
 }
 
-function countIntersection (a: PaperID[], b: PaperID[]) {
+function countIntersection(a: PaperID[], b: PaperID[]) {
   let ai = 0
   let bi = 0
   let count = 0
@@ -26,7 +27,7 @@ function countIntersection (a: PaperID[], b: PaperID[]) {
   return count
 }
 
-function coupling (p: Paper, p2: Paper) {
+function coupling(p: Paper, p2: Paper) {
   // let maxLength = Math.max(p.citing.length, p2.citing.length);
   const denom = Math.sqrt(p.citing!.length * p2.citing!.length)
 
@@ -39,7 +40,7 @@ function coupling (p: Paper, p2: Paper) {
   return intersection / denom
 }
 
-function cocitations (p: Paper, p2: Paper) {
+function cocitations(p: Paper, p2: Paper) {
   const denom = Math.sqrt(p.cited_by!.length * p2.cited_by!.length)
 
   if (denom === 0) {
@@ -51,7 +52,7 @@ function cocitations (p: Paper, p2: Paper) {
   return intersection / denom
 }
 
-function buildLayout () {
+function buildLayout() {
   const layout = {
     name: 'fcose',
     // Ideal edge (non nested) length
@@ -66,7 +67,7 @@ function buildLayout () {
   return layout
 }
 
-function makeTippy (p: Paper) {
+function makeTippy(p: Paper) {
   const content = document.createElement('div')
 
   content.innerHTML = p.title
@@ -74,7 +75,7 @@ function makeTippy (p: Paper) {
   return content
 }
 
-function buildElements (graphData: GraphData, minDate: number, maxDate: number) {
+function buildElements(graphData: GraphData, minDate: number, maxDate: number) {
   const elements: ElementDefinition[] = []
   const possibleEdges: { source: PaperID; destination: PaperID; score: number; coup: number; cocite: number }[] = []
   const edgeCounts: Record<PaperID, number> = {}

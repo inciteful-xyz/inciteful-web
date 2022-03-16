@@ -1,4 +1,4 @@
-import { Paper } from '@/types/inciteful'
+import { Paper } from '@/types/incitefulTypes'
 import { stemmer } from 'stemmer'
 
 const stop = new Set([
@@ -138,7 +138,7 @@ export interface TermCount {
   count: number;
 }
 
-function extract (papers: Paper[]): TermCount[] {
+function extract(papers: Paper[]): TermCount[] {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keywords: Record<string, number> = {}
   papers.forEach(p => {

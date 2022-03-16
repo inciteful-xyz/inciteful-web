@@ -3,7 +3,7 @@
     <div class="flex justify-center">
       <div class="flex-auto max-w-2xl">
         <div>
-          <h1 class="text-xl">Beta Features</h1>
+          <h1>Beta Features</h1>
           <p class="py-2 text-sm">
             Below you will find a list of the current features we are beta
             testing. I cannot promise these will be supported for any

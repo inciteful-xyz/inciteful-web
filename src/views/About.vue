@@ -1,8 +1,8 @@
 <template>
   <div class="py-3">
     <div class="flex justify-center">
-      <div class="flex-auto  max-w-2xl">
-        <h1 class="text-xl">About Inciteful</h1>
+      <div class="flex-auto max-w-2xl">
+        <h1>About Inciteful</h1>
         <p class="py-2">
           The seed of the idea for Inciteful came about as a result of a
           frustrating experience after helping my wife (the academic of the

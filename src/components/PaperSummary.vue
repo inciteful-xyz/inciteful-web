@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Authors from './Authors.vue'
-import { Paper, PaperID } from '@/types/inciteful'
+import { Paper, PaperID } from '@/types/incitefulTypes'
 import PaperModalButton from './PaperModalButton.vue'
 
 export default defineComponent({

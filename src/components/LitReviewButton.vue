@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { PaperID } from '@/types/inciteful'
+import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import { PlusCircleIcon } from '@heroicons/vue/solid'
 export default defineComponent({

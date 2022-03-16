@@ -2,9 +2,9 @@ import axios, { AxiosError } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, PaperConnector, PaperID } from '../types/inciteful';
-import { SSPaper, SSAuthor } from '../types/semanticScholar'
-import { ZoteroToken } from '../types/user';
+import { Paper, Author, PaperConnector, PaperID } from '../types/incitefulTypes';
+import { SSPaper, SSAuthor } from '../types/semanticScholarTypes'
+import { ZoteroToken } from '../types/userTypes';
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10

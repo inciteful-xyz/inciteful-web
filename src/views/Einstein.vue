@@ -132,7 +132,7 @@ import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.v
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import FaqComp from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
-import { Paper } from '@/types/inciteful'
+import { Paper } from '@/types/incitefulTypes'
 
 export default defineComponent({
   name: 'LitConnectorPage',

@@ -1,23 +1,24 @@
 <template>
   <div>
-    <h1 class="text-lg font-bold text-gray-800 leading-tight lg:text-2xl pr-3">
-      Other graph papers by {{ options.author.name }}
-    </h1>
+    <h1>Other graph papers by {{ options.author.name }}</h1>
     <sql-view :ids="options.contextIds" :sql="sql" />
+    <button v-on:click="$emit('back')" class="button-gray mt-4">
+      Back
+    </button>
   </div>
 </template>
 
 <script lang="ts">
+import { AuthorModalOptions } from '@/types/modalTypes'
 import { defineComponent, PropType } from 'vue'
 import SqlView from './SqlView.vue'
-import { AuthorModalOptions } from '../types/inciteful'
 
 export default defineComponent({
   name: 'AuthorModalContent',
   components: {
     SqlView
   },
-  emits: ['clearModal'],
+  emits: ['back'],
   props: {
     options: Object() as PropType<AuthorModalOptions>
   },

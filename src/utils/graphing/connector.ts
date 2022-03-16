@@ -4,7 +4,8 @@ import {
   Position,
   ElementDefinition
 } from 'cytoscape'
-import { Paper, GraphData } from '@/types/inciteful'
+import { Paper } from '@/types/incitefulTypes'
+import { GraphData } from "@/types/graphTypes"
 import { Emitter } from 'mitt'
 
 function buildKlayLayout() {
