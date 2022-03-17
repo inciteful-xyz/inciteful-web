@@ -22,7 +22,7 @@
 import { defineComponent, PropType } from 'vue'
 import Authors from './Authors.vue'
 import { Paper, PaperID } from '@/types/incitefulTypes'
-import PaperModalButton from './PaperModalButton.vue'
+import PaperModalButton from './Modals/PaperModalButton.vue'
 
 export default defineComponent({
   components: { Authors, PaperModalButton },

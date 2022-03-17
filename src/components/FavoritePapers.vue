@@ -1,40 +1,43 @@
 <template>
-  <table-base class="min-w-7xl table-auto" :items="sortedPapers">
-    <template v-slot:header>
-      <th></th>
-      <th v-for="(column, index) in columns" :key="index">
-        <button
-          @click="sortBy(column.name, column.selector)"
-          :class="{ 'font-bold': column.name == sortedBy }"
-          class="uppercase"
-        >
-          {{ column.displayName }}
-          <ChevronDownIcon
-            v-if="column.name == sortedBy && sortDescending"
-            class="w-4 h-4 inline"
-          />
-          <ChevronUpIcon
-            v-if="column.name == sortedBy && !sortDescending"
-            class="w-4 h-4 inline"
-          />
-        </button>
-      </th>
-    </template>
-    <template v-slot:row="slotProps">
-      <td class="max-w-xs pr-0">
-        <favorite-paper-button :id="slotProps.item.id" />
-      </td>
-      <td class="overflow-hidden xl:whitespace-nowrap max-w-2xl">
-        <paper-modal-button
-          :text="slotProps.item.title"
-          :id="slotProps.item.id"
-        />
-      </td>
-      <td class="text-center">{{ slotProps.item.author[0].name }}</td>
-      <td class="text-center">{{ slotProps.item.published_year }}</td>
-      <td class="text-center">{{ slotProps.item.num_cited_by }}</td>
-    </template>
-  </table-base>
+  <div class="shadow-box">
+    <table class="base-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th v-for="(column, index) in columns" :key="index">
+            <button
+              @click="sortBy(column.name, column.selector)"
+              :class="{ 'font-bold': column.name == sortedBy }"
+              class="uppercase"
+            >
+              {{ column.displayName }}
+              <ChevronDownIcon
+                v-if="column.name == sortedBy && sortDescending"
+                class="w-4 h-4 inline"
+              />
+              <ChevronUpIcon
+                v-if="column.name == sortedBy && !sortDescending"
+                class="w-4 h-4 inline"
+              />
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(paper, index) in sortedPapers" :key="index">
+          <td class="max-w-xs pr-0">
+            <favorite-paper-button :id="paper.id" />
+          </td>
+          <td class="overflow-hidden xl:whitespace-nowrap max-w-2xl">
+            <paper-modal-button :text="paper.title" :id="paper.id" />
+          </td>
+          <td class="text-center">{{ paper.author[0].name }}</td>
+          <td class="text-center">{{ paper.published_year }}</td>
+          <td class="text-center">{{ paper.num_cited_by }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -44,13 +47,11 @@ import api from '@/utils/api'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
-import PaperModalButton from './PaperModalButton.vue'
-import TableBase from './TableBase.vue'
+import PaperModalButton from './Modals/PaperModalButton.vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   components: {
-    TableBase,
     PaperModalButton,
     FavoritePaperButton,
     ChevronDownIcon,

@@ -2,7 +2,7 @@
   <div>
     <div class="p-8" v-if="errorMsg">{{ errorMsg }}</div>
     <div v-else>
-      <div class="shadow border-b border-gray-400 sm:rounded-lg mt-3">
+      <div class="shadow-box mt-3">
         <div
           class="bg-white"
           :class="{

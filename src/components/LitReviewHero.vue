@@ -19,10 +19,7 @@
         </div>
       </div>
     </div>
-    <div
-      v-if="papers"
-      class="shadow border-b border-gray-200 sm:rounded-lg mb-3"
-    >
+    <div v-if="papers" class="shadow-box">
       <table class="base-table">
         <thead>
           <th v-if="userEnabled"></th>
@@ -113,7 +110,6 @@ import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import Author from './Author.vue'
 import SaveDropDown from './SaveDropDown.vue'
-import TableBase from './TableBase.vue'
 import { XCircleIcon } from '@heroicons/vue/solid'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 
@@ -123,7 +119,7 @@ import {
   ChevronDoubleUpIcon
 } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user'
-import PaperModalButton from './PaperModalButton.vue'
+import PaperModalButton from './Modals/PaperModalButton.vue'
 
 let user = useUserStore()
 

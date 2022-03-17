@@ -38,11 +38,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import api from '../utils/api'
-import PaperHero from './PaperHero.vue'
-import GraphView from './GraphView.vue'
+import api from '@/utils/api'
+import PaperHero from '../PaperHero.vue'
+import GraphView from '../GraphView.vue'
 import { Paper, PaperConnector } from '@/types/incitefulTypes'
-import navigation from '../navigation'
+import navigation from '@/navigation'
 import { PaperModalOptions } from '@/types/modalTypes'
 import { GraphData } from '@/types/graphTypes'
 

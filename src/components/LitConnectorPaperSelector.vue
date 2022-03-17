@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="text-left relative shadow border-b border-gray-300 sm:rounded-lg p-4"
-  >
+  <div class="text-left relative shadow-box p-4">
     <div>
       <loader v-if="!loaded" />
       <div v-else-if="(!valid && loaded) || editing">

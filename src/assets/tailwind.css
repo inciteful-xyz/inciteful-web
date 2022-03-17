@@ -64,4 +64,7 @@
   .Pagination .Page-active {
     @apply bg-purple-500 border-purple-800 text-white;
   }
+  .shadow-box {
+    @apply shadow border-b border-gray-200 sm:rounded-lg mb-3;
+  }
 }

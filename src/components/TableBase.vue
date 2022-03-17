@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow border-b border-gray-200 sm:rounded-lg">
+  <div class="shadow-box">
     <table class="base-table" :class="$props.class">
       <thead>
         <tr>

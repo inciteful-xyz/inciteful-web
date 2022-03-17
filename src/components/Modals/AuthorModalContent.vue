@@ -11,7 +11,7 @@
 <script lang="ts">
 import { AuthorModalOptions } from '@/types/modalTypes'
 import { defineComponent, PropType } from 'vue'
-import SqlView from './SqlView.vue'
+import SqlView from '../SqlView.vue'
 
 export default defineComponent({
   name: 'AuthorModalContent',

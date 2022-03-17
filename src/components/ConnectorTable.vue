@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow border-b border-gray-200 sm:rounded-lg">
+  <div class="shadow-box">
     <table class="base-table">
       <thead>
         <tr>
@@ -104,7 +104,6 @@ import { defineComponent, PropType } from 'vue'
 import Paginate from '@hennge/vue3-pagination'
 import Authors from './Authors.vue'
 import LitReviewButton from './LitReviewButton.vue'
-import api from '../utils/api'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import {
   ChevronDownIcon,
@@ -113,7 +112,7 @@ import {
   LockOpenIcon
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
-import PaperModalButton from './PaperModalButton.vue'
+import PaperModalButton from './Modals/PaperModalButton.vue'
 
 export default defineComponent({
   name: 'ConnectorTable',

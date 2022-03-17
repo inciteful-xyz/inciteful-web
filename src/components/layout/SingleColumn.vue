@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import LitReviewBuilder from '../LitReviewBuilder.vue'
-import ModalManager from '../ModalManager.vue'
+import ModalManager from '../Modals/ModalManager.vue'
 
 export default defineComponent({
   name: 'SingleColumn',

@@ -170,7 +170,7 @@ import {
   DocumentReportIcon
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
-import PaperModalButton from './PaperModalButton.vue'
+import PaperModalButton from './Modals/PaperModalButton.vue'
 
 export default defineComponent({
   name: 'TableView',
