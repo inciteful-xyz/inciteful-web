@@ -83,8 +83,11 @@
       <div class="flex-auto"></div>
       <div v-if="numPages > 1" class="flex-none whitespace-nowrap paging">
         <paginate
-          :page="numPages"
-          :click-handler="turnPage"
+          v-model="currentPage"
+          :pages="numPages"
+          active-color="rgba(139, 92, 246)"
+          :hideFirstButton="true"
+          :hideLastButton="true"
           @update:modelValue="turnPage"
         >
         </paginate>

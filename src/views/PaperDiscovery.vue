@@ -2,7 +2,7 @@
   <single-column>
     <BetaFeatures />
     <div class="border-b border-gray-200 pb-6 mb-6">
-      <PaperHero :paper="paper" :paperId="id" :graphStats="true" />
+      <PaperHero :paper="paper" :graphStats="true" />
     </div>
     <div v-if="paper && (paper.num_cited_by > 0 || paper.num_citing > 0)">
       <div class="border-b border-gray-200 pb-6 mb-6">

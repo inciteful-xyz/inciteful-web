@@ -41,7 +41,7 @@ export default defineComponent({
         options.connectTo = this.connectTo
       }
 
-      this.emitter.emit('show_paper_modal', options)
+      this.emitter.emit('show_modal', options)
     }
   },
   computed: {

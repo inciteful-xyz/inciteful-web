@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PaperHero :paper="paper" :paperId="paperId" />
+    <PaperHero :paper="paper" />
     <div v-if="this.connectingResults" class="text-right">
       <GraphView :graphData="graphData" :loaded="loaded" />
       <button

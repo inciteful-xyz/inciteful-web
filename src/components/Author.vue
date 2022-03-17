@@ -26,7 +26,7 @@ export default defineComponent({
         author,
         contextIds: this.ids
       }
-      this.emitter.emit('show_paper_modal', options)
+      this.emitter.emit('show_modal', options)
     }
   }
 })

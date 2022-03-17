@@ -42,4 +42,26 @@
   h1 {
     @apply text-gray-800 font-bold text-lg sm:text-2xl;
   }
+
+  .Pagination {
+    @apply py-2;
+  }
+  .Pagination li {
+    @apply inline;
+  }
+  .Pagination .Dots {
+    @apply h-6 w-6 inline-block;
+  }
+  .PaginationControl .Control {
+    @apply h-4 w-4 inline;
+  }
+  .PaginationControl .Control:hover {
+    @apply cursor-pointer;
+  }
+  .Pagination li button {
+    @apply p-2 py-1 border-gray-200 border rounded m-1;
+  }
+  .Pagination .Page-active {
+    @apply bg-purple-500 border-purple-800 text-white;
+  }
 }

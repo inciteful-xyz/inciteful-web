@@ -46,7 +46,7 @@
         :numCitedBy="paper.num_cited_by"
         :numCiting="paper.num_citing"
         :publishedYear="paper.published_year"
-        :id="paperId"
+        :id="paper.id"
         :doi="paper.doi"
         :graphStats="graphStats"
       />
@@ -68,15 +68,14 @@ import AbstractView from './AbstractView.vue'
 import ExternalLinks from './ExternalLinks.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 import Authors from './Authors.vue'
-import { PaperID } from '@/types/incitefulTypes'
+import { Paper } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'PaperHero',
   props: {
-    paper: Object,
-    graphStats: { type: Boolean, default: false },
-    paperId: {} as PropType<PaperID>
+    paper: {} as PropType<Paper>,
+    graphStats: { type: Boolean, default: false }
   },
   components: {
     PaperHeroStats,

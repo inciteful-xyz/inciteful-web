@@ -236,6 +236,7 @@
                     class="pb-3"
                   >
                     <button
+                      v-for="(keyword, index) in titleKeywords"
                       class="
                         inline-flex
                         items-center
@@ -248,8 +249,13 @@
                         leading-4
                         bg-purple-100
                         text-purple-800
+                        border
+                        hover:border-purple-800
                       "
-                      v-for="(keyword, index) in titleKeywords"
+                      :class="{
+                        'bg-purple-300': keyword.term == textKeywords,
+                        'hover:bg-purple-300': keyword.term != textKeywords
+                      }"
                       :key="index"
                       @click="keywordClick(keyword.term)"
                       @mouseover="hoverKeywords = keyword.term"

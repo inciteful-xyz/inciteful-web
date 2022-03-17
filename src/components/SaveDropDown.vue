@@ -109,7 +109,7 @@ export default defineComponent({
           contextIds: props.ids
         }
 
-        emitter.emit('show_paper_modal', options)
+        emitter.emit('show_modal', options)
       }
     }
 

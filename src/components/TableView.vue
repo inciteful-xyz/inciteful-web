@@ -336,25 +336,3 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss">
-.Pagination {
-  @apply py-2;
-}
-.Pagination li {
-  @apply inline;
-}
-.PaginationControl .Control {
-  @apply h-4 w-4 inline;
-}
-.PaginationControl .Control:hover {
-  @apply cursor-pointer;
-}
-
-.Pagination li button {
-  @apply p-2 py-1 border-gray-200 border rounded m-1;
-}
-
-.Pagination .Page-active {
-  @apply bg-purple-500 border-purple-800 text-white;
-}
-</style>

@@ -117,7 +117,7 @@ function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: GraphModalOptions
     const id = ev.target.data('id')
     if (id) {
       (modalOptions as PaperModalOptions).paperId = id
-      bus.emit('show_paper_modal', modalOptions)
+      bus.emit('show_modal', modalOptions)
     }
   })
 

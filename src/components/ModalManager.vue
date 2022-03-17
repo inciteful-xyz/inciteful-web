@@ -132,7 +132,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('show_paper_modal', (options: ModalOptions) => {
+    this.emitter.on('show_modal', (options: ModalOptions) => {
       if (this.options !== undefined) {
         options.previousScreen = this.options
       }
