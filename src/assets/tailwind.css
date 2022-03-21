@@ -38,9 +38,12 @@
                       focus:border-purple-700
                       focus:ring-purple-600;
   }
-
   h1 {
     @apply text-gray-800 font-bold text-lg sm:text-2xl;
+  }
+
+  h2 {
+    @apply text-gray-800 font-bold text-base sm:text-xl;
   }
 
   .Pagination {

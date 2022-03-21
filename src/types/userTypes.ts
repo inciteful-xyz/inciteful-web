@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { PaperID } from "./incitefulTypes";
 
 export interface User {
@@ -6,7 +7,7 @@ export interface User {
     favoritePapers: PaperID[]
 }
 
-enum ItemVisibility {
+export enum ItemVisibility {
     Hidden = "HIDDEN",
     Public = "PUBLIC",
 }
@@ -19,13 +20,14 @@ export interface ZoteroToken {
 }
 
 export interface PaperCollection {
-    id: string,
+    id: string | null,
     ownerId: string,
     parentID: string | null,
     visibility: ItemVisibility,
     name: string,
     papers: CollectionPaper[]
     zoteroKey: string | null,
+    dateCreated: Timestamp
 }
 
 export interface CollectionPaper {

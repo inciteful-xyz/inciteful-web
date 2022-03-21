@@ -13,19 +13,6 @@
           </div>
           <div class="pt-6 mt-6 border-gray-300 border-t">
             <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
-              <a
-                class="underline hover:no-underline"
-                href="https://www.microsoft.com/en-us/research/project/microsoft-academic-graph/"
-                >Microsoft Academic Graph</a
-              >
-            </h2>
-            The Microsoft Academic Graph is a heterogeneous graph containing
-            scientific publication records, citation relationships between those
-            publications, as well as authors, institutions, journals,
-            conferences, and fields of study.
-          </div>
-          <div class="pt-6 mt-6 border-gray-300 border-t">
-            <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
               <a href="https://www.semanticscholar.org/"
                 ><img
                   class="w-96"
