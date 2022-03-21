@@ -4,70 +4,70 @@
 
 @tailwind utilities;
 
-@layer components {
-  .base-table {
-    @apply min-w-full divide-y divide-gray-200 table-auto text-sm text-gray-600;
-  }
-  .base-table thead {
-    @apply bg-gray-50 uppercase;
-  }
-  .base-table th {
-    @apply px-2 py-2 font-medium uppercase tracking-wider text-center;
-  }
-  .base-table tbody {
-    @apply bg-white divide-y divide-gray-200 text-center;
-  }
-  .base-table tbody td {
-    @apply px-2 py-2;
-  }
-  .base-button {
-    @apply inline-flex items-center px-3 py-2 border border-transparent leading-5 font-medium rounded-md text-white focus:outline-none transition ease-in-out duration-150;
-  }
-  .button-gray {
-    @apply base-button bg-gray-500 hover:bg-gray-400 focus:border-gray-600 focus:ring-gray-400;
-  }
-  .button-light-purple {
-    @apply base-button bg-purple-400
+/* @layer components { */
+.base-table {
+  @apply min-w-full divide-y divide-gray-200 table-auto text-sm text-gray-600;
+}
+.base-table thead {
+  @apply bg-gray-50 uppercase;
+}
+.base-table th {
+  @apply px-2 py-2 font-medium uppercase tracking-wider text-center;
+}
+.base-table tbody {
+  @apply bg-white divide-y divide-gray-200 text-center;
+}
+.base-table tbody td {
+  @apply px-2 py-2;
+}
+.base-button {
+  @apply inline-flex items-center px-3 py-2 border border-transparent leading-5 font-medium rounded-md text-white focus:outline-none transition ease-in-out duration-150;
+}
+.button-gray {
+  @apply base-button bg-gray-500 hover:bg-gray-400 focus:border-gray-600 focus:ring-gray-400;
+}
+.button-light-purple {
+  @apply base-button bg-purple-400
                       hover:bg-purple-300
                       focus:border-purple-500
                       focus:ring-purple-500;
-  }
-  .button-purple {
-    @apply base-button bg-purple-600
+}
+.button-purple {
+  @apply base-button bg-purple-600
                       hover:bg-purple-500
                       focus:border-purple-700
                       focus:ring-purple-600;
-  }
-  h1 {
-    @apply text-gray-800 font-bold text-lg sm:text-2xl;
-  }
-
-  h2 {
-    @apply text-gray-800 font-bold text-base sm:text-xl;
-  }
-
-  .Pagination {
-    @apply py-2;
-  }
-  .Pagination li {
-    @apply inline;
-  }
-  .Pagination .Dots {
-    @apply h-6 w-6 inline-block;
-  }
-  .PaginationControl .Control {
-    @apply h-4 w-4 inline;
-  }
-  .PaginationControl .Control:hover {
-    @apply cursor-pointer;
-  }
-  .Pagination li button {
-    @apply p-2 py-1 border-gray-200 border rounded m-1;
-  }
-  .Pagination .Page-active {
-    @apply bg-purple-500 border-purple-800 text-white;
-  }
-  .shadow-box {
-    @apply shadow border-b border-gray-200 sm:rounded-lg mb-3;
-  }
 }
+h1 {
+  @apply text-gray-800 font-bold text-lg sm:text-2xl;
+}
+
+h2 {
+  @apply text-gray-800 font-bold text-base sm:text-xl;
+}
+
+.Pagination {
+  @apply py-2;
+}
+.Pagination li {
+  @apply inline;
+}
+.Pagination .Dots {
+  @apply h-6 w-6 inline-block;
+}
+.PaginationControl .Control {
+  @apply h-4 w-4 inline;
+}
+.PaginationControl .Control:hover {
+  @apply cursor-pointer;
+}
+.Pagination li button {
+  @apply p-2 py-1 border-gray-200 border rounded m-1;
+}
+.Pagination .Page-active {
+  @apply bg-purple-500 border-purple-800 text-white;
+}
+.shadow-box {
+  @apply shadow border-b border-gray-200 sm:rounded-lg mb-3;
+}
+/* } */
