@@ -11,13 +11,15 @@
 
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
+import { PaperModalOptions } from '@/types/modalTypes'
+import { EmitEvents, showModalHelper } from '@/utils/emitHelpers'
 import { defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'PaperModalButton',
   props: {
     contextIds: {} as PropType<PaperID[]>,
     connectTo: {} as PropType<PaperID>,
-    id: {} as PropType<PaperID[]>,
+    id: {} as PropType<PaperID>,
     text: {} as PropType<string>,
     class: {} as PropType<string[]>
   },
@@ -28,20 +30,21 @@ export default defineComponent({
   },
   methods: {
     showModal (): void {
-      const options = {
-        paperId: this.id,
-        connectTo: undefined as undefined | PaperID
-      }
+      if (this.id) {
+        const options: PaperModalOptions = {
+          paperId: this.id,
+          connectTo: undefined as undefined | PaperID
+        }
 
-      if (this.contextIds && this.contextIds.length === 1) {
-        options.connectTo = this.contextIds[0]
-      }
+        if (this.contextIds && this.contextIds.length === 1) {
+          options.connectTo = this.contextIds[0]
+        }
 
-      if (this.connectTo) {
-        options.connectTo = this.connectTo
+        if (this.connectTo) {
+          options.connectTo = this.connectTo
+        }
+        showModalHelper(options)
       }
-
-      this.emitter.emit('show_modal', options)
     }
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full flex flex-col justify-center pb-12 sm:px-6 lg:px-8">
+  <single-column>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Reset Your Password
@@ -58,15 +58,19 @@
         </form>
       </div>
     </div>
-  </div>
+  </single-column>
 </template>
 
 <script lang="ts">
-import { useUserStore } from '@/stores/user'
+import SingleColumn from '@/components/layout/SingleColumn.vue'
+import { useUserStore } from '@/stores/userStore'
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
+  components: {
+    SingleColumn
+  },
   setup () {
     const router = useRouter()
     const userStore = useUserStore()

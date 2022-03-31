@@ -176,6 +176,7 @@ import { defineComponent } from 'vue'
 import GraphSearch from './GraphSearch.vue'
 import { PaperID } from '@/types/incitefulTypes'
 import { InformationCircleIcon } from '@heroicons/vue/outline'
+import { addToLitReviewHelper } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'GraphFilters',
@@ -197,7 +198,7 @@ export default defineComponent({
   },
   methods: {
     addToLitReview (ids: PaperID[]): void {
-      ids.map(id => this.emitter.emit('add_to_lit_review', id))
+      ids.map(id => addToLitReviewHelper(id))
     },
     applyFilters () {
       this.$router.push({

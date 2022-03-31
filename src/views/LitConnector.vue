@@ -115,6 +115,7 @@ import LitConnectorTour from '../components/LitConnectorTour.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/incitefulTypes'
 import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
+import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'LitConnectorPage',
@@ -161,7 +162,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('graph_loaded', () => {
+    this.emitter.on(EmitEvents.GraphLoaded, () => {
       this.pageReady = true
     })
   },

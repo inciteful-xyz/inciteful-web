@@ -70,6 +70,7 @@ import FavoritePaperButton from './FavoritePaperButton.vue'
 import Authors from './Authors.vue'
 import { Paper } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
+import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'PaperHero',
@@ -96,7 +97,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('graph_loaded', () => {
+    this.emitter.on(EmitEvents.GraphLoaded, () => {
       this.receivedLoaded = true
     })
   }

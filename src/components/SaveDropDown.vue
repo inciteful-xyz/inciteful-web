@@ -79,11 +79,11 @@ import { defineComponent, inject, PropType } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { DocumentDownloadIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '@/stores/user'
-import { IncitefulEmitter, PaperID } from '@/types/incitefulTypes'
+import { useUserStore } from '@/stores/userStore'
+import { PaperID } from '@/types/incitefulTypes'
 import api from '@/utils/api'
-import { useDBStore } from '@/stores/db'
 import { CollectionModalOptions } from '@/types/modalTypes'
+import { showModalHelper } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'SaveDropDown',
@@ -98,24 +98,22 @@ export default defineComponent({
     ids: {} as PropType<PaperID[]>
   },
   setup (props) {
-    const emitter = inject('emitter') as IncitefulEmitter
-    let db = useDBStore()
-
     let user = useUserStore()
     const saveCollection = () => {
       if (props.ids !== undefined) {
         const options: CollectionModalOptions = {
-          collectionAction: 'save',
-          contextIds: props.ids
+          action: {
+            contextIds: props.ids
+          }
         }
 
-        emitter.emit('show_modal', options)
+        showModalHelper(options)
       }
     }
 
     const saveToFavorites = () => {
       if (props.ids !== undefined) {
-        db.addFavorites(props.ids)
+        user.addFavorites(props.ids)
       }
     }
     const downloadBibFile = () => {

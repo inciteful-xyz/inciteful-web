@@ -106,7 +106,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '@/stores/userStore'
 
 export default defineComponent({
   emits: ['success'],
@@ -130,7 +130,7 @@ export default defineComponent({
         userStore
           .signUpWithEmailAndPassword(email.value, password.value)
           .then(() => {
-            if (userStore.user) {
+            if (userStore.firebaseAuthUser) {
               emit('success')
             } else if (userStore.error) {
               validationErrors.value.push(userStore.error.message)

@@ -118,7 +118,7 @@ import {
   ChevronDoubleDownIcon,
   ChevronDoubleUpIcon
 } from '@heroicons/vue/outline'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 import PaperModalButton from './Modals/PaperModalButton.vue'
 
 let user = useUserStore()

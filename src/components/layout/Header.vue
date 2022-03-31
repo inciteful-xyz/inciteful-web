@@ -170,7 +170,7 @@ import GraphSearch from '@/components/GraphSearch.vue'
 import navigation from '../../navigation'
 import { PaperID } from '@/types/incitefulTypes'
 import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 import { MenuIcon, XIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({

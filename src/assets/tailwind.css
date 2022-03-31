@@ -4,7 +4,6 @@
 
 @tailwind utilities;
 
-/* @layer components { */
 .base-table {
   @apply min-w-full divide-y divide-gray-200 table-auto text-sm text-gray-600;
 }
@@ -70,4 +69,3 @@ h2 {
 .shadow-box {
   @apply shadow border-b border-gray-200 sm:rounded-lg mb-3;
 }
-/* } */

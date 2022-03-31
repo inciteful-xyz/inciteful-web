@@ -13,12 +13,13 @@
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import { PlusCircleIcon } from '@heroicons/vue/solid'
+import { addToLitReviewHelper, EmitEvents } from '@/utils/emitHelpers'
 export default defineComponent({
   name: 'LitReviewButton',
   components: { PlusCircleIcon },
   props: {
     ids: {} as PropType<PaperID[]>,
-    id: {} as PropType<PaperID[] | undefined>
+    id: {} as PropType<PaperID | undefined>
   },
   data () {
     return {
@@ -28,11 +29,11 @@ export default defineComponent({
   },
   computed: {
     isHidden (): boolean {
-      return !this.id || this.idsToHide.indexOf(this.id.toString()) !== -1
+      return !this.id || this.idsToHide.indexOf(this.id) !== -1
     }
   },
   mounted () {
-    this.emitter.on('add_to_lit_review', (id: PaperID) => {
+    this.emitter.on(EmitEvents.AddToLitReview, (id: PaperID) => {
       this.idsToHide.push(id)
     })
   },
@@ -44,7 +45,7 @@ export default defineComponent({
   methods: {
     addToLitReview (): void {
       if (this.id) {
-        this.emitter.emit('add_to_lit_review', this.id.toString())
+        addToLitReviewHelper(this.id)
       }
     }
   }

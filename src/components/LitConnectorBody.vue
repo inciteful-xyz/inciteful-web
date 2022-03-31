@@ -302,6 +302,7 @@ import {
   Connection
 } from '@/types/incitefulTypes'
 import { GraphData } from '@/types/graphTypes'
+import { EmitEvents, graphLoadedHelper } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'LitConnectorBody',
@@ -331,7 +332,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('go_to_paper', (id: PaperID) => {
+    this.emitter.on(EmitEvents.GoToPaper, (id: PaperID) => {
       this.$router.push({ path: navigation.getPaperUrl(id) })
     })
     this.emitter.on('set_as_to', (id: PaperID) => {
@@ -575,7 +576,7 @@ export default defineComponent({
           .connectPapers(this.from!.id, this.to!.id, this.extendedGraph)
           .then(data => {
             this.results = data
-            this.emitter.emit('graph_loaded')
+            graphLoadedHelper()
           })
       }
     },

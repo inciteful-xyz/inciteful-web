@@ -22,6 +22,7 @@ import {
 } from "@/types/graphTypes"
 import { Emitter } from 'mitt'
 import { PaperModalOptions } from "../../types/modalTypes"
+import { EmitEvents, showModalHelper } from '../emitHelpers';
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
@@ -117,7 +118,7 @@ function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: GraphModalOptions
     const id = ev.target.data('id')
     if (id) {
       (modalOptions as PaperModalOptions).paperId = id
-      bus.emit('show_modal', modalOptions)
+      showModalHelper(modalOptions as PaperModalOptions)
     }
   })
 

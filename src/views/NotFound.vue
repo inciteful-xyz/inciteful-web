@@ -1,14 +1,16 @@
 <template>
-  <div class="py-3">
-    <div class="flex justify-center">
-      <div class="flex-auto  max-w-2xl">
-        <h1>Page Not Found</h1>
-      </div>
-    </div>
-  </div>
+  <single-column>
+    <h1>Page Not Found</h1>
+  </single-column>
 </template>
 <script lang="ts">
+import SingleColumn from '@/components/layout/SingleColumn.vue'
 import { defineComponent } from 'vue'
 
-export default defineComponent({ name: 'NotFound' })
+export default defineComponent({
+  components: { SingleColumn },
+  name: 'NotFound'
+})
 </script>
+
+SingleColumn

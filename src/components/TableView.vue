@@ -318,8 +318,6 @@ export default defineComponent({
             ids.push(r.paper_id)
           }
         })
-
-        this.emitter.emit('render_graph', ids)
       }
     },
     turnPage (pageNum: number): void {

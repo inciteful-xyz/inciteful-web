@@ -10,7 +10,9 @@
 </template>
 
 <script lang="ts">
-import { Author } from '@/types/incitefulTypes'
+import { Author, PaperID } from '@/types/incitefulTypes'
+import { AuthorModalOptions } from '@/types/modalTypes'
+import { showModalHelper } from '@/utils/emitHelpers'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
@@ -18,15 +20,15 @@ export default defineComponent({
   props: {
     showAffiliation: { type: Boolean, default: false },
     author: {} as PropType<Author>,
-    ids: Array
+    ids: {} as PropType<Array<PaperID>>
   },
   methods: {
     showModal (author: Author) {
-      const options = {
+      const options: AuthorModalOptions = {
         author,
         contextIds: this.ids
       }
-      this.emitter.emit('show_modal', options)
+      showModalHelper(options)
     }
   }
 })

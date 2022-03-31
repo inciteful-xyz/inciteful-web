@@ -34,6 +34,7 @@ import SimilarGraph from './SimilarGraph.vue'
 import api from '../utils/api'
 import Sql from '../utils/sql'
 import { PaperID } from '@/types/incitefulTypes'
+import { graphLoadedHelper } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'SqlView',
@@ -96,7 +97,7 @@ export default defineComponent({
           .then(response => {
             this.results = response
             this.loading = false
-            this.emitter.emit('graph_loaded')
+            graphLoadedHelper()
             this.$emit('results', this.results)
           })
           .catch(error => {

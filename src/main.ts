@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import mitt from 'mitt'
 import router from './router'
 import { createPinia } from 'pinia'
 
@@ -11,13 +10,12 @@ import VueClickAway from 'vue3-click-away'
 import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
-import { useUserStore } from './stores/user'
-import { useDBStore } from './stores/db'
-import { IncitefulEmitter } from './types/incitefulTypes';
+import { useUserStore } from './stores/userStore'
+import { usePaperCollectionStore } from './stores/paperCollectionStore'
+import { emitter } from './utils/emitHelpers'
+import { useZoteroStore } from './stores/zoteroStore';
 require('v3-tour/dist/vue-tour.css')
 
-
-const emitter = mitt() as IncitefulEmitter
 const app = createApp(App)
 
 // For options API
@@ -42,9 +40,10 @@ if (process.env.NODE_ENV === 'production') {
 
 (async () => {
   app.use(createPinia())
-  const { bindUser } = useUserStore();
-  const { bind } = useDBStore()
-  await bindUser([bind]);
+  const { bindToUserLoad: bindUser } = useUserStore();
+  const pcStore = usePaperCollectionStore()
+  const zStore = useZoteroStore()
+  await bindUser([pcStore.bind, zStore.bind]);
 
   app.use(router)
     .use(VueTour)

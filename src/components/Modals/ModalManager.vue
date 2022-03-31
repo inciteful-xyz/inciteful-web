@@ -118,6 +118,7 @@ import {
   isPaperModalOptons,
   ModalOptions
 } from '@/types/modalTypes'
+import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'Modal',
@@ -132,7 +133,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('show_modal', (options: ModalOptions) => {
+    this.emitter.on(EmitEvents.ShowModal, (options: ModalOptions) => {
       if (this.options !== undefined) {
         options.previousScreen = this.options
       }

@@ -78,6 +78,7 @@ import pagedata from '../utils/pagedata'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
+import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'PaperDiscovery',
@@ -117,7 +118,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('graph_loaded', () => {
+    this.emitter.on(EmitEvents.GraphLoaded, () => {
       this.pageReady = true
     })
   },

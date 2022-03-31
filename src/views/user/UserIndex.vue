@@ -7,54 +7,13 @@
           <div>
             <div class="flex pt-6">
               <h2 class="flex-grow">Collections</h2>
-              <div>
-                <router-link :to="{ name: 'Zotero' }" class="text-purple-500">
+              <div class="flex-shrink justify-end">
+                <router-link :to="{ name: 'Zotero' }" class="button-purple">
                   Manage Zotero Connection
                 </router-link>
               </div>
             </div>
-            <div class="shadow-box mt-3">
-              <table class="base-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Count</th>
-                    <th>Created</th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="collection in paperCollections"
-                    :key="collection.id"
-                  >
-                    <td>{{ collection.name }}</td>
-                    <td>{{ collection.papers.length }} papers</td>
-                    <td>
-                      {{ collection.dateCreated.toDate().toLocaleDateString() }}
-                    </td>
-                    <td>
-                      <button
-                        @click="addToCollection(collection.id)"
-                        class="text-purple-500"
-                      >
-                        Details
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        @click="addToCollection(collection.id)"
-                        class="text-purple-500"
-                      >
-                        View Graph
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
+            <collection-manager />
             <div class="pt-6">
               <h2>Favorite Papers</h2>
               <favorite-papers />
@@ -67,18 +26,20 @@
 </template>
 <script lang="ts">
 import SingleColumn from '@/components/layout/SingleColumn.vue'
-import { useDBStore } from '@/stores/db'
+import { usePaperCollectionStore } from '@/stores/paperCollectionStore'
 import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import FavoritePapers from '../../components/FavoritePapers.vue'
+import CollectionManager from '../../components/CollectionManager.vue'
 
 export default defineComponent({
   components: {
     FavoritePapers,
+    CollectionManager,
     SingleColumn
   },
   setup () {
-    let db = useDBStore()
+    let db = usePaperCollectionStore()
     let { paperCollections } = storeToRefs(db)
 
     return { paperCollections }

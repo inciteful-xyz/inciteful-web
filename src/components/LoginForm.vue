@@ -89,7 +89,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '@/stores/userStore'
 
 export default defineComponent({
   name: 'LoginForm',
@@ -106,7 +106,7 @@ export default defineComponent({
         userStore
           .signInWithEmailAndPassword(email.value, password.value)
           .then(() => {
-            if (userStore.user) {
+            if (userStore.firebaseAuthUser) {
               emit('success')
             } else if (userStore.error) {
               validationErrors.value.push(userStore.error.message)

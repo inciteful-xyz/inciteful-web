@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator, DocumentData, CollectionReference, collection } from 'firebase/firestore';
-import { User, PaperCollection } from '../types/userTypes';
 
 // Firebase app config
 const config = {
@@ -17,21 +16,24 @@ const config = {
 // Init our firebase app
 initializeApp(config)
 
-const db = getFirestore();
-const auth = getAuth();
+export const firestore = getFirestore()
+export const auth = getAuth();
 
 // If on localhost, use all firebase services locally
 if (process.env.NODE_ENV === 'development') {
-  connectFirestoreEmulator(db, 'localhost', 8079);
+  connectFirestoreEmulator(firestore, 'localhost', 8079);
   connectAuthEmulator(auth, "http://localhost:9099");
   // add more services as described in the docs: https://firebase.google.com/docs/emulator-suite/connect_firestore
 }
 
+// Taken from: https://javascript.plainenglish.io/using-firestore-with-typescript-in-the-v9-sdk-cf36851bb099
 const createCollection = <T = DocumentData>(collectionName: string) => {
-  return collection(db, collectionName) as CollectionReference<T>
+  return collection(firestore, collectionName) as CollectionReference<T>
 }
-const usersCol = createCollection<User>('users')
-const paperCollectionsCol = createCollection<PaperCollection>('paperCollections')
 
-export { auth, db, paperCollectionsCol, usersCol }
+import { UserData, PaperCollection } from '@/types/userTypes';
+import { ZoteroData } from '../types/zoteroTypes';
+export const usersCol = createCollection<UserData>('users')
+export const zoteroDataCol = createCollection<ZoteroData>('zoteroData')
+export const paperCollectionsCol = createCollection<PaperCollection>('paperCollections')
 

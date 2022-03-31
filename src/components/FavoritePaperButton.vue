@@ -14,8 +14,7 @@ import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import { HeartIcon } from '@heroicons/vue/solid'
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/outline'
-import { useDBStore } from '@/stores/db'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 
 export default defineComponent({
   name: 'FavoritePaperButton',
@@ -25,14 +24,13 @@ export default defineComponent({
   },
   setup (props) {
     let user = useUserStore()
-    let db = useDBStore()
 
     let isFavorite = function (): boolean {
-      return props.id ? db.isPaperFavorite(props.id) : false
+      return props.id ? user.isPaperFavorite(props.id) : false
     }
 
     let toggleFavorite = function () {
-      if (props.id) db.toggleFavorite(props.id)
+      if (props.id) user.toggleFavorite(props.id)
     }
 
     // if(!user.isSignedIn) {

@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-import { useDBStore } from '@/stores/db'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import api from '@/utils/api'
 import { storeToRefs } from 'pinia'
@@ -49,6 +48,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 import PaperModalButton from './Modals/PaperModalButton.vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/outline'
+import { useUserStore } from '@/stores/userStore'
 
 export default defineComponent({
   components: {
@@ -58,8 +58,8 @@ export default defineComponent({
     ChevronUpIcon
   },
   setup () {
-    let db = useDBStore()
-    let { userData } = storeToRefs(db)
+    let user = useUserStore()
+    let { userData } = storeToRefs(user)
     let favoritePapers = ref([] as Paper[])
 
     let currentPage = ref(1)

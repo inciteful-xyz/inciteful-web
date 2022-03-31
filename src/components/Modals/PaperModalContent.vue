@@ -45,6 +45,7 @@ import { Paper, PaperConnector } from '@/types/incitefulTypes'
 import navigation from '@/navigation'
 import { PaperModalOptions } from '@/types/modalTypes'
 import { GraphData } from '@/types/graphTypes'
+import { addToLitReviewHelper } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'PaperModalContent',
@@ -144,7 +145,7 @@ export default defineComponent({
     },
     addToLitReview (): void {
       if (this.options !== undefined) {
-        this.emitter.emit('add_to_lit_review', this.options.paperId)
+        addToLitReviewHelper(this.options.paperId)
         this.back()
       }
     },

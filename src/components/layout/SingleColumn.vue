@@ -4,15 +4,21 @@
   </div>
   <LitReviewBuilder />
   <ModalManager />
+  <notification-modal />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import LitReviewBuilder from '../LitReviewBuilder.vue'
 import ModalManager from '../Modals/ModalManager.vue'
+import NotificationModal from '../Modals/NotificationModal.vue'
 
 export default defineComponent({
   name: 'SingleColumn',
-  components: { LitReviewBuilder, ModalManager }
+  components: {
+    LitReviewBuilder,
+    ModalManager,
+    NotificationModal
+  }
 })
 </script>

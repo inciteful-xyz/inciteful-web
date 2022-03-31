@@ -5,6 +5,10 @@ service cloud.firestore {
       allow read, update, delete: if request.auth != null && request.auth.uid == userId;
       allow create: if request.auth != null;
     }
+    match /zoteroData/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
     match /paperCollections/{collectionId} {
       allow read: if request.auth.uid == resource.data.ownerId || resource.data.visibility == "PUBLIC";
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.ownerId;

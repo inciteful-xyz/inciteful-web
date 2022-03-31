@@ -4,7 +4,7 @@ import axiosRetry from 'axios-retry'
 import { logError } from './logging'
 import { Paper, Author, PaperConnector, PaperID } from '../types/incitefulTypes';
 import { SSPaper, SSAuthor } from '../types/semanticScholarTypes'
-import { ZoteroToken } from '../types/userTypes';
+import { ZoteroToken } from '../types/zoteroTypes';
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10

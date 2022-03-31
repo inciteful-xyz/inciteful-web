@@ -2,7 +2,7 @@ import qs from 'qs'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
-import { useUserStore } from '../stores/user';
+import { useUserStore } from '../stores/userStore';
 
 const routes = [
   {

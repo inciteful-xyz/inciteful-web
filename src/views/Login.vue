@@ -1,15 +1,19 @@
 <template>
-  <div><login-form @success="success" /></div>
+  <single-column>
+    <login-form @success="success" />
+  </single-column>
 </template>
 
 <script lang="ts">
+import SingleColumn from '@/components/layout/SingleColumn.vue'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import LoginForm from '../components/LoginForm.vue'
 
 export default defineComponent({
   components: {
-    LoginForm
+    LoginForm,
+    SingleColumn
   },
   setup () {
     const router = useRouter()

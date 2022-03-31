@@ -29,6 +29,7 @@
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent } from 'vue'
 import { ArrowRightIcon } from '@heroicons/vue/outline'
+import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
   name: 'LitReviewBuilder',
@@ -40,7 +41,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.emitter.on('add_to_lit_review', (id: PaperID) => {
+    this.emitter.on(EmitEvents.AddToLitReview, (id: PaperID) => {
       if (!this.ids.has(id)) {
         this.ids.add(id)
         this.doBounce = true
