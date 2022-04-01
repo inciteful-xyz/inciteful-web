@@ -19,12 +19,17 @@ export interface SaveCollectionAction {
     contextIds: PaperID[];
 }
 
-export interface SyncCollectionAction {
+export interface SyncZoteroCollectionAction {
     zoteroKey: ZoteroKey;
     zoteroName: string;
 }
 
-export type CollectionModalActions = SaveCollectionAction | SyncCollectionAction;
+export interface SyncIncitefulCollectionAction {
+    incitefulKey: string;
+    incitefulName: string;
+}
+
+export type CollectionModalActions = SaveCollectionAction | SyncZoteroCollectionAction | SyncIncitefulCollectionAction;
 
 export function isSaveCollectionAction(
     options: CollectionModalActions
@@ -32,16 +37,21 @@ export function isSaveCollectionAction(
     return (options as SaveCollectionAction).contextIds !== undefined;
 }
 
-export function isSyncCollectionAction(
+export function isSyncZoteroCollectionAction(
     options: CollectionModalActions
-): options is SyncCollectionAction {
-    return (options as SyncCollectionAction).zoteroKey !== undefined;
+): options is SyncZoteroCollectionAction {
+    return (options as SyncZoteroCollectionAction).zoteroKey !== undefined;
+}
+export function isSyncIncitefulCollectionAction(
+    options: CollectionModalActions
+): options is SyncIncitefulCollectionAction {
+    return (options as SyncIncitefulCollectionAction).incitefulKey !== undefined;
 }
 
 export function isValidCollectectionModalAction(
     options: CollectionModalActions
 ): boolean {
-    return isSaveCollectionAction(options) || isSyncCollectionAction(options);
+    return isSaveCollectionAction(options) || isSyncZoteroCollectionAction(options) || isSyncIncitefulCollectionAction(options);
 }
 export interface CollectionModalOptions extends IModalOptions {
     action: CollectionModalActions;

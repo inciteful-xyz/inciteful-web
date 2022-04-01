@@ -7,11 +7,28 @@
         periodically while you are using the site but you can force resync it
         below.
       </div>
-      <div class="pt-5">
-        <button @click="syncCollectionList" class="button-purple">
-          Force Re-sync
-        </button>
+      <div class="flex pt-5">
+        <div class="flex-grow">
+          <input
+            class="px-4 py-2 mr-2 border border-gray-300 rounded-md leading-5
+    bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
+            ref="searchBox"
+            type="text"
+            placeholder="New collection name"
+            v-model="newCollectionName"
+          />
+
+          <button @click="createCollection" class="button-purple">
+            Create Collection
+          </button>
+        </div>
+        <div class="flex-shrink">
+          <button @click="syncCollectionList" class="button-purple">
+            Force Re-sync
+          </button>
+        </div>
       </div>
+
       <div class="flex justify-center max-w-full">
         <div class="min-w-full">
           <div class="pt-4">
@@ -90,7 +107,7 @@
   </single-column>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import api from '../../utils/api'
 import { useRoute, useRouter } from 'vue-router'
 import { useZoteroStore } from '@/stores/zoteroStore'
@@ -109,6 +126,7 @@ export default defineComponent({
     InformationCircleIcon
   },
   setup () {
+    let newCollectionName = ref('')
     let router = useRouter()
     let route = useRoute()
     let id = route.query.id?.toString()
@@ -143,6 +161,18 @@ export default defineComponent({
         })
     }
 
+    let createCollection = async () => {
+      //create zotero collection
+      zotero.createCollection(newCollectionName.value, collection => {
+        showNotificationHelper({
+          message1: `"${collection.name}" was created in Zotero.`,
+          message2: `"${collection.key}": Zotero key`
+        })
+
+        newCollectionName.value = ''
+      })
+    }
+
     let syncCollectionList = async () => {
       await zotero.syncCollectionList()
       showNotificationHelper({ message1: 'Collections Synced', message2: '' })
@@ -155,6 +185,8 @@ export default defineComponent({
     let { nestedCollections } = storeToRefs(zotero)
 
     return {
+      newCollectionName,
+      createCollection,
       zoteroInit,
       hasIntegration,
       clearIntegration,

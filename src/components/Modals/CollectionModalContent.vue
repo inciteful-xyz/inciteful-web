@@ -4,13 +4,16 @@
       v-if="isSaveCollectionAction"
       :action="this.options.action"
       @back="$emit('back')"
-    />
-    <sync-collection-modal
-      v-if="isSyncCollectionAction"
+    /><sync-zotero-collection-modal
+      v-if="isSyncZoteroCollectionAction"
       :action="this.options.action"
       @back="$emit('back')"
     />
-
+    <sync-inciteful-collection-modal
+      v-if="isSyncIncitefulCollectionAction"
+      :action="this.options.action"
+      @back="$emit('back')"
+    />
     <button v-on:click="$emit('back')" class="button-gray mt-8">
       Back
     </button>
@@ -21,18 +24,21 @@
 import { defineComponent, PropType } from 'vue'
 import {
   CollectionModalOptions,
-  isValidCollectectionModalAction,
   isSaveCollectionAction,
-  isSyncCollectionAction
+  isSyncZoteroCollectionAction,
+  isSyncIncitefulCollectionAction,
+  isValidCollectectionModalAction
 } from '@/types/modalTypes'
 import SaveCollectionModal from './SaveCollectionModal.vue'
-import SyncCollectionModal from './SyncCollectionModal.vue'
+import SyncZoteroCollectionModal from './SyncZoteroCollectionModal.vue'
+import SyncIncitefulCollectionModal from './SyncIncitefulCollectionModal.vue'
 
 export default defineComponent({
   name: 'CollectionModalContent',
   components: {
     SaveCollectionModal,
-    SyncCollectionModal
+    SyncZoteroCollectionModal,
+    SyncIncitefulCollectionModal
   },
   props: {
     options: Object() as PropType<CollectionModalOptions>
@@ -50,8 +56,15 @@ export default defineComponent({
     isSaveCollectionAction (): boolean {
       return this.options ? isSaveCollectionAction(this.options?.action) : false
     },
-    isSyncCollectionAction (): boolean {
-      return this.options ? isSyncCollectionAction(this.options?.action) : false
+    isSyncZoteroCollectionAction (): boolean {
+      return this.options
+        ? isSyncZoteroCollectionAction(this.options?.action)
+        : false
+    },
+    isSyncIncitefulCollectionAction (): boolean {
+      return this.options
+        ? isSyncIncitefulCollectionAction(this.options?.action)
+        : false
     }
   },
   methods: {}

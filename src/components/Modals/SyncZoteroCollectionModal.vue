@@ -50,7 +50,7 @@
                 </td>
                 <td>
                   <button
-                    @click="syncCollection(collection.id)"
+                    @click="syncCollection(collection)"
                     class="text-purple-500"
                   >
                     Sync >>
@@ -73,14 +73,16 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from 'vue'
-import { SyncCollectionAction } from '@/types/modalTypes'
+import { SyncZoteroCollectionAction } from '@/types/modalTypes'
 import { usePaperCollectionStore } from '@/stores/paperCollectionStore'
 import { useZoteroStore } from '@/stores/zoteroStore'
+import { showNotificationHelper } from '@/utils/emitHelpers'
+import { PaperCollection } from '@/types/userTypes'
 
 export default defineComponent({
   name: 'SyncCollectionModal',
   props: {
-    action: Object() as PropType<SyncCollectionAction>
+    action: Object() as PropType<SyncZoteroCollectionAction>
   },
   emits: ['back'],
   data () {
@@ -94,15 +96,27 @@ export default defineComponent({
       db.savePaperCollection(newCollectionName.value, []).then(id => {
         if (id && zoteroKey) {
           zotero.setCollectionSync(id, zoteroKey)
+
+          showNotificationHelper({
+            message1: `"${newCollectionName.value}" was created.`,
+            message2: `"${newCollectionName.value}" is now synced to "${this.action?.zoteroName}" in Zotero.`
+          })
         }
       })
 
       this.$emit('back')
     }
 
-    let syncCollection = (id: string) => {
-      if (this.action) {
-        zotero.setCollectionSync(id, this.action?.zoteroKey)
+    let syncCollection = async (collection: PaperCollection) => {
+      if (this.action && collection.id) {
+        zotero
+          .setCollectionSync(collection.id, this.action?.zoteroKey)
+          .then(() =>
+            showNotificationHelper({
+              message1: `"${collection.name}" is now synced to "${this.action?.zoteroName}" in Zotero.`,
+              message2: ''
+            })
+          )
       }
 
       this.$emit('back')

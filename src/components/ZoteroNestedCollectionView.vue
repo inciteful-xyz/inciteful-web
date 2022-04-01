@@ -21,22 +21,7 @@
           {{ collections[key].name }}
         </div>
         <div class="flex-shrink">
-          <div v-if="isSynced(key)">
-            Synced to
-            <span class="italic pr-3 border-r-2 mr-3"
-              >"{{ syncedTo(key).name }}"</span
-            >
-            <button class="text-purple-500 text-sm" @click="clearSync(key)">
-              Clear Sync
-            </button>
-          </div>
-          <button
-            v-else
-            class="text-purple-500 text-sm"
-            @click="setupSync(collections[key])"
-          >
-            Sync
-          </button>
+          <zotero-sync-status :zoteroKey="key" />
         </div>
       </div>
       <zotero-nested-collection-view
@@ -56,19 +41,21 @@ import {
   NestedZoteroCollection
 } from '../types/zoteroTypes'
 import { useZoteroStore } from '@/stores/zoteroStore'
-import { SyncCollectionAction } from '../types/modalTypes'
+import { SyncZoteroCollectionAction } from '../types/modalTypes'
 import { showModalHelper } from '@/utils/emitHelpers'
 import {
   FolderIcon,
   ChevronRightIcon,
   ChevronDownIcon
 } from '@heroicons/vue/solid'
+import ZoteroSyncStatus from './ZoteroSyncStatus.vue'
 
 export default defineComponent({
   components: {
     FolderIcon,
     ChevronDownIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
+    ZoteroSyncStatus
   },
   props: {
     collections: {} as PropType<ZoteroCollectionNode>
@@ -96,7 +83,7 @@ export default defineComponent({
     })
     let setupSync = (collection: NestedZoteroCollection) => {
       console.log(collection)
-      let action: SyncCollectionAction = {
+      let action: SyncZoteroCollectionAction = {
         zoteroKey: collection.key,
         zoteroName: collection.name
       }

@@ -165,6 +165,17 @@ const routes = [
     }
   },
   {
+    path: '/collection/:pathMatch(.*)',
+    name: 'CollectionView',
+    component: () =>
+      import(/* webpackChunkName: "discovery" */ '../views/Collection.vue'),
+    meta: {
+      title: 'Collection View',
+      description:
+        'Explore and manage your collection.'
+    }
+  },
+  {
     path: '/p/:pathMatch(.*)',
     name: 'PaperDiscovery',
     component: () =>
