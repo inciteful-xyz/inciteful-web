@@ -1,4 +1,8 @@
-# inciteful
+# Inciteful Web App
+This is the front end of [Inciteful.xyz](https://inciteful.xyz).  
+
+## Contributing
+This is a personal project that I intend to keep free forever.  As such, there is a lot of low hanging fruit that I have yet to get to and as a result there is a lot of opportunity for people to contribute.  Feel free to reach out to me: michael@fungid.app.
 
 ## Project setup
 ```
@@ -7,23 +11,10 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run watch
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run build-prod
 ```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
