@@ -8,7 +8,7 @@
             Without all of the work that has gone into coordinating, parsing,
             and categorizing all of the academic literature undertaken by a
             variety of different projects, Inciteful, and other sites like it,
-            wouldn't exists. We have pulled both data and/or inspiration from
+            wouldn't exist. We have pulled both data and/or inspiration from
             all of the projects listed below:
           </div>
           <div class="pt-6 mt-6 border-gray-300 border-t">
