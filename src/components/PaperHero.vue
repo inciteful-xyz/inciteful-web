@@ -3,7 +3,7 @@
     <div id="paper-info">
       <h1>
         <favorite-paper-button :id="paper.id" />
-        {{ paper.title }}
+        <span v-html="paper.title" class="pl-1"></span>
       </h1>
       <div class="lg:flex lg:flex-row-reverse">
         <div class="flex-1 lg:text-right mt-2">
@@ -37,9 +37,6 @@
           </div>
         </div>
       </div>
-      <div class="pt-4 mx-auto max-w-4xl">
-        <AbstractView :abstract="paper.paper_abstract" />
-      </div>
     </div>
     <div>
       <PaperHeroStats
@@ -55,7 +52,7 @@
     <div class="pt-2 sm:pt-4 lg:flex">
       <div class="text-xs lg:flex-none">
         Links:
-        <external-links :externalIds="paper.external_ids" />
+        <external-links :paper="paper" />
       </div>
     </div>
   </div>
@@ -64,7 +61,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import PaperHeroStats from './PaperHeroStats.vue'
-import AbstractView from './AbstractView.vue'
 import ExternalLinks from './ExternalLinks.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 import Authors from './Authors.vue'
@@ -80,23 +76,22 @@ export default defineComponent({
   },
   components: {
     PaperHeroStats,
-    AbstractView,
     Authors,
     ExternalLinks,
     ExclamationIcon,
     FavoritePaperButton
   },
-  data () {
+  data() {
     return {
       receivedLoaded: false
     }
   },
   watch: {
-    paper () {
+    paper() {
       this.receivedLoaded = false
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(EmitEvents.GraphLoaded, () => {
       this.receivedLoaded = true
     })

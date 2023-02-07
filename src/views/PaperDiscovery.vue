@@ -94,7 +94,7 @@ export default defineComponent({
     ExclamationIcon,
     PlusCircleIcon
   },
-  data () {
+  data() {
     return {
       template,
       id: undefined as PaperID | undefined,
@@ -103,45 +103,52 @@ export default defineComponent({
     }
   },
   computed: {
-    ids (): PaperID[] {
+    ids(): PaperID[] {
       if (this.id !== undefined) {
         return [this.id]
       }
       return []
     }
   },
-  created () {
+  created() {
     this.id = this.$route.params.pathMatch as string
 
     if (this.id !== undefined) {
       this.setData(this.id)
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(EmitEvents.GraphLoaded, () => {
       this.pageReady = true
     })
   },
   watch: {
-    '$route.params.pathMatch' (val) {
+    '$route.params.pathMatch'(val) {
       this.id = val
     },
-    id (newVal, oldVal) {
+    id(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.setData(newVal)
       }
     },
-    paper (newVal) {
+    paper(newVal) {
       if (newVal) {
         pagedata.setTitle(newVal.title)
       }
     }
   },
   methods: {
-    setData (id: PaperID): void {
+    setData(id: PaperID): void {
       if (id) {
         api.getPaper(id).then(data => {
           this.paper = data
+
+          if (this.paper && this.paper.id != id) {
+            this.$router.replace({
+              name: 'PaperDiscovery',
+              params: { pathMatch: this.paper.id }
+            })
+          }
         })
       } else {
         this.paper = undefined

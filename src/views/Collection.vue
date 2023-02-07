@@ -11,14 +11,14 @@
             Manager
           </div>
           <div class="border-b border-gray-200 pb-6 mb-6">
-            <graph-filters :hideAddSinble="false" />
+            <graph-filters :hideAddSingle="false" />
           </div>
           <div>
             <DashboardRenderer :template="template" :ids="ids" />
           </div>
         </div>
         <div v-else>
-          There are not papers added to this collection. Please use the paper
+          There are no papers added to this collection. Please use the paper
           discovery tool or the Zotero connection manger to get papers into the
           collection.
         </div>
@@ -44,7 +44,7 @@ export default defineComponent({
     BetaFeatures,
     SingleColumn
   },
-  setup () {
+  setup() {
     const pcStore = usePaperCollectionStore()
     const route = useRoute()
     const collectionId = route.params.pathMatch as string

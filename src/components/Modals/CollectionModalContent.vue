@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div v-if="options && options.action">
     <save-collection-modal
       v-if="isSaveCollectionAction"
-      :action="this.options.action"
+      :action="(options.action as SaveCollectionAction)"
       @back="$emit('back')"
     /><sync-zotero-collection-modal
       v-if="isSyncZoteroCollectionAction"
-      :action="this.options.action"
+      :action="(options.action as SyncZoteroCollectionAction)"
       @back="$emit('back')"
     />
     <sync-inciteful-collection-modal
       v-if="isSyncIncitefulCollectionAction"
-      :action="this.options.action"
+      :action="(options.action as SyncIncitefulCollectionAction)"
       @back="$emit('back')"
     />
     <button v-on:click="$emit('back')" class="button-gray mt-8">
@@ -27,7 +27,10 @@ import {
   isSaveCollectionAction,
   isSyncZoteroCollectionAction,
   isSyncIncitefulCollectionAction,
-  isValidCollectectionModalAction
+  isValidCollectectionModalAction,
+  SaveCollectionAction,
+  SyncZoteroCollectionAction,
+  SyncIncitefulCollectionAction
 } from '@/types/modalTypes'
 import SaveCollectionModal from './SaveCollectionModal.vue'
 import SyncZoteroCollectionModal from './SyncZoteroCollectionModal.vue'
@@ -44,24 +47,24 @@ export default defineComponent({
     options: Object() as PropType<CollectionModalOptions>
   },
   emits: ['back'],
-  data () {
+  data() {
     return {}
   },
   computed: {
-    validState (): boolean {
+    validState(): boolean {
       return this.options
         ? isValidCollectectionModalAction(this.options.action)
         : false
     },
-    isSaveCollectionAction (): boolean {
+    isSaveCollectionAction(): boolean {
       return this.options ? isSaveCollectionAction(this.options?.action) : false
     },
-    isSyncZoteroCollectionAction (): boolean {
+    isSyncZoteroCollectionAction(): boolean {
       return this.options
         ? isSyncZoteroCollectionAction(this.options?.action)
         : false
     },
-    isSyncIncitefulCollectionAction (): boolean {
+    isSyncIncitefulCollectionAction(): boolean {
       return this.options
         ? isSyncIncitefulCollectionAction(this.options?.action)
         : false

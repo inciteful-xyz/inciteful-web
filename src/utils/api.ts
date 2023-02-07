@@ -1,10 +1,11 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, PaperConnector, PaperID } from '../types/incitefulTypes';
-import { SSPaper, SSAuthor } from '../types/semanticScholarTypes'
+import { Paper, Author, PaperConnector, PaperID, PaperAutosuggest, paperIntoPaperAutosuggest } from '../types/incitefulTypes';
+import { OAAutosuggestResult } from '@/types/openAlexTypes';
 import { ZoteroToken } from '../types/zoteroTypes';
+import { OAPaper, OAAuthorship, OAPaperSearchResults, OAAutosuggestResponse } from '../types/openAlexTypes';
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10
@@ -61,31 +62,6 @@ function buildIDParams(ids: string[]) {
   return idParams;
 }
 
-function convertToIncitefulAuthor(ssAuthor: SSAuthor): Author {
-  return {
-    author_id: ssAuthor.id,
-    name: ssAuthor.name,
-    affiliation: ssAuthor.affiliation,
-    sequence: 0
-  }
-}
-
-function convertToIncitefulPaper(ssPaper: SSPaper): Paper {
-  return {
-    id: `s2id:${ssPaper.paperId}`,
-    title: ssPaper.title,
-    author: ssPaper.authors.map(convertToIncitefulAuthor),
-    published_year: parseInt(ssPaper.year),
-    journal: ssPaper.venue,
-    abstract: ssPaper.abstract,
-    num_cited_by: ssPaper.citationCount,
-    num_citing: ssPaper.referenceCount,
-    doi: '',
-    pages: '',
-    volume: ''
-  }
-}
-
 function fixPaperID(p: Paper): Paper {
   p.id = p.id.toString()
   return p
@@ -95,17 +71,15 @@ function fixPaperIDs(p: Paper[]): Paper[] {
   return p.map(p => fixPaperID(p))
 }
 
-function searchSemanticScholar(query: string): Promise<Paper[]> {
+function searchOpenAlex(query: string): Promise<Paper[]> {
   if (query) {
     return axios
       .get(
-        `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&fields=paperId,abstract,authors.authorId,authors.name,referenceCount,citationCount,venue,title,year`
+        `https://api.openalex.org/works?search=${encodeURIComponent(query)}&mailto=info@inciteful.xyz`
       )
-      .then(res => {
-        if (res.data && res.data.data) {
-          return res.data.data
-            .map((p: SSPaper) => convertToIncitefulPaper(p))
-            .filter((p: Paper) => p.num_cited_by > 0 || p.num_citing > 0)
+      .then((res: AxiosResponse<OAPaperSearchResults>) => {
+        if (res.data && res.data.results && res.data.results.length > 0) {
+          return res.data.results.map(convertOAPaperToPaper)
         } else {
           return Promise.reject()
         }
@@ -118,13 +92,82 @@ function searchSemanticScholar(query: string): Promise<Paper[]> {
   return Promise.resolve([])
 }
 
+function convertOAPaperToPaper(p: OAPaper): Paper {
+  console.log(p);
+  try {
+    return {
+      id: trimOAUrl(p.id),
+      title: p.title || 'NA',
+      author: p.authorships.map(convertOAAuthorToAuthor),
+      published_year: p.publication_year || 1900,
+      journal: p.host_venue.display_name,
+      num_cited_by: p.cited_by_count,
+      num_citing: p.referenced_works.length,
+      doi: p.doi,
+      pages: p.biblio.first_page + '-' + p.biblio.last_page,
+      volume: p.biblio.volume,
+    }
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+function convertOAAuthorToAuthor(a: OAAuthorship, index: number): Author {
+  return {
+    author_id: parseInt(trimOAUrl(a.author.id).slice(1)),
+    name: a.author.display_name,
+    institution: !a.institutions || a.institutions.length == 0 ? undefined : {
+      id: !a.institutions[0].id ? undefined : parseInt(trimOAUrl(a.institutions[0].id).slice(1)),
+      name: a.institutions[0].display_name,
+    },
+    sequence: index,
+  }
+}
+
+
+function searchOAAutocomplete(query: string): Promise<PaperAutosuggest[]> {
+  if (query) {
+    return axios
+      .get(
+        `https://api.openalex.org/autocomplete/works?q=${encodeURIComponent(query)}&mailto=info@inciteful.xyz`
+      )
+      .then((res: AxiosResponse<OAAutosuggestResponse>) => {
+        if (res.data && res.data.results && res.data.results.length > 0) {
+          return res.data.results.map(convertOAAutocomplete)
+        } else {
+          return Promise.reject()
+        }
+      })
+      .catch(err => {
+        handleServiceErr(err)
+        return Promise.reject()
+      })
+  }
+  return Promise.resolve([])
+}
+
+function trimOAUrl(url: string): string {
+  const res = url.replace("https://openalex.org/", '')
+  console.log(res);
+  return res;
+}
+
+function convertOAAutocomplete(p: OAAutosuggestResult): PaperAutosuggest {
+  return {
+    id: trimOAUrl(p.id),
+    title: p.display_name,
+    authors: p.hint,
+    num_cited_by: p.cited_by_count,
+  };
+}
 // Inciteful API Calls
 
 function queryGraphSingle(
   id: PaperID,
   sql: string,
   prune: number
-): Promise<any[][]> {
+): Promise<unknown[][]> {
   let url = `${API_URL}/query/${id}`
 
   if (prune) {
@@ -138,7 +181,7 @@ function queryGraphMulti(
   ids: Array<PaperID>,
   sql: string,
   prune: number
-): Promise<any[][]> {
+): Promise<unknown[][]> {
   let url = `${API_URL}/query?${buildIDParams(ids)}`
 
   if (prune) {
@@ -148,7 +191,7 @@ function queryGraphMulti(
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraph(ids: Array<PaperID>, sql: string): Promise<any[][]> {
+function queryGraph(ids: Array<PaperID>, sql: string): Promise<unknown[][]> {
   const prune = options.getPruneLevel() || 10000
 
   if (Array.isArray(ids)) {
@@ -173,8 +216,8 @@ function connectPapers(
         from
       )}&to=${encodeURIComponent(to)}&extend=${extendedGraphs ? 5 : 0}`
     )
-    .then(response => {
-      const data = response.data as PaperConnector
+    .then((response: AxiosResponse<PaperConnector>) => {
+      const data = response.data;
       data.papers = fixPaperIDs(data.papers)
       data.paths = data.paths.map(p => p.map(id => id.toString()))
       data.connections.forEach(p => {
@@ -192,7 +235,7 @@ function connectPapers(
 function getPaper(id: PaperID): Promise<Paper | undefined> {
   return axios
     .get(`${API_URL}/paper/${id}`)
-    .then(response => fixPaperID(response.data))
+    .then((response: AxiosResponse<Paper>) => fixPaperID(response.data))
     .catch((err: AxiosError) => {
       if (axios.isAxiosError(err)) {
         const aerr = err as AxiosError
@@ -218,7 +261,7 @@ function getZoteroAuthUrl(): Promise<string | undefined> {
 function getZoteroAuth(oauthToken: string): Promise<ZoteroToken | undefined> {
   return axios
     .get(`${API_URL}/zotero/auth/fetch?oauth_token=${oauthToken}`)
-    .then(response => response.data)
+    .then((response: AxiosResponse<ZoteroToken>) => response.data)
     .catch(err => {
       handleIncitefulErr(err)
       return undefined
@@ -230,7 +273,7 @@ function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
 
   return axios
     .get(`${API_URL}/paper?${idParams}&condensed=${!!condensed}`)
-    .then(response => fixPaperIDs(response.data as Paper[]))
+    .then((response: AxiosResponse<Paper[]>) => fixPaperIDs(response.data))
     .catch(err => {
       handleIncitefulErr(err)
       return []
@@ -253,12 +296,12 @@ function getPaperIds(ids: Array<PaperID>): Promise<PaperID[]> {
   }
 }
 
-function searchPapers(query: string): Promise<Paper[]> {
+function autosuggestSearch(query: string): Promise<PaperAutosuggest[]> {
   if (query) {
     const incitefulSearch = searchInciteful(query)
-    const ssSearch = searchSemanticScholar(query)
+    const oaSearch = searchOAAutocomplete(query)
 
-    return Promise.any([incitefulSearch, ssSearch])
+    return Promise.any([incitefulSearch, oaSearch])
       .then(data => data)
       .catch(err => {
         handleIncitefulErr(err)
@@ -270,7 +313,7 @@ function searchPapers(query: string): Promise<Paper[]> {
 }
 
 
-function searchInciteful(query: string): Promise<Paper[]> {
+function searchInciteful(query: string): Promise<PaperAutosuggest[]> {
   if (query) {
     const params = new URLSearchParams([['q', query]])
     return axios
@@ -278,9 +321,9 @@ function searchInciteful(query: string): Promise<Paper[]> {
         params,
         timeout: 1000
       })
-      .then(response => {
+      .then((response: AxiosResponse<Paper[]>) => {
         if (response.data.length > 0) {
-          return fixPaperIDs(response.data)
+          return fixPaperIDs(response.data).map(paperIntoPaperAutosuggest)
         } else {
           return Promise.reject()
         }
@@ -291,19 +334,6 @@ function searchInciteful(query: string): Promise<Paper[]> {
   } else {
     return Promise.resolve([])
   }
-}
-
-
-function getCitations(ids: Array<string>): Promise<PaperID[]> {
-  const idParams = buildIDParams(ids)
-
-  return axios
-    .get(`${API_URL}/graph/citations?${idParams}`)
-    .then(response => response.data.map((p: PaperID) => p.toString()))
-    .catch(err => {
-      handleIncitefulErr(err)
-      return []
-    })
 }
 
 function downloadBibFile(ids: Array<string>) {
@@ -334,15 +364,14 @@ function unpaywall(doi: string) {
 export default {
   queryGraph,
   unpaywall,
-  searchSemanticScholar,
+  searchOpenAlex,
   getPaper,
   getPapers,
   connectPapers,
   getPaperIds,
   getZoteroAuthUrl,
   getZoteroAuth,
-  searchPapers,
+  autosuggestSearch,
   downloadBibFile,
-  downloadRisFile,
-  getCitations
+  downloadRisFile
 }

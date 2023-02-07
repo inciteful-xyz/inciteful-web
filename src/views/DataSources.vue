@@ -13,6 +13,31 @@
           </div>
           <div class="pt-6 mt-6 border-gray-300 border-t">
             <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
+              <a href="https://openalex.org/"
+                ><img class="w-96" src="../assets/images/openalex-logo.png"
+              /></a>
+            </h2>
+            OpenAlex is a free and open catalog of the world's scholarly papers,
+            researchers, journals, and institutions — along with all the ways
+            they're connected to one another. Using OpenAlex, you can build your
+            own scholarly search engine, recommender service, or knowledge
+            graph. You can help manage research by tracking citation impact,
+            spotting promising new research areas, and identifying and promoting
+            work from underrepresented groups. And you can do research on
+            research itself, in areas like bibliometrics, science and technology
+            studies, and Science of science policy. Because we think all
+            research should be free and open, OpenAlex is free and open itself,
+            and we're built on a fully Open Source codebase. We believe the
+            global research system is one of humankind's most beautiful
+            creations. OpenAlex aims to make that whole beautiful creation
+            available to everyone, everywhere.
+
+            <a class="text-xs" href="https://openalex.org/about"
+              >- (OpenAlex)</a
+            >
+          </div>
+          <div class="pt-6 mt-6 border-gray-300 border-t">
+            <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
               <a href="https://www.semanticscholar.org/"
                 ><img
                   class="w-96"
@@ -29,12 +54,13 @@
             Google Scholar and PubMed, Semantic Scholar is designed to highlight
             the most important and influential papers, and to identify the
             connections between them.
-            <span
+            <a
               class="text-xs"
               href="https://en.wikipedia.org/wiki/Semantic_Scholar"
-              >(Wikipedia)</span
+              >- (Wikipedia)</a
             >
           </div>
+
           <div class="pt-6 mt-6 border-gray-300 border-t">
             <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
               <a href="https://www.unpaywall.org/"

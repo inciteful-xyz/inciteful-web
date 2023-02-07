@@ -2,14 +2,14 @@
   <div
     class="text-gray-800 relative"
     @keydown.esc="hideResults()"
-    @keydown.enter="sendSelect()"
+    @keydown.enter="sendSelect(null)"
     v-click-away="hideResults"
   >
     <input
       @click="displayResults()"
       @keydown.up="registerKeypress('up')"
       @keydown.down="registerKeypress('down')"
-      @keydown.enter="sendSearched(highlighted)"
+      @keydown.enter="sendSearched()"
       @focus="isFocused = true"
       class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
     bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
@@ -17,7 +17,7 @@
       type="text"
       placeholder="Paper title, DOI, PubMed URL, or arXiv URL"
       :value="query"
-      @input="e => (query = e.target.value)"
+      @input="e => (query = e.target ? (e.target as HTMLInputElement).value : '')"
     />
     <div
       v-if="shouldShowResults"
@@ -53,9 +53,9 @@
           v-touch:tap="sendSelect(index)"
           :class="{ 'bg-gray-200': highlighted === index }"
         >
-          <div class="pb-1 text-sm">{{ result.title }} title</div>
+          <div class="pb-1 text-sm" v-html="result.title"></div>
           <div class="text-xs">
-            <Authors :authors="result.author" /> ({{ result.published_year }}) -
+            {{ result.authors }} -
             {{ format(result.num_cited_by) }}
             citations
           </div>
@@ -68,16 +68,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import api from '../utils/api'
-import Authors from './Authors.vue'
 import numeral from 'numeral'
 import { Paper, PaperID } from '@/types/incitefulTypes'
+import { PaperAutosuggest } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'Autosuggest',
-  components: {
-    // VueAutosuggest,
-    Authors
-  },
   props: {
     clearOnSelect: {
       type: Boolean,
@@ -93,11 +89,11 @@ export default defineComponent({
     }
   },
   emits: ['selected', 'searched'],
-  data () {
+  data() {
     return {
       query: '',
       showResults: true,
-      results: undefined as Paper[] | undefined,
+      results: undefined as PaperAutosuggest[] | undefined,
       timeout: null as number | null,
       selected: null as PaperID | null,
       highlighted: null as number | null,
@@ -106,7 +102,7 @@ export default defineComponent({
       isFocused: false
     }
   },
-  created (): void {
+  created(): void {
     this.query = this.defaultQuery
 
     if (this.defaultPaperId) {
@@ -118,7 +114,7 @@ export default defineComponent({
     }
   },
   computed: {
-    shouldShowResults (): boolean {
+    shouldShowResults(): boolean {
       return (
         this.showResults &&
         this.isFocused &&
@@ -128,7 +124,7 @@ export default defineComponent({
     }
   },
   watch: {
-    query (newVal) {
+    query(newVal) {
       const query = newVal
       this.selectIsValid = true
 
@@ -139,7 +135,7 @@ export default defineComponent({
       this.timeout = setTimeout(() => {
         this.selected = null
 
-        api.searchPapers(query).then(papers => {
+        api.autosuggestSearch(query).then(papers => {
           if (papers && papers.length > 0) {
             this.results = papers
             this.displayResults()
@@ -149,7 +145,7 @@ export default defineComponent({
     }
   },
   methods: {
-    registerKeypress (direction: 'up' | 'down') {
+    registerKeypress(direction: 'up' | 'down') {
       if (this.results) {
         if (this.highlighted === null) {
           this.highlighted = 0
@@ -166,18 +162,18 @@ export default defineComponent({
         }
       }
     },
-    hideResults () {
+    hideResults() {
       this.showResults = false
       this.highlighted = null
     },
-    displayResults () {
+    displayResults() {
       this.showResults = true
     },
-    getValue () {
+    getValue() {
       if (this.getSelectedId()) return this.getSelectedId()
       else return this.query
     },
-    getSelectedId (): string | undefined {
+    getSelectedId(): string | undefined {
       if (
         this.results &&
         this.highlighted !== null &&
@@ -186,15 +182,15 @@ export default defineComponent({
         return this.results[this.highlighted].id
       }
     },
-    format (val: number) {
+    format(val: number) {
       return numeral(val).format('0,0.[000000]')
     },
-    getPaperValue (paper: Paper): string {
+    getPaperValue(paper: Paper): string {
       return `${paper.title} (${paper.id})`
     },
-    sendSelect (index: number) {
+    sendSelect(index: number | null) {
       return () => {
-        if (this.results) {
+        if (this.results && index !== null) {
           const paper = this.results[index]
           if (paper) {
             this.showResults = false
@@ -205,7 +201,7 @@ export default defineComponent({
         }
       }
     },
-    sendSearched () {
+    sendSearched() {
       if (this.highlighted !== null && this.highlighted >= 0) {
         this.sendSelect(this.highlighted)()
       } else if (this.query) {

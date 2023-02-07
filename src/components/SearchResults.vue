@@ -4,7 +4,10 @@
     <li v-else-if="loading" class="py-6">
       <div class="w-32 m-auto"><Loader /></div>
     </li>
-    <li v-else-if="papers.length == 0" class="px-6 py-6 sm:px-0 font-semibold">
+    <li
+      v-else-if="!papers || papers.length == 0"
+      class="px-6 py-6 sm:px-0 font-semibold"
+    >
       We could not find any results. Please check your search and try again.
     </li>
     <li
@@ -31,9 +34,8 @@
                   lg:text-lg
                   text-purple-700
                 "
-              >
-                {{ paper.title }}
-              </button>
+                v-html="paper.title"
+              ></button>
             </div>
           </div>
         </div>
@@ -47,12 +49,6 @@
         </div>
         <div class="flex pt-3">
           <div class="flex-1 text-xs lg:text-sm">
-            <div v-if="showAbstract" class="pb-3">
-              <AbstractView
-                :abstract="paper.abstract"
-                :length="abstractLength"
-              />
-            </div>
             <div>
               Year:
               <span class="font-semibold pr-4 text-sm lg:text-base">{{
@@ -105,8 +101,10 @@
     </li>
     <li class="px-6 py-6 sm:px-0">
       Search results powered by
-      <a class="text-purple-500" href="https://api.semanticscholar.org/graph/v1"
-        >Semantic Scholar</a
+      <a
+        class="text-purple-500"
+        href="https://docs.openalex.org/api-entities/works/search-works"
+        >OpenAlex</a
       >.
     </li>
   </ul>
@@ -114,7 +112,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
-import AbstractView from './AbstractView.vue'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import Authors from './Authors.vue'
@@ -123,7 +120,6 @@ import { Paper } from '@/types/incitefulTypes'
 export default defineComponent({
   name: 'SearchResults',
   components: {
-    AbstractView,
     LitReviewButton,
     Loader,
     Authors
@@ -133,10 +129,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    showAbstract: {
-      type: Boolean,
-      default: true
-    },
     abstractLength: {
       type: Number,
       default: 300
@@ -144,7 +136,7 @@ export default defineComponent({
     query: {} as PropType<string>
   },
   emits: ['selected'],
-  data () {
+  data() {
     return {
       papers: undefined as Paper[] | undefined,
       errorMsg: undefined as string | undefined,
@@ -152,32 +144,32 @@ export default defineComponent({
         'Your search returned no results, please try a different query.'
     }
   },
-  created () {
+  created() {
     this.updateResults()
   },
   watch: {
-    query (newVal, oldVal) {
+    query(newVal, oldVal) {
       if (newVal !== oldVal && newVal) {
         this.updateResults()
       }
     }
   },
   computed: {
-    loading (): boolean {
+    loading(): boolean {
       if (this.papers) return false
       return true
     }
   },
   methods: {
-    updateResults (): void {
+    updateResults(): void {
       if (this.query) {
         this.papers = undefined
-        api.searchSemanticScholar(this.query).then(data => {
+        api.searchOpenAlex(this.query).then(data => {
           this.papers = data
         })
       }
     },
-    registerSelect (paper: Paper): void {
+    registerSelect(paper: Paper): void {
       this.$emit('selected', paper)
     }
   }
