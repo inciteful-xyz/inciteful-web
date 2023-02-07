@@ -78,7 +78,7 @@ function searchOpenAlex(query: string): Promise<Paper[]> {
         `https://api.openalex.org/works?search=${encodeURIComponent(query)}&mailto=info@inciteful.xyz`
       )
       .then((res: AxiosResponse<OAPaperSearchResults>) => {
-        if (res.data && res.data.results && res.data.results.length > 0) {
+        if (res.data && res.data.results) {
           return res.data.results.map(convertOAPaperToPaper)
         } else {
           return Promise.reject()
