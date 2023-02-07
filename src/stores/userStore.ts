@@ -82,10 +82,11 @@ export const useUserStore = defineStore({
         async bind(userId: string | undefined) {
             if (userId) {
                 const unsub = onSnapshot(doc(usersCol, userId), (doc) => {
-                    this.userDataDoc = doc
-
-                    if (!this.firebaseAuthUser)
+                    if (!doc.exists() || !this.firebaseAuthUser) {
                         this.saveUser({ id: userId, favoritePapers: [] })
+                    }
+
+                    this.userDataDoc = doc
                 });
 
                 return (() => {
@@ -119,6 +120,8 @@ export const useUserStore = defineStore({
         async addFavorites(ids: PaperID[]) {
             this.awaitUserDataLoad(async () => {
                 if (this.userDataDoc) {
+                    console.log(this.userDataDoc)
+                    console.log(this.userDataDoc.ref)
                     await updateDoc(this.userDataDoc.ref, {
                         favoritePapers: arrayUnion(...ids)
                     });

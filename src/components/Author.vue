@@ -1,11 +1,11 @@
 <template>
   <button
     v-on:click="showModal(author)"
-    :title="author.affiliation"
+    :title="author?.institution?.name"
     class="hover:underline"
   >
-    {{ author.name }}
-    <span v-if="showAffiliation">({{ author.affiliation }})</span>
+    {{ author?.name }}
+    <span v-if="showAffiliation">({{ author?.institution?.name }})</span>
   </button>
 </template>
 
@@ -23,12 +23,14 @@ export default defineComponent({
     ids: {} as PropType<Array<PaperID>>
   },
   methods: {
-    showModal (author: Author) {
-      const options: AuthorModalOptions = {
-        author,
-        contextIds: this.ids
+    showModal(author: Author | undefined) {
+      if (author) {
+        const options: AuthorModalOptions = {
+          author,
+          contextIds: this.ids
+        }
+        showModalHelper(options)
       }
-      showModalHelper(options)
     }
   }
 })

@@ -24,7 +24,7 @@
       "content": [
         {
           "title": "Recent Papers by the Top 100 Authors",
-          "sql": "SELECT p.paper_id, doi, authors, title, num_cited_by, published_year, adamic_adar\nFROM (\n\tSELECT paper_id\n\tFROM (\n\t\tSELECT author_id\n\t\tFROM authors a\n\t\tJOIN papers p ON p.paper_id = a.paper_id\n\t\tGROUP BY a.author_id\n\t\tORDER BY SUM(p.page_rank / (\n\t\t\tCASE \n\t\t\t\tWHEN num_authors < 4 THEN num_authors\n\t\t\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\t\t\tELSE num_authors * 3\n\t\t\tEND)) DESC\n\t\tLIMIT 100\n\t) ta \n\tJOIN authors a ON a.author_id = ta.author_id\n\tGROUP BY paper_id\n) a\nJOIN papers p ON p.paper_id = a.paper_id\nWHERE p.published_year > (strftime('%Y', 'now') - 3)\nAND {{filters}}\nORDER BY adamic_adar DESC, page_rank DESC"
+          "sql": "SELECT p.paper_id, doi, authors, title, num_cited_by, published_year, adamic_adar\nFROM (\n\tSELECT paper_id\n\tFROM (\n\t\tSELECT name\n\t\tFROM authors a\n\t\tJOIN papers p ON p.paper_id = a.paper_id\n\t\tGROUP BY a.name\n\t\tORDER BY SUM(p.page_rank / (\n\t\t\tCASE \n\t\t\t\tWHEN num_authors < 4 THEN num_authors\n\t\t\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\t\t\tELSE num_authors * 3\n\t\t\tEND)) DESC\n\t\tLIMIT 100\n\t) ta \n\tJOIN authors a ON a.name = ta.name\n\tGROUP BY paper_id\n) a\nJOIN papers p ON p.paper_id = a.paper_id\nWHERE p.published_year > (strftime('%Y', 'now') - 3)\nAND {{filters}}\nORDER BY adamic_adar DESC, page_rank DESC"
         },
         {
           "title": "The Most Important Recent Papers",
@@ -41,7 +41,12 @@
         {
           "title": "Top Authors",
           "subtext": "This section tries to identify the top authors in the network.",
-          "sql": "SELECT name, SUM(p.page_rank / (\n\tCASE \n\t\tWHEN num_authors < 4 THEN num_authors\n\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\tELSE num_authors * 3\n\tEND)) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN authors a ON p.paper_id = a.paper_id\nWHERE {{filters}}\nGROUP BY a.author_id, name\nORDER BY SUM(page_rank) DESC"
+          "sql": "SELECT name, SUM(p.page_rank / (\n\tCASE \n\t\tWHEN num_authors < 4 THEN num_authors\n\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\tELSE num_authors * 3\n\tEND)) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN authors a ON p.paper_id = a.paper_id\nWHERE {{filters}}\nGROUP BY a.name, name\nORDER BY SUM(page_rank) DESC"
+        },
+        {
+          "title": "Institutions",
+          "subtext": "This section tries to identify the top institutions in the network.",
+          "sql": "SELECT affiliation, SUM(page_rank) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN (\n\tSELECT paper_id, affiliation, affiliation_id\n\tFROM authors\n\tGROUP BY affiliation_id, affiliation, paper_id\n) a ON p.paper_id = a.paper_id\nWHERE {{filters}} AND a.affiliation <> ''\nGROUP BY  a.affiliation_id,a.affiliation\nORDER BY SUM(page_rank) DESC"
         },
         {
           "title": "Top Journals",

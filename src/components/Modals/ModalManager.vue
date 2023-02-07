@@ -84,19 +84,19 @@
           <div class="text-sm">
             <paper-modal-content
               v-if="isPaper"
-              :options="options"
+              :options="(options as PaperModalOptions)"
               @clearModal="clearModal"
               @back="back"
             />
             <author-modal-content
               v-if="isAuthor"
-              :options="options"
+              :options="(options as AuthorModalOptions)"
               @clearModal="clearModal"
               @back="back"
             />
             <collection-modal-content
               v-if="isCollection"
-              :options="options"
+              :options="(options as CollectionModalOptions)"
               @back="back"
             />
           </div>
@@ -113,10 +113,13 @@ import AuthorModalContent from './AuthorModalContent.vue'
 import CollectionModalContent from './CollectionModalContent.vue'
 
 import {
+  AuthorModalOptions,
+  CollectionModalOptions,
   isAuthorModalOptions,
   isCollectionModalOptions,
   isPaperModalOptons,
-  ModalOptions
+  ModalOptions,
+  PaperModalOptions
 } from '@/types/modalTypes'
 import { EmitEvents } from '@/utils/emitHelpers'
 
@@ -127,12 +130,12 @@ export default defineComponent({
     AuthorModalContent,
     CollectionModalContent
   },
-  data () {
+  data() {
     return {
       options: undefined as ModalOptions | undefined
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(EmitEvents.ShowModal, (options: ModalOptions) => {
       if (this.options !== undefined) {
         options.previousScreen = this.options
@@ -141,27 +144,27 @@ export default defineComponent({
     })
   },
   computed: {
-    isPaper (): boolean {
+    isPaper(): boolean {
       return this.options !== undefined && isPaperModalOptons(this.options)
     },
-    isAuthor (): boolean {
+    isAuthor(): boolean {
       return this.options !== undefined && isAuthorModalOptions(this.options)
     },
-    isCollection (): boolean {
+    isCollection(): boolean {
       return (
         this.options !== undefined && isCollectionModalOptions(this.options)
       )
     },
 
-    validState (): boolean {
+    validState(): boolean {
       return this.isPaper || this.isAuthor || this.isCollection
     }
   },
   methods: {
-    clearModal (): void {
+    clearModal(): void {
       this.options = undefined
     },
-    back (): void {
+    back(): void {
       if (this.options && this.options.previousScreen) {
         this.options = this.options.previousScreen
       } else {

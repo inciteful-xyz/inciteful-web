@@ -26,32 +26,39 @@ export default defineComponent({
     BetaFeatures,
     SingleColumn
   },
-  data () {
+  data() {
     return {
       paper: undefined as Paper | undefined
     }
   },
   computed: {
-    id (): PaperID {
+    id(): PaperID {
       return this.$route.params.pathMatch as string
     },
-    ids (): PaperID[] {
+    ids(): PaperID[] {
       return [this.id]
     }
   },
-  mounted () {
+  mounted() {
     this.setData(this.id)
   },
   watch: {
-    '$route.params.pathMatch' (val) {
+    '$route.params.pathMatch'(val) {
       this.setData(val)
     }
   },
   methods: {
-    setData (id: PaperID): void {
+    setData(id: PaperID): void {
       if (id) {
         api.getPaper(id).then(data => {
           this.paper = data
+
+          if (this.paper && this.paper.id != id) {
+            this.$router.replace({
+              name: 'PaperDiscoveryQuery',
+              params: { pathMatch: this.paper.id }
+            })
+          }
         })
       } else {
         this.paper = undefined
