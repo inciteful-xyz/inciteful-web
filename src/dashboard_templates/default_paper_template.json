@@ -41,7 +41,7 @@
         {
           "title": "Top Authors",
           "subtext": "This section tries to identify the top authors in the network.",
-          "sql": "SELECT name, SUM(p.page_rank / (\n\tCASE \n\t\tWHEN num_authors < 4 THEN num_authors\n\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\tELSE num_authors * 3\n\tEND)) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN authors a ON p.paper_id = a.paper_id\nWHERE {{filters}}\nGROUP BY a.name, name\nORDER BY SUM(page_rank) DESC"
+          "sql": "SELECT name as author_name, SUM(p.page_rank / (\n\tCASE \n\t\tWHEN num_authors < 4 THEN num_authors\n\t\tWHEN a.sequence = 1 OR a.sequence = num_authors THEN 3\n\t\tELSE num_authors * 3\n\tEND)) as total_page_rank, COUNT(*) as num_papers\nFROM papers p\nJOIN authors a ON p.paper_id = a.paper_id\nWHERE {{filters}}\nGROUP BY a.name, name\nORDER BY SUM(page_rank) DESC"
         },
         {
           "title": "Institutions",

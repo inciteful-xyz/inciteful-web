@@ -195,7 +195,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { CodeJar } from 'codejar'
 import Prism from 'prismjs'
 import { withLineNumbers } from 'codejar/linenumbers'
@@ -203,6 +203,7 @@ import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism.css'
 
 import SqlView from './SqlView.vue'
+import { PaperID } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'QueryPanel',
@@ -210,16 +211,16 @@ export default defineComponent({
     SqlView
   },
   props: {
-    ids: Array
+    ids: {} as PropType<PaperID[]>
   },
-  data () {
+  data() {
     return {
       editor: undefined as any,
       dashSql: undefined as string | undefined,
       returnUrl: undefined as undefined | string
     }
   },
-  mounted () {
+  mounted() {
     const node = document.querySelector('#query-editor') as HTMLElement
     this.editor = CodeJar(node, withLineNumbers(Prism.highlightElement))
 
@@ -233,7 +234,7 @@ export default defineComponent({
     }
   },
   watch: {
-    '$route.query.sql' (newVal, oldVal) {
+    '$route.query.sql'(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.dashSql = newVal
         this.setCode(newVal)
@@ -241,26 +242,26 @@ export default defineComponent({
     }
   },
   methods: {
-    getCode (): string {
+    getCode(): string {
       return this.editor.toString()
     },
-    setCode (code: string): void {
+    setCode(code: string): void {
       this.editor.updateCode(code)
     },
-    runCodeClick (): void {
+    runCodeClick(): void {
       this.$router.push({
         query: { ...this.$route.query, sql: this.getCode() }
       })
     },
-    runCode (): void {
+    runCode(): void {
       this.dashSql = this.getCode()
     },
-    returnToPage (): void {
+    returnToPage(): void {
       if (this.returnUrl !== undefined) {
         window.location.href = this.returnUrl
       }
     },
-    runExample (example: string) {
+    runExample(example: string) {
       switch (example) {
         case 'most_journals':
           this.setCode(

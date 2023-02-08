@@ -10,7 +10,11 @@
             <dl
               class="text-center sm:mx-auto gap-2 sm:gap-4 sm:text-lg text-sm"
             >
-              <div class="flex flex-wrap" id="connection-stats">
+              <div
+                class="flex flex-wrap"
+                id="connection-stats"
+                v-if="results && connectingPapers"
+              >
                 <stat>
                   <template v-slot:name>Min Hops</template>
                   <template v-slot:value> {{ minHops }}</template>
@@ -303,6 +307,7 @@ import {
 } from '@/types/incitefulTypes'
 import { GraphData } from '@/types/graphTypes'
 import { EmitEvents, graphLoadedHelper } from '@/utils/emitHelpers'
+import { LockedPaper } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'LitConnectorBody',
@@ -319,7 +324,7 @@ export default defineComponent({
     from: {} as PropType<Paper | undefined>,
     reccomendExtendedGraphs: {} as PropType<boolean>
   },
-  data () {
+  data() {
     return {
       error: undefined as string | undefined,
       results: undefined as PaperConnector | undefined,
@@ -331,7 +336,7 @@ export default defineComponent({
       highlightedIds: new Set<PaperID>()
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(EmitEvents.GoToPaper, (id: PaperID) => {
       this.$router.push({ path: navigation.getPaperUrl(id) })
     })
@@ -352,13 +357,13 @@ export default defineComponent({
     })
   },
   computed: {
-    extendedGraph (): boolean {
+    extendedGraph(): boolean {
       return this.$route.query.extendedGraph === 'true'
     },
-    effectiveKeyword (): string | undefined {
+    effectiveKeyword(): string | undefined {
       return this.hoverKeywords ? this.hoverKeywords : this.textKeywords
     },
-    graphData (): GraphData {
+    graphData(): GraphData {
       return {
         type: 'connector',
         papers: this.lockedPapers,
@@ -369,24 +374,24 @@ export default defineComponent({
         modalOptions: { connectTo: this.from ? this.from.id : undefined }
       }
     },
-    loaded (): boolean {
+    loaded(): boolean {
       return (
         this.to !== undefined &&
         this.from !== undefined &&
         this.results !== undefined
       )
     },
-    validState (): boolean {
+    validState(): boolean {
       return this.from !== undefined && this.to !== undefined
     },
-    foundPath (): boolean {
+    foundPath(): boolean {
       return (
         this.results !== undefined &&
         this.results.num_paths !== undefined &&
         this.results.num_paths > 0
       )
     },
-    minHops (): number | undefined {
+    minHops(): number | undefined {
       if (this.loaded && this.results !== undefined) {
         const hops = Math.min(...this.results.paths.map(p => p.length)) - 1
         this.$emit('minHopsCalculated', hops)
@@ -395,7 +400,7 @@ export default defineComponent({
 
       return undefined
     },
-    maxHops (): number | undefined {
+    maxHops(): number | undefined {
       if (this.loaded && this.results !== undefined) {
         const hops = Math.max(...this.results.paths.map(p => p.length)) - 1
         return hops
@@ -403,24 +408,27 @@ export default defineComponent({
 
       return undefined
     },
-    lockedPapers (): Paper[] {
+    lockedPapers(): LockedPaper[] {
       if (this.results === undefined) return []
 
-      if (this.lockedPaperIds.length === 0) return this.results.papers
+      if (this.lockedPaperIds.length === 0)
+        return this.results.papers as LockedPaper[]
 
       const paperIds = new Set()
 
       this.lockedPaths.forEach(p => p.forEach(id => paperIds.add(id)))
 
-      const lockedPapers = this.results.papers.filter(p => paperIds.has(p.id))
+      const lockedPapers = this.results.papers.filter(p =>
+        paperIds.has(p.id)
+      ) as LockedPaper[]
 
       lockedPapers.forEach(
-        p => ((p as any).isLocked = this.lockedPaperIds.includes(p.id))
+        p => ((p as LockedPaper).isLocked = this.lockedPaperIds.includes(p.id))
       )
 
       return lockedPapers
     },
-    lockedPaths (): Path[] {
+    lockedPaths(): Path[] {
       if (this.results === undefined) return []
 
       if (this.lockedPaperIds.length === 0) return this.results.paths
@@ -429,7 +437,7 @@ export default defineComponent({
         this.lockedPaperIds.every(el => p.includes(el))
       )
     },
-    lockedConnections (): Connection[] {
+    lockedConnections(): Connection[] {
       if (this.results === undefined) return []
       if (this.lockedPaperIds.length === 0) return this.results.connections
 
@@ -443,16 +451,16 @@ export default defineComponent({
 
       return [...connections].map(c => JSON.parse(c))
     },
-    connectingPapers (): Paper[] | undefined {
-      if (this.loaded && this.to !== undefined && this.from !== undefined) {
-        return this.lockedPapers.filter(
-          p => p.id !== this.to!.id && p.id !== this.from!.id
-        )
+    connectingPapers(): Paper[] | undefined {
+      const to = this.to
+      const from = this.from
+      if (this.loaded && to !== undefined && from !== undefined) {
+        return this.lockedPapers.filter(p => p.id !== to.id && p.id !== from.id)
       }
 
       return undefined
     },
-    searchIndex (): FlexSearch.Index {
+    searchIndex(): FlexSearch.Index {
       const index = new FlexSearch.Index({
         encode: sentence => {
           const wordsArr = sentence.split(' ').map(word => {
@@ -482,7 +490,7 @@ export default defineComponent({
 
       return index
     },
-    filteredPapers (): Paper[] | undefined {
+    filteredPapers(): Paper[] | undefined {
       const minYear = Number(this.minYear)
       const maxYear = Number(this.maxYear)
 
@@ -513,7 +521,7 @@ export default defineComponent({
 
       return papers
     },
-    filteredIds (): Set<PaperID> {
+    filteredIds(): Set<PaperID> {
       const ids = new Set<PaperID>()
 
       if (this.filteredPapers !== undefined) {
@@ -525,7 +533,7 @@ export default defineComponent({
 
       return ids
     },
-    sortedPapers (): Paper[] | undefined {
+    sortedPapers(): Paper[] | undefined {
       if (this.filteredPapers) {
         const sortPapers = [...this.filteredPapers]
         sortPapers.sort((a, b) => b.num_cited_by - a.num_cited_by)
@@ -535,10 +543,10 @@ export default defineComponent({
       }
       return undefined
     },
-    titleKeywords (): TermCount[] {
+    titleKeywords(): TermCount[] {
       return keywordFuncs.extract(this.connectingPapers ?? [])
     },
-    showExtendedGraphsReccomendation (): boolean {
+    showExtendedGraphsReccomendation(): boolean {
       return (
         !this.extendedGraph &&
         (this.reccomendExtendedGraphs ?? true) &&
@@ -549,19 +557,19 @@ export default defineComponent({
     }
   },
   watch: {
-    to (newVal, oldVal): void {
+    to(newVal, oldVal): void {
       if (newVal !== oldVal) {
         this.resetFilters()
         this.loadGraph()
       }
     },
-    from (newVal, oldVal): void {
+    from(newVal, oldVal): void {
       if (newVal !== oldVal) {
         this.resetFilters()
         this.loadGraph()
       }
     },
-    extendedGraph (newVal, oldVal): void {
+    extendedGraph(newVal, oldVal): void {
       if (newVal !== oldVal) {
         this.resetFilters()
         this.loadGraph()
@@ -569,29 +577,32 @@ export default defineComponent({
     }
   },
   methods: {
-    loadGraph (): void {
+    loadGraph(): void {
       if (this.validState) {
         this.results = undefined
-        api
-          .connectPapers(this.from!.id, this.to!.id, this.extendedGraph)
-          .then(data => {
-            this.results = data
-            graphLoadedHelper()
-          })
+        var from = this.from
+        var to = this.to
+
+        if (from === undefined || to === undefined) return
+
+        api.connectPapers(from.id, to.id, this.extendedGraph).then(data => {
+          this.results = data
+          graphLoadedHelper()
+        })
       }
     },
-    registerMouseoverRow (id: PaperID): void {
+    registerMouseoverRow(id: PaperID): void {
       this.highlightedIds = new Set(this.highlightedIds.add(id))
     },
-    registerMouseleaveRow (id: PaperID): void {
+    registerMouseleaveRow(id: PaperID): void {
       this.highlightedIds.delete(id)
 
       this.highlightedIds = new Set(this.highlightedIds)
     },
-    registerLockPaper (id: PaperID): void {
+    registerLockPaper(id: PaperID): void {
       if (this.lockedPaperIds.find(id1 => id1 === id)) {
         this.lockedPapers.forEach(p => {
-          if (p.id === id) (p as any).isLocked = false
+          if (p.id === id) (p as LockedPaper).isLocked = false
         })
 
         this.lockedPaperIds = this.lockedPaperIds.filter(id1 => id !== id1)
@@ -599,17 +610,17 @@ export default defineComponent({
         this.lockedPaperIds.push(id)
       }
     },
-    keywordClick (keyword: string): void {
+    keywordClick(keyword: string): void {
       this.textKeywords = keyword === this.textKeywords ? '' : keyword
     },
-    resetFilters (): void {
+    resetFilters(): void {
       this.textKeywords = ''
       this.minYear = undefined
       this.maxYear = undefined
 
       this.lockedPaperIds = []
     },
-    toggleExtendedGraphs (): void {
+    toggleExtendedGraphs(): void {
       this.$router.push({
         query: {
           ...this.$route.query,

@@ -30,18 +30,18 @@
           v-for="(p, index) in pagedResults"
           :key="index"
           :class="rowClass(index, p.isLocked)"
-          @mouseover="$emit('mouseoverRow', p[idColName])"
-          @mouseleave="$emit('mouseleaveRow', p[idColName])"
+          @mouseover="$emit('mouseoverRow', (p as IIndexable)[idColName])"
+          @mouseleave="$emit('mouseleaveRow', (p as IIndexable)[idColName])"
         >
           <td>
-            <LitReviewButton :id="p[idColName]" />
+            <LitReviewButton :id="(p as IIndexable)[idColName]" />
           </td>
           <td class="text-left">
             <paper-modal-button
               :id="p.id"
               :text="p.title"
-              class="underline block font-semibold text-left"
-              :contextIds="this.papers.map(x => x.id)"
+              :class="['underline', 'block', 'font-semibold', 'text-left']"
+              :contextIds="papers ? papers.map(x => x.id) : []"
             />
             <div v-if="p.author" class="font-semibold text-gray-500">
               <Authors :authors="p.author" />
@@ -60,7 +60,7 @@
               whitespace-nowrap
             "
           >
-            {{ p[column.name] }}
+            {{ (p as IIndexable)[column.name] }}
           </td>
           <td class="text-purple-600 px-2">
             <button
@@ -113,6 +113,7 @@ import {
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
 import PaperModalButton from './Modals/PaperModalButton.vue'
+import { LockedPaper, IIndexable } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'ConnectorTable',
@@ -139,12 +140,12 @@ export default defineComponent({
     }
   },
   watch: {
-    papers (newVal, oldVal) {
+    papers(newVal, oldVal) {
       if (newVal !== oldVal) this.currentPage = 1
     }
   },
   emits: ['mouseoverRow', 'mouseleaveRow', 'lockPaper'],
-  data () {
+  data() {
     return {
       currentPage: 1,
       sortedBy: '' as string,
@@ -157,44 +158,64 @@ export default defineComponent({
     }
   },
   computed: {
-    numPages (): number {
+    numPages(): number {
       if (this.papers) {
         return Math.ceil(this.papers.length / this.pageSize)
       } else {
         return 0
       }
     },
-    sortedResults (): Paper[] {
-      const sorted = [...(this.papers ?? [])]
+    sortedResults(): LockedPaper[] {
+      const sorted = [...(this.papers ?? [])] as LockedPaper[]
       if (this.sortedBy && this.papers && this.papers.length > 0) {
         sorted.sort((a, b) => {
-          if (this.sortDescending) {
-            return (b as any)[this.sortedBy] - (a as any)[this.sortedBy]
-          } else {
-            return (a as any)[this.sortedBy] - (b as any)[this.sortedBy]
+          var res = 0
+
+          if (this.sortedBy !== undefined) {
+            if (
+              (a as IIndexable)[this.sortedBy] >
+              (b as IIndexable)[this.sortedBy]
+            ) {
+              res = 1
+            }
+            if (
+              (a as IIndexable)[this.sortedBy] <
+              (b as IIndexable)[this.sortedBy]
+            ) {
+              res = -1
+            }
+
+            if (this.sortDescending) {
+              res = res * -1
+            }
           }
+
+          return res
         })
       }
 
       sorted.sort((a, b) => {
-        return (b as any).isLocked - (a as any).isLocked
+        if (a.isLocked && !b.isLocked) return -1
+        else if (!a.isLocked && b.isLocked) return 1
+        else return 0
       })
+
       return sorted
     },
-    pagedResults (): Paper[] {
+    pagedResults(): LockedPaper[] {
       if (this.sortedResults) {
         const start = (this.currentPage - 1) * this.pageSize
         const end = this.currentPage * this.pageSize
         return this.sortedResults.slice(start, end)
       } else return []
     },
-    ids (): PaperID[] {
+    ids(): PaperID[] {
       if (this.papers) return this.papers.map(x => x.id)
       else return []
     }
   },
   methods: {
-    rowClass (index: number, isLocked: boolean): Record<string, boolean> {
+    rowClass(index: number, isLocked: boolean): Record<string, boolean> {
       return {
         'bg-white': index % 2 === 0 && !isLocked,
         'bg-gray-50': index % 2 !== 0 && !isLocked,
@@ -203,10 +224,10 @@ export default defineComponent({
         'bg-purple-100': isLocked
       }
     },
-    turnPage (pageNum: number): void {
+    turnPage(pageNum: number): void {
       this.currentPage = pageNum
     },
-    sortBy (column: string): void {
+    sortBy(column: string): void {
       if ((this.sortedBy = column)) {
         this.sortDescending = !this.sortDescending
       } else {

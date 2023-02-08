@@ -4,6 +4,10 @@ import { Emitter, EventType } from 'mitt';
 
 export type IncitefulEmitter = Emitter<Record<EventType, unknown>>
 
+export interface IIndexable {
+  [key: string]: any;
+}
+
 export type PaperID = string
 
 export interface PaperAutosuggest {
@@ -51,6 +55,10 @@ export interface Paper {
   cited_by?: PaperID[];
 }
 
+export interface LockedPaper extends Paper {
+  isLocked: boolean;
+}
+
 export interface Author {
   author_id: number
   name: string
@@ -84,6 +92,12 @@ export interface Connection {
 }
 
 export type Path = PaperID[]
+
+export type QueryValue = string | number | Author[];
+
+export type QueryRow = Record<string, QueryValue>;
+
+export type QueryResults = QueryRow[];
 
 export interface Faq {
   question: string;

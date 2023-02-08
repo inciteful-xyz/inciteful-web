@@ -6,6 +6,7 @@
           :author="author"
           :ids="ids"
           :showAffiliation="showAffiliation"
+          :authorClass="authorClass"
         />
         <span v-if="useSeperator(index)">{{ separator }}</span>
       </span>
@@ -36,10 +37,11 @@ export default defineComponent({
     authors: {} as PropType<Author[]>,
     separator: { type: String, default: ', ' },
     showAll: { type: Boolean, default: false },
+    authorClass: {} as PropType<string[]>,
     ids: {} as PropType<PaperID[]>
   },
   computed: {
-    sortedAuthors (): Author[] {
+    sortedAuthors(): Author[] {
       if (this.authors) {
         const sortAuth = [...this.authors]
         sortAuth.sort((a, b) => a.sequence - b.sequence)
@@ -50,7 +52,7 @@ export default defineComponent({
     }
   },
   methods: {
-    useSeperator (index: number) {
+    useSeperator(index: number) {
       return (
         this.sortedAuthors.length > 1 && index !== this.sortedAuthors.length - 1
       )

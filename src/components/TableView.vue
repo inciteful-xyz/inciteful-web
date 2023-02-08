@@ -57,24 +57,50 @@
                     :class="rowClass(index)"
                   >
                     <td v-if="hasPaperID()">
-                      <LitReviewButton :ids="ids" :id="result.paper_id" />
+                      <LitReviewButton
+                        :ids="ids"
+                        :id="(result.paper_id as PaperID)"
+                      />
                     </td>
 
                     <td class="pl-3 py-2 text-left text-sm">
                       <paper-modal-button
-                        class="block font-semibold pb-2 text-left"
-                        :id="result['paper_id']"
+                        :class="['block', 'font-semibold', 'pb-2', 'text-left']"
+                        :id="(result.paper_id as PaperID)"
                         :contextIds="ids"
-                        :text="result.title ? result.title : result.paper_id"
+                        :text="(result.title ? result.title : result.paper_id) as string"
                       />
                       <div v-if="result.authors">
-                        <Author :authors="result.authors" :ids="ids" />
+                        <Authors
+                          :authors="(result.authors as Author[])"
+                          :ids="ids"
+                        />
                       </div>
                       <div
-                        v-if="result.name"
+                        v-if="result.affiliation"
                         class="whitespace-nowrap font-semibold text-gray-500"
                       >
-                        {{ result.name }}
+                        {{ result.affiliation }}
+                      </div>
+                      <div
+                        v-if="result.author_name"
+                        class="whitespace-nowrap font-semibold text-gray-500"
+                      >
+                        <Authors
+                          :authors="[
+                            {
+                              author_id: 0,
+                              name: result.author_name as string,
+                              sequence: 0,
+                            }
+                          ]"
+                          :authorClass="[
+                            'font-semibold',
+                            'text-gray-600',
+                            'underline'
+                          ]"
+                          :ids="ids"
+                        />
                       </div>
 
                       <span
@@ -157,13 +183,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import Author from './Authors.vue'
+import Authors from './Authors.vue'
 import numeral from 'numeral'
 import Paginate from '@hennge/vue3-pagination'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import navigation from '../navigation'
-import { PaperID } from '@/types/incitefulTypes'
+import { Author, PaperID } from '@/types/incitefulTypes'
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -171,11 +197,12 @@ import {
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
 import PaperModalButton from './Modals/PaperModalButton.vue'
+import { QueryResults } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'TableView',
   components: {
-    Author,
+    Authors,
     Paginate,
     Loader,
     LitReviewButton,
@@ -186,7 +213,7 @@ export default defineComponent({
     PaperModalButton
   },
   props: {
-    results: {} as PropType<any[]>,
+    results: {} as PropType<QueryResults>,
     errorMsg: {} as PropType<string | undefined>,
     sql: {} as PropType<string | undefined>,
     loading: {} as PropType<boolean>,
@@ -198,7 +225,7 @@ export default defineComponent({
       default: 10
     }
   },
-  data () {
+  data() {
     return {
       currentPage: 1,
       sortedBy: undefined as string | undefined,
@@ -206,47 +233,54 @@ export default defineComponent({
     }
   },
   watch: {
-    results: function () {
+    results: function() {
       this.currentPage = 1
     }
   },
   computed: {
-    columns (): string[] | undefined {
+    columns(): string[] | undefined {
       if (this.results) {
         return this.getColumnNames(this.results)
       }
 
       return undefined
     },
-    numPages (): number {
+    numPages(): number {
       if (this.results) {
         return Math.ceil(this.results.length / this.pageSize)
       } else {
         return 0
       }
     },
-    sortedResults (): any[] | undefined {
+    sortedResults(): QueryResults | undefined {
       if (
         this.sortedBy !== undefined &&
         this.results &&
         this.results.length > 0
       ) {
         const sorted = [...this.results].sort((a, b) => {
+          var res = 0
+
           if (this.sortedBy !== undefined) {
-            if (this.sortDescending) {
-              return b[this.sortedBy] - a[this.sortedBy]
-            } else {
-              return a[this.sortedBy] - b[this.sortedBy]
+            if (a[this.sortedBy] > b[this.sortedBy]) {
+              res = 1
             }
-          } else {
-            return 0
+            if (a[this.sortedBy] < b[this.sortedBy]) {
+              res = -1
+            }
+
+            if (this.sortDescending) {
+              res = res * -1
+            }
           }
+
+          return res
         })
         return sorted
       }
       return this.results
     },
-    pagedResults (): any[] | undefined {
+    pagedResults(): QueryResults | undefined {
       if (this.sortedResults) {
         const start = (this.currentPage - 1) * this.pageSize
         const end = this.currentPage * this.pageSize
@@ -255,7 +289,7 @@ export default defineComponent({
 
       return undefined
     },
-    queryLink (): any {
+    queryLink(): unknown {
       if (this.ids && this.ids.length === 1) {
         return {
           path: navigation.getPaperQueryUrl(this.ids[0]),
@@ -271,59 +305,74 @@ export default defineComponent({
         }
       }
     },
-    resultIds (): PaperID[] {
-      if (this.results && this.hasPaperID)
-        return this.results.map(p => p.paper_id)
+    resultIds(): PaperID[] {
+      if (this.results && this.hasPaperID())
+        return this.results.map(p => p.paper_id as PaperID)
       else return []
     }
   },
   methods: {
-    format (val: any): string {
-      return typeof val === 'number' ? numeral(val).format('0.[000000]') : val
+    format(val: unknown): string {
+      if (typeof val === 'number') {
+        return numeral(val).format('0.[000000]')
+      } else if (typeof val === 'string') {
+        return val
+      } else {
+        return ''
+      }
     },
-    rowClass (index: number): string {
+    rowClass(index: number): string {
       return index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
     },
-    getColumnNames (val: any): string[] {
-      if (typeof val !== 'object' || val.length === 0 || val[0] === undefined) {
+    getColumnNames(val: QueryResults): string[] {
+      if (
+        typeof val !== 'object' ||
+        val.length === 0 ||
+        val[0] === undefined ||
+        typeof val[0] !== 'object'
+      ) {
         return []
       }
+
       const cols = Object.keys(val[0])
       const specialCols = [
         'authors',
         'doi',
         'title',
         'journal',
-        'name',
-        'paper_id'
+        'author_name',
+        'paper_id',
+        'affiliation'
       ]
       return cols.filter(v => !specialCols.includes(v))
     },
-    hasPaperID (): boolean {
+
+    hasPaperID(): boolean {
       return (
         this.results !== undefined &&
         this.results.length > 0 &&
+        typeof this.results[0] === 'object' &&
         this.results[0].paper_id !== undefined
       )
     },
-    canViewGraphs (): boolean {
+    canViewGraphs(): boolean {
       // return this.hasPaperID() && options.getGraphStatus();
       return false
     },
-    viewGraph (): void {
+    viewGraph(): void {
       if (this.results) {
         const ids = [...(this.ids ?? [])]
         this.results.forEach(r => {
-          if (ids.indexOf(r.paper_id) === -1) {
-            ids.push(r.paper_id)
+          if (ids.indexOf(r.paper_id as PaperID) === -1) {
+            ids.push(r.paper_id as PaperID)
           }
         })
       }
     },
-    turnPage (pageNum: number): void {
+    turnPage(pageNum: number): void {
       this.currentPage = pageNum
     },
-    sortBy (column: string): void {
+    sortBy(column: string): void {
       if ((this.sortedBy = column)) {
         this.sortDescending = !this.sortDescending
       } else {

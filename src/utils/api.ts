@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, PaperConnector, PaperID, PaperAutosuggest, paperIntoPaperAutosuggest } from '../types/incitefulTypes';
+import { Paper, Author, PaperConnector, PaperID, PaperAutosuggest, paperIntoPaperAutosuggest, QueryResults } from '../types/incitefulTypes';
 import { OAAutosuggestResult } from '@/types/openAlexTypes';
 import { ZoteroToken } from '../types/zoteroTypes';
 import { OAPaper, OAAuthorship, OAPaperSearchResults, OAAutosuggestResponse } from '../types/openAlexTypes';
@@ -167,7 +167,7 @@ function queryGraphSingle(
   id: PaperID,
   sql: string,
   prune: number
-): Promise<unknown[][]> {
+): Promise<QueryResults> {
   let url = `${API_URL}/query/${id}`
 
   if (prune) {
@@ -181,7 +181,7 @@ function queryGraphMulti(
   ids: Array<PaperID>,
   sql: string,
   prune: number
-): Promise<unknown[][]> {
+): Promise<QueryResults> {
   let url = `${API_URL}/query?${buildIDParams(ids)}`
 
   if (prune) {
@@ -191,7 +191,7 @@ function queryGraphMulti(
   return queryApi.post(url, sql).then(response => response.data)
 }
 
-function queryGraph(ids: Array<PaperID>, sql: string): Promise<unknown[][]> {
+function queryGraph(ids: Array<PaperID>, sql: string): Promise<QueryResults> {
   const prune = options.getPruneLevel() || 10000
 
   if (Array.isArray(ids)) {

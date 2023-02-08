@@ -49,6 +49,7 @@ import FavoritePaperButton from './FavoritePaperButton.vue'
 import PaperModalButton from './Modals/PaperModalButton.vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/userStore'
+import { IIndexable } from '../types/incitefulTypes'
 
 export default defineComponent({
   components: {
@@ -57,7 +58,7 @@ export default defineComponent({
     ChevronDownIcon,
     ChevronUpIcon
   },
-  setup () {
+  setup() {
     let user = useUserStore()
     let { userData } = storeToRefs(user)
     let favoritePapers = ref([] as Paper[])
@@ -65,9 +66,12 @@ export default defineComponent({
     let currentPage = ref(1)
     let sortedBy = ref('')
     let sortDescending = ref(false)
-    let selector = ref(undefined as ((p: Paper) => any) | undefined)
+    let selector = ref(undefined as ((p: Paper) => string) | undefined)
 
-    let sortBy = (column: string, newSelector: (p: Paper) => any) => {
+    let sortBy = (
+      column: string,
+      newSelector: ((p: Paper) => string) | undefined
+    ) => {
       if (sortedBy.value == column) {
         sortDescending.value = !sortDescending.value
       } else {
@@ -75,8 +79,9 @@ export default defineComponent({
         sortDescending.value = false
       }
 
-      selector.value = newSelector
-
+      if (newSelector) {
+        selector.value = newSelector
+      }
       currentPage.value = 1
     }
 
@@ -114,14 +119,14 @@ export default defineComponent({
     }
   },
   computed: {
-    sortedPapers (): Paper[] {
+    sortedPapers(): Paper[] {
       const sorted = [...(this.favoritePapers ?? [])]
 
       let select = (p: Paper) => {
         if (this.selector) {
           return this.selector(p)
         } else {
-          return (p as any)[this.sortedBy]
+          return (p as IIndexable)[this.sortedBy]
         }
       }
 

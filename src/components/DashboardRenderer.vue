@@ -1,5 +1,5 @@
 <template>
-  <div :class="template.id">
+  <div v-if="template" :class="template.id">
     <div v-if="template.title" class="text-gray-800 font-bold text-xl">
       {{ template.title }}
     </div>

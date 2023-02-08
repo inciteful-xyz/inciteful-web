@@ -35,6 +35,7 @@ import api from '../utils/api'
 import Sql from '../utils/sql'
 import { PaperID } from '@/types/incitefulTypes'
 import { graphLoadedHelper } from '@/utils/emitHelpers'
+import { QueryResults } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'SqlView',
@@ -50,18 +51,18 @@ export default defineComponent({
     emptyMessage: String
   },
   emits: ['results'],
-  data () {
+  data() {
     return {
-      results: [] as any[][],
+      results: [] as QueryResults,
       errorMsg: undefined as string | undefined,
       loading: true
     }
   },
-  created (): void {
+  created(): void {
     this.runSQL()
   },
   computed: {
-    filters (): Record<string, string | undefined> {
+    filters(): Record<string, string | undefined> {
       return {
         keywords: this.$route.query.keywords?.toString(),
         maxYear: this.$route.query.maxYear?.toString(),
@@ -70,24 +71,24 @@ export default defineComponent({
         minDistance: this.$route.query.minDistance?.toString()
       }
     },
-    filteredSql (): string {
+    filteredSql(): string {
       return Sql.addFilters(this.sql ?? '', this.filters)
     }
   },
   watch: {
-    ids (val, oldVal) {
+    ids(val, oldVal) {
       if (val !== oldVal) {
         this.runSQL()
       }
     },
-    filteredSql (val, oldVal) {
+    filteredSql(val, oldVal) {
       if (val !== oldVal) {
         this.runSQL()
       }
     }
   },
   methods: {
-    runSQL (): void {
+    runSQL(): void {
       if (this.ids && this.filteredSql) {
         this.errorMsg = undefined
         this.loading = true

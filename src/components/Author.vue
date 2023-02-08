@@ -2,7 +2,7 @@
   <button
     v-on:click="showModal(author)"
     :title="author?.institution?.name"
-    class="hover:underline"
+    :class="['hover:underline'].concat(authorClass ? authorClass : [])"
   >
     {{ author?.name }}
     <span v-if="showAffiliation">({{ author?.institution?.name }})</span>
@@ -20,7 +20,8 @@ export default defineComponent({
   props: {
     showAffiliation: { type: Boolean, default: false },
     author: {} as PropType<Author>,
-    ids: {} as PropType<Array<PaperID>>
+    ids: {} as PropType<Array<PaperID>>,
+    authorClass: {} as PropType<string[]>
   },
   methods: {
     showModal(author: Author | undefined) {
