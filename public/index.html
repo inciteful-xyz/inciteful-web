@@ -3,24 +3,32 @@
 
 <head>
   <meta charset="utf-8">
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-M3VMJVC');</script>
-  <!-- End Google Tag Manager -->
-  <meta name="description" content="Using citations to find the most relevant literature" />
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title>
-    <%= htmlWebpackPlugin.options.title %>
-  </title>
+  <% if (process.env.NODE_ENV==='production' ) { %>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-M3VMJVC');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Umami only for production -->
+    <script async defer data-website-id="05492db5-ef18-4c90-b085-92016ea8915f"
+      src="https://data.inciteful.xyz/data.js"></script>
+    <!-- End Umami -->
+    <% } %>
+
+
+      <meta name="description" content="Using citations to find the most relevant literature" />
+      <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+      <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+      <title>
+        <%= htmlWebpackPlugin.options.title %>
+      </title>
 </head>
 
 <body id="body" class="bg-white text-gray-600">
@@ -30,3 +38,5 @@
   </noscript>
   <div id="app"></div>
 </body>
+
+</html>
