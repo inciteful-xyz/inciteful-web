@@ -194,15 +194,22 @@ function queryGraphMulti(
 function queryGraph(ids: Array<PaperID>, sql: string): Promise<QueryResults> {
   const prune = options.getPruneLevel() || 10000
 
+  let response: Promise<QueryResults>
+
   if (Array.isArray(ids)) {
     if (ids.length === 1) {
-      return queryGraphSingle(ids[0], sql, prune)
+      response = queryGraphSingle(ids[0], sql, prune)
     } else {
-      return queryGraphMulti(ids, sql, prune)
+      response = queryGraphMulti(ids, sql, prune)
     }
   } else {
-    return queryGraphSingle(ids, sql, prune)
+    response = queryGraphSingle(ids, sql, prune)
   }
+
+  return response.catch(err => {
+    handleIncitefulErr(err)
+    return Promise.reject(err.response.data)
+  })
 }
 
 function connectPapers(

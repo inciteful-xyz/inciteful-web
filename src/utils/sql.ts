@@ -17,7 +17,7 @@ const filterMap: Record<string, any> = {
   }
 }
 
-function getSqlForKey (k: string, value: string | undefined) {
+function getSqlForKey(k: string, value: string | undefined) {
   const val = value || filterMap[k].default
 
   if (val) {
@@ -27,7 +27,7 @@ function getSqlForKey (k: string, value: string | undefined) {
   return undefined
 }
 
-function constructFilterSql (filters: Record<string, string | undefined>) {
+function constructFilterSql(filters: Record<string, string | undefined>) {
   const sqlArray = Object.keys(filterMap)
     .map((k) => getSqlForKey(k, filters[k]))
     .filter((v) => v)
@@ -35,7 +35,14 @@ function constructFilterSql (filters: Record<string, string | undefined>) {
   return sqlArray.join('\nAND ')
 }
 
-function addFilters (sql: string, filters: Record<string, string | undefined>) {
+function addFilters(sql: string, filters: Record<string, string | undefined>) {
+  while (sql.includes('{{filters}}')) {
+    sql = _addFilters(sql, filters)
+  }
+
+  return sql
+}
+function _addFilters(sql: string, filters: Record<string, string | undefined>) {
   if (!sql) {
     return sql
   }

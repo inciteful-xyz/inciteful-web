@@ -12,6 +12,7 @@ import { defineComponent, PropType } from 'vue'
 import api from '../utils/api'
 import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
+import { QueryResults } from '../types/incitefulTypes'
 
 export default defineComponent({
   name: 'SimilarGraph',
@@ -20,7 +21,7 @@ export default defineComponent({
     Loader
   },
   props: {
-    results: {} as PropType<Array<any>>,
+    results: {} as PropType<QueryResults>,
     errorMsg: String,
     sourceIds: {} as PropType<Array<PaperID>>,
     loading: {
@@ -29,7 +30,7 @@ export default defineComponent({
     },
     emptyMessage: String
   },
-  data () {
+  data() {
     return {
       internalError: '',
       papers: [] as Paper[],
@@ -37,30 +38,25 @@ export default defineComponent({
     }
   },
   computed: {
-    ids (): Array<PaperID> {
+    ids(): Array<PaperID> {
       if (this.hasPaperID() && this.results) {
-        return this.results.map(r => r.paper_id)
+        return this.results.map(r => r.paper_id as PaperID)
       }
       return []
     },
-    sourcePaperId (): PaperID | undefined {
-      if (this.sourceIds && this.sourceIds.length === 1) {
-        return this.sourceIds[0]
-      }
-      return undefined
-    },
-    graphData (): GraphData | undefined {
+    graphData(): GraphData | undefined {
       const type = 'similar'
 
       if (this.papersLoaded && !this.loading) {
         return {
           papers: this.papers,
-          sourcePaperId: this.sourcePaperId,
+          sourcePaperIds: this.sourceIds,
           type,
           modalOptions: {
-            connectTo: this.sourcePaperId
-              ? this.sourcePaperId.toString()
-              : undefined
+            connectTo:
+              this.sourceIds && this.sourceIds.length === 1
+                ? this.sourceIds[0]
+                : undefined
           }
         }
       } else {
@@ -69,7 +65,7 @@ export default defineComponent({
     }
   },
   watch: {
-    results (): void {
+    results(): void {
       if (!this.hasPaperID() && !this.loading) {
         this.internalError = 'SQL must be a list of `paper_id`s'
       } else {
@@ -83,7 +79,7 @@ export default defineComponent({
     }
   },
   methods: {
-    hasPaperID (): boolean {
+    hasPaperID(): boolean {
       return (
         (this.results &&
           this.results.length > 0 &&

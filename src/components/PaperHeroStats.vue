@@ -35,7 +35,7 @@
           <SqlView
             :view="'stat'"
             :sql="`SELECT value FROM metadata WHERE name = 'paper_count'`"
-            :ids="[id]"
+            :ids="id ? [id] : []"
         /></template>
       </stat>
       <stat>
@@ -44,7 +44,7 @@
           <SqlView
             :view="'stat'"
             :sql="`SELECT value FROM metadata WHERE name = 'citation_count'`"
-            :ids="[id]"
+            :ids="id ? [id] : []"
         /></template>
       </stat>
       <Stat>
@@ -53,7 +53,7 @@
           <SqlView
             :view="'stat'"
             :sql="`SELECT value FROM metadata WHERE name = 'graph_depth'`"
-            :ids="[id]"
+            :ids="id ? [id] : []"
           />
         </template>
       </Stat>
@@ -74,7 +74,7 @@ export default defineComponent({
     SqlView,
     Stat
   },
-  data () {
+  data() {
     return {
       oaLink: undefined,
       loading: true
@@ -90,18 +90,18 @@ export default defineComponent({
   },
   watch: {
     doi: {
-      handler (val) {
+      handler(val) {
         this.queryOA(val)
       }
     }
   },
-  created (): void {
+  created(): void {
     if (this.doi) {
       this.queryOA(this.doi)
     }
   },
   methods: {
-    queryOA (doi: string): void {
+    queryOA(doi: string): void {
       if (doi) {
         api.unpaywall(doi).then(data => {
           this.loading = false

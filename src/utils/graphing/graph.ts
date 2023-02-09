@@ -22,7 +22,7 @@ import {
 } from "@/types/graphTypes"
 import { Emitter } from 'mitt'
 import { PaperModalOptions } from "../../types/modalTypes"
-import { EmitEvents, showModalHelper } from '../emitHelpers';
+import { showModalHelper } from '../emitHelpers';
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
@@ -106,7 +106,7 @@ function createTippys(cy: Core) {
     }
   })
 }
-function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: GraphModalOptions) {
+function setupTippy(cy: Core, modalOptions: GraphModalOptions) {
   createTippys(cy)
 
   const hideAllTippies = function () {
@@ -134,7 +134,6 @@ function setupTippy(cy: Core, bus: Emitter<any>, modalOptions: GraphModalOptions
 function loadBaseGraph(
   elements: ElementDefinition[],
   container: HTMLElement,
-  bus: Emitter<any>,
   modalOptions: GraphModalOptions
 ) {
   const cy = cytoscape({
@@ -147,7 +146,7 @@ function loadBaseGraph(
     layout: { name: 'random' }
   })
 
-  setupTippy(cy, bus, modalOptions)
+  setupTippy(cy, modalOptions)
 
   return cy
 }
@@ -155,7 +154,7 @@ function loadBaseGraph(
 function loadGraph(
   graphData: GraphData,
   container: HTMLElement,
-  bus: Emitter<any>,
+  bus: Emitter<Record<string, PaperID>>,
   minDate: number,
   maxDate: number
 ) {
@@ -182,11 +181,10 @@ function loadGraph(
   const cy = loadBaseGraph(
     elements,
     container,
-    bus,
     graphData.modalOptions ?? {}
   )
 
-  const graph = new IncitefulGraph(cy, graphData.sourcePaperId)
+  const graph = new IncitefulGraph(cy, graphData.sourcePaperIds)
 
   if (contextMenuOptions) {
     const cyany = cy as any

@@ -9,7 +9,12 @@
         <div class="flex-1 lg:text-right mt-2">
           <span v-if="paper.journal" class="italic">{{ paper.journal }}</span
           ><span v-if="paper.volume">, vol {{ paper.volume }}</span
-          ><span v-if="paper.doi"> &nbsp;|&nbsp; DOI: {{ paper.doi }}</span>
+          ><span v-if="paper.doi">
+            &nbsp;|&nbsp;
+            <a :href="paper.doi" target="_blank" class="underline">{{
+              paper.doi.replace('https://doi.org/', '')
+            }}</a></span
+          >
         </div>
         <div class="flex-1 mt-2 text-gray-500 font-semibold">
           <authors

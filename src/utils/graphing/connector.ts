@@ -7,6 +7,7 @@ import {
 import { Paper } from '@/types/incitefulTypes'
 import { GraphData } from "@/types/graphTypes"
 import { Emitter } from 'mitt'
+import { PaperID } from '../../types/incitefulTypes';
 
 function buildKlayLayout() {
   return {
@@ -161,7 +162,7 @@ function buildElements(
   return elements
 }
 
-function contextMenu(bus: Emitter<any>) {
+function contextMenu(bus: Emitter<Record<string, PaperID>>) {
   return {
     // Customize event to bring up the context menu
     // Possible options https://js.cytoscape.org/#events/user-input-device-events

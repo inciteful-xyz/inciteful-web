@@ -29,6 +29,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_paper_template.json'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
 import { PaperID } from '@/types/incitefulTypes'
+import navigation from '@/navigation'
 
 export default defineComponent({
   name: 'LitReview',
@@ -41,21 +42,28 @@ export default defineComponent({
     SingleColumn,
     PaperDiscoveryEmpty
   },
-  data () {
+  data() {
     return {
       template,
       ids: undefined as undefined | PaperID[]
     }
   },
-  created () {
-    if (this.$route.query.ids !== undefined) {
+  created() {
+    const ids = this.$route.query.ids as PaperID[] | undefined
+    if (ids !== undefined) {
+      if (ids.length === 1) {
+        this.$router.push({
+          path: navigation.getPaperUrl(ids[0])
+        })
+      }
+
       this.ids = this.$route.query.ids as PaperID[]
     }
-    // @ts-ignore
+
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },
   methods: {
-    idsChanged (val: PaperID[]): void {
+    idsChanged(val: PaperID[]): void {
       this.ids = val
     }
   }

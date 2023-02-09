@@ -14,16 +14,16 @@ export interface GraphData {
     paths?: Path[];
     toId?: PaperID;
     fromId?: PaperID;
-    sourcePaperId?: PaperID;
+    sourcePaperIds?: PaperID[];
     modalOptions?: GraphModalOptions;
 }
 
 export class IncitefulGraph {
     cy: Core;
-    sourcePaperId?: PaperID;
-    constructor(cy: Core, sourcePaperId?: PaperID) {
+    sourcePaperIds?: PaperID[];
+    constructor(cy: Core, sourcePaperIds?: PaperID[]) {
         this.cy = cy;
-        this.sourcePaperId = sourcePaperId;
+        this.sourcePaperIds = sourcePaperIds;
         this.cy.on('resize', () => {
             this.centerSource();
         });
@@ -34,10 +34,11 @@ export class IncitefulGraph {
     }
 
     centerSource() {
-        if (this.cy && (this.cy.height() > 600 || !this.sourcePaperId)) {
+        const sourcePaperId = this.sourcePaperIds && this.sourcePaperIds.length == 1 ? this.sourcePaperIds[0] : undefined;
+        if (this.cy && (this.cy.height() > 600 || !sourcePaperId)) {
             this.cy.fit();
         } else {
-            const j = this.cy.$(`[id = "${this.sourcePaperId}"]`);
+            const j = this.cy.$(`[id = "${sourcePaperId}"]`);
             this.cy.reset().center(j);
         }
     }
