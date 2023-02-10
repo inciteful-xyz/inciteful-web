@@ -79,7 +79,7 @@ function searchOpenAlex(query: string): Promise<Paper[]> {
       )
       .then((res: AxiosResponse<OAPaperSearchResults>) => {
         if (res.data && res.data.results) {
-          return res.data.results.map(convertOAPaperToPaper)
+          return res.data.results.map(convertOAPaperToPaper).filter(p => p.num_cited_by > 0 || p.num_citing > 0)
         } else {
           return Promise.reject()
         }
@@ -94,7 +94,7 @@ function searchOpenAlex(query: string): Promise<Paper[]> {
 
 function convertOAPaperToPaper(p: OAPaper): Paper {
   try {
-    return {
+    const newP = {
       id: trimOAUrl(p.id),
       title: p.title || 'NA',
       author: p.authorships.map(convertOAAuthorToAuthor),
@@ -106,6 +106,10 @@ function convertOAPaperToPaper(p: OAPaper): Paper {
       pages: p.biblio.first_page + '-' + p.biblio.last_page,
       volume: p.biblio.volume,
     }
+
+    console.log(p)
+    console.log(newP)
+    return newP
   } catch (e) {
     console.log(e);
     throw e;

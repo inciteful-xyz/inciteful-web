@@ -55,7 +55,8 @@
         >
           <div class="pb-1 text-sm" v-html="result.title"></div>
           <div class="text-xs">
-            {{ result.authors }} -
+            <Authors :authors="result.author" /> ({{ result.published_year }}) -
+
             {{ format(result.num_cited_by) }}
             citations
           </div>
@@ -70,10 +71,13 @@ import { defineComponent } from 'vue'
 import api from '../utils/api'
 import numeral from 'numeral'
 import { Paper, PaperID } from '@/types/incitefulTypes'
-import { PaperAutosuggest } from '../types/incitefulTypes'
+import Authors from './Authors.vue'
 
 export default defineComponent({
   name: 'Autosuggest',
+  components: {
+    Authors
+  },
   props: {
     clearOnSelect: {
       type: Boolean,
@@ -93,7 +97,7 @@ export default defineComponent({
     return {
       query: '',
       showResults: true,
-      results: undefined as PaperAutosuggest[] | undefined,
+      results: undefined as Paper[] | undefined,
       timeout: null as number | null,
       selected: null as PaperID | null,
       highlighted: null as number | null,
@@ -104,7 +108,6 @@ export default defineComponent({
   },
   created(): void {
     this.query = this.defaultQuery
-
     if (this.defaultPaperId) {
       api.getPaper(this.defaultPaperId).then(data => {
         if (data !== undefined) {
@@ -127,17 +130,14 @@ export default defineComponent({
     query(newVal) {
       const query = newVal
       this.selectIsValid = true
-
       if (this.timeout) {
         clearTimeout(this.timeout)
       }
-
       this.timeout = setTimeout(() => {
         this.selected = null
-
-        api.autosuggestSearch(query).then(papers => {
+        api.searchOpenAlex(query).then(papers => {
           if (papers && papers.length > 0) {
-            this.results = papers
+            this.results = papers.slice(0, 10)
             this.displayResults()
           }
         })
@@ -154,7 +154,6 @@ export default defineComponent({
         } else {
           this.highlighted = this.highlighted - 1
         }
-
         if (this.highlighted < 0) {
           this.highlighted = this.results.length
         } else {
