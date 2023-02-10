@@ -4,7 +4,8 @@ import { ElementDefinition, EdgeSingular, EdgeDataDefinition } from 'cytoscape'
 
 
 function edgeLength(edge: EdgeSingular): number {
-  return 75 / Math.pow(0.2 + edge.data('weight'), 2)
+  const len = 75 / Math.pow(0.2 + edge.data('weight'), 2)
+  return len > 500 ? 500 : len
 }
 
 function countIntersection(a: PaperID[], b: PaperID[]): number {
@@ -204,10 +205,11 @@ function buildElements(graphData: GraphData, minDate: number, maxDate: number) {
   const avgWeight = edges.reduce((a, b) => a + b.weight, 0) / edges.length
 
   edges.forEach(e => {
-    e.weight = e.weight / avgWeight
     e.color = `hsla(0, 0%, 13%, ${e.weight})`
     e.opacity = e.weight + 0.08
     e.opacity = e.opacity > 1 ? 1 : e.opacity
+
+    e.weight = e.weight / avgWeight
 
     elements.push({
       data: e
