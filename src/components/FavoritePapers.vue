@@ -135,7 +135,6 @@ export default defineComponent({
         this.favoritePapers &&
         this.favoritePapers.length > 0
       ) {
-        console.log('sorting papers: ' + this.sortedBy)
         sorted.sort((a, b) => {
           if (select(b) > select(a)) {
             return this.sortDescending ? 1 : -1

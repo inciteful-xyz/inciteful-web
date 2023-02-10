@@ -93,7 +93,6 @@ function searchOpenAlex(query: string): Promise<Paper[]> {
 }
 
 function convertOAPaperToPaper(p: OAPaper): Paper {
-  console.log(p);
   try {
     return {
       id: trimOAUrl(p.id),
@@ -148,9 +147,7 @@ function searchOAAutocomplete(query: string): Promise<PaperAutosuggest[]> {
 }
 
 function trimOAUrl(url: string): string {
-  const res = url.replace("https://openalex.org/", '')
-  console.log(res);
-  return res;
+  return url.replace("https://openalex.org/", '')
 }
 
 function convertOAAutocomplete(p: OAAutosuggestResult): PaperAutosuggest {

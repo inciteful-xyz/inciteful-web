@@ -178,7 +178,6 @@ export default defineComponent({
       }
     },
     removePaper(removeId: PaperID): void {
-      console.log('remove paper', removeId)
       this.$emit('remove-paper', removeId)
     },
     togglePaperView(): void {

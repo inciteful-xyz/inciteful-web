@@ -106,7 +106,6 @@ export default defineComponent({
       }
     },
     removePaper(removeId: PaperID): void {
-      console.log('remove paper', event)
       if (this.papers === undefined) return
 
       const ids = this.papers

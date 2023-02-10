@@ -102,7 +102,6 @@ export default defineComponent({
             this.$emit('results', this.results)
           })
           .catch(error => {
-            console.log(error)
             this.errorMsg = error
           })
       }

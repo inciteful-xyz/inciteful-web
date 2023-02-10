@@ -120,8 +120,6 @@ export const useUserStore = defineStore({
         async addFavorites(ids: PaperID[]) {
             this.awaitUserDataLoad(async () => {
                 if (this.userDataDoc) {
-                    console.log(this.userDataDoc)
-                    console.log(this.userDataDoc.ref)
                     await updateDoc(this.userDataDoc.ref, {
                         favoritePapers: arrayUnion(...ids)
                     });

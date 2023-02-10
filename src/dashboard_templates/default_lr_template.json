@@ -3,7 +3,7 @@
   "content": [
     {
       "id": "similar-paper-graph",
-      "sql": "WITH similar AS (SELECT paper_id, distance FROM papers p WHERE {{filters}} ORDER BY adamic_adar + COALESCE(cocite, 0) DESC LIMIT 44),\n    important AS (SELECT paper_id, distance FROM papers p WHERE {{filters}} ORDER BY page_rank DESC LIMIT 5)\nSELECT paper_id, distance\nFROM (\n    SELECT paper_id, distance FROM similar\n    UNION\n    SELECT paper_id, distance FROM important\n)",
+      "sql": "SELECT paper_id, distance FROM papers p WHERE {{filters}} ORDER BY adamic_adar + COALESCE(cocite, 0) DESC LIMIT 25",
       "type": "graph"
     },
     {

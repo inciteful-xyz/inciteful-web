@@ -1,11 +1,10 @@
 import { Paper, PaperID } from '../../types/incitefulTypes'
 import { GraphData } from "../../types/graphTypes"
 import { ElementDefinition, EdgeSingular, EdgeDataDefinition } from 'cytoscape'
-import graph from './graph'
-import { arrayRemove } from 'firebase/firestore';
+
 
 function edgeLength(edge: EdgeSingular): number {
-  return 15 / Math.pow(0.2 + edge.data('weight'), 2)
+  return 75 / Math.pow(0.2 + edge.data('weight'), 2)
 }
 
 function countIntersection(a: PaperID[], b: PaperID[]): number {
@@ -30,8 +29,10 @@ function countIntersection(a: PaperID[], b: PaperID[]): number {
 }
 
 function coupling(p: Paper, p2: Paper): number {
-  // let maxLength = Math.max(p.citing.length, p2.citing.length);
-  const denom = Math.sqrt(p.citing!.length * p2.citing!.length)
+  // Hub Supressed
+  // const denom = Math.max(p.citing!.length, p2.citing!.length);
+  // Salton Similarity
+  const denom = Math.sqrt(p.citing!.length * p2.citing!.length);
 
   if (denom === 0) {
     return 0
@@ -144,35 +145,32 @@ function buildElements(graphData: GraphData, minDate: number, maxDate: number) {
   let edges: EdgeDataDefinition[] = []
   possibleEdges.sort((a, b) => b.score - a.score)
 
-  const topPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.005)].score
-  const minPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.01)].score
+  const topPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.02)].score
+  const medPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.05)].score
+  const minPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.10)].score
 
-  console.log('Top percentile: ', topPercentile)
-  console.log('Min percentile: ', minPercentile)
-  console.log('Possible edges: ', possibleEdges.length)
-
-  // const sourcePaperId = graphData.sourcePaperIds && graphData.sourcePaperIds.length > 0 ? graphData.sourcePaperIds[0] : undefined
+  const sourcePaperId = graphData.sourcePaperIds && graphData.sourcePaperIds.length > 0 ? graphData.sourcePaperIds[0] : undefined
 
   possibleEdges.forEach(e => {
     if (
       (
         edgeCounts[e.source] < 3
         && edgeCounts[e.destination] < 3
-        && e.score > minPercentile
+        && e.score > medPercentile
       )
       || (
         e.score > topPercentile
         && edgeCounts[e.source] < 5
         && edgeCounts[e.destination] < 5
       )
-      // || (
-      //   e.score > fiftiethPercentile
-      //   && (
-      //     e.source === sourcePaperId
-      //     || e.destination === sourcePaperId
-      //   )
-      //   && edgeCounts[sourcePaperId ?? 'NA'] < 6
-      // )
+      || (
+        e.score > minPercentile
+        && (
+          e.source === sourcePaperId
+          || e.destination === sourcePaperId
+        )
+        && edgeCounts[sourcePaperId ?? 'NA'] < 4
+      )
       || (
         edgeCounts[e.source] < 5
         && edgeCounts[e.destination] < 1
@@ -199,13 +197,14 @@ function buildElements(graphData: GraphData, minDate: number, maxDate: number) {
 
   edges = connectDisconnectedComponents(edges, possibleEdges)
 
-  console.log('Edges Added: ', edges.length)
-
   const maxScore = Math.max(...edges.map(e => e.score))
   const minScore = Math.min(...edges.map(e => e.score))
 
+  edges.forEach(e => e.weight = 0.01 + (e.score - minScore) / maxScore)
+  const avgWeight = edges.reduce((a, b) => a + b.weight, 0) / edges.length
+
   edges.forEach(e => {
-    e.weight = 0.01 + (e.score - minScore) / maxScore
+    e.weight = e.weight / avgWeight
     e.color = `hsla(0, 0%, 13%, ${e.weight})`
     e.opacity = e.weight + 0.08
     e.opacity = e.opacity > 1 ? 1 : e.opacity
@@ -219,13 +218,8 @@ function buildElements(graphData: GraphData, minDate: number, maxDate: number) {
 }
 
 function connectDisconnectedComponents(elements: EdgeDataDefinition[], possibleEdges: Edge[]): EdgeDataDefinition[] {
-  console.log('Elements: ', elements.length)
-  console.log('Possible Edges: ', possibleEdges.length)
   const components = findDisconnectedComponents(elements)
-  console.log('Components: ', components.length)
   const newEdges = findConnectingEdges(components, possibleEdges);
-  console.log('New Edges: ', newEdges.length)
-
   return elements.concat(newEdges)
 }
 
@@ -240,7 +234,6 @@ function findConnectingEdges(components: Set<PaperID>[], possibleEdges: Edge[]):
 
     for (let j = 0; j < components.length; j++) {
       for (let k = j + 1; k < components.length; k++) {
-        console.log('Checking k: ', k)
         if (components[j].has(e.source) && components[k].has(e.destination)) {
           found = true
           sourceComponent = j
@@ -251,7 +244,6 @@ function findConnectingEdges(components: Set<PaperID>[], possibleEdges: Edge[]):
     }
 
     if (found) {
-      console.log('Found: ', e)
       edges.push({
         id: `${e.source}-${e.destination}`,
         source: e.source.toString(),
@@ -259,13 +251,8 @@ function findConnectingEdges(components: Set<PaperID>[], possibleEdges: Edge[]):
         score: e.score
       })
 
-      console.log('Pre Delete Components: ', components.length)
       components[sourceComponent] = new Set([...components[sourceComponent], ...components[destinationComponent]])
-
-      //delete components[destinationComponent]
       components = components.filter((_, i) => i !== destinationComponent)
-
-      console.log('After Delete Components: ', components.length)
     }
 
     if (components.length === 1) {
@@ -296,15 +283,12 @@ function findDisconnectedComponents(elements: EdgeDataDefinition[]): Set<PaperID
     }
   });
 
-  console.log('Found Components: ', components.length)
-
   return mergeComponents(components)
 }
 
 function mergeComponents(components: Set<PaperID>[]): Set<PaperID>[] {
   const mergedComponents: Set<PaperID>[] = []
   const mergedComponentIndices: number[] = []
-  console.log('Merging Components: ', components.length)
 
   for (let i = 0; i < components.length; i++) {
     if (mergedComponentIndices.includes(i)) {
@@ -323,7 +307,6 @@ function mergeComponents(components: Set<PaperID>[]): Set<PaperID>[] {
     mergedComponents.push(newComponent)
   }
 
-  console.log('After Merged Components: ', mergedComponents.length)
   if (mergedComponents.length === components.length)
     return components
   else

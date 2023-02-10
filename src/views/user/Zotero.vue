@@ -145,8 +145,6 @@ export default defineComponent({
     }
 
     if (id) {
-      console.log('Found ID', id)
-
       api
         .getZoteroAuth(id)
         .then(token => {
