@@ -6,6 +6,7 @@ import { Paper, Author, PaperConnector, PaperID, PaperAutosuggest, paperIntoPape
 import { OAAutosuggestResult } from '@/types/openAlexTypes';
 import { ZoteroToken } from '../types/zoteroTypes';
 import { OAPaper, OAAuthorship, OAPaperSearchResults, OAAutosuggestResponse } from '../types/openAlexTypes';
+import { urlEncode } from '@sentry/utils';
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10
@@ -58,7 +59,7 @@ function buildIDParams(ids: string[]) {
   if (ids && ids.length > 0)
     ids.forEach(x => id_set.add(x));
 
-  const idParams = Array.from(id_set).map(id => `${idParamName}=${id}`).join('&');
+  const idParams = Array.from(id_set).map(id => `${idParamName}=${encodeURIComponent(id)}`).join('&');
   return idParams;
 }
 
