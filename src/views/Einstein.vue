@@ -127,7 +127,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import BetaSignup from '../components/BetaSignup.vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import FaqComp from '../components/Faq.vue'
@@ -143,7 +143,7 @@ export default defineComponent({
     FaqComp,
     SingleColumn
   },
-  data () {
+  data() {
     return {
       toParam: null as string | null,
       to: undefined as Paper | undefined,
@@ -173,25 +173,25 @@ export default defineComponent({
       ]
     }
   },
-  created () {
+  created() {
     this.toParam = this.$route.query.to as string | null
     api.getPaper('208883929').then(paper => (this.from = paper))
   },
   computed: {
-    twitterLink (): string {
+    twitterLink(): string {
       const text = `My paper is only ${this.minHops} degrees away from Einstein: ${window.location}\n\nFind out how your paper is connected using @inciteful_xyz: https://inciteful.xyz/einstein\n\n#sixdegreesofeinstein`
 
       return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
     },
-    toolUrl (): string {
+    toolUrl(): string {
       return '/c' + (this.to ? '?from=' + this.to.id : '')
     }
   },
   methods: {
-    setMinHops (hopNum: number): void {
+    setMinHops(hopNum: number): void {
       this.minHops = hopNum
     },
-    handleToSelect (paper: Paper, newParam: boolean): void {
+    handleToSelect(paper: Paper, newParam: boolean): void {
       if (paper) {
         this.to = paper
       }

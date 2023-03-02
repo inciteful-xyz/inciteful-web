@@ -12,7 +12,7 @@
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
 import { PaperModalOptions } from '@/types/modalTypes'
-import { EmitEvents, showModalHelper } from '@/utils/emitHelpers'
+import { showModalHelper } from '@/utils/emitHelpers'
 import { defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'PaperModalButton',
@@ -23,13 +23,13 @@ export default defineComponent({
     text: {} as PropType<string>,
     class: {} as PropType<string[]>
   },
-  data () {
+  data() {
     return {
       isSubmitted: false
     }
   },
   methods: {
-    showModal (): void {
+    showModal(): void {
       if (this.id) {
         const options: PaperModalOptions = {
           paperId: this.id,
@@ -48,7 +48,7 @@ export default defineComponent({
     }
   },
   computed: {
-    isHidden (): boolean {
+    isHidden(): boolean {
       return !this.id
     }
   }

@@ -9,7 +9,7 @@
 import { GraphData } from '@/types/graphTypes'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
 import { QueryResults } from '../types/incitefulTypes'

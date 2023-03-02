@@ -68,10 +68,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import numeral from 'numeral'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import Authors from './Authors.vue'
+import { searchOpenAlex } from '../utils/openalexApi'
 
 export default defineComponent({
   name: 'Autosuggest',
@@ -135,7 +136,7 @@ export default defineComponent({
       }
       this.timeout = setTimeout(() => {
         this.selected = null
-        api.searchOpenAlex(query).then(papers => {
+        searchOpenAlex(query).then(papers => {
           if (papers && papers.length > 0) {
             this.results = papers.slice(0, 10)
             this.displayResults()

@@ -1,12 +1,14 @@
 
 import { defineStore } from 'pinia'
-import { updateDoc, DocumentSnapshot, deleteDoc, setDoc, doc, onSnapshot } from 'firebase/firestore';
+import { updateDoc, DocumentSnapshot, deleteDoc, setDoc, doc, onSnapshot, Timestamp } from 'firebase/firestore';
 import { zoteroDataCol } from '@/plugins/firebase'
 import { ZoteroData, ZoteroToken } from '@/types/zoteroTypes';
 import zoteroApi from '@/utils/zoteroApi'
-import { ZoteroKey, ZoteroCollectionNode, NestedZoteroCollection, ZoteroCollection } from '../types/zoteroTypes';
+import zoteroSync from '@/utils/zoteroSync'
+import incitefulApi from '@/utils/incitefulApi';
+import { ZoteroKey, ZoteroCollectionNode, NestedZoteroCollection, ZoteroCollection, ZoteroCollectionSync } from '../types/zoteroTypes';
 import { useUserStore } from './userStore';
-import { PaperCollection } from '../types/userTypes';
+import { IncitefulCollection } from '../types/userTypes';
 import { usePaperCollectionStore } from './paperCollectionStore';
 
 export const useZoteroStore = defineStore({
@@ -15,7 +17,6 @@ export const useZoteroStore = defineStore({
         return {
             paperCollectionStore: usePaperCollectionStore(),
             zoteroDataDoc: undefined as DocumentSnapshot<ZoteroData> | undefined,
-
         }
     },
     actions: {
@@ -25,11 +26,11 @@ export const useZoteroStore = defineStore({
                     this.zoteroDataDoc = document
                 });
 
-                this.syncCollectionList()
+                this.syncZotero()
+
                 // Force Zotero background sync
                 const interval = setInterval(() => {
-                    this.syncCollectionList()
-                    console.log("syncing zotero")
+                    this.syncZotero()
                 }, 30000)
 
                 return (() => {
@@ -59,44 +60,80 @@ export const useZoteroStore = defineStore({
 
             deleteDoc(this.zoteroDataDoc.ref)
         },
-        async syncCollectionList() {
+        async syncZotero() {
             if (!this.data?.token) return
 
-            this.syncCollectionListWithToken(this.data?.token)
+            console.log("Syncing Zotero")
+            // Sync Collections First
+            this.syncCollectionList(this.data?.token)
+            // Then sync all synced collections 
+
         },
-        async syncCollectionListWithToken(token: ZoteroToken) {
+        async syncCollectionToInciteful(incitefulCollectionId: string, sync: ZoteroCollectionSync) {
+            if (this.data === undefined) return
+
+            // Get current zotero collection data
+            const zoteroCollection = await zoteroApi.getItems(this.data.token, sync.key)
+            if (zoteroCollection === undefined) return;
+
+            // Get the list of IDs to try and match
+            const idsToMatch = zoteroSync.getIdentifiers(zoteroCollection)
+            // Match IDs using API. 
+            const matched = await incitefulApi.zoteroIdMatch(idsToMatch)
+
+            // Get current inciteful collection data
+            const incitefulPapers = this.paperCollectionStore.getPaperCollection(incitefulCollectionId)?.papers;
+            if (incitefulPapers === undefined) return;
+
+
+
+        },
+        async syncCollectionList(token: ZoteroToken) {
             if (!this.zoteroDataDoc) return
+
             const ref = this.zoteroDataDoc.ref
-            zoteroApi.getCollections(token).then((collections: ZoteroCollection[]) => {
-                updateDoc(ref, {
-                    collections
-                })
+
+            zoteroApi.getCollections(token).then((collections: ZoteroCollection[] | undefined) => {
+                if (collections !== undefined) {
+                    updateDoc(ref, {
+                        collections
+                    })
+                }
             })
         },
         async setCollectionSync(incitefulCollectionId: string, key: ZoteroKey) {
             console.log('setCollectionSync: ' + incitefulCollectionId + ' ' + key)
-            if (!this.zoteroDataDoc) return
-            const syncedCollections = this.data?.syncedCollections || {}
+            if (!this.zoteroDataDoc || !this.data) return
+            const syncedCollections = this.data.syncedCollections || {}
 
             const collection = this.getSyncedByZoteroKey(key)
 
             //A Zotero Collection can only be synced to one inciteful collection
             if (collection?.id) delete syncedCollections[collection.id]
 
-            syncedCollections[incitefulCollectionId] = key
+            syncedCollections[incitefulCollectionId] = {
+                key: key,
+                dateUpdated: Timestamp.now(),
+                dateCreated: Timestamp.now(),
+                itemSyncStatus: {}
+            };
 
 
-            updateDoc(this.zoteroDataDoc.ref, {
-                syncedCollections
+            setDoc(this.zoteroDataDoc.ref, {
+                collections: this.data?.collections,
+                syncedCollections,
+                token: this.data?.token
             })
 
         },
         async clearSyncByIncitefulKey(incitefulCollectionId: string) {
-            if (!this.zoteroDataDoc || !this.data?.syncedCollections) return
+            if (!this.zoteroDataDoc || !this.data || !this.data.syncedCollections) return
             delete this.data.syncedCollections[incitefulCollectionId]
 
-            updateDoc(this.zoteroDataDoc.ref, {
-                syncedCollections: this.data.syncedCollections
+            setDoc(this.zoteroDataDoc.ref, {
+                token: this.data.token,
+                syncedCollections: this.data.syncedCollections,
+                collections: this.data.collections
             })
         },
         async clearSyncByZoteroKey(key: ZoteroKey) {
@@ -105,10 +142,16 @@ export const useZoteroStore = defineStore({
             this.clearSyncByIncitefulKey(collection.id)
         },
         async createCollection(name: string, onSuccess: (collection: ZoteroCollection) => void) {
-            const result = await zoteroApi.createCollection(name, this.data?.token)
-            await this.syncCollectionList()
-            if (result) {
-                onSuccess(result)
+            const token = this.data?.token;
+
+            if (token) {
+                const result = await zoteroApi.createCollection(name, token)
+
+                await this.syncCollectionList(token)
+
+                if (result) {
+                    onSuccess(result)
+                }
             }
         }
     },
@@ -159,11 +202,11 @@ export const useZoteroStore = defineStore({
                 return collections.find(c => c.key === zoteroKey)
             }
         },
-        getSyncedByZoteroKey(): (zoteroKey: ZoteroKey) => PaperCollection | undefined {
+        getSyncedByZoteroKey(): (zoteroKey: ZoteroKey) => IncitefulCollection | undefined {
             return (zoteroKey: ZoteroKey) => {
                 const sc = this.data?.syncedCollections
                 if (!sc) return undefined
-                const incitefulCollectionKey = Object.keys(sc).find(key => sc[key] === zoteroKey)
+                const incitefulCollectionKey = Object.keys(sc).find(key => sc[key].key === zoteroKey)
 
                 if (!incitefulCollectionKey) return undefined
 
@@ -179,7 +222,7 @@ export const useZoteroStore = defineStore({
             return (id: string) => {
                 const sc = this.data?.syncedCollections
                 if (!sc) return undefined
-                const zoteroKey = sc[id]
+                const zoteroKey = sc[id].key
 
                 return this.getZoteroCollection(zoteroKey)
             }

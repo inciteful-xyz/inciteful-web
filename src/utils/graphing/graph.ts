@@ -23,6 +23,7 @@ import {
 import { Emitter } from 'mitt'
 import { PaperModalOptions } from "../../types/modalTypes"
 import { showModalHelper } from '../emitHelpers';
+import { IIndexable } from '../../types/incitefulTypes';
 
 cytoscape.use(popper)
 cytoscape.use(fcose)
@@ -187,7 +188,7 @@ function loadGraph(
   const graph = new IncitefulGraph(cy, graphData.sourcePaperIds)
 
   if (contextMenuOptions) {
-    const cyany = cy as any
+    const cyany = cy as IIndexable
     cyany.contextMenus(contextMenuOptions)
   }
 

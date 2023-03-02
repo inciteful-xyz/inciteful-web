@@ -6,7 +6,7 @@ export function logError(err: AxiosError) {
   Sentry.captureException(err)
 }
 
-export function logInfo(message: string, obj: any) {
+export function logInfo(message: string, obj: unknown) {
   Sentry.withScope(scope => {
     Sentry.setExtra('obj', obj)
     Sentry.captureMessage(message, scope)

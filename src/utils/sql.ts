@@ -1,4 +1,9 @@
-const filterMap: Record<string, any> = {
+interface SqlFilter {
+  sql: string,
+  default?: number | undefined
+}
+
+const filterMap: Record<string, SqlFilter> = {
   minYear: {
     sql: 'p.published_year >= {}'
   },
@@ -20,8 +25,8 @@ const filterMap: Record<string, any> = {
 function getSqlForKey(k: string, value: string | undefined) {
   const val = value || filterMap[k].default
 
-  if (val) {
-    return filterMap[k].sql.replace('{}', val)
+  if (val != undefined) {
+    return filterMap[k].sql.replace('{}', val.toString())
   }
 
   return undefined

@@ -215,7 +215,7 @@ export default defineComponent({
   },
   data() {
     return {
-      editor: undefined as any,
+      editor: undefined as CodeJar | undefined,
       dashSql: undefined as string | undefined,
       returnUrl: undefined as undefined | string
     }
@@ -243,10 +243,10 @@ export default defineComponent({
   },
   methods: {
     getCode(): string {
-      return this.editor.toString()
+      return this.editor !== undefined ? this.editor.toString() : ''
     },
     setCode(code: string): void {
-      this.editor.updateCode(code)
+      if (this.editor) this.editor.updateCode(code)
     },
     runCodeClick(): void {
       this.$router.push({

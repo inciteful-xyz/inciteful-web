@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import PaperList from './PaperList.vue'
 
 import { ExclamationIcon } from '@heroicons/vue/outline'

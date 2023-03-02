@@ -65,6 +65,7 @@ export default defineComponent({
     handleSubmit () {
       axios
         .create({
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           transformRequest: [(data, _headers) => JSON.stringify(data)]
         })
         .post('https://hooks.zapier.com/hooks/catch/3747051/olkz0jl/silent/', {

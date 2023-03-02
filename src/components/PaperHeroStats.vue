@@ -64,9 +64,10 @@
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
-import api from '../utils/api'
+
 import SqlView from './SqlView.vue'
 import Stat from './Stat.vue'
+import { unpaywall } from '../utils/unpaywallApi'
 
 export default defineComponent({
   name: 'PaperHeroStats',
@@ -103,7 +104,7 @@ export default defineComponent({
   methods: {
     queryOA(doi: string): void {
       if (doi) {
-        api.unpaywall(doi).then(data => {
+        unpaywall(doi).then(data => {
           this.loading = false
           if (data && data.best_oa_location) {
             this.oaLink = data.best_oa_location.url

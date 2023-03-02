@@ -69,9 +69,8 @@
 import { defineComponent, PropType, ref } from 'vue'
 import { SyncIncitefulCollectionAction } from '@/types/modalTypes'
 import { useZoteroStore } from '@/stores/zoteroStore'
-import { ZoteroCollection, ZoteroKey } from '@/types/zoteroTypes'
+import { ZoteroCollection } from '@/types/zoteroTypes'
 import { showNotificationHelper } from '@/utils/emitHelpers'
-import { PaperCollection } from '@/types/userTypes'
 
 export default defineComponent({
   name: 'SyncCollectionModal',
@@ -79,7 +78,7 @@ export default defineComponent({
     action: Object() as PropType<SyncIncitefulCollectionAction>
   },
   emits: ['back'],
-  data () {
+  data() {
     let newCollectionName = ref('')
     let zotero = useZoteroStore()
 

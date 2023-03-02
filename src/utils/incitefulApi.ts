@@ -2,11 +2,9 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
-import { Paper, Author, PaperConnector, PaperID, PaperAutosuggest, paperIntoPaperAutosuggest, QueryResults } from '../types/incitefulTypes';
-import { OAAutosuggestResult } from '@/types/openAlexTypes';
-import { ZoteroToken } from '../types/zoteroTypes';
-import { OAPaper, OAAuthorship, OAPaperSearchResults, OAAutosuggestResponse } from '../types/openAlexTypes';
-import { urlEncode } from '@sentry/utils';
+import { Paper, PaperConnector, PaperID, PaperAutosuggest, paperIntoPaperAutosuggest, QueryResults } from '../types/incitefulTypes';
+import { ZoteroToken, ZoteroIdMatch, ZoteroKey } from '../types/zoteroTypes';
+import { searchOAAutocomplete } from './openalexApi';
 
 const MAX_INCITEFUL_REQUESTS = 100
 const INTERVAL_MS = 10
@@ -45,12 +43,6 @@ function handleIncitefulErr(err: AxiosError) {
   logError(err)
 }
 
-function handleServiceErr(err: AxiosError) {
-  if (err && err.response && err.response.status !== 404) {
-    logError(err)
-  }
-}
-
 function buildIDParams(ids: string[]) {
   const idParamName = 'ids[]'
 
@@ -72,97 +64,6 @@ function fixPaperIDs(p: Paper[]): Paper[] {
   return p.map(p => fixPaperID(p))
 }
 
-function searchOpenAlex(query: string): Promise<Paper[]> {
-  if (query) {
-    return axios
-      .get(
-        `https://api.openalex.org/works?search=${encodeURIComponent(query)}&mailto=info@inciteful.xyz`
-      )
-      .then((res: AxiosResponse<OAPaperSearchResults>) => {
-        if (res.data && res.data.results) {
-          return res.data.results.map(convertOAPaperToPaper).filter(p => p.num_cited_by > 0 || p.num_citing > 0)
-        } else {
-          return Promise.reject()
-        }
-      })
-      .catch(err => {
-        handleServiceErr(err)
-        return Promise.reject()
-      })
-  }
-  return Promise.resolve([])
-}
-
-function convertOAPaperToPaper(p: OAPaper): Paper {
-  try {
-    const newP = {
-      id: trimOAUrl(p.id),
-      title: p.title || 'NA',
-      author: p.authorships.map(convertOAAuthorToAuthor),
-      published_year: p.publication_year || 1900,
-      journal: p.host_venue.display_name,
-      num_cited_by: p.cited_by_count,
-      num_citing: p.referenced_works.length,
-      doi: p.doi,
-      pages: p.biblio.first_page + '-' + p.biblio.last_page,
-      volume: p.biblio.volume,
-    }
-
-    console.log(p)
-    console.log(newP)
-    return newP
-  } catch (e) {
-    console.log(e);
-    throw e;
-  }
-}
-
-function convertOAAuthorToAuthor(a: OAAuthorship, index: number): Author {
-  return {
-    author_id: parseInt(trimOAUrl(a.author.id).slice(1)),
-    name: a.author.display_name,
-    institution: !a.institutions || a.institutions.length == 0 ? undefined : {
-      id: !a.institutions[0].id ? undefined : parseInt(trimOAUrl(a.institutions[0].id).slice(1)),
-      name: a.institutions[0].display_name,
-    },
-    sequence: index,
-  }
-}
-
-
-function searchOAAutocomplete(query: string): Promise<PaperAutosuggest[]> {
-  if (query) {
-    return axios
-      .get(
-        `https://api.openalex.org/autocomplete/works?q=${encodeURIComponent(query)}&mailto=info@inciteful.xyz`
-      )
-      .then((res: AxiosResponse<OAAutosuggestResponse>) => {
-        if (res.data && res.data.results && res.data.results.length > 0) {
-          return res.data.results.map(convertOAAutocomplete)
-        } else {
-          return Promise.reject()
-        }
-      })
-      .catch(err => {
-        handleServiceErr(err)
-        return Promise.reject()
-      })
-  }
-  return Promise.resolve([])
-}
-
-function trimOAUrl(url: string): string {
-  return url.replace("https://openalex.org/", '')
-}
-
-function convertOAAutocomplete(p: OAAutosuggestResult): PaperAutosuggest {
-  return {
-    id: trimOAUrl(p.id),
-    title: p.display_name,
-    authors: p.hint,
-    num_cited_by: p.cited_by_count,
-  };
-}
 // Inciteful API Calls
 
 function queryGraphSingle(
@@ -289,6 +190,16 @@ function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
     })
 }
 
+function zoteroIdMatch(idsToMatch: ZoteroIdMatch[]): Promise<Record<ZoteroKey, PaperID> | undefined> {
+  return axios
+    .post(`${API_URL}/zotero/idmatch`, idsToMatch)
+    .then((response: AxiosResponse<Record<ZoteroKey, PaperID>>) => response.data)
+    .catch(err => {
+      handleIncitefulErr(err)
+      return undefined
+    })
+}
+
 function getPaperIds(ids: Array<PaperID>): Promise<PaperID[]> {
   if (ids.length == 1) {
     return getPaper(ids[0]).then(data => {
@@ -352,7 +263,6 @@ function downloadBibFile(ids: Array<string>) {
   }
 }
 
-
 function downloadRisFile(ids: Array<string>) {
   if (ids.length > 0) {
     const idParams = buildIDParams(ids);
@@ -360,20 +270,8 @@ function downloadRisFile(ids: Array<string>) {
   }
 }
 
-function unpaywall(doi: string) {
-  return axios
-    .get(`https://api.unpaywall.org/v2/${doi}?email=info@inciteful.xyz`)
-    .then(response => response.data)
-    .catch(err => {
-      handleServiceErr(err)
-      return undefined
-    })
-}
-
 export default {
   queryGraph,
-  unpaywall,
-  searchOpenAlex,
   getPaper,
   getPapers,
   connectPapers,
@@ -382,5 +280,6 @@ export default {
   getZoteroAuth,
   autosuggestSearch,
   downloadBibFile,
-  downloadRisFile
+  downloadRisFile,
+  zoteroIdMatch
 }

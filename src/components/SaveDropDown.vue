@@ -75,13 +75,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { DocumentDownloadIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/userStore'
 import { PaperID } from '@/types/incitefulTypes'
-import api from '@/utils/api'
+import api from '@/utils/incitefulApi'
 import { CollectionModalOptions } from '@/types/modalTypes'
 import { showModalHelper } from '@/utils/emitHelpers'
 
@@ -97,7 +97,7 @@ export default defineComponent({
   props: {
     ids: {} as PropType<PaperID[]>
   },
-  setup (props) {
+  setup(props) {
     let user = useUserStore()
     const saveCollection = () => {
       if (props.ids !== undefined) {

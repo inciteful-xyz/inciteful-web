@@ -86,7 +86,7 @@
 <script lang="ts">
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import Author from './Author.vue'
 import SaveDropDown from './SaveDropDown.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'

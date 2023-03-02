@@ -76,7 +76,7 @@
 <script lang="ts">
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import { defineComponent } from 'vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import GraphSearch from './GraphSearch.vue'
 import Loader from './Loader.vue'
 import PaperSummary from './PaperSummary.vue'
@@ -104,7 +104,7 @@ export default defineComponent({
     },
     searchLabel: String
   },
-  data () {
+  data() {
     return {
       editing: false,
       paperId: undefined as PaperID | undefined,
@@ -115,33 +115,33 @@ export default defineComponent({
       defaultQuery: undefined as string | undefined
     }
   },
-  created () {
+  created() {
     this.setupPaper(this.paperParam)
   },
   computed: {},
   emits: ['paperSelected'],
   watch: {
-    currentQuery (newVal, oldVal) {
+    currentQuery(newVal, oldVal) {
       if (newVal && newVal !== oldVal) {
         this.loadPaper(newVal)
       }
     },
-    paperParam (newVal, oldVal) {
+    paperParam(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.setupPaper(newVal)
       }
     }
   },
   methods: {
-    cancelEdit () {
+    cancelEdit() {
       this.editing = false
     },
-    setEdit () {
+    setEdit() {
       this.editing = true
       this.defaultQuery = undefined
       this.currentQuery = undefined
     },
-    loadPaper (param: PaperID) {
+    loadPaper(param: PaperID) {
       if (param) {
         this.connectPaperId(param, false)
       } else {
@@ -149,15 +149,15 @@ export default defineComponent({
         this.loaded = true
       }
     },
-    paperIdsSelected (ids: PaperID[]) {
+    paperIdsSelected(ids: PaperID[]) {
       if (ids.length > 0) {
         this.connectPaperId(ids[0], true)
       }
     },
-    paperSelected (paper: Paper) {
+    paperSelected(paper: Paper) {
       this.connectPaper(paper, true)
     },
-    setupPaper (param: PaperID) {
+    setupPaper(param: PaperID) {
       if (param) {
         this.currentQuery = param
         this.defaultQuery = param
@@ -166,7 +166,7 @@ export default defineComponent({
         this.valid = false
       }
     },
-    connectPaper (paper: Paper, setParam: boolean) {
+    connectPaper(paper: Paper, setParam: boolean) {
       this.paper = paper
       const param = setParam ? paper.id : undefined
       this.$emit('paperSelected', paper, param)
@@ -174,7 +174,7 @@ export default defineComponent({
       this.loaded = true
       this.editing = false
     },
-    connectPaperId (id: PaperID, setParam: boolean) {
+    connectPaperId(id: PaperID, setParam: boolean) {
       api
         .getPaper(id)
         .then(data => {
@@ -191,7 +191,7 @@ export default defineComponent({
           this.loaded = true
         })
     },
-    handleSearched (query: string) {
+    handleSearched(query: string) {
       this.currentQuery = query
     }
   }

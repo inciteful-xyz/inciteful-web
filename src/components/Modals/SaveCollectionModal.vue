@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="action">
     <h1 class="pb-5">
       {{ action.contextIds.length }} paper{{
         action.contextIds.length > 1 ? 's' : ''
@@ -41,7 +41,10 @@ transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
 
       <div class="lg:flex-1 pl-0 ml-0 lg:pl-5 lg:ml-5 lg:border-l">
         <h2 class="mb-4">An existing collection</h2>
-        <div class="shadow-box" v-if="db.paperCollections.length > 0">
+        <div
+          class="shadow-box"
+          v-if="db.paperCollections && db.paperCollections.length > 0"
+        >
           <table class="base-table max-w-xl">
             <thead>
               <tr>
@@ -90,6 +93,7 @@ import { SaveCollectionAction } from '@/types/modalTypes'
 import { usePaperCollectionStore } from '@/stores/paperCollectionStore'
 import { PaperID } from '@/types/incitefulTypes'
 import { showNotificationHelper } from '@/utils/emitHelpers'
+import { IncitefulCollectionItemSource } from '@/types/userTypes'
 
 export default defineComponent({
   name: 'SaveCollectionModal',
@@ -97,7 +101,7 @@ export default defineComponent({
     action: Object() as PropType<SaveCollectionAction>
   },
   emits: ['back'],
-  data () {
+  data() {
     let newCollectionName = ref('')
     let numToSave = ref(this.action?.contextIds.length)
     let db = usePaperCollectionStore()
@@ -106,9 +110,16 @@ export default defineComponent({
       | PaperID[]
       | undefined => this.action?.contextIds.slice(0, numToSave.value))
 
-    let createCollection = () => {
+    let createCollection = async () => {
       if (this.newCollectionName.length > 0 && idsToSave.value) {
-        db.savePaperCollection(newCollectionName.value, idsToSave.value)
+        // Create the collection
+        await db.createPaperCollection(newCollectionName.value)
+        // Add the papers to the newly created collection
+        await db.addPapersToCollection(
+          newCollectionName.value,
+          idsToSave.value,
+          IncitefulCollectionItemSource.Inciteful
+        )
         showNotificationHelper({
           message1: `Added ${idsToSave.value.length} papers to the new collection "${this.newCollectionName}".`,
           message2: ''
@@ -116,9 +127,14 @@ export default defineComponent({
         this.$emit('back')
       }
     }
+
     let addToCollection = (id: string, name: string) => {
       if (idsToSave.value) {
-        db.addPapersToCollection(id, idsToSave.value)
+        db.addPapersToCollection(
+          id,
+          idsToSave.value,
+          IncitefulCollectionItemSource.Inciteful
+        )
         showNotificationHelper({
           message1: `Added ${idsToSave.value.length} papers to the collection "${name}".`,
           message2: ''

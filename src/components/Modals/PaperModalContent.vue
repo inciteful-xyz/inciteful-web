@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import api from '@/utils/api'
+import api from '@/utils/incitefulApi'
 import PaperHero from '../PaperHero.vue'
 import GraphView from '../GraphView.vue'
 import { Paper, PaperConnector } from '@/types/incitefulTypes'
@@ -53,7 +53,7 @@ export default defineComponent({
     PaperHero,
     GraphView
   },
-  data () {
+  data() {
     return {
       paper: undefined as Paper | undefined,
       connectingResults: undefined as PaperConnector | undefined,
@@ -64,7 +64,7 @@ export default defineComponent({
     options: Object() as PropType<PaperModalOptions>
   },
   computed: {
-    graphData (): GraphData | undefined {
+    graphData(): GraphData | undefined {
       const type = 'connector'
 
       if (this.connectingResults === undefined) {
@@ -85,7 +85,7 @@ export default defineComponent({
       }
     }
   },
-  mounted (): void {
+  mounted(): void {
     if (!this.options?.paperId) {
       this.paper = undefined
     } else {
@@ -98,7 +98,7 @@ export default defineComponent({
     }
   },
   watch: {
-    options (newVal: PaperModalOptions, oldVal: PaperModalOptions) {
+    options(newVal: PaperModalOptions, oldVal: PaperModalOptions) {
       if (newVal.paperId !== oldVal.paperId) {
         api.getPaper(newVal.paperId).then(paper => (this.paper = paper))
         if (newVal.connectTo) {
@@ -112,7 +112,7 @@ export default defineComponent({
         }
       }
     },
-    connectTo (newVal: string, oldVal: string) {
+    connectTo(newVal: string, oldVal: string) {
       if (newVal !== oldVal) {
         if (this.options?.connectTo) {
           this.connectPapers(this.options.connectTo, this.options.paperId)
@@ -124,14 +124,14 @@ export default defineComponent({
   },
   emits: ['clearModal', 'back'],
   methods: {
-    connectPapers (from: string, to: string): void {
+    connectPapers(from: string, to: string): void {
       this.loaded = false
       api.connectPapers(from, to, false).then(results => {
         this.connectingResults = results
         this.loaded = true
       })
     },
-    goToLitConnector (): void {
+    goToLitConnector(): void {
       if (this.graphData) {
         this.$router.push({
           name: 'LitConnector',
@@ -143,13 +143,13 @@ export default defineComponent({
         this.$emit('clearModal')
       }
     },
-    addToLitReview (): void {
+    addToLitReview(): void {
       if (this.options !== undefined) {
         addToLitReviewHelper(this.options.paperId)
         this.back()
       }
     },
-    goToPaper (): void {
+    goToPaper(): void {
       if (this.options !== undefined) {
         this.$router.push({
           path: navigation.getPaperUrl(this.options.paperId)
@@ -158,7 +158,7 @@ export default defineComponent({
         this.$emit('clearModal')
       }
     },
-    back (): void {
+    back(): void {
       this.$emit('back')
     }
   }

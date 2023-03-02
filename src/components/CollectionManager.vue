@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { usePaperCollectionStore } from '@/stores/paperCollectionStore'
 import { showNotificationHelper } from '@/utils/emitHelpers'
 import { useZoteroStore } from '@/stores/zoteroStore'
@@ -63,7 +63,7 @@ export default defineComponent({
   components: {
     ZoteroSyncStatus
   },
-  setup () {
+  setup() {
     let pc = usePaperCollectionStore()
     let { paperCollections } = storeToRefs(pc)
     let zotero = useZoteroStore()

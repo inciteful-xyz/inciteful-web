@@ -5,6 +5,7 @@ import { Emitter, EventType } from 'mitt';
 export type IncitefulEmitter = Emitter<Record<EventType, unknown>>
 
 export interface IIndexable {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -103,4 +104,3 @@ export interface Faq {
   question: string;
   answer: string;
 }
-

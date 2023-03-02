@@ -289,7 +289,7 @@
 import { defineComponent, PropType } from 'vue'
 import GraphView from './GraphView.vue'
 import Loader from './Loader.vue'
-import api from '@/utils/api'
+import api from '@/utils/incitefulApi'
 import Stat from './Stat.vue'
 import ConnectorTable from './ConnectorTable.vue'
 import keywordFuncs, { TermCount } from '@/utils/keywords'

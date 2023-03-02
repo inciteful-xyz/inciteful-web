@@ -111,11 +111,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import api from '../utils/api'
 import Loader from './Loader.vue'
 import LitReviewButton from './LitReviewButton.vue'
 import Authors from './Authors.vue'
 import { Paper } from '@/types/incitefulTypes'
+import { searchOpenAlex } from '../utils/openalexApi'
 
 export default defineComponent({
   name: 'SearchResults',
@@ -164,7 +164,7 @@ export default defineComponent({
     updateResults(): void {
       if (this.query) {
         this.papers = undefined
-        api.searchOpenAlex(this.query).then(data => {
+        searchOpenAlex(this.query).then(data => {
           this.papers = data
         })
       }

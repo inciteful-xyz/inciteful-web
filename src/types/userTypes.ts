@@ -11,16 +11,22 @@ export enum ItemVisibility {
     Public = "PUBLIC",
 }
 
-export interface PaperCollection {
+export interface IncitefulCollection {
     id: string | null,
     ownerId: string,
     parentID: string | null,
     visibility: ItemVisibility,
     name: string,
-    papers: CollectionPaper[]
+    papers: IncitefulCollectionItem[]
     dateCreated: Timestamp
 }
 
-export interface CollectionPaper {
-    paperId: PaperID
+export enum IncitefulCollectionItemSource {
+    Inciteful = "INCITEFUL",
+    Zotero = "ZOTERO",
+}
+export interface IncitefulCollectionItem {
+    paperId: PaperID,
+    dateAdded: Timestamp,
+    source: IncitefulCollectionItemSource,
 }

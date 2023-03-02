@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import api from '@/utils/api'
+import api from '@/utils/incitefulApi'
 import bib from '@/utils/bib'
 import Autosuggest from './Autosuggest.vue'
 import { PaperID } from '@/types/incitefulTypes'
@@ -60,7 +60,7 @@ export default defineComponent({
     }
   },
   emits: ['selected', 'searched'],
-  data () {
+  data() {
     return {
       query: '',
       results: [],
@@ -70,11 +70,11 @@ export default defineComponent({
       selectIsValid: true
     }
   },
-  created () {
+  created() {
     this.query = this.defaultQuery
   },
   methods: {
-    searchClick (): void {
+    searchClick(): void {
       // @ts-ignore
       const id = this.$refs.autosuggest.getSelectedId()
       if (id) {
@@ -98,11 +98,11 @@ export default defineComponent({
         }
       }
     },
-    uploadBib (): void {
+    uploadBib(): void {
       // @ts-ignore
       this.$refs.bibUploadInput.click()
     },
-    parseBib (event: Event): void {
+    parseBib(event: Event): void {
       // @ts-ignore
       if (event.target.files && event.target.files.length > 0) {
         const reader = new FileReader()
@@ -116,10 +116,10 @@ export default defineComponent({
         reader.readAsText(event.target.files[0])
       }
     },
-    sendSelect (ids: PaperID[]): void {
+    sendSelect(ids: PaperID[]): void {
       this.$emit('selected', ids)
     },
-    sendSearched (query: string): void {
+    sendSearched(query: string): void {
       this.$emit('searched', query)
     }
   }

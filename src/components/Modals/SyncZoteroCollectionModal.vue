@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="action">
     <h1 class="pb-5">
       I want to sync the Zotero collection "{{ action.zoteroName }}" to...
     </h1>
@@ -28,7 +28,10 @@
 
       <div class="lg:flex-1 pl-0 ml-0 lg:pl-5 lg:ml-5 lg:border-l">
         <h2 class="mb-4">An existing unsynced collection</h2>
-        <div class="shadow-box" v-if="unsyncedCollections.length > 0">
+        <div
+          class="shadow-box"
+          v-if="unsyncedCollections && unsyncedCollections.length > 0"
+        >
           <table class="base-table max-w-xl">
             <thead>
               <tr>
@@ -77,7 +80,7 @@ import { SyncZoteroCollectionAction } from '@/types/modalTypes'
 import { usePaperCollectionStore } from '@/stores/paperCollectionStore'
 import { useZoteroStore } from '@/stores/zoteroStore'
 import { showNotificationHelper } from '@/utils/emitHelpers'
-import { PaperCollection } from '@/types/userTypes'
+import { IncitefulCollection } from '@/types/userTypes'
 
 export default defineComponent({
   name: 'SyncCollectionModal',
@@ -85,7 +88,7 @@ export default defineComponent({
     action: Object() as PropType<SyncZoteroCollectionAction>
   },
   emits: ['back'],
-  data () {
+  data() {
     let newCollectionName = ref('')
     let db = usePaperCollectionStore()
     let zotero = useZoteroStore()
@@ -93,7 +96,7 @@ export default defineComponent({
     let createCollection = async () => {
       let zoteroKey = this.action?.zoteroKey
       if (!zoteroKey) return
-      db.savePaperCollection(newCollectionName.value, []).then(id => {
+      db.createPaperCollection(newCollectionName.value).then(id => {
         if (id && zoteroKey) {
           zotero.setCollectionSync(id, zoteroKey)
 
@@ -107,7 +110,7 @@ export default defineComponent({
       this.$emit('back')
     }
 
-    let syncCollection = async (collection: PaperCollection) => {
+    let syncCollection = async (collection: IncitefulCollection) => {
       if (this.action && collection.id) {
         zotero
           .setCollectionSync(collection.id, this.action?.zoteroKey)

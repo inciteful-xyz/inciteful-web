@@ -31,9 +31,9 @@ const createCollection = <T = DocumentData>(collectionName: string) => {
   return collection(firestore, collectionName) as CollectionReference<T>
 }
 
-import { UserData, PaperCollection } from '@/types/userTypes';
+import { UserData, IncitefulCollection } from '@/types/userTypes';
 import { ZoteroData } from '../types/zoteroTypes';
 export const usersCol = createCollection<UserData>('users')
 export const zoteroDataCol = createCollection<ZoteroData>('zoteroData')
-export const paperCollectionsCol = createCollection<PaperCollection>('paperCollections')
+export const paperCollectionsCol = createCollection<IncitefulCollection>('paperCollections')
 

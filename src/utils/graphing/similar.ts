@@ -33,24 +33,28 @@ function coupling(p: Paper, p2: Paper): number {
   // Hub Supressed
   // const denom = Math.max(p.citing!.length, p2.citing!.length);
   // Salton Similarity
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const denom = Math.sqrt(p.citing!.length * p2.citing!.length);
 
   if (denom === 0) {
     return 0
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const intersection = countIntersection(p.citing!, p2.citing!)
 
   return intersection / denom
 }
 
 function cocitations(p: Paper, p2: Paper): number {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const denom = Math.sqrt(p.cited_by!.length * p2.cited_by!.length)
 
   if (denom === 0) {
     return 0
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const intersection = countIntersection(p.cited_by!, p2.cited_by!)
 
   return intersection / denom

@@ -23,7 +23,7 @@
           </button>
         </div>
         <div class="flex-shrink">
-          <button @click="syncCollectionList" class="button-purple">
+          <button @click="syncZotero" class="button-purple">
             Force Re-sync
           </button>
         </div>
@@ -108,7 +108,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import api from '../../utils/api'
+import api from '../../utils/incitefulApi'
 import { useRoute, useRouter } from 'vue-router'
 import { useZoteroStore } from '@/stores/zoteroStore'
 import { storeToRefs } from 'pinia'
@@ -171,8 +171,8 @@ export default defineComponent({
       })
     }
 
-    let syncCollectionList = async () => {
-      await zotero.syncCollectionList()
+    let syncZotero = async () => {
+      await zotero.syncZotero()
       showNotificationHelper({ message1: 'Collections Synced', message2: '' })
     }
 
@@ -188,7 +188,7 @@ export default defineComponent({
       zoteroInit,
       hasIntegration,
       clearIntegration,
-      syncCollectionList,
+      syncZotero,
       nestedCollections
     }
   }

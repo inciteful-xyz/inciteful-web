@@ -14,7 +14,7 @@ import { defineComponent } from 'vue'
 import PaperHero from '../components/PaperHero.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import QueryPanel from '../components/QueryPanel.vue'
-import api from '../utils/api'
+import api from '../utils/incitefulApi'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 

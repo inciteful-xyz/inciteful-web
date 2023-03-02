@@ -7,7 +7,6 @@ function idsFromBib(bibText: string) {
     (element: {
       Fields: { incitefulid: string; magid: string; doi: string; url: string; URL: string; DOI: string };
     }) => {
-      console.log(element)
       if (element.Fields.incitefulid) {
         ids.push(element.Fields.incitefulid)
       } else if (element.Fields.magid) {
@@ -27,7 +26,6 @@ function idsFromBib(bibText: string) {
     }
   )
 
-  console.log(ids)
   return ids
 }
 

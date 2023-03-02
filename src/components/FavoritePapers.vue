@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { Paper, PaperID } from '@/types/incitefulTypes'
-import api from '@/utils/api'
+import api from '@/utils/incitefulApi'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
