@@ -33,7 +33,7 @@ transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
           />
         </div>
         <div class="pt-3">
-          <button class="button-purple" @click="createCollection">
+          <button class="button-violet" @click="createCollection">
             Create Collection
           </button>
         </div>
@@ -67,7 +67,7 @@ transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
                 <td>
                   <button
                     @click="addToCollection(collection.id, collection.name)"
-                    class="text-purple-500"
+                    class="text-violet-500"
                   >
                     Add >>
                   </button>

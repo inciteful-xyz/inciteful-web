@@ -15,7 +15,7 @@
       </div>
       <div class="pt-3">
         <span class="rounded-md shadow-sm">
-          <button type="button" class="button-purple" v-on:click="searchClick">
+          <button type="button" class="button-violet" v-on:click="searchClick">
             <SearchIcon class="h-5 w-5 text-white" />
           </button>
         </span>

@@ -180,7 +180,7 @@
                 <button
                   type="button"
                   @click="runCodeClick"
-                  class="button-purple"
+                  class="button-violet"
                 >
                   Run Query
                 </button>

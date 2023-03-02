@@ -20,7 +20,7 @@
         </div>
 
         <div class="pt-3">
-          <button class="button-purple" @click="createCollection">
+          <button class="button-violet" @click="createCollection">
             Create Collection
           </button>
         </div>
@@ -45,7 +45,7 @@
                 <td>
                   <button
                     @click="syncCollection(collection)"
-                    class="text-purple-500"
+                    class="text-violet-500"
                   >
                     Sync >>
                   </button>

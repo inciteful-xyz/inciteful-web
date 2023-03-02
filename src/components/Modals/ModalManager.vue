@@ -24,7 +24,7 @@
       >
         <div v-show="validState" class="fixed inset-0 transition-opacity">
           <div
-            class="absolute inset-0 bg-gray-500 opacity-75"
+            class="absolute inset-0 bg-gray-500/75"
             v-on:click="clearModal()"
           ></div>
         </div>
@@ -72,7 +72,7 @@
                 rounded-full
                 h-5
                 w-5
-                bg-purple-500
+                bg-violet-500
                 text-white
                 justify-center
               "

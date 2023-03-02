@@ -25,17 +25,17 @@
 .button-gray {
   @apply base-button bg-gray-500 hover:bg-gray-400 focus:border-gray-600 focus:ring-gray-400;
 }
-.button-light-purple {
-  @apply base-button bg-purple-400
-                      hover:bg-purple-300
-                      focus:border-purple-500
-                      focus:ring-purple-500;
+.button-light-violet {
+  @apply base-button bg-violet-400
+                      hover:bg-violet-300
+                      focus:border-violet-500
+                      focus:ring-violet-500;
 }
-.button-purple {
-  @apply base-button bg-purple-600
-                      hover:bg-purple-500
-                      focus:border-purple-700
-                      focus:ring-purple-600;
+.button-violet {
+  @apply base-button bg-violet-600
+                      hover:bg-violet-500
+                      focus:border-violet-700
+                      focus:ring-violet-600;
 }
 h1 {
   @apply text-gray-800 font-bold text-lg sm:text-2xl;
@@ -64,7 +64,7 @@ h2 {
   @apply p-2 py-1 border-gray-200 border rounded m-1;
 }
 .Pagination .Page-active {
-  @apply bg-purple-500 border-purple-800 text-white;
+  @apply bg-violet-500 border-violet-800 text-white;
 }
 .shadow-box {
   @apply shadow border-b border-gray-200 sm:rounded-lg mb-3;

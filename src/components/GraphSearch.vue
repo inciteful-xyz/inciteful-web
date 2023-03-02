@@ -23,7 +23,7 @@
         </div>
       </div>
       <span class="rounded-md shadow-sm pl-2">
-        <button type="button" class="button-purple" v-on:click="searchClick">
+        <button type="button" class="button-violet" v-on:click="searchClick">
           <SearchIcon class="h-5 w-5 text-white" />
         </button>
       </span>

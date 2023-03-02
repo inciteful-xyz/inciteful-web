@@ -26,15 +26,15 @@
         </div>
       </div>
       <div
-        class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4 sm:mt-6"
+        class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 sm:mt-6"
         v-if="!receivedLoaded && graphStats"
       >
         <div class="flex">
           <div class="flex-shrink-0">
-            <ExclamationIcon class="h-5 w-5 text-yellow-400" />
+            <ExclamationIcon class="h-5 w-5 text-amber-400" />
           </div>
           <div class="ml-3">
-            <p class="text-sm leading-5 text-yellow-700">
+            <p class="text-sm leading-5 text-amber-700">
               Constructing and analyzing a graph takes time. If it's not cached
               it may take up to a minute for the graph to load. Please be
               patient.

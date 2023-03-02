@@ -8,7 +8,7 @@
             <div class="flex pt-6">
               <h2 class="flex-grow">Collections</h2>
               <div class="flex-shrink justify-end">
-                <router-link :to="{ name: 'Zotero' }" class="button-purple">
+                <router-link :to="{ name: 'Zotero' }" class="button-violet">
                   Manage Zotero Connection
                 </router-link>
               </div>

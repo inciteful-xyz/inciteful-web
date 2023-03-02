@@ -14,7 +14,7 @@
         ]"
       >
         <button
-          class="inline-flex items-center rounded-lg bg-purple-700 hover:bg-purple-500 focus:outline-none focus:border-purple-700 text-white p-3"
+          class="inline-flex items-center rounded-lg bg-violet-700 hover:bg-violet-500 focus:outline-none focus:border-violet-700 text-white p-3"
           v-on:click="toLitReview()"
         >
           Add Papers ({{ ids.size }})
@@ -34,13 +34,13 @@ import { EmitEvents } from '@/utils/emitHelpers'
 export default defineComponent({
   name: 'LitReviewBuilder',
   components: { ArrowRightIcon },
-  data () {
+  data() {
     return {
       doBounce: false,
       ids: new Set<PaperID>()
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(EmitEvents.AddToLitReview, (id: PaperID) => {
       if (!this.ids.has(id)) {
         this.ids.add(id)
@@ -53,7 +53,7 @@ export default defineComponent({
     })
   },
   methods: {
-    toLitReview () {
+    toLitReview() {
       if (this.$route.query.ids) {
         if (Array.isArray(this.$route.query.ids)) {
           this.$route.query.ids.forEach(id => {

@@ -53,6 +53,6 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .v-step {
-  @apply bg-purple-600 #{!important};
+  @apply bg-violet-600 #{!important};
 }
 </style>

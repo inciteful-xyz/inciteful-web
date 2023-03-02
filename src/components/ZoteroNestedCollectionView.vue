@@ -6,15 +6,15 @@
           <button @click="isCollapsed[key] = !isCollapsed[key]">
             <ChevronDownIcon
               v-if="collections[key].childCollections && !isCollapsed[key]"
-              class="h-5 w-5 text-purple-400 inline"
+              class="h-5 w-5 text-violet-400 inline"
             />
             <ChevronRightIcon
               v-if="collections[key].childCollections && isCollapsed[key]"
-              class="h-5 w-5 text-purple-400 inline"
+              class="h-5 w-5 text-violet-400 inline"
             />
           </button>
           <FolderIcon
-            class="h-5 w-5 text-purple-400 inline"
+            class="h-5 w-5 text-violet-400 inline"
             :class="{ 'ml-5': !collections[key].childCollections }"
           />
 
@@ -60,7 +60,7 @@ export default defineComponent({
   props: {
     collections: {} as PropType<ZoteroCollectionNode>
   },
-  setup (props) {
+  setup(props) {
     let zotero = useZoteroStore()
     let isCollapsed = ref({} as Record<string, boolean>)
 

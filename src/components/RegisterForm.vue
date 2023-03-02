@@ -35,7 +35,7 @@
                 v-model="email"
                 autocomplete="email"
                 required=""
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-violet-500 focus:border-violet-500 sm:text-sm"
               />
             </div>
           </div>
@@ -54,7 +54,7 @@
                 type="password"
                 autocomplete="current-password"
                 required=""
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-violet-500 focus:border-violet-500 sm:text-sm"
               />
             </div>
           </div>
@@ -73,7 +73,7 @@
                 type="password"
                 autocomplete="current-password"
                 required=""
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-violet-500 focus:border-violet-500 sm:text-sm"
               />
             </div>
           </div>
@@ -82,7 +82,7 @@
             <button
               type="submit"
               @click.prevent="validate()"
-              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
             >
               Register
             </button>
@@ -91,7 +91,7 @@
             <div class="text-sm">
               <a
                 href="/forgot"
-                class="font-medium text-purple-600 hover:text-purple-500"
+                class="font-medium text-violet-600 hover:text-violet-500"
               >
                 Forgot your password?
               </a>
@@ -110,7 +110,7 @@ import { useUserStore } from '@/stores/userStore'
 
 export default defineComponent({
   emits: ['success'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const router = useRouter()
     const userStore = useUserStore()
 

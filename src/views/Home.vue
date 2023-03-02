@@ -8,7 +8,7 @@
           >
             Tools to help you
             <br class="hidden md:inline" />
-            <span class="text-purple-400">accelerate your research</span>
+            <span class="text-violet-400">accelerate your research</span>
           </h2>
         </div>
         <div class="max-w-xl mx-auto px-4 md:max-w-screen-xl lg:px-6">
@@ -18,7 +18,7 @@
                 class="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl"
               >
                 Build a network of academic papers and we'll analyze the network
-                to help you <span class="text-purple-400">discover</span> the
+                to help you <span class="text-violet-400">discover</span> the
                 most relevant literature.
               </p>
               <div class="mt-5 sm:mx-auto lg:mx-0 text-gray-400">
@@ -52,7 +52,7 @@
                 class="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl"
               >
                 Select two papers and we will show you how the
-                <span class="text-purple-400">literature connects</span> them
+                <span class="text-violet-400">literature connects</span> them
                 together.
               </p>
               <div class="pt-5 text-gray-400">
@@ -205,7 +205,7 @@
         <div class="lg:grid lg:grid-cols-3 lg:gap-8">
           <div class="rounded-md bg-white p-6">
             <div
-              class=" flex items-center float-left justify-center h-12 w-12 rounded-md mr-3 mb-1 bg-purple-500
+              class=" flex items-center float-left justify-center h-12 w-12 rounded-md mr-3 mb-1 bg-violet-500
                     text-white"
             >
               <GlobeAltIcon class="h-6 w-6" />
@@ -223,7 +223,7 @@
           </div>
           <div class="mt-10 lg:mt-0 rounded-md bg-white p-6">
             <div
-              class=" flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-purple-500
+              class=" flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500
                         text-white"
             >
               <CubeTransparentIcon class="w-6 h-6" fill="none" />
@@ -235,7 +235,7 @@
               <p class="mt-5 text-base leading-6 text-gray-500">
                 We collect citation information from a variety of
                 <a
-                  class="text-purple-600 underline focus:no-underline"
+                  class="text-violet-600 underline focus:no-underline"
                   href="/data"
                   >data sources</a
                 >
@@ -246,7 +246,7 @@
           </div>
           <div class="mt-10 lg:mt-0 rounded-md bg-white p-6">
             <div
-              class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-purple-500 text-white"
+              class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500 text-white"
             >
               <DocumentReportIcon class="w-6 h-6" />
             </div>
@@ -297,14 +297,14 @@ export default defineComponent({
     GlobeAltIcon
   },
   methods: {
-    addLitReviewPapers (ids: PaperID[]) {
+    addLitReviewPapers(ids: PaperID[]) {
       if (ids.length === 1) {
         this.$router.push({ path: navigation.getPaperUrl(ids[0]) })
       } else {
         this.$router.push({ name: 'LitReview', query: { ids } })
       }
     },
-    goToSearch (query: string) {
+    goToSearch(query: string) {
       this.$router.push({ name: 'Search', query: { q: query } })
     }
   }

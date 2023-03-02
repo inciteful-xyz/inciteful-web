@@ -4,8 +4,8 @@
     title="Add paper to your favorites"
     v-on:click="toggleFavorite"
   >
-    <OutlineHeartIcon v-if="!isFavorite()" class="h-5 w-5 text-purple-500" />
-    <HeartIcon v-if="isFavorite()" class="h-5 w-5 text-purple-500" />
+    <OutlineHeartIcon v-if="!isFavorite()" class="h-5 w-5 text-violet-500" />
+    <HeartIcon v-if="isFavorite()" class="h-5 w-5 text-violet-500" />
   </button>
 </template>
 
@@ -22,14 +22,14 @@ export default defineComponent({
   props: {
     id: {} as PropType<PaperID | undefined>
   },
-  setup (props) {
+  setup(props) {
     let user = useUserStore()
 
-    let isFavorite = function (): boolean {
+    let isFavorite = function(): boolean {
       return props.id ? user.isPaperFavorite(props.id) : false
     }
 
-    let toggleFavorite = function () {
+    let toggleFavorite = function() {
       if (props.id) user.toggleFavorite(props.id)
     }
 

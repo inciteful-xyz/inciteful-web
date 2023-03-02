@@ -16,7 +16,7 @@
           <div class="ml-3 flex-1 md:flex md:justify-between">
             <p class="text-sm leading-5 text-blue-700">
               Click on the purple plus signs (<PlusCircleIcon
-                class="h-5 w-5 text-purple-500 inline"
+                class="h-5 w-5 text-violet-500 inline"
               />) to add the most interesting papers to the graph. We recommend
               that you <b>add at least five papers to the graph</b> in order to
               find the most relevant results. If the papers below don't seem
@@ -45,13 +45,13 @@
       </div>
       <DashboardRenderer :template="template" :ids="ids" />
     </div>
-    <div v-else class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-8">
+    <div v-else class="bg-amber-50 border-l-4 border-amber-400 p-4 my-8">
       <div class="flex">
         <div class="flex-shrink-0">
-          <ExclamationIcon class="h-5 w-5 text-yellow-400" />
+          <ExclamationIcon class="h-5 w-5 text-amber-400" />
         </div>
         <div class="ml-3">
-          <p class="text-sm text-yellow-700">
+          <p class="text-sm text-amber-700">
             We could not construct the graph. We don't have records of any
             references or citations for this paper, which makes it kind of hard.
             Please search for another paper.

@@ -78,7 +78,7 @@
             class="ml-4 inline-flex items-center px-1 pt-1"
           >
             <span
-              class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-purple-600 hover:bg-purple-500 focus:outline-none focus:border-purple-700 focus:ring-purple active:bg-purple-700 transition ease-in-out duration-150"
+              class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-violet-600 hover:bg-violet-500 focus:outline-none focus:border-violet-700 focus:ring-violet active:bg-violet-700 transition ease-in-out duration-150"
             >
               <span class="text-sm font-medium leading-none text-white">{{
                 user.initial
@@ -180,7 +180,7 @@ export default defineComponent({
     MenuIcon,
     XIcon
   },
-  setup () {
+  setup() {
     const router = useRouter()
     const route = useRoute()
     const userStore = useUserStore()

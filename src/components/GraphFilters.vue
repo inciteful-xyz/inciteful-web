@@ -7,7 +7,7 @@
       <h3 class="text-gray-700 text-base font-semibold">
         Paper Filters
         <a
-          class="text-purple-700"
+          class="text-violet-700"
           href="https://help.inciteful.xyz/power-users.html#graph-filters"
           target="_blank"
           ><InformationCircleIcon class="w-5 h-5 inline" />
@@ -25,7 +25,7 @@
               type="text"
               v-on:keyup.enter="applyFilters()"
               ref="keywordFilter"
-              class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-full"
+              class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-full"
               placeholder="(hello AND world) NOT cruel"
               v-model="keywords"
             />
@@ -50,8 +50,8 @@
                   text-base
                   border-gray-300
                   focus:outline-none
-                  focus:ring-purple
-                  focus:border-purple-300
+                  focus:ring-violet
+                  focus:border-violet-300
                   sm:text-sm
                   w-24
                   rounded-md
@@ -80,8 +80,8 @@
                   text-base
                   border-gray-300
                   focus:outline-none
-                  focus:ring-purple
-                  focus:border-purple-300
+                  focus:ring-violet
+                  focus:border-violet-300
                   sm:text-sm
                   sm:leading-5
                   w-24
@@ -106,7 +106,7 @@
                 <input
                   ref="minYearFilter"
                   type="text"
-                  class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-20"
+                  class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-20"
                   maxlength="4"
                   v-on:keyup.enter="applyFilters()"
                   placeholder="2015"
@@ -124,7 +124,7 @@
                 <input
                   ref="maxYearFilter"
                   type="text"
-                  class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-20"
+                  class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-20"
                   maxlength="4"
                   v-on:keyup.enter="applyFilters()"
                   placeholder="2015"
@@ -137,7 +137,7 @@
                 <button
                   type="button"
                   @click="applyFilters()"
-                  class="button-purple text-sm"
+                  class="button-violet text-sm"
                 >
                   Filter
                 </button>
@@ -187,7 +187,7 @@ export default defineComponent({
       default: false
     }
   },
-  data () {
+  data() {
     return {
       keywords: this.$route.query.keyword,
       minDistance: this.$route.query.minDistance,
@@ -197,10 +197,10 @@ export default defineComponent({
     }
   },
   methods: {
-    addToLitReview (ids: PaperID[]): void {
+    addToLitReview(ids: PaperID[]): void {
       ids.map(id => addToLitReviewHelper(id))
     },
-    applyFilters () {
+    applyFilters() {
       this.$router.push({
         query: {
           ...this.$route.query,

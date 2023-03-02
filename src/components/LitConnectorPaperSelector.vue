@@ -5,7 +5,7 @@
       <div v-else-if="(!valid && loaded) || editing">
         <div v-if="paper" class="absolute right-2 top-2">
           <button @click="cancelEdit()" title="Cancel">
-            <XCircleIcon class="w-5 h-5 text-purple-500" />
+            <XCircleIcon class="w-5 h-5 text-violet-500" />
           </button>
         </div>
 
@@ -43,12 +43,12 @@
                     font-medium
                     rounded-md
                     text-white
-                    bg-purple-600
-                    hover:bg-purple-500
+                    bg-violet-600
+                    hover:bg-violet-500
                     focus:outline-none
-                    focus:border-purple-700
-                    focus:ring-purple
-                    active:bg-purple-700
+                    focus:border-violet-700
+                    focus:ring-violet
+                    active:bg-violet-700
                     transition
                     ease-in-out
                     duration-150
@@ -64,7 +64,7 @@
       <div v-else-if="paper">
         <div class="absolute right-2 top-2">
           <button @click="setEdit()" title="Edit">
-            <PencilIcon class="w-5 h-5 text-purple-500" />
+            <PencilIcon class="w-5 h-5 text-violet-500" />
           </button>
         </div>
         <paper-summary :paper="paper" />

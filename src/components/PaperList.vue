@@ -49,7 +49,7 @@
           </td>
           <td class="pt-2 pr-2">
             <button title="Remove from Graph" @click="removePaper(paper.id)">
-              <XCircleIcon class="h-5 w-5 text-purple-500" />
+              <XCircleIcon class="h-5 w-5 text-violet-500" />
             </button>
           </td>
         </tr>
@@ -61,7 +61,7 @@
             <button
               v-if="papers.length > numVisible"
               @click="togglePaperView()"
-              class="underline hover:no-underline text-purple-700"
+              class="underline hover:no-underline text-violet-700"
             >
               <span v-if="hidePapers"
                 ><ChevronDoubleDownIcon class="w-4 h-4 inline" />

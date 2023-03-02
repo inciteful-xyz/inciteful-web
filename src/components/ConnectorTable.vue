@@ -62,7 +62,7 @@
           >
             {{ (p as IIndexable)[column.name] }}
           </td>
-          <td class="text-purple-600 px-2">
+          <td class="text-violet-600 px-2">
             <button
               v-on:click="$emit('lockPaper', p.id)"
               class="underline block font-semibold pb-2 text-left graph-lock"
@@ -220,8 +220,8 @@ export default defineComponent({
         'bg-white': index % 2 === 0 && !isLocked,
         'bg-gray-50': index % 2 !== 0 && !isLocked,
         'border-2': isLocked,
-        'border-purple-300': isLocked,
-        'bg-purple-100': isLocked
+        'border-violet-300': isLocked,
+        'bg-violet-100': isLocked
       }
     },
     turnPage(pageNum: number): void {

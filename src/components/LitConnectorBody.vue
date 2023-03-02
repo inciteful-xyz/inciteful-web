@@ -117,7 +117,7 @@
                           type="text"
                           v-model="textKeywords"
                           ref="keywordFilter"
-                          class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-full"
+                          class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-full"
                           placeholder="albert einstein relativity"
                         />
                       </div>
@@ -140,7 +140,7 @@
                             <input
                               ref="minYearFilter"
                               type="text"
-                              class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-20"
+                              class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-20"
                               v-model="minYear"
                               maxlength="4"
                               placeholder="2005"
@@ -163,7 +163,7 @@
                             <input
                               ref="maxYearFilter"
                               type="text"
-                              class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block sm:text-sm border-gray-300 rounded-md w-20"
+                              class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-20"
                               maxlength="4"
                               v-model="maxYear"
                               placeholder="2015"
@@ -205,7 +205,7 @@
                                 focus:ring
                               "
                               :class="{
-                                'bg-purple-600': extendedGraph,
+                                'bg-violet-600': extendedGraph,
                                 'bg-gray-200': !extendedGraph
                               }"
                             >
@@ -218,7 +218,6 @@
                                   rounded-full
                                   bg-white
                                   shadow
-                                  transform
                                   transition
                                   ease-in-out
                                   duration-200
@@ -251,14 +250,14 @@
                         text-xs
                         font-medium
                         leading-4
-                        bg-purple-100
-                        text-purple-800
+                        bg-violet-100
+                        text-violet-800
                         border
-                        hover:border-purple-800
+                        hover:border-violet-800
                       "
                       :class="{
-                        'bg-purple-300': keyword.term == textKeywords,
-                        'hover:bg-purple-300': keyword.term != textKeywords
+                        'bg-violet-300': keyword.term == textKeywords,
+                        'hover:bg-violet-300': keyword.term != textKeywords
                       }"
                       :key="index"
                       @click="keywordClick(keyword.term)"

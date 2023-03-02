@@ -24,13 +24,13 @@
       After spending the first year of life as a hacked together python notebook
       using the apis from
       <a
-        class="text-purple-700 cursor-pointer hover:text-purple-500"
+        class="text-violet-700 cursor-pointer hover:text-violet-500"
         href="https://opencitations.net/"
         >Open Citations</a
       >
       and
       <a
-        class="text-purple-700 cursor-pointer hover:text-purple-500"
+        class="text-violet-700 cursor-pointer hover:text-violet-500"
         href="https://crossref.org"
         >Crossref</a
       >, I decided to try and scale it up to something that others could use.
@@ -41,7 +41,7 @@
       few citations and 40-50 references. It was clearly too slow. After a
       number of fits and starts, where I ended up learning a new programming
       language (<a
-        class="text-purple-700 cursor-pointer hover:text-purple-500"
+        class="text-violet-700 cursor-pointer hover:text-violet-500"
         href="https://www.rust-lang.org/"
         >Rust</a
       >), testing out a number of databases, changing the source of my data, and
@@ -62,7 +62,7 @@
       It's still under active development so if you have any questions,
       suggestions or just want to say hi, please feel free to send me your
       <a
-        class="text-purple-700 cursor-pointer hover:text-purple-500"
+        class="text-violet-700 cursor-pointer hover:text-violet-500"
         href="mailto:feedback@inciteful.xyz"
         >feedback</a
       >.

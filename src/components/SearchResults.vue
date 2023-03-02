@@ -32,7 +32,7 @@
                   leading-tight
                   text-left
                   lg:text-lg
-                  text-purple-700
+                  text-violet-700
                 "
                 v-html="paper.title"
               ></button>
@@ -80,12 +80,12 @@
                     font-medium
                     rounded-md
                     text-white
-                    bg-purple-600
-                    hover:bg-purple-500
+                    bg-violet-600
+                    hover:bg-violet-500
                     focus:outline-none
-                    focus:border-purple-700
-                    focus:ring-purple
-                    active:bg-purple-700
+                    focus:border-violet-700
+                    focus:ring-violet
+                    active:bg-violet-700
                     transition
                     ease-in-out
                     duration-150
@@ -102,7 +102,7 @@
     <li class="px-6 py-6 sm:px-0">
       Search results powered by
       <a
-        class="text-purple-500"
+        class="text-violet-500"
         href="https://docs.openalex.org/api-entities/works/search-works"
         >OpenAlex</a
       >.

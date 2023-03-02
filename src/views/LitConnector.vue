@@ -5,7 +5,7 @@
         <div class="max-w-full mx-auto pb-12">
           <div
             class="
-              bg-purple-700
+              bg-violet-700
               rounded-lg
               shadow-xl
               overflow-hidden
@@ -39,11 +39,11 @@
                 >
                   <span class="block">Literature Connector</span>
                 </h2>
-                <p class="mt-3 text-purple-200">
+                <p class="mt-3 text-violet-200">
                   Interested in interdisciplinary studies? Use our tool to
                   discover how two bodies of literature connect to one another.
                 </p>
-                <p class="mt-3 text-purple-200">
+                <p class="mt-3 text-violet-200">
                   When you enter two papers it will show you the shortest paths
                   between the papers, allow you to interact with the graph, as
                   well as search and filter through the papers. Then send those
@@ -59,7 +59,6 @@
                   inset-0
                   w-full
                   h-full
-                  transform
                   translate-x-6 translate-y-6
                   rounded-md
                   object-cover object-left-top
@@ -129,7 +128,7 @@ export default defineComponent({
     ArrowRightIcon,
     ArrowDownIcon
   },
-  data () {
+  data() {
     return {
       pageReady: false,
       toParam: null as string | null,
@@ -161,12 +160,12 @@ export default defineComponent({
       ]
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(EmitEvents.GraphLoaded, () => {
       this.pageReady = true
     })
   },
-  created () {
+  created() {
     if (this.$route.query.to) {
       this.toParam = this.$route.query.to.toString()
     }
@@ -175,24 +174,24 @@ export default defineComponent({
     }
   },
   computed: {
-    isValid (): boolean {
+    isValid(): boolean {
       return this.to !== undefined && this.from !== undefined
     }
   },
   watch: {
-    '$route.query.to' (newVal, oldVal) {
+    '$route.query.to'(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.toParam = newVal ? newVal.toString() : null
       }
     },
-    '$route.query.from' (newVal, oldVal) {
+    '$route.query.from'(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.fromParam = newVal ? newVal.toString() : null
       }
     }
   },
   methods: {
-    handleFromSelect (paper: Paper | undefined) {
+    handleFromSelect(paper: Paper | undefined) {
       if (paper !== undefined) {
         this.from = paper
         if (paper && this.fromParam !== paper.id) {
@@ -200,7 +199,7 @@ export default defineComponent({
         }
       }
     },
-    handleToSelect (paper: Paper | undefined) {
+    handleToSelect(paper: Paper | undefined) {
       if (paper !== undefined) {
         this.to = paper
         if (this.toParam !== paper.id) {

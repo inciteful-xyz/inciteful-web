@@ -8,7 +8,7 @@
           >
             A better way to discover
             <br class="hidden md:inline" />
-            <span class="text-purple-400">relevant literature</span>
+            <span class="text-violet-400">relevant literature</span>
           </h2>
         </div>
         <div class="max-w-xl mx-auto px-4 md:max-w-screen-xl lg:px-6">
@@ -47,7 +47,7 @@
         <div class="lg:grid lg:grid-cols-3 lg:gap-8">
           <div class="rounded-md bg-white p-6">
             <div
-              class=" flex items-center float-left justify-center h-12 w-12 rounded-md mr-3 mb-1 bg-purple-500 text-2xl
+              class=" flex items-center float-left justify-center h-12 w-12 rounded-md mr-3 mb-1 bg-violet-500 text-2xl
                 text-white"
             >
               1
@@ -64,7 +64,7 @@
           </div>
           <div class="mt-10 lg:mt-0 rounded-md bg-white p-6">
             <div
-              class=" flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-purple-500 text-2xl
+              class=" flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500 text-2xl
                 text-white"
             >
               2
@@ -81,7 +81,7 @@
           </div>
           <div class="mt-10 lg:mt-0 rounded-md bg-white p-6">
             <div
-              class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-purple-500 text-white  text-2xl"
+              class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500 text-white  text-2xl"
             >
               3
             </div>
@@ -260,14 +260,14 @@ export default defineComponent({
     GraphSearch
   },
   methods: {
-    addLitReviewPapers (ids: PaperID[]) {
+    addLitReviewPapers(ids: PaperID[]) {
       if (ids.length === 1) {
         this.$router.push({ path: navigation.getPaperUrl(ids[0]) })
       } else {
         this.$router.push({ name: 'LitReview', query: { ids } })
       }
     },
-    goToSearch (query: string) {
+    goToSearch(query: string) {
       this.$router.push({ name: 'Search', query: { q: query } })
     }
   }

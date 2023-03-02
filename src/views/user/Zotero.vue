@@ -18,12 +18,12 @@
             v-model="newCollectionName"
           />
 
-          <button @click="createCollection" class="button-purple">
+          <button @click="createCollection" class="button-violet">
             Create Collection
           </button>
         </div>
         <div class="flex-shrink">
-          <button @click="syncZotero" class="button-purple">
+          <button @click="syncZotero" class="button-violet">
             Force Re-sync
           </button>
         </div>
@@ -63,16 +63,16 @@
         </div>
       </div>
       <div class="pt-10">
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4">
           <div class="flex">
             <div class="flex-shrink-0">
               <ExclamationIcon
-                class="h-5 w-5 text-yellow-400"
+                class="h-5 w-5 text-amber-400"
                 aria-hidden="true"
               />
             </div>
             <div class="ml-3">
-              <div class="text-sm text-yellow-700">
+              <div class="text-sm text-amber-700">
                 Delete your Zotero integration. By deleting your integration you
                 will lose all of your sync settings. Papers and collections that
                 have been synced to Zotero will not be deleted. You will need to
@@ -80,7 +80,7 @@
                 <div class="pt-3">
                   <button
                     @click="clearIntegration"
-                    class="font-medium underline text-yellow-700 hover:text-yellow-600"
+                    class="font-medium underline text-amber-700 hover:text-amber-600"
                   >
                     Delete Integration
                   </button>
@@ -99,7 +99,7 @@
       initiate searches using the papers in a Zotero collection as the seeds.
 
       <div class="pt-5">
-        <button @click="zoteroInit" class="button-purple">
+        <button @click="zoteroInit" class="button-violet">
           Connect to Zotero
         </button>
       </div>

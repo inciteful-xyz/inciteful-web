@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-6 py-6 bg-purple-700 rounded-lg md:py-12 md:px-12 lg:py-16 lg:px-16 xl:flex xl:items-center"
+    class="px-6 py-6 bg-violet-700 rounded-lg md:py-12 md:px-12 lg:py-16 lg:px-16 xl:flex xl:items-center"
   >
     <div v-if="isSubmitted" class="text-center">
       <h2
@@ -16,7 +16,7 @@
         Want to be a beta tester?
       </h2>
       <p
-        class="mt-3 max-w-3xl text-lg leading-6 text-purple-200"
+        class="mt-3 max-w-3xl text-lg leading-6 text-violet-200"
         id="newsletter-headline"
       >
         Inciteful is changing every day. Stay up to date, get early access to
@@ -39,7 +39,7 @@
         />
         <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
           <button
-            class="button-light-purple w-full px-5 py-3 leading-6 text-base"
+            class="button-light-violet w-full px-5 py-3 leading-6 text-base"
           >
             Join
           </button>

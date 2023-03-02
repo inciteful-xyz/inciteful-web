@@ -18,7 +18,7 @@
                   "
                 >
                   <div class="block flex-none pr-2 xl:pr-3">Six Degrees of</div>
-                  <div class="block flex-auto text-purple-400">
+                  <div class="block flex-auto text-violet-400">
                     Albert Einstein
                   </div>
                 </h1>
@@ -103,7 +103,7 @@
                 "
               >
                 <span class="inline-flex rounded-md shadow-sm">
-                  <a :href="toolUrl" class="button-purple">
+                  <a :href="toolUrl" class="button-violet">
                     Use the Real Tool!
                   </a>
                 </span>

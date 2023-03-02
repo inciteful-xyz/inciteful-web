@@ -4,7 +4,7 @@
     <button
       @click="toggleAbstractView()"
       v-if="canTruncate"
-      class="underline hover:no-underline text-purple-700"
+      class="underline hover:no-underline text-violet-700"
     >
       <span v-if="truncateAbstract"
         ><ChevronDoubleDownIcon class="h-4 w-4 inline-block" /> more</span
@@ -31,24 +31,24 @@ export default defineComponent({
     abstract: String,
     length: Number
   },
-  data () {
+  data() {
     return {
       truncateAbstract: true
     }
   },
   methods: {
-    toggleAbstractView (): void {
+    toggleAbstractView(): void {
       this.truncateAbstract = !this.truncateAbstract
     }
   },
   computed: {
-    canTruncate (): boolean {
+    canTruncate(): boolean {
       return (this.abstract ?? '').length > this.shortenedLength
     },
-    shortenedLength (): number {
+    shortenedLength(): number {
       return this.length ? this.length : 550
     },
-    truncatedAbstract (): string {
+    truncatedAbstract(): string {
       if (!this.abstract) return ''
 
       const text = this.abstract.slice()

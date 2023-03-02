@@ -5,7 +5,7 @@
       <GraphView :graphData="graphData" :loaded="loaded" />
       <button
         v-on:click="goToLitConnector()"
-        class="text-xs hover:underline text-purple-600"
+        class="text-xs hover:underline text-violet-600"
       >
         View in Literature Connector >>
       </button>
@@ -20,14 +20,14 @@
       </div>
       <div class="flex-1 sm:text-center">
         <span class="inline-flex rounded-md shadow-sm">
-          <button v-on:click="goToPaper" class="button-light-purple">
+          <button v-on:click="goToPaper" class="button-light-violet">
             Go to Graph
           </button>
         </span>
       </div>
       <div class="flex-1 text-right">
         <span class="inline-flex rounded-md shadow-sm">
-          <button v-on:click="addToLitReview()" class="button-purple">
+          <button v-on:click="addToLitReview()" class="button-violet">
             Add to Lit Review
           </button>
         </span>

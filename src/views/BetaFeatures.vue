@@ -9,7 +9,7 @@
       person you share it with should see the exact same page as you. These
       features break that promise. Use at your own risk.
       <a
-        class="text-purple-700 cursor-pointer hover:text-purple-500"
+        class="text-violet-700 cursor-pointer hover:text-violet-500"
         href="mailto:feedback@inciteful.xyz"
         >Feedback</a
       >
@@ -53,7 +53,7 @@ transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
     </div>
     <div class="py-4">
       <span class="inline-flex rounded-md shadow-sm">
-        <button type="button" v-on:click="saveSettings" class="button-purple">
+        <button type="button" v-on:click="saveSettings" class="button-violet">
           Save
         </button>
       </span>
@@ -87,20 +87,20 @@ export default defineComponent({
     CheckCircleIcon,
     SingleColumn
   },
-  data () {
+  data() {
     return {
       pruneLevel: options.getPruneLevel(),
       saved: false
     }
   },
   computed: {
-    anySet () {
+    anySet() {
       if (this.pruneLevel) return true
       else return false
     }
   },
   methods: {
-    saveSettings (): void {
+    saveSettings(): void {
       options.setPruneLevel(this.pruneLevel)
       this.saved = true
       setTimeout(() => {

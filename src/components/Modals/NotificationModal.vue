@@ -16,13 +16,13 @@
       >
         <div
           v-if="isValid"
-          class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+          class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black/5 overflow-hidden"
         >
           <div class="p-4">
             <div class="flex items-start">
               <div class="flex-shrink-0">
                 <CheckCircleIcon
-                  class="h-6 w-6 text-green-400"
+                  class="h-6 w-6 text-emerald-400"
                   aria-hidden="true"
                 />
               </div>
@@ -64,7 +64,7 @@ export default defineComponent({
     CheckCircleIcon,
     XIcon
   },
-  setup () {
+  setup() {
     const message1 = ref('')
     const message2 = ref('')
 
@@ -91,7 +91,7 @@ export default defineComponent({
       message2
     }
   },
-  mounted () {
+  mounted() {
     this.emitter.on(
       EmitEvents.ShowNotification,
       (options: NotificationModalOptions) => {

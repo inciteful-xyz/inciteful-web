@@ -13,7 +13,7 @@
         <tr v-for="collection in paperCollections" :key="collection.id">
           <td>
             <router-link
-              class="hover:underline text-purple-500"
+              class="hover:underline text-violet-500"
               :to="{
                 name: 'CollectionView',
                 params: { pathMatch: collection.id }
@@ -31,14 +31,14 @@
                 <zotero-sync-status :incitefulKey="collection.id" />
               </div>
               <div class="flex-shrink border-r-2 px-3">
-                <button class="hover:underline text-purple-500">
+                <button class="hover:underline text-violet-500">
                   Details
                 </button>
               </div>
               <div class="flex-shrink px-3">
                 <button
                   @click="deleteCollection(collection.id)"
-                  class="hover:underline text-purple-500"
+                  class="hover:underline text-violet-500"
                 >
                   Delete
                 </button>

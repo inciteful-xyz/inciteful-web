@@ -4,7 +4,7 @@
       Synced to
       <span class="italic pr-3 border-r-2 mr-3">"{{ syncedTo }}"</span>
       <button
-        class="text-purple-500 text-sm hover:underline"
+        class="text-violet-500 text-sm hover:underline"
         @click="clearSync()"
       >
         Clear
@@ -12,7 +12,7 @@
     </div>
     <button
       v-else
-      class="text-purple-500 text-sm hover:underline"
+      class="text-violet-500 text-sm hover:underline"
       @click="setupSync()"
     >
       Sync
@@ -36,7 +36,7 @@ export default defineComponent({
     zoteroKey: {} as PropType<ZoteroKey>,
     incitefulKey: {} as PropType<string>
   },
-  setup (props) {
+  setup(props) {
     let zotero = useZoteroStore()
     let pc = usePaperCollectionStore()
 
