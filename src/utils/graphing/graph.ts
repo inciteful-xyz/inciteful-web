@@ -25,6 +25,7 @@ import { PaperModalOptions } from "../../types/modalTypes"
 import { showModalHelper } from '../emitHelpers';
 import { IIndexable } from '../../types/incitefulTypes';
 
+
 cytoscape.use(popper)
 cytoscape.use(fcose)
 cytoscape.use(klay)
@@ -187,7 +188,10 @@ function loadGraph(
 
   const graph = new IncitefulGraph(cy, graphData.sourcePaperIds)
 
-  if (contextMenuOptions) {
+  // Context menus are not working on Safari
+  // https://github.com/iVis-at-Bilkent/cytoscape.js-context-menus/issues/55
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+  if (contextMenuOptions && !isSafari) {
     const cyany = cy as IIndexable
 
     if (cyany && cyany.contextMenus)
