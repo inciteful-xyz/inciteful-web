@@ -132,7 +132,10 @@
                     <DocumentReportIcon class="w-4 h-4 inline" /> SQL
                   </router-link>
                 </div>
-                <div v-if="numPages > 1" class="flex-none whitespace-nowrap">
+                <div
+                  v-if="numPages > 1"
+                  class="flex-none whitespace-nowrap paging"
+                >
                   <paginate
                     v-model="currentPage"
                     :pages="numPages"
