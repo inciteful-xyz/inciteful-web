@@ -100,3 +100,26 @@ function convertOAAutocomplete(p: OAAutosuggestResult): PaperAutosuggest {
         num_cited_by: p.cited_by_count,
     };
 }
+
+export function getOAPaper(id: string): Promise<OAPaper | undefined> {
+    if (id) {
+        return axios
+            .get(
+                `https://api.openalex.org/works/${encodeURIComponent(id)}&mailto=info@inciteful.xyz`
+            )
+            .then((res: AxiosResponse<OAPaper>) => {
+                return res.data
+            })
+            .catch(err => {
+                if (err.response && err.response.status == 404) {
+                    return Promise.resolve(undefined)
+                }
+
+                handleServiceErr(err)
+                return Promise.reject()
+            })
+    }
+
+    return Promise.resolve(undefined)
+}
+

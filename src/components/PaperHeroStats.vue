@@ -67,7 +67,7 @@ import { defineComponent, PropType } from 'vue'
 
 import SqlView from './SqlView.vue'
 import Stat from './Stat.vue'
-import { unpaywall } from '../utils/unpaywallApi'
+import { getOAPaper } from '@/utils/openalexApi'
 
 export default defineComponent({
   name: 'PaperHeroStats',
@@ -77,7 +77,7 @@ export default defineComponent({
   },
   data() {
     return {
-      oaLink: undefined,
+      oaLink: undefined as undefined | string,
       loading: true
     }
   },
@@ -90,8 +90,8 @@ export default defineComponent({
     graphStats: { type: Boolean, default: false }
   },
   watch: {
-    doi: {
-      handler(val) {
+    id: {
+      handler(val: PaperID) {
         this.queryOA(val)
       }
     }
@@ -102,12 +102,12 @@ export default defineComponent({
     }
   },
   methods: {
-    queryOA(doi: string): void {
-      if (doi) {
-        unpaywall(doi).then(data => {
+    queryOA(id: PaperID): void {
+      if (id) {
+        getOAPaper(id).then(data => {
           this.loading = false
-          if (data && data.best_oa_location) {
-            this.oaLink = data.best_oa_location.url
+          if (data && data.open_access.is_oa) {
+            this.oaLink = data.open_access.oa_url
           }
         })
       } else {

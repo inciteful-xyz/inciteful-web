@@ -8,8 +8,8 @@
             Without all of the work that has gone into coordinating, parsing,
             and categorizing all of the academic literature undertaken by a
             variety of different projects, Inciteful, and other sites like it,
-            wouldn't exist. We have pulled both data and/or inspiration from
-            all of the projects listed below:
+            wouldn't exist. We have pulled both data and/or inspiration from all
+            of the projects listed below:
           </div>
           <div class="pt-6 mt-6 border-gray-300 border-t">
             <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
@@ -59,16 +59,6 @@
               href="https://en.wikipedia.org/wiki/Semantic_Scholar"
               >- (Wikipedia)</a
             >
-          </div>
-
-          <div class="pt-6 mt-6 border-gray-300 border-t">
-            <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
-              <a href="https://www.unpaywall.org/"
-                ><img class="w-96" src="../assets/images/unpaywall-logo.jpg" />
-              </a>
-            </h2>
-            We harvest Open Access content from over 50,000 publishers and
-            repositories, and make it easy to find, track, and use.
           </div>
           <div class="pt-6 mt-6 border-gray-300 border-t">
             <h2 class="text-lg sm:text-2xl whitespace-nowrap pb-3">
