@@ -189,7 +189,9 @@ function loadGraph(
 
   if (contextMenuOptions) {
     const cyany = cy as IIndexable
-    cyany.contextMenus(contextMenuOptions)
+
+    if (cyany && cyany.contextMenus)
+      cyany.contextMenus(contextMenuOptions)
   }
 
   // @ts-ignore

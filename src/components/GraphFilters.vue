@@ -189,7 +189,7 @@ export default defineComponent({
   },
   data() {
     return {
-      keywords: this.$route.query.keyword,
+      keywords: this.$route.query.keywords,
       minDistance: this.$route.query.minDistance,
       maxDistance: this.$route.query.maxDistance,
       minYear: this.$route.query.minYear,

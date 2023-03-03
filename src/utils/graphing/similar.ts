@@ -147,8 +147,13 @@ function buildElements(graphData: GraphData, minDate: number, maxDate: number) {
     })
   })
 
+  if (possibleEdges.length == 0)
+    return elements
+
   let edges: EdgeDataDefinition[] = []
   possibleEdges.sort((a, b) => b.score - a.score)
+
+  console.log(possibleEdges.length)
 
   const topPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.02)].score
   const medPercentile = possibleEdges[Math.floor(possibleEdges.length * 0.05)].score
