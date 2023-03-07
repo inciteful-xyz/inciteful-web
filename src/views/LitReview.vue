@@ -64,6 +64,13 @@ export default defineComponent({
   },
   methods: {
     idsChanged(val: PaperID[]): void {
+      if (val && val.length === 1) {
+        this.$router.push({
+          path: navigation.getPaperUrl(val[0]),
+          query: undefined,
+        })
+      }
+
       this.ids = val
     }
   }
