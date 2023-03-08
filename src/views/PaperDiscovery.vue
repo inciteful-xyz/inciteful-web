@@ -1,6 +1,7 @@
 <template>
   <single-column>
     <BetaFeatures />
+    <ZoteroAnnouncement />
     <div class="border-b border-gray-200 pb-6 mb-6">
       <PaperHero :paper="paper" :graphStats="true" />
     </div>
@@ -15,28 +16,24 @@
           </div>
           <div class="ml-3 flex-1 md:flex md:justify-between">
             <p class="text-sm leading-5 text-blue-700">
-              Click on the purple plus signs (<PlusCircleIcon
-                class="h-5 w-5 text-violet-500 inline"
-              />) to add the most interesting papers to the graph. We recommend
+              Click on the purple plus signs (
+              <PlusCircleIcon class="h-5 w-5 text-violet-500 inline" />) to add the most interesting papers to the graph.
+              We recommend
               that you <b>add at least five papers to the graph</b> in order to
               find the most relevant results. If the papers below don't seem
               relevant, <b>use the keyword filter</b> to find the ones which
               are.
             </p>
             <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6 pt-3">
-              <a
-                href="https://help.inciteful.xyz/quick-start.html"
-                target="_blank"
-                class="
-                  whitespace-nowrap
-                  font-bold
-                  text-blue-700
-                  hover:text-blue-600
-                  transition
-                  ease-in-out
-                  duration-150
-                "
-              >
+              <a href="https://help.inciteful.xyz/quick-start.html" target="_blank" class="
+                                              whitespace-nowrap
+                                              font-bold
+                                              text-blue-700
+                                              hover:text-blue-600
+                                              transition
+                                              ease-in-out
+                                              duration-150
+                                            ">
                 Learn More &rarr;
               </a>
             </p>
@@ -59,7 +56,9 @@
         </div>
       </div>
     </div>
-    <div class="pb-6"><BetaSignup /></div>
+    <div class="pb-6">
+      <BetaSignup />
+    </div>
     <PaperPageTour :ready="pageReady" />
   </single-column>
 </template>
@@ -79,6 +78,7 @@ import { Paper, PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
+import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
 
 export default defineComponent({
   name: 'PaperDiscovery',
@@ -92,7 +92,8 @@ export default defineComponent({
     SingleColumn,
     InformationCircleIcon,
     ExclamationIcon,
-    PlusCircleIcon
+    PlusCircleIcon,
+    ZoteroAnnouncement
   },
   data() {
     return {

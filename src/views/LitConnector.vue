@@ -3,40 +3,34 @@
     <div v-if="!isValid">
       <div class="bg-white">
         <div class="max-w-full mx-auto pb-12">
-          <div
-            class="
-              bg-violet-700
-              rounded-lg
-              shadow-xl
-              overflow-hidden
-              lg:grid lg:grid-cols-2
-              lg:gap-4
-            "
-          >
-            <div
-              class="
-                pt-5
-                pb-6
-                px-3
-                sm:pt-8
-                sm:px-8
-                lg:py-8
-                lg:pr-0
-                xl:py-10
-                xl:px-10
-              "
-            >
+          <div class="
+                      bg-violet-700
+                      rounded-lg
+                      shadow-xl
+                      overflow-hidden
+                      lg:grid lg:grid-cols-2
+                      lg:gap-4
+                    ">
+            <div class="
+                        pt-5
+                        pb-6
+                        px-3
+                        sm:pt-8
+                        sm:px-8
+                        lg:py-8
+                        lg:pr-0
+                        xl:py-10
+                        xl:px-10
+                      ">
               <div class="lg:self-center text-lg leading-6">
-                <h2
-                  class="
-                    text-3xl
-                    leading-9
-                    font-extrabold
-                    text-white
-                    sm:text-4xl
-                    sm:leading-10
-                  "
-                >
+                <h2 class="
+                            text-3xl
+                            leading-9
+                            font-extrabold
+                            text-white
+                            sm:text-4xl
+                            sm:leading-10
+                          ">
                   <span class="block">Literature Connector</span>
                 </h2>
                 <p class="mt-3 text-violet-200">
@@ -53,47 +47,36 @@
               </div>
             </div>
             <div class="relative pb-3/5 -mt-6 md:pb-1/2">
-              <img
-                class="
-                  absolute
-                  inset-0
-                  w-full
-                  h-full
-                  translate-x-6 translate-y-6
-                  rounded-md
-                  object-cover object-left-top
-                  sm:translate-x-16
-                  lg:translate-y-20
-                "
-                src="../assets/images/connector-graph.png"
-                alt="App screenshot"
-              />
+              <img class="
+                          absolute
+                          inset-0
+                          w-full
+                          h-full
+                          translate-x-6 translate-y-6
+                          rounded-md
+                          object-cover object-left-top
+                          sm:translate-x-16
+                          lg:translate-y-20
+                        " src="../assets/images/connector-graph.png" alt="App screenshot" />
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="mb-4">
+      <ZoteroAnnouncement />
       <div class="sm:flex mb-6" id="connected-papers">
         <div class="flex-1 sm:pr-3">
-          <lit-connector-paper-selector
-            ref="fromSelector"
-            :paperParam="fromParam"
-            :searchLabel="'From'"
-            @paperSelected="handleFromSelect"
-          />
+          <lit-connector-paper-selector ref="fromSelector" :paperParam="fromParam" :searchLabel="'From'"
+            @paperSelected="handleFromSelect" />
         </div>
         <div class="flex-none text-center py-3 sm:py-6">
           <ArrowRightIcon class="w-12 h-12 hidden sm:inline" />
           <ArrowDownIcon class="w-12 h-12 sm:hidden m-auto" />
         </div>
         <div class="flex-1 sm:pl-3">
-          <lit-connector-paper-selector
-            ref="toSelector"
-            :paperParam="toParam"
-            :searchLabel="'To'"
-            @paperSelected="handleToSelect"
-          />
+          <lit-connector-paper-selector ref="toSelector" :paperParam="toParam" :searchLabel="'To'"
+            @paperSelected="handleToSelect" />
         </div>
       </div>
       <lit-connector-body :to="to" :from="from" />
@@ -115,6 +98,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/incitefulTypes'
 import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
 import { EmitEvents } from '@/utils/emitHelpers'
+import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue';
 
 export default defineComponent({
   name: 'LitConnectorPage',
@@ -126,7 +110,8 @@ export default defineComponent({
     LitConnectorTour,
     SingleColumn,
     ArrowRightIcon,
-    ArrowDownIcon
+    ArrowDownIcon,
+    ZoteroAnnouncement
   },
   data() {
     return {
