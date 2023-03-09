@@ -17,14 +17,6 @@
           <button :class="[
             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
             'group flex items-center px-4 py-2 text-sm text-right'
-          ]" @click="saveCollection">
-            Save to Collection
-          </button>
-          </MenuItem>
-          <MenuItem v-slot="{ active }" v-if="user.enabled && user.isSignedIn">
-          <button :class="[
-            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-            'group flex items-center px-4 py-2 text-sm text-right'
           ]" @click="saveToFavorites">
             Save to Favorites
           </button>
@@ -76,8 +68,6 @@ import { DocumentDownloadIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/userStore'
 import { PaperID, ReferenceManagers } from '@/types/incitefulTypes'
 import api from '@/utils/incitefulApi'
-import { CollectionModalOptions } from '@/types/modalTypes'
-import { showModalHelper } from '@/utils/emitHelpers'
 import router from '../router/index';
 
 export default defineComponent({
@@ -94,17 +84,6 @@ export default defineComponent({
   },
   setup(props) {
     let user = useUserStore()
-    const saveCollection = () => {
-      if (props.ids !== undefined) {
-        const options: CollectionModalOptions = {
-          action: {
-            contextIds: props.ids
-          }
-        }
-
-        showModalHelper(options)
-      }
-    }
 
     const saveToFavorites = () => {
       if (props.ids !== undefined) {
@@ -136,7 +115,6 @@ export default defineComponent({
       user,
       downloadBibFile,
       downloadRisFile,
-      saveCollection,
       saveToFavorites,
       exportToMendeley,
       exportToZotero

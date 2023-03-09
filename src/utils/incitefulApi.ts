@@ -3,7 +3,6 @@ import options from './options'
 import axiosRetry from 'axios-retry'
 import { logError } from './logging'
 import { Paper, PaperConnector, PaperID, PaperAutosuggest, paperIntoPaperAutosuggest, QueryResults } from '../types/incitefulTypes';
-import { ZoteroToken, ZoteroIdMatch, ZoteroKey } from '../types/zoteroTypes';
 import { searchOAAutocomplete } from './openalexApi';
 
 const MAX_INCITEFUL_REQUESTS = 100
@@ -168,16 +167,6 @@ function getZoteroAuthUrl(): Promise<string | undefined> {
     })
 }
 
-function getZoteroAuth(oauthToken: string): Promise<ZoteroToken | undefined> {
-  return axios
-    .get(`${API_URL}/zotero/auth/fetch?oauth_token=${oauthToken}`)
-    .then((response: AxiosResponse<ZoteroToken>) => response.data)
-    .catch(err => {
-      handleIncitefulErr(err)
-      return undefined
-    })
-}
-
 function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
   const idParams = buildIDParams(ids)
 
@@ -187,16 +176,6 @@ function getPapers(ids: Array<PaperID>, condensed: boolean): Promise<Paper[]> {
     .catch(err => {
       handleIncitefulErr(err)
       return []
-    })
-}
-
-function zoteroIdMatch(idsToMatch: ZoteroIdMatch[]): Promise<Record<ZoteroKey, PaperID> | undefined> {
-  return axios
-    .post(`${API_URL}/zotero/idmatch`, idsToMatch)
-    .then((response: AxiosResponse<Record<ZoteroKey, PaperID>>) => response.data)
-    .catch(err => {
-      handleIncitefulErr(err)
-      return undefined
     })
 }
 
@@ -277,9 +256,7 @@ export default {
   connectPapers,
   getPaperIds,
   getZoteroAuthUrl,
-  getZoteroAuth,
   autosuggestSearch,
   downloadBibFile,
-  downloadRisFile,
-  zoteroIdMatch
+  downloadRisFile
 }

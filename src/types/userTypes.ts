@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore";
 import { PaperID } from "./incitefulTypes";
 
 export interface UserData {
@@ -18,7 +17,7 @@ export interface IncitefulCollection {
     visibility: ItemVisibility,
     name: string,
     papers: IncitefulCollectionItem[]
-    dateCreated: Timestamp
+    dateCreated: Date
 }
 
 export enum IncitefulCollectionItemSource {
@@ -27,6 +26,6 @@ export enum IncitefulCollectionItemSource {
 }
 export interface IncitefulCollectionItem {
     paperId: PaperID,
-    dateAdded: Timestamp,
+    dateAdded: Date,
     source: IncitefulCollectionItemSource,
 }

@@ -1,5 +1,4 @@
 import { PaperID, Author } from './incitefulTypes';
-import { ZoteroKey } from './zoteroTypes';
 
 export interface IModalOptions {
     previousScreen?: ModalOptions;
@@ -19,17 +18,7 @@ export interface SaveCollectionAction {
     contextIds: PaperID[];
 }
 
-export interface SyncZoteroCollectionAction {
-    zoteroKey: ZoteroKey;
-    zoteroName: string;
-}
-
-export interface SyncIncitefulCollectionAction {
-    incitefulKey: string;
-    incitefulName: string;
-}
-
-export type CollectionModalActions = SaveCollectionAction | SyncZoteroCollectionAction | SyncIncitefulCollectionAction;
+export type CollectionModalActions = SaveCollectionAction;
 
 export function isSaveCollectionAction(
     options: CollectionModalActions
@@ -37,27 +26,8 @@ export function isSaveCollectionAction(
     return (options as SaveCollectionAction).contextIds !== undefined;
 }
 
-export function isSyncZoteroCollectionAction(
-    options: CollectionModalActions
-): options is SyncZoteroCollectionAction {
-    return (options as SyncZoteroCollectionAction).zoteroKey !== undefined;
-}
-export function isSyncIncitefulCollectionAction(
-    options: CollectionModalActions
-): options is SyncIncitefulCollectionAction {
-    return (options as SyncIncitefulCollectionAction).incitefulKey !== undefined;
-}
 
-export function isValidCollectectionModalAction(
-    options: CollectionModalActions
-): boolean {
-    return isSaveCollectionAction(options) || isSyncZoteroCollectionAction(options) || isSyncIncitefulCollectionAction(options);
-}
-export interface CollectionModalOptions extends IModalOptions {
-    action: CollectionModalActions;
-}
-
-export type ModalOptions = PaperModalOptions | AuthorModalOptions | CollectionModalOptions;
+export type ModalOptions = PaperModalOptions | AuthorModalOptions;
 
 export function isPaperModalOptons(
     options: ModalOptions
@@ -69,12 +39,6 @@ export function isAuthorModalOptions(
     options: ModalOptions
 ): options is AuthorModalOptions {
     return (options as AuthorModalOptions).author !== undefined;
-}
-
-export function isCollectionModalOptions(
-    options: ModalOptions
-): options is CollectionModalOptions {
-    return (options as CollectionModalOptions).action !== undefined;
 }
 
 export interface NotificationModalOptions {

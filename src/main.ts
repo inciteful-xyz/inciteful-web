@@ -11,9 +11,7 @@ import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
 import { useUserStore } from './stores/userStore'
-import { usePaperCollectionStore } from './stores/paperCollectionStore'
 import { emitter } from './utils/emitHelpers'
-import { useZoteroStore } from './stores/zoteroStore'
 import { createHead } from "@vueuse/head"
 
 require('v3-tour/dist/vue-tour.css')
@@ -43,10 +41,6 @@ if (process.env.NODE_ENV === 'production') {
 (async () => {
   app.use(createPinia())
 
-  const { bindToUserLoad: bindUser } = useUserStore()
-  const pcStore = usePaperCollectionStore()
-  const zStore = useZoteroStore()
-  await bindUser([pcStore.bind, zStore.bind])
   const head = createHead()
 
   app

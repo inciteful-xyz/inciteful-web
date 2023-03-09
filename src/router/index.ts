@@ -2,7 +2,6 @@ import qs from 'qs'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
-import { useUserStore } from '../stores/userStore'
 
 const routes = [
   {
@@ -16,64 +15,6 @@ const routes = [
       canonical: '/'
     },
     isSecureContext
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Login.vue'),
-    meta: {
-      title: 'Login',
-      description:
-        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
-      canonical: '/login'
-    }
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Register.vue'),
-    meta: {
-      title: 'Register',
-      description:
-        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
-      canonical: '/register'
-    }
-  },
-  {
-    path: '/forgot',
-    name: 'Forgot',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Forgot.vue'),
-    meta: {
-      title: 'Forgot password',
-      description:
-        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
-      canonical: '/forgot'
-    }
-  },
-  {
-    path: '/user',
-    name: 'UserIndex',
-    component: () =>
-      import(/* webpackChunkName: "user" */ '../views/user/UserIndex.vue'),
-    meta: {
-      title: 'My Dashboard',
-      description: 'Your user dashboard',
-      canonical: '/user'
-    }
-  },
-  {
-    path: '/user/zotero',
-    name: 'Zotero',
-    component: () =>
-      import(/* webpackChunkName: "user" */ '../views/user/Zotero.vue'),
-    meta: {
-      title: 'Zotero Integration',
-      description: 'Zotero Integration',
-      canonical: '/user/zotero'
-    }
   },
   {
     path: '/about',
@@ -163,16 +104,6 @@ const routes = [
     }
   },
   {
-    path: '/collection/:pathMatch(.*)',
-    name: 'CollectionView',
-    component: () =>
-      import(/* webpackChunkName: "discovery" */ '../views/Collection.vue'),
-    meta: {
-      title: 'Collection View',
-      description: 'Explore and manage your collection.'
-    }
-  },
-  {
     path: '/p/:pathMatch(.*)',
     name: 'PaperDiscovery',
     component: () =>
@@ -229,7 +160,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 
-  scrollBehavior (_to, _from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
@@ -243,22 +174,6 @@ const router = createRouter({
       arrayFormat: 'brackets'
     })
     return result || ''
-  }
-})
-
-router.beforeEach(to => {
-  const userStore = useUserStore()
-
-  if (to.path.toLowerCase().startsWith('/user') && !userStore.isSignedIn) {
-    return '/login'
-  }
-
-  if (
-    (to.path.toLowerCase().startsWith('/login') ||
-      to.path.toLowerCase().startsWith('/register')) &&
-    userStore.isSignedIn
-  ) {
-    return '/user'
   }
 })
 

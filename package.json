@@ -29,7 +29,6 @@
     "cytoscape-klay": "^3.1.4",
     "cytoscape-popper": "^2.0.0",
     "doi-regex": "^0.1.10",
-    "firebase": "^9.6.8",
     "flexsearch": "^0.7.11",
     "install": "^0.13.0",
     "mitt": "^3.0.0",

@@ -5,20 +5,11 @@
         <tr>
           <th></th>
           <th v-for="(column, index) in columns" :key="index">
-            <button
-              @click="sortBy(column.name, column.selector)"
-              :class="{ 'font-bold': column.name == sortedBy }"
-              class="uppercase"
-            >
+            <button @click="sortBy(column.name, column.selector)" :class="{ 'font-bold': column.name == sortedBy }"
+              class="uppercase">
               {{ column.displayName }}
-              <ChevronDownIcon
-                v-if="column.name == sortedBy && sortDescending"
-                class="w-4 h-4 inline"
-              />
-              <ChevronUpIcon
-                v-if="column.name == sortedBy && !sortDescending"
-                class="w-4 h-4 inline"
-              />
+              <ChevronDownIcon v-if="column.name == sortedBy && sortDescending" class="w-4 h-4 inline" />
+              <ChevronUpIcon v-if="column.name == sortedBy && !sortDescending" class="w-4 h-4 inline" />
             </button>
           </th>
         </tr>
@@ -46,7 +37,7 @@ import api from '@/utils/incitefulApi'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
-import PaperModalButton from './Modals/PaperModalButton.vue'
+import PaperModalButton from './modals/PaperModalButton.vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/userStore'
 import { IIndexable } from '../types/incitefulTypes'

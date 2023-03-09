@@ -79,7 +79,7 @@ import {
   LockOpenIcon
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
-import PaperModalButton from './Modals/PaperModalButton.vue'
+import PaperModalButton from './modals/PaperModalButton.vue'
 import { LockedPaper, IIndexable } from '../types/incitefulTypes'
 import { sendDataUpdated } from '../utils/exportUtils';
 

@@ -81,7 +81,7 @@ import SaveDropDown from './SaveDropDown.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 
 import { useUserStore } from '@/stores/userStore'
-import PaperModalButton from './Modals/PaperModalButton.vue'
+import PaperModalButton from './modals/PaperModalButton.vue'
 import { XCircleIcon } from '@heroicons/vue/solid'
 import { setExportHeaders } from '../utils/exportUtils';
 

@@ -3,13 +3,11 @@
     <div class="flex flex-col">
       <div class="-my-2 sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div
-            class="
-              shadow
-              border-b border-gray-200
-              sm:rounded-lg
-            "
-          >
+          <div class="
+                shadow
+                border-b border-gray-200
+                sm:rounded-lg
+              ">
             <div class="p-8" v-if="errorMsg">{{ errorMsg }}</div>
             <div class="p-8 flex justify-center" v-else-if="loading">
               <Loader />
@@ -20,24 +18,11 @@
                   <tr>
                     <th class="pl-3 py-3"></th>
                     <th v-if="hasPaperID()"></th>
-                    <th
-                      class="whitespace-nowrap"
-                      v-for="(column, index) in columns"
-                      :key="index"
-                    >
-                      <button
-                        @click="sortBy(column)"
-                        :class="{ 'font-bold': column == sortedBy }"
-                      >
+                    <th class="whitespace-nowrap" v-for="(column, index) in columns" :key="index">
+                      <button @click="sortBy(column)" :class="{ 'font-bold': column == sortedBy }">
                         {{ column }}
-                        <ChevronDownIcon
-                          v-if="column == sortedBy && sortDescending"
-                          class="w-4 h-4 inline"
-                        />
-                        <ChevronUpIcon
-                          class="w-4 h-4 inline"
-                          v-if="column == sortedBy && !sortDescending"
-                        />
+                        <ChevronDownIcon v-if="column == sortedBy && sortDescending" class="w-4 h-4 inline" />
+                        <ChevronUpIcon class="w-4 h-4 inline" v-if="column == sortedBy && !sortDescending" />
                       </button>
                     </th>
                   </tr>
@@ -45,78 +30,48 @@
                 <tbody>
                   <tr v-if="!results || results.length == 0">
                     <td class="p-3 text-center">
-                      <span v-if="emptyMessage">{{ emptyMessage }}</span
-                      ><span v-else
-                        >No results. Try adjusting your filters.
+                      <span v-if="emptyMessage">{{ emptyMessage }}</span><span v-else>No results. Try adjusting your
+                        filters.
                       </span>
                     </td>
                   </tr>
-                  <tr
-                    v-for="(result, index) in pagedResults"
-                    :key="index"
-                    :class="rowClass(index)"
-                  >
+                  <tr v-for="(result, index) in pagedResults" :key="index" :class="rowClass(index)">
                     <td v-if="hasPaperID()">
-                      <LitReviewButton
-                        :ids="ids"
-                        :id="(result.paper_id as PaperID)"
-                      />
+                      <LitReviewButton :ids="ids" :id="(result.paper_id as PaperID)" />
                     </td>
 
                     <td class="pl-3 py-2 text-left text-sm">
-                      <paper-modal-button
-                        :class="['block', 'font-semibold', 'pb-2', 'text-left']"
-                        :id="(result.paper_id as PaperID)"
-                        :contextIds="ids"
-                        :text="(result.title ? result.title : result.paper_id) as string"
-                      />
+                      <paper-modal-button :class="['block', 'font-semibold', 'pb-2', 'text-left']"
+                        :id="(result.paper_id as PaperID)" :contextIds="ids"
+                        :text="(result.title ? result.title : result.paper_id) as string" />
                       <div v-if="result.authors">
-                        <Authors
-                          :authors="(result.authors as Author[])"
-                          :ids="ids"
-                        />
+                        <Authors :authors="(result.authors as Author[])" :ids="ids" />
                       </div>
-                      <div
-                        v-if="result.affiliation"
-                        class="whitespace-nowrap font-semibold text-gray-500"
-                      >
+                      <div v-if="result.affiliation" class="whitespace-nowrap font-semibold text-gray-500">
                         {{ result.affiliation }}
                       </div>
-                      <div
-                        v-if="result.author_name"
-                        class="whitespace-nowrap font-semibold text-gray-500"
-                      >
-                        <Authors
-                          :authors="[
-                            {
-                              author_id: 0,
-                              name: result.author_name as string,
-                              sequence: 0,
-                            }
-                          ]"
-                          :authorClass="[
-                            'font-semibold',
-                            'text-gray-600',
-                            'underline'
-                          ]"
-                          :ids="ids"
-                        />
+                      <div v-if="result.author_name" class="whitespace-nowrap font-semibold text-gray-500">
+                        <Authors :authors="[
+                          {
+                            author_id: 0,
+                            name: result.author_name as string,
+                            sequence: 0,
+                          }
+                        ]" :authorClass="[
+  'font-semibold',
+  'text-gray-600',
+  'underline'
+]" :ids="ids" />
                       </div>
 
-                      <span
-                        v-if="
-                          result.year || result.published_year || result.journal
-                        "
-                      >
+                      <span v-if="
+                        result.year || result.published_year || result.journal
+                      ">
                         {{ result.year ? `(${result.published_year})` : '' }}
                         <i>{{ result.journal }}</i>
                       </span>
                     </td>
-                    <td
-                      class="whitespace-nowrap text-sm"
-                      v-for="(column, index) in columns"
-                      :key="index"
-                    >
+                    <td class="whitespace-nowrap text-sm" v-for="(column, index) in columns" :key="index">
                       {{ format(result[column]) }}
                     </td>
                   </tr>
@@ -124,53 +79,23 @@
               </table>
               <div class="flex text-sm border-t border-gray-200">
                 <div class="flex-auto">
-                  <router-link
-                    :to="queryLink"
-                    title="View SQL"
-                    class="p-3 sql-button cursor-pointer inline-block"
-                  >
+                  <router-link :to="queryLink" title="View SQL" class="p-3 sql-button cursor-pointer inline-block">
                     <DocumentReportIcon class="w-4 h-4 inline" /> SQL
                   </router-link>
                 </div>
-                <div
-                  v-if="numPages > 1"
-                  class="flex-none whitespace-nowrap paging"
-                >
-                  <paginate
-                    v-model="currentPage"
-                    :pages="numPages"
-                    active-color="rgba(139, 92, 246)"
-                    :hideFirstButton="true"
-                    :hideLastButton="true"
-                    @update:modelValue="turnPage"
-                  >
+                <div v-if="numPages > 1" class="flex-none whitespace-nowrap paging">
+                  <paginate v-model="currentPage" :pages="numPages" active-color="rgba(139, 92, 246)"
+                    :hideFirstButton="true" :hideLastButton="true" @update:modelValue="turnPage">
                   </paginate>
                 </div>
                 <div class="flex-auto text-right">
-                  <SaveDropDown
-                    :ids="resultIds"
-                    v-if="hasPaperID()"
-                    class="pt-2"
-                  />
-                  <button
-                    v-if="canViewGraphs()"
-                    v-on:click="viewGraph()"
-                    title="ViewGraph"
-                    class="p-3"
-                  >
-                    <svg
-                      class="w-4 h-4 inline"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      ></path>
+                  <SaveDropDown :ids="resultIds" v-if="hasPaperID()" class="pt-2" />
+                  <button v-if="canViewGraphs()" v-on:click="viewGraph()" title="ViewGraph" class="p-3">
+                    <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                      </path>
                     </svg>
                     Graph
                   </button>
@@ -199,7 +124,7 @@ import {
   DocumentReportIcon
 } from '@heroicons/vue/outline'
 import SaveDropDown from './SaveDropDown.vue'
-import PaperModalButton from './Modals/PaperModalButton.vue'
+import PaperModalButton from './modals/PaperModalButton.vue'
 import { QueryResults } from '../types/incitefulTypes'
 
 export default defineComponent({
@@ -236,7 +161,7 @@ export default defineComponent({
     }
   },
   watch: {
-    results: function() {
+    results: function () {
       this.currentPage = 1
     }
   },
