@@ -13,10 +13,22 @@
       "sql": "SELECT paper_id, doi, authors, title, adamic_adar + COALESCE(cocite, 0) as similarity, published_year, num_cited_by\nFROM papers p\nWHERE {{filters}}\nAND (adamic_adar > 0 OR cocite > 0)\nORDER BY similarity DESC, page_rank DESC"
     },
     {
-      "id": "most-important-papers",
-      "title": "Most Important Papers in the Graph",
-      "subtext": "These are the \"Most Important\" papers as ranked by PageRank.  These tend to be the older papers in the field.",
-      "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+      "id": "other-papers",
+      "renderColumns": true,
+      "content": [
+        {
+          "id": "most-important-papers",
+          "title": "Most Important Papers",
+          "subtext": "These are the \"Most Important\" papers as ranked by PageRank.  These tend to be the older papers in the field.",
+          "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+        },
+        {
+          "id": "review-papers",
+          "title": "Review Papers",
+          "subtext": "These papers cite the most papers present in the graph.  As a result, there is a high likelyhood that these papers are review papers.",
+          "sql": "SELECT paper_id, doi, authors, title, num_citing, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY num_citing DESC, adamic_adar DESC"
+        }
+      ]
     },
     {
       "id": "recent-papers",

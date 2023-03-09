@@ -7,14 +7,29 @@
       "type": "graph"
     },
     {
+      "id": "similar-papers",
       "title": "Similar Papers",
       "subtext": "These are papers which tend to cite the papers you have selected above.  They normally bias towards newer papers and can help you find the latest literature on the topic.",
+      "emptyMessage": "We could not find any similar papers.  This is often because the source paper does not have any outgoing citations.",
       "sql": "SELECT paper_id, doi, authors, title, adamic_adar + COALESCE(cocite, 0) AS similarity, published_year, num_cited_by\nFROM papers p\nWHERE {{filters}}\nAND distance = 2\nAND (adamic_adar > 0 or cocite > 0)\nORDER BY similarity DESC,  page_rank DESC"
     },
     {
-      "title": "Most Important Papers in the Graph",
-      "subtext": "These are the \"Most Important\" papers in the network based on PageRank, these tend to be older papers and represent where the literature has come from.",
-      "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+      "id": "other-papers",
+      "renderColumns": true,
+      "content": [
+        {
+          "id": "most-important-papers",
+          "title": "Most Important Papers",
+          "subtext": "These are the \"Most Important\" papers as ranked by PageRank.  These tend to be the older papers in the field.",
+          "sql": "SELECT paper_id, doi, authors, title, page_rank, num_cited_by, published_year\nFROM papers p\nWHERE {{filters}}\nORDER BY page_rank DESC, adamic_adar DESC"
+        },
+        {
+          "id": "review-papers",
+          "title": "Review Papers",
+          "subtext": "These papers cite the most papers present in the graph.  As a result, there is a high likelyhood that these papers are review papers.",
+          "sql": "SELECT paper_id, doi, authors, title, num_citing, num_cited_by, published_year\nFROM papers p\nWHERE distance = 2 \nAND {{filters}}\nORDER BY num_citing DESC, adamic_adar DESC"
+        }
+      ]
     },
     {
       "id": "recent-papers",
@@ -31,6 +46,7 @@
       ]
     },
     {
+      "id": "other-data",
       "title": "Other Data",
       "subtext": "This section highlights other interesting data related to the network.",
       "renderColumns": true,
