@@ -22,21 +22,10 @@
           <td class="pt-2 pl-2" v-if="userEnabled">
             <FavoritePaperButton :id="paper.id" />
           </td>
-          <td
-            class="
-                xl:whitespace-nowrap
-                overflow-hidden
-                max-w-2xl
-              "
-          >
+          <td class="xl:whitespace-nowrap overflow-hidden max-w-2xl">
             <paper-modal-button :id="paper.id" :text="paper.title" />
           </td>
-          <td
-            class="
-                lg:whitespace-nowrap
-                text-center
-              "
-          >
+          <td class="lg:whitespace-nowrap text-center">
             <span v-if="paper.author.length > 0">
               <author :author="paper.author[0]" :ids="ids" />
             </span>
@@ -52,24 +41,24 @@
               <XCircleIcon class="h-5 w-5 text-violet-500" />
             </button>
           </td>
+          <td class="hidden">
+            {{ paper.doi }}
+          </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tfoot v-if="showFooter">
         <tr>
           <td v-if="userEnabled"></td>
           <td colspan="2" class="text-center">
-            <button
-              v-if="papers.length > numVisible"
-              @click="togglePaperView()"
-              class="underline hover:no-underline text-violet-700"
-            >
-              <span v-if="hidePapers"
-                ><ChevronDoubleDownIcon class="w-4 h-4 inline" />
+            <button v-if="papers.length > numVisible" @click="togglePaperView()"
+              class="underline hover:no-underline text-violet-700">
+              <span v-if="hidePapers">
+                <ChevronDoubleDownIcon class="w-4 h-4 inline" />
                 View All
-                <span class="font-bold">{{ ids ? ids.length : 0 }}</span></span
-              ><span v-if="!hidePapers"
-                ><ChevronDoubleUpIcon class="w-4 h-4 inline" />View Less</span
-              >
+                <span class="font-bold">{{ ids ? ids.length : 0 }}</span>
+              </span><span v-if="!hidePapers">
+                <ChevronDoubleUpIcon class="w-4 h-4 inline" />View Less
+              </span>
             </button>
           </td>
           <td colspan="3" class="text-xs text-right whitespace-nowrap">
@@ -94,6 +83,7 @@ import FavoritePaperButton from './FavoritePaperButton.vue'
 import { useUserStore } from '@/stores/userStore'
 import PaperModalButton from './Modals/PaperModalButton.vue'
 import { XCircleIcon } from '@heroicons/vue/solid'
+import { setExportHeaders } from '../utils/exportUtils';
 
 import {
   ChevronDoubleDownIcon,
@@ -105,7 +95,15 @@ let user = useUserStore()
 export default defineComponent({
   name: 'PaperList',
   props: {
-    ids: {} as PropType<PaperID[]>
+    ids: {} as PropType<PaperID[]>,
+    hidePapersDefault: {
+      type: Boolean,
+      default: true
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
+    }
   },
   components: {
     Author,
@@ -127,6 +125,9 @@ export default defineComponent({
     if (this.ids) {
       this.setData(this.ids)
     }
+  },
+  mounted() {
+    this.hidePapers = this.hidePapersDefault
   },
   computed: {
     userEnabled(): boolean {
@@ -151,6 +152,7 @@ export default defineComponent({
   },
   methods: {
     setData(ids: PaperID[]): void {
+      console.log("Setting data", ids)
       if (ids) {
         api.getPapers(ids, true).then(data => {
           this.papers = data
@@ -172,6 +174,7 @@ export default defineComponent({
               }
             })
           }
+          setExportHeaders(this.papers)
         })
       } else {
         this.papers = undefined
@@ -183,6 +186,6 @@ export default defineComponent({
     togglePaperView(): void {
       this.hidePapers = !this.hidePapers
     }
-  }
+  },
 })
 </script>

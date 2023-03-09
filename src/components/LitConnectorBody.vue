@@ -7,14 +7,8 @@
         <div v-if="!foundPath">No paths found</div>
         <div v-else>
           <div class="mb-6">
-            <dl
-              class="text-center sm:mx-auto gap-2 sm:gap-4 sm:text-lg text-sm"
-            >
-              <div
-                class="flex flex-wrap"
-                id="connection-stats"
-                v-if="results && connectingPapers"
-              >
+            <dl class="text-center sm:mx-auto gap-2 sm:gap-4 sm:text-lg text-sm">
+              <div class="flex flex-wrap" id="connection-stats" v-if="results && connectingPapers">
                 <stat>
                   <template v-slot:name>Min Hops</template>
                   <template v-slot:value> {{ minHops }}</template>
@@ -26,8 +20,7 @@
                 <stat>
                   <template v-slot:name>Papers Searched</template>
                   <template v-slot:value>
-                    {{ results.papers_searched }}</template
-                  >
+                    {{ results.papers_searched }}</template>
                 </stat>
                 <stat>
                   <template v-slot:name>Paths Found</template>
@@ -36,16 +29,12 @@
                 <stat>
                   <template v-slot:name>Papers in Paths</template>
                   <template v-slot:value>
-                    {{ connectingPapers.length }}</template
-                  >
+                    {{ connectingPapers.length }}</template>
                 </stat>
               </div>
             </dl>
           </div>
-          <div
-            v-if="showExtendedGraphsReccomendation"
-            class="rounded-md bg-blue-50 p-4"
-          >
+          <div v-if="showExtendedGraphsReccomendation" class="rounded-md bg-blue-50 p-4">
             <div class="flex">
               <div class="flex-shrink-0">
                 <InformationCircleIcon class="h-5 w-5 text-blue-400" />
@@ -57,19 +46,16 @@
                   longer paths and more context.
                 </p>
                 <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6">
-                  <button
-                    @click="toggleExtendedGraphs"
-                    class="
-                      whitespace-nowrap
-                      font-medium
-                      text-blue-700
-                      hover:text-blue-600
-                      underline
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
-                  >
+                  <button @click="toggleExtendedGraphs" class="
+                            whitespace-nowrap
+                            font-medium
+                            text-blue-700
+                            hover:text-blue-600
+                            underline
+                            transition
+                            ease-in-out
+                            duration-150
+                          ">
                     Activate &rarr;
                   </button>
                 </p>
@@ -77,204 +63,141 @@
             </div>
           </div>
           <div id="graph-view">
-            <GraphView
-              :graphData="graphData"
-              :loaded="loaded"
-              :filteredIds="filteredIds"
-              :highlightedIds="highlightedIds"
-            >
+            <GraphView :graphData="graphData" :loaded="loaded" :filteredIds="filteredIds"
+              :highlightedIds="highlightedIds">
               <div class="mt-6">
-                <div
-                  id="graph-filters"
-                  class="
-                    lg:flex-1
-                    border-b
-                    pb-5
-                    mb-5
-                    lg:border-b-0
-                    lg:mb-0
-                    lg:pb-0
-                  "
-                >
+                <div id="graph-filters" class="
+                          lg:flex-1
+                          border-b
+                          pb-5
+                          mb-5
+                          lg:border-b-0
+                          lg:mb-0
+                          lg:pb-0
+                        ">
                   <h3 class="text-gray-700 text-base font-semibold">
                     Paper Filters
                   </h3>
                   <div class="w-full pt-2 lg:flex flex-wrap">
                     <div class="flex-grow pb-3 pr-3">
-                      <label
-                        for="keywordFilter"
-                        class="
-                          block
-                          text-sm
-                          leading-5
-                          font-medium
-                          text-gray-800
-                        "
-                        >Keywords & Authors</label
-                      >
+                      <label for="keywordFilter" class="
+                                block
+                                text-sm
+                                leading-5
+                                font-medium
+                                text-gray-800
+                              ">Keywords & Authors</label>
                       <div class="mt-1">
-                        <input
-                          type="text"
-                          v-model="textKeywords"
-                          ref="keywordFilter"
+                        <input type="text" v-model="textKeywords" ref="keywordFilter"
                           class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-full"
-                          placeholder="albert einstein relativity"
-                        />
+                          placeholder="albert einstein relativity" />
                       </div>
                     </div>
                     <div class="flex-wrap flex lg:whitespace-nowrap pb-3">
                       <div class="flex-none">
                         <div class="inline-block">
-                          <label
-                            for="minYear"
-                            class="
-                              block
-                              text-sm
-                              font-medium
-                              leading-5
-                              text-gray-800
-                            "
-                            >Min Year</label
-                          >
+                          <label for="minYear" class="
+                                    block
+                                    text-sm
+                                    font-medium
+                                    leading-5
+                                    text-gray-800
+                                  ">Min Year</label>
                           <div class="mt-1">
-                            <input
-                              ref="minYearFilter"
-                              type="text"
+                            <input ref="minYearFilter" type="text"
                               class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-20"
-                              v-model="minYear"
-                              maxlength="4"
-                              placeholder="2005"
-                            />
+                              v-model="minYear" maxlength="4" placeholder="2005" />
                           </div>
                         </div>
                         <div class="inline-block pl-3">
-                          <label
-                            for="maxYear"
-                            class="
-                              block
-                              text-sm
-                              font-medium
-                              leading-5
-                              text-gray-800
-                            "
-                            >Max Year</label
-                          >
+                          <label for="maxYear" class="
+                                    block
+                                    text-sm
+                                    font-medium
+                                    leading-5
+                                    text-gray-800
+                                  ">Max Year</label>
                           <div class="mt-1">
-                            <input
-                              ref="maxYearFilter"
-                              type="text"
+                            <input ref="maxYearFilter" type="text"
                               class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block sm:text-sm border-gray-300 rounded-md w-20"
-                              maxlength="4"
-                              v-model="maxYear"
-                              placeholder="2015"
-                            />
+                              maxlength="4" v-model="maxYear" placeholder="2015" />
                           </div>
                         </div>
                         <div class="inline-block pl-3">
-                          <label
-                            for="extendedGraphs"
-                            class="
-                              block
-                              text-sm
-                              font-medium
-                              leading-5
-                              text-gray-800
-                            "
-                            >Ext. Graph</label
-                          >
+                          <label for="extendedGraphs" class="
+                                    block
+                                    text-sm
+                                    font-medium
+                                    leading-5
+                                    text-gray-800
+                                  ">Ext. Graph</label>
                           <div class="mt-1">
-                            <span
-                              @click="toggleExtendedGraphs"
-                              role="checkbox"
-                              tabindex="0"
-                              aria-checked="false"
-                              title="Extend the graph an extra layer for small/uninteresting graphs."
-                              class="
-                                relative
-                                inline-flex
-                                flex-shrink-0
-                                h-6
-                                w-11
-                                border-2 border-transparent
-                                rounded-full
-                                cursor-pointer
-                                transition-colors
-                                ease-in-out
-                                duration-200
-                                focus:outline-none
-                                focus:ring
-                              "
-                              :class="{
-                                'bg-violet-600': extendedGraph,
-                                'bg-gray-200': !extendedGraph
-                              }"
-                            >
-                              <span
-                                aria-hidden="true"
-                                class="
-                                  inline-block
-                                  h-5
-                                  w-5
-                                  rounded-full
-                                  bg-white
-                                  shadow
-                                  transition
-                                  ease-in-out
-                                  duration-200
-                                "
-                                :class="{
-                                  'translate-x-5': extendedGraph,
-                                  'translate-x-0': !extendedGraph
-                                }"
-                              ></span>
+                            <span @click="toggleExtendedGraphs" role="checkbox" tabindex="0" aria-checked="false"
+                              title="Extend the graph an extra layer for small/uninteresting graphs." class="
+                                      relative
+                                      inline-flex
+                                      flex-shrink-0
+                                      h-6
+                                      w-11
+                                      border-2 border-transparent
+                                      rounded-full
+                                      cursor-pointer
+                                      transition-colors
+                                      ease-in-out
+                                      duration-200
+                                      focus:outline-none
+                                      focus:ring
+                                    " :class="{
+                                      'bg-violet-600': extendedGraph,
+                                      'bg-gray-200': !extendedGraph
+                                    }">
+                              <span aria-hidden="true" class="
+                                        inline-block
+                                        h-5
+                                        w-5
+                                        rounded-full
+                                        bg-white
+                                        shadow
+                                        transition
+                                        ease-in-out
+                                        duration-200
+                                      " :class="{
+                                        'translate-x-5': extendedGraph,
+                                        'translate-x-0': !extendedGraph
+                                      }"></span>
                             </span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    id="paper-keywords"
-                    v-if="titleKeywords && titleKeywords.length > 0"
-                    class="pb-3"
-                  >
-                    <button
-                      v-for="(keyword, index) in titleKeywords"
-                      class="
-                        inline-flex
-                        items-center
-                        px-2.5
-                        mx-1
-                        py-0.5
-                        rounded-full
-                        text-xs
-                        font-medium
-                        leading-4
-                        bg-violet-100
-                        text-violet-800
-                        border
-                        hover:border-violet-800
-                      "
-                      :class="{
-                        'bg-violet-300': keyword.term == textKeywords,
-                        'hover:bg-violet-300': keyword.term != textKeywords
-                      }"
-                      :key="index"
-                      @click="keywordClick(keyword.term)"
-                      @mouseover="hoverKeywords = keyword.term"
-                      @mouseleave="hoverKeywords = undefined"
-                    >
+                  <div id="paper-keywords" v-if="titleKeywords && titleKeywords.length > 0" class="pb-3">
+                    <button v-for="(keyword, index) in titleKeywords" class="
+                              inline-flex
+                              items-center
+                              px-2.5
+                              mx-1
+                              py-0.5
+                              rounded-full
+                              text-xs
+                              font-medium
+                              leading-4
+                              bg-violet-100
+                              text-violet-800
+                              border
+                              hover:border-violet-800
+                            " :class="{
+                              'bg-violet-300': keyword.term == textKeywords,
+                              'hover:bg-violet-300': keyword.term != textKeywords
+                            }" :key="index" @click="keywordClick(keyword.term)" @mouseover="hoverKeywords = keyword.term"
+                      @mouseleave="hoverKeywords = undefined">
                       {{ keyword.term }} ({{ keyword.count }})
                     </button>
                   </div>
                 </div>
                 <div id="connector-table">
-                  <ConnectorTable
-                    :papers="sortedPapers"
-                    @lockPaper="registerLockPaper"
-                    @mouseoverRow="registerMouseoverRow"
-                    @mouseleaveRow="registerMouseleaveRow"
-                  />
+                  <ConnectorTable :papers="sortedPapers" @lockPaper="registerLockPaper"
+                    @mouseoverRow="registerMouseoverRow" @mouseleaveRow="registerMouseleaveRow" />
                 </div>
               </div>
             </GraphView>

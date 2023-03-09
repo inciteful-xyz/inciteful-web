@@ -4,13 +4,13 @@
       <div class="flex">
         <div class="flex-none pt-2 w-11">From:</div>
         <div class="flex-grow pl-2">
-          <Autosuggest ref="fromAutosuggest" :defaultPaperId="toId" />
+          <Autosuggest ref="fromAutosuggest" />
         </div>
       </div>
       <div class="flex pt-3">
         <div class="flex-none pt-2 w-11">To:</div>
         <div class="flex-grow pl-2">
-          <Autosuggest ref="toAutosuggest" :defaultPaperId="fromId" />
+          <Autosuggest ref="toAutosuggest" />
         </div>
       </div>
       <div class="pt-3">
@@ -54,7 +54,7 @@ export default defineComponent({
     }
   },
   methods: {
-    searchClick () {
+    searchClick() {
       // @ts-ignore
       const toParam = this.$refs.toAutosuggest.getValue()
       // @ts-ignore

@@ -18,6 +18,6 @@ export default defineComponent({
   components: {
     Header,
     Footer
-  }
+  },
 })
 </script>

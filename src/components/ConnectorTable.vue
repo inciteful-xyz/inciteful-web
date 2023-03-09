@@ -6,72 +6,45 @@
           <th></th>
           <th></th>
           <th v-for="(column, index) in columns" :key="index">
-            <button
-              @click="sortBy(column.name)"
-              :class="{ 'font-bold': column.name == sortedBy }"
-              class="uppercase"
-            >
+            <button @click="sortBy(column.name)" :class="{ 'font-bold': column.name == sortedBy }" class="uppercase">
               {{ column.displayName }}
-              <ChevronDownIcon
-                v-if="column.name == sortedBy && sortDescending"
-                class="w-4 h-4 inline"
-              />
-              <ChevronUpIcon
-                v-if="column.name == sortedBy && !sortDescending"
-                class="w-4 h-4 inline"
-              />
+              <ChevronDownIcon v-if="column.name == sortedBy && sortDescending" class="w-4 h-4 inline" />
+              <ChevronUpIcon v-if="column.name == sortedBy && !sortDescending" class="w-4 h-4 inline" />
             </button>
           </th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="(p, index) in pagedResults"
-          :key="index"
-          :class="rowClass(index, p.isLocked)"
+        <tr v-for="(p, index) in pagedResults" :key="index" :class="rowClass(index, p.isLocked)"
           @mouseover="$emit('mouseoverRow', (p as IIndexable)[idColName])"
-          @mouseleave="$emit('mouseleaveRow', (p as IIndexable)[idColName])"
-        >
+          @mouseleave="$emit('mouseleaveRow', (p as IIndexable)[idColName])">
           <td>
             <LitReviewButton :id="(p as IIndexable)[idColName]" />
           </td>
           <td class="text-left">
-            <paper-modal-button
-              :id="p.id"
-              :text="p.title"
-              :class="['underline', 'block', 'font-semibold', 'text-left']"
-              :contextIds="papers ? papers.map(x => x.id) : []"
-            />
+            <paper-modal-button :id="p.id" :text="p.title" :class="['underline', 'block', 'font-semibold', 'text-left']"
+              :contextIds="papers ? papers.map(x => x.id) : []" />
             <div v-if="p.author" class="font-semibold text-gray-500">
               <Authors :authors="p.author" />
             </div>
             <span>
-              <i>{{ p.journal }}</i
-              >{{ p.published_year && p.journal ? ',' : '' }}
+              <i>{{ p.journal }}</i>{{ p.published_year && p.journal ? ',' : '' }}
               {{ p.published_year ? `${p.published_year}` : '' }}
             </span>
+            <span class="hidden">DOI: {{ p.doi }}</span>
           </td>
 
-          <td
-            v-for="(column, index) in columns"
-            :key="index"
-            class="
-              whitespace-nowrap
-            "
-          >
+          <td v-for="(column, index) in columns" :key="index" class="whitespace-nowrap">
             {{ (p as IIndexable)[column.name] }}
           </td>
           <td class="text-violet-600 px-2">
-            <button
-              v-on:click="$emit('lockPaper', p.id)"
-              class="underline block font-semibold pb-2 text-left graph-lock"
+            <button v-on:click="$emit('lockPaper', p.id)" class="underline block font-semibold pb-2 text-left graph-lock"
               :title="
                 p.isLocked
                   ? 'Unlock the graph from this paper'
                   : 'Lock the graph to this paper'
-              "
-            >
+              ">
               <LockClosedIcon v-if="p.isLocked" class="w-6 h-6" />
               <LockOpenIcon v-if="!p.isLocked" class="w-6 h-6" />
             </button>
@@ -82,14 +55,8 @@
     <div class="flex text-sm border-t border-gray-200">
       <div class="flex-auto"></div>
       <div v-if="numPages > 1" class="flex-none whitespace-nowrap paging">
-        <paginate
-          v-model="currentPage"
-          :pages="numPages"
-          active-color="rgba(139, 92, 246)"
-          :hideFirstButton="true"
-          :hideLastButton="true"
-          @update:modelValue="turnPage"
-        >
+        <paginate v-model="currentPage" :pages="numPages" active-color="rgba(139, 92, 246)" :hideFirstButton="true"
+          :hideLastButton="true" @update:modelValue="turnPage">
         </paginate>
       </div>
       <div class="flex-auto text-right">
@@ -114,6 +81,8 @@ import {
 import SaveDropDown from './SaveDropDown.vue'
 import PaperModalButton from './Modals/PaperModalButton.vue'
 import { LockedPaper, IIndexable } from '../types/incitefulTypes'
+import { sendDataUpdated } from '../utils/exportUtils';
+
 
 export default defineComponent({
   name: 'ConnectorTable',
@@ -141,8 +110,15 @@ export default defineComponent({
   },
   watch: {
     papers(newVal, oldVal) {
-      if (newVal !== oldVal) this.currentPage = 1
+      if (newVal !== oldVal) {
+        this.currentPage = 1
+        sendDataUpdated()
+      }
     }
+  },
+  mounted() {
+    if (this.papers)
+      sendDataUpdated()
   },
   emits: ['mouseoverRow', 'mouseleaveRow', 'lockPaper'],
   data() {

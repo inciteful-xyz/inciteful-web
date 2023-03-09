@@ -13,7 +13,9 @@ import './assets/tailwind.css'
 import { useUserStore } from './stores/userStore'
 import { usePaperCollectionStore } from './stores/paperCollectionStore'
 import { emitter } from './utils/emitHelpers'
-import { useZoteroStore } from './stores/zoteroStore';
+import { useZoteroStore } from './stores/zoteroStore'
+import { createHead } from "@vueuse/head"
+
 require('v3-tour/dist/vue-tour.css')
 
 const app = createApp(App)
@@ -21,7 +23,7 @@ const app = createApp(App)
 // For options API
 app.config.globalProperties.emitter = emitter
 // For composition API
-app.provide('emitter', emitter);
+app.provide('emitter', emitter)
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -40,16 +42,19 @@ if (process.env.NODE_ENV === 'production') {
 
 (async () => {
   app.use(createPinia())
-  const { bindToUserLoad: bindUser } = useUserStore();
+
+  const { bindToUserLoad: bindUser } = useUserStore()
   const pcStore = usePaperCollectionStore()
   const zStore = useZoteroStore()
-  await bindUser([pcStore.bind, zStore.bind]);
+  await bindUser([pcStore.bind, zStore.bind])
+  const head = createHead()
 
-  app.use(router)
+  app
+    .use(router)
     .use(VueTour)
     .use(VueClickAway)
     .use(Vue3TouchEvents)
+    .use(head)
 
   app.mount('#app')
-
-})();
+})()

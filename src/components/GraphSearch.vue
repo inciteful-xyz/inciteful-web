@@ -2,20 +2,9 @@
   <div class="w-full">
     <div class="flex whitespace-nowrap">
       <div class="w-full text-right">
-        <Autosuggest
-          ref="autosuggest"
-          :defaultQuery="defaultQuery"
-          @selected="sendSelect"
-          @searched="sendSearched"
-        />
+        <Autosuggest ref="autosuggest" :defaultQuery="defaultQuery" @selected="sendSelect" @searched="sendSearched" />
         <div v-if="showImport" class="text-right pt-1 text-sm">
-          <input
-            type="file"
-            style="display: none"
-            ref="bibUploadInput"
-            accept=".bib"
-            @change="parseBib"
-          />
+          <input type="file" style="display: none" ref="bibUploadInput" accept=".bib" @change="parseBib" />
           or
           <button class="underline hover:no-underline" @click="uploadBib">
             Import BibTeX file

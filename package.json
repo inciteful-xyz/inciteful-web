@@ -17,6 +17,7 @@
     "@sentry/browser": "^6.15.0",
     "@sentry/tracing": "^6.15.0",
     "@sentry/vue": "^6.15.0",
+    "@vueuse/head": "^1.1.19",
     "axios": "^0.21.2",
     "axios-retry": "^3.1.9",
     "bib2json": "0.0.1",

@@ -2,7 +2,7 @@ import qs from 'qs'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '../stores/userStore'
 
 const routes = [
   {
@@ -60,8 +60,7 @@ const routes = [
       import(/* webpackChunkName: "user" */ '../views/user/UserIndex.vue'),
     meta: {
       title: 'My Dashboard',
-      description:
-        'Your user dashboard',
+      description: 'Your user dashboard',
       canonical: '/user'
     }
   },
@@ -72,8 +71,7 @@ const routes = [
       import(/* webpackChunkName: "user" */ '../views/user/Zotero.vue'),
     meta: {
       title: 'Zotero Integration',
-      description:
-        'Zotero Integration',
+      description: 'Zotero Integration',
       canonical: '/user/zotero'
     }
   },
@@ -171,8 +169,7 @@ const routes = [
       import(/* webpackChunkName: "discovery" */ '../views/Collection.vue'),
     meta: {
       title: 'Collection View',
-      description:
-        'Explore and manage your collection.'
+      description: 'Explore and manage your collection.'
     }
   },
   {
@@ -195,6 +192,16 @@ const routes = [
       title: 'Literature Connector',
       description:
         'Use our Literature Connector to Discover How Two Papers are Connected'
+    }
+  },
+  {
+    path: '/e',
+    name: 'ToolExport',
+    component: () =>
+      import(/* webpackChunkName: "connector" */ '../views/Export.vue'),
+    meta: {
+      title: 'Export',
+      description: 'Export your search to Mendeley or Zotero'
     }
   },
   {
@@ -222,7 +229,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 
-  scrollBehavior(_to, _from, savedPosition) {
+  scrollBehavior (_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
@@ -239,14 +246,18 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((to) => {
+router.beforeEach(to => {
   const userStore = useUserStore()
 
-  if (to.path.toLowerCase().startsWith("/user") && !userStore.isSignedIn) {
+  if (to.path.toLowerCase().startsWith('/user') && !userStore.isSignedIn) {
     return '/login'
   }
 
-  if ((to.path.toLowerCase().startsWith("/login") || to.path.toLowerCase().startsWith("/register")) && userStore.isSignedIn) {
+  if (
+    (to.path.toLowerCase().startsWith('/login') ||
+      to.path.toLowerCase().startsWith('/register')) &&
+    userStore.isSignedIn
+  ) {
     return '/user'
   }
 })

@@ -1,58 +1,32 @@
 <template>
-  <div
-    class="text-gray-800 relative"
-    @keydown.esc="hideResults()"
-    @keydown.enter="sendSelect(null)"
-    v-click-away="hideResults"
-  >
-    <input
-      @click="displayResults()"
-      @keydown.up="registerKeypress('up')"
-      @keydown.down="registerKeypress('down')"
-      @keydown.enter="sendSearched()"
-      @focus="isFocused = true"
-      class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
-    bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
-      ref="searchBox"
-      type="text"
-      placeholder="Paper title, DOI, PubMed URL, or arXiv URL"
-      :value="query"
-      @input="e => (query = e.target ? (e.target as HTMLInputElement).value : '')"
-    />
-    <div
-      v-if="shouldShowResults"
-      class="
-        origin-top-right
-        absolute
-        z-50
-        w-full
-        rounded-b
-        border
-        rounded-tr-none rounded-tl-none
-        border-gray-300
-        rounded-md
-        bg-white
-        p-0
-        m-0
-        overflow-y-scroll
-        max-h-96;
-      "
-    >
-      <ul
-        class="list-none p-0 m-0"
-        @keydown.left="registerKeypress('up')"
-        @keydown.up="registerKeypress('up')"
-        @keydown.right="registerKeypress('down')"
-        @keydown.down="registerKeypress('down')"
-      >
-        <li
-          class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200"
-          v-for="(result, index) in results"
-          :key="index"
-          @click="sendSelect(index)"
-          v-touch:tap="sendSelect(index)"
-          :class="{ 'bg-gray-200': highlighted === index }"
-        >
+  <div class="text-gray-800 relative" @keydown.esc="hideResults()" @keydown.enter="sendSelect(null)"
+    v-click-away="hideResults">
+    <input @click="displayResults()" @keydown.up="registerKeypress('up')" @keydown.down="registerKeypress('down')"
+      @keydown.enter="sendSearched()" @focus="isFocused = true" class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
+                      bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
+      ref="searchBox" type="text" placeholder="Paper title, DOI, PubMed URL, or arXiv URL" :value="query"
+      @input="e => (query = e.target ? (e.target as HTMLInputElement).value : '')" />
+    <div v-if="shouldShowResults" class="
+                          origin-top-right
+                          absolute
+                          z-50
+                          w-full
+                          rounded-b
+                          border
+                          rounded-tr-none rounded-tl-none
+                          border-gray-300
+                          rounded-md
+                          bg-white
+                          p-0
+                          m-0
+                          overflow-y-scroll
+                          max-h-96;
+                        ">
+      <ul class="list-none p-0 m-0" @keydown.left="registerKeypress('up')" @keydown.up="registerKeypress('up')"
+        @keydown.right="registerKeypress('down')" @keydown.down="registerKeypress('down')">
+        <li class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200" v-for="(result, index) in results"
+          :key="index" @click="sendSelect(index)" v-touch:tap="sendSelect(index)"
+          :class="{ 'bg-gray-200': highlighted === index }">
           <div class="pb-1 text-sm" v-html="result.title"></div>
           <div class="text-xs">
             <Authors :authors="result.author" /> ({{ result.published_year }}) -
@@ -93,7 +67,7 @@ export default defineComponent({
       default: undefined
     }
   },
-  emits: ['selected', 'searched'],
+  emits: ['selected', 'searched', 'selectedPaper'],
   data() {
     return {
       query: '',
@@ -134,7 +108,7 @@ export default defineComponent({
       if (this.timeout) {
         clearTimeout(this.timeout)
       }
-      this.timeout = setTimeout(() => {
+      this.timeout = window.setTimeout(() => {
         this.selected = null
         searchOpenAlex(query).then(papers => {
           if (papers && papers.length > 0) {
@@ -197,6 +171,7 @@ export default defineComponent({
             // @ts-ignore
             this.$refs.searchBox.blur()
             this.$emit('selected', [paper.id])
+            this.query = `${paper.title} (${paper.id})`
           }
         }
       }
