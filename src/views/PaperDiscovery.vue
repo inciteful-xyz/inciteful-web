@@ -26,14 +26,14 @@
             </p>
             <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6 pt-3">
               <a href="https://help.inciteful.xyz/quick-start.html" target="_blank" class="
-                                              whitespace-nowrap
-                                              font-bold
-                                              text-blue-700
-                                              hover:text-blue-600
-                                              transition
-                                              ease-in-out
-                                              duration-150
-                                            ">
+                                                          whitespace-nowrap
+                                                          font-bold
+                                                          text-blue-700
+                                                          hover:text-blue-600
+                                                          transition
+                                                          ease-in-out
+                                                          duration-150
+                                                        ">
                 Learn More &rarr;
               </a>
             </p>
@@ -72,13 +72,14 @@ import DashboardRenderer from '../components/DashboardRenderer.vue'
 import PaperPageTour from '../components/PaperPageTour.vue'
 import api from '../utils/incitefulApi'
 import SingleColumn from '../components/layout/SingleColumn.vue'
-import template from '../dashboard_templates/default_paper_template.json'
 import pagedata from '../utils/pagedata'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
 import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
+
+import template from '../dashboard_templates/default_paper_template.yaml';
 
 export default defineComponent({
   name: 'PaperDiscovery',

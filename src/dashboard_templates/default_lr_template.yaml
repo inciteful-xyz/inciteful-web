@@ -1,0 +1,138 @@
+---
+subtext: Keep adding interesting papers to the graph from the tables below.  The more
+  you add the more specific the network will be to you topic.  Typically it takes
+  a few iterations of adding papers and re-creating the graph before you have exhausted
+  your topic and hit diminishing returns.
+content:
+- id: similar-paper-graph
+  sql: |-
+    SELECT paper_id, distance 
+    FROM papers p 
+    WHERE {{filters}} 
+    ORDER BY adamic_adar + COALESCE(cocite, 0) DESC LIMIT 25
+  type: graph
+- id: similar-papers
+  title: Similar Papers
+  subtext: These are papers which tend to cite the papers you have selected above.  They
+    normally bias towards newer papers and can help you find the latest literature
+    on the topic.
+  emptyMessage: We could not find any similar papers.  This is often because the source
+    paper does not have any outgoing citations.
+  sql: |-
+    SELECT paper_id, doi, authors, title, journal, adamic_adar + COALESCE(cocite, 0) AS similarity, published_year, num_cited_by
+    FROM papers p
+    WHERE {{filters}}
+    AND distance = 2
+    AND (adamic_adar > 0 or cocite > 0)
+    ORDER BY similarity DESC,  page_rank DESC
+- id: other-papers
+  renderColumns: true
+  content:
+  - id: most-important-papers
+    title: Most Important Papers
+    subtext: These are the "Most Important" papers as ranked by PageRank.  These tend
+      to be the older papers in the field.
+    sql: |-
+      SELECT paper_id, doi, authors, title, journal, page_rank, num_cited_by, published_year
+      FROM papers p
+      WHERE {{filters}}
+      ORDER BY page_rank DESC, adamic_adar DESC
+  - id: review-papers
+    title: Review Papers
+    subtext: These papers cite the most papers present in the graph.  As a result,
+      there is a high likelyhood that these papers are review papers.
+    sql: |-
+      SELECT paper_id, doi, authors, p.journal, title, p.num_citing, num_cited_by,
+      p.published_year
+      FROM papers p
+      LEFT JOIN (
+        SELECT num_citing, published_year, journal, COUNT(*)
+        FROM papers p
+        WHERE num_citing > 10
+        GROUP BY 1, 2, 3
+        HAVING COUNT(*) > 8
+        ORDER BY 4 DESC
+        LIMIT 10
+      ) b ON b.num_citing = p.num_citing AND b.published_year = p.published_year AND b.journal = p.journal
+      WHERE b.num_citing IS NULL
+      AND distance = 2
+      AND {{filters}}
+      ORDER BY p.num_citing DESC, adamic_adar DESC, num_cited_by DESC
+- id: recent-papers
+  renderColumns: true
+  content:
+  - title: Recent Papers by the Top 100 Authors
+    sql: |- 
+      SELECT p.paper_id, doi, authors, title, journal, num_cited_by, published_year, adamic_adar
+      FROM (
+        SELECT paper_id
+        FROM (
+          SELECT name
+          FROM authors a
+          JOIN papers p ON p.paper_id = a.paper_id
+          GROUP BY a.name
+          ORDER BY SUM(p.page_rank / (
+            CASE 
+              WHEN num_authors < 4 THEN num_authors
+              WHEN a.sequence = 1 OR a.sequence = num_authors THEN 3
+              ELSE num_authors * 3
+            END)) DESC
+          LIMIT 100
+        ) ta 
+        JOIN authors a ON a.name = ta.name
+        GROUP BY paper_id
+      ) a
+      JOIN papers p ON p.paper_id = a.paper_id
+      WHERE p.published_year > (strftime('%Y', 'now') - 3)
+      AND {{filters}}
+      ORDER BY adamic_adar DESC, page_rank DESC
+  - title: The Most Important Recent Papers
+    sql: |-
+      SELECT paper_id, doi, authors, title, journal, page_rank, num_cited_by, published_year
+      FROM papers p
+      WHERE p.published_year > (strftime('%Y', 'now') - 3)
+      AND {{filters}}
+      ORDER BY page_rank DESC, adamic_adar DESC
+- id: other-data
+  title: Other Data
+  subtext: This section highlights other interesting data related to the network.
+  renderColumns: true
+  content:
+  - title: Top Authors
+    subtext: This section tries to identify the top authors in the network.
+    sql: |-
+      SELECT name as author_name, SUM(p.page_rank / (
+        CASE 
+          WHEN num_authors < 4 THEN num_authors
+          WHEN a.sequence = 1 OR a.sequence = num_authors THEN 3
+          ELSE num_authors * 3
+        END)) as total_page_rank, COUNT(*) as num_papers
+      FROM papers p
+      JOIN authors a ON p.paper_id = a.paper_id
+      WHERE {{filters}}
+      GROUP BY a.name, name
+      ORDER BY SUM(page_rank) DESC
+  - title: Institutions
+    subtext: This section tries to identify the top institutions in the network.
+    sql: |-
+      SELECT affiliation, SUM(page_rank) as total_page_rank, COUNT(*) as num_papers
+      FROM papers p
+      JOIN (
+        SELECT paper_id, affiliation, affiliation_id
+        FROM authors
+        GROUP BY affiliation_id, affiliation, paper_id
+      ) a ON p.paper_id = a.paper_id
+      WHERE {{filters}}
+      AND a.affiliation <> ''
+      GROUP BY  a.affiliation_id,a.affiliation
+      ORDER BY SUM(page_rank) DESC
+  - title: Top Journals
+    subtext: This section tries to identify the most relevant journals for this research
+      area
+    sql: |-
+      SELECT journal, SUM(page_rank) as total_page_rank, COUNT(*) as num_papers
+      FROM papers p
+      WHERE {{filters}}
+      AND journal <> ''
+      GROUP BY journal
+      ORDER BY SUM(page_rank) DESC
