@@ -9,13 +9,13 @@ import { Author, PaperAutosuggest, Paper } from '../types/incitefulTypes'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { logError } from './logging'
 
-function handleServiceErr (err: AxiosError) {
+function handleServiceErr(err: AxiosError) {
   if (err && err.response && err.response.status !== 404) {
     logError(err)
   }
 }
 
-export function searchOpenAlex (query: string): Promise<Paper[]> {
+export function searchOpenAlex(query: string): Promise<Paper[]> {
   if (query) {
     return axios
       .get(
@@ -40,7 +40,7 @@ export function searchOpenAlex (query: string): Promise<Paper[]> {
   return Promise.resolve([])
 }
 
-function convertOAPaperToPaper (p: OAPaper): Paper {
+function convertOAPaperToPaper(p: OAPaper): Paper {
   try {
     const newP = {
       id: trimOAUrl(p.id),
@@ -61,28 +61,28 @@ function convertOAPaperToPaper (p: OAPaper): Paper {
   }
 }
 
-function convertOAAuthorToAuthor (a: OAAuthorship, index: number): Author {
+function convertOAAuthorToAuthor(a: OAAuthorship, index: number): Author {
   return {
-    author_id: parseInt(trimOAUrl(a.author.id).slice(1)),
+    author_id: a.author.id ? parseInt(trimOAUrl(a.author.id).slice(1)) : undefined,
     name: a.author.display_name,
     institution:
       !a.institutions || a.institutions.length == 0
         ? undefined
         : {
-            id: !a.institutions[0].id
-              ? undefined
-              : parseInt(trimOAUrl(a.institutions[0].id).slice(1)),
-            name: a.institutions[0].display_name
-          },
+          id: !a.institutions[0].id
+            ? undefined
+            : parseInt(trimOAUrl(a.institutions[0].id).slice(1)),
+          name: a.institutions[0].display_name
+        },
     sequence: index
   }
 }
 
-function trimOAUrl (url: string): string {
+function trimOAUrl(url: string): string {
   return url.replace('https://openalex.org/', '')
 }
 
-export function searchOAAutocomplete (
+export function searchOAAutocomplete(
   query: string
 ): Promise<PaperAutosuggest[]> {
   if (query) {
@@ -107,7 +107,7 @@ export function searchOAAutocomplete (
   return Promise.resolve([])
 }
 
-function convertOAAutocomplete (p: OAAutosuggestResult): PaperAutosuggest {
+function convertOAAutocomplete(p: OAAutosuggestResult): PaperAutosuggest {
   return {
     id: trimOAUrl(p.id),
     title: p.display_name,
@@ -116,7 +116,7 @@ function convertOAAutocomplete (p: OAAutosuggestResult): PaperAutosuggest {
   }
 }
 
-export function getOAPaper (id: string): Promise<OAPaper | undefined> {
+export function getOAPaper(id: string): Promise<OAPaper | undefined> {
   if (id) {
     return axios
       .get(
@@ -140,7 +140,7 @@ export function getOAPaper (id: string): Promise<OAPaper | undefined> {
   return Promise.resolve(undefined)
 }
 
-export function getOAPapers (ids: string[]): Promise<OAPaper[]> {
+export function getOAPapers(ids: string[]): Promise<OAPaper[]> {
   //example endpoint: https://api.openalex.org/works?filter=openalex:W4224016882|W4223895588
   if (ids && ids.length > 0) {
     return axios

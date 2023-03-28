@@ -25,7 +25,7 @@ export interface PaperAutosuggest {
   num_cited_by: number
 }
 
-function authorListDisplay (a: Author[] | undefined): string {
+function authorListDisplay(a: Author[] | undefined): string {
   if (!a) return ''
 
   let display = a
@@ -38,7 +38,7 @@ function authorListDisplay (a: Author[] | undefined): string {
   return display
 }
 
-export function paperIntoPaperAutosuggest (p: Paper): PaperAutosuggest {
+export function paperIntoPaperAutosuggest(p: Paper): PaperAutosuggest {
   return {
     id: p.id,
     title: p.title || 'NA',
@@ -69,7 +69,7 @@ export interface LockedPaper extends Paper {
 }
 
 export interface Author {
-  author_id: number
+  author_id?: number
   name: string
   sequence: number
   position?: string
