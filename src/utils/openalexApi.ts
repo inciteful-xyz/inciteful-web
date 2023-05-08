@@ -47,7 +47,7 @@ function convertOAPaperToPaper(p: OAPaper): Paper {
       title: p.title || 'NA',
       author: p.authorships.map(convertOAAuthorToAuthor),
       published_year: p.publication_year || 1900,
-      journal: p.host_venue.display_name,
+      journal: p.host_venue ? p.host_venue.display_name : undefined,
       num_cited_by: p.cited_by_count,
       num_citing: p.referenced_works.length,
       doi: p.doi,
