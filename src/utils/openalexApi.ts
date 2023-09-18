@@ -8,6 +8,7 @@ import {
 import { Author, PaperAutosuggest, Paper } from '../types/incitefulTypes'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { logError } from './logging'
+import doiHelpers from './doi'
 
 function handleServiceErr(err: AxiosError) {
   if (err && err.response && err.response.status !== 404) {
@@ -17,25 +18,36 @@ function handleServiceErr(err: AxiosError) {
 
 export function searchOpenAlex(query: string): Promise<Paper[]> {
   if (query) {
-    return axios
-      .get(
-        `https://api.openalex.org/works?search=${encodeURIComponent(
-          query
-        )}&mailto=info@inciteful.xyz`
-      )
-      .then((res: AxiosResponse<OAPaperSearchResults>) => {
-        if (res.data && res.data.results) {
-          return res.data.results
-            .map(convertOAPaperToPaper)
-            .filter(p => p.num_cited_by > 0 || p.num_citing > 0)
+    const doi = doiHelpers.buildDoi(query)
+    if (doi) {
+      return getOAPaper(doi).then(p => {
+        if (p) {
+          return [convertOAPaperToPaper(p)]
         } else {
-          return Promise.reject()
+          return Promise.resolve([])
         }
       })
-      .catch(err => {
-        handleServiceErr(err)
-        return Promise.reject()
-      })
+    } else {
+      return axios
+        .get(
+          `https://api.openalex.org/works?search=${encodeURIComponent(
+            query
+          )}&mailto=info@inciteful.xyz`
+        )
+        .then((res: AxiosResponse<OAPaperSearchResults>) => {
+          if (res.data && res.data.results) {
+            return res.data.results
+              .map(convertOAPaperToPaper)
+              .filter(p => p.num_cited_by > 0 || p.num_citing > 0)
+          } else {
+            return Promise.reject()
+          }
+        })
+        .catch(err => {
+          handleServiceErr(err)
+          return Promise.reject()
+        })
+    }
   }
   return Promise.resolve([])
 }
@@ -122,7 +134,7 @@ export function getOAPaper(id: string): Promise<OAPaper | undefined> {
       .get(
         `https://api.openalex.org/works/${encodeURIComponent(
           id
-        )}&mailto=info@inciteful.xyz`
+        )}?mailto=info@inciteful.xyz`
       )
       .then((res: AxiosResponse<OAPaper>) => {
         return res.data

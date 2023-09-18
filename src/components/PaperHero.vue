@@ -7,28 +7,18 @@
       </h1>
       <div class="lg:flex lg:flex-row-reverse">
         <div class="flex-1 lg:text-right mt-2">
-          <span v-if="paper.journal" class="italic">{{ paper.journal }}</span
-          ><span v-if="paper.volume">, vol {{ paper.volume }}</span
-          ><span v-if="paper.doi">
+          <span v-if="paper.journal" class="italic">{{ paper.journal }}</span><span v-if="paper.volume">, vol {{
+            paper.volume }}</span><span v-if="paper.doi">
             &nbsp;|&nbsp;
             <a :href="paper.doi" target="_blank" class="underline">{{
               paper.doi.replace('https://doi.org/', '')
-            }}</a></span
-          >
+            }}</a></span>
         </div>
         <div class="flex-1 mt-2 text-gray-500 font-semibold">
-          <authors
-            :authors="paper.author"
-            :separator="' | '"
-            :showAll="true"
-            :ids="[paper.id]"
-          />
+          <authors :authors="paper.author" :separator="' | '" :showAll="true" :ids="[paper.id]" />
         </div>
       </div>
-      <div
-        class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 sm:mt-6"
-        v-if="!receivedLoaded && graphStats"
-      >
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 sm:mt-6" v-if="!receivedLoaded && graphStats">
         <div class="flex">
           <div class="flex-shrink-0">
             <ExclamationIcon class="h-5 w-5 text-amber-400" />
@@ -44,14 +34,8 @@
       </div>
     </div>
     <div>
-      <PaperHeroStats
-        :numCitedBy="paper.num_cited_by"
-        :numCiting="paper.num_citing"
-        :publishedYear="paper.published_year"
-        :id="paper.id"
-        :doi="paper.doi"
-        :graphStats="graphStats"
-      />
+      <PaperHeroStats :numCitedBy="paper.num_cited_by" :numCiting="paper.num_citing" :publishedYear="paper.published_year"
+        :id="paper.id" :doi="paper.doi" :graphStats="graphStats" />
     </div>
 
     <div class="pt-2 sm:pt-4 lg:flex">

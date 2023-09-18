@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
-
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import VueTour from 'v3-tour'
