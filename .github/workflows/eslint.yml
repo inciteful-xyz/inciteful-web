@@ -30,6 +30,9 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
       - name: Run npm install
         run: npm install
       # Runs the ESlint code analysis
