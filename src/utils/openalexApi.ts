@@ -17,39 +17,67 @@ function handleServiceErr(err: AxiosError) {
 }
 
 export function searchOpenAlex(query: string): Promise<Paper[]> {
-  if (query) {
-    const doi = doiHelpers.buildDoi(query)
-    if (doi) {
-      return getOAPaper(doi).then(p => {
-        if (p) {
-          return [convertOAPaperToPaper(p)]
-        } else {
-          return Promise.resolve([])
-        }
+  if (query == null || query == undefined || query == "")
+    return Promise.resolve([])
+
+  const doi = doiHelpers.buildDoi(query)
+  if (doi) {
+    return getOAPaper(doi).then(p => {
+      if (p)
+        return [convertOAPaperToPaper(p)]
+      else
+        return Promise.resolve([])
+    })
+  } else {
+    return titleSearch(query).then(papers => {
+      if (papers.length > 0)
+        return papers
+
+      return fullSearch(query).then(papers => {
+        if (papers.length > 0)
+          return papers
+
+        return []
       })
-    } else {
-      return axios
-        .get(
-          `https://api.openalex.org/works?search=${encodeURIComponent(
-            query
-          )}&mailto=info@inciteful.xyz`
-        )
-        .then((res: AxiosResponse<OAPaperSearchResults>) => {
-          if (res.data && res.data.results) {
-            return res.data.results
-              .map(convertOAPaperToPaper)
-              .filter(p => p.num_cited_by > 0 || p.num_citing > 0)
-          } else {
-            return Promise.reject()
-          }
-        })
-        .catch(err => {
-          handleServiceErr(err)
-          return Promise.reject()
-        })
-    }
+    })
   }
-  return Promise.resolve([])
+}
+
+function titleSearch(query: string): Promise<Paper[]> {
+  return genericSearch(query, 'https://api.openalex.org/works?filter=title.search:')
+}
+
+function fullSearch(query: string): Promise<Paper[]> {
+  return genericSearch(query, 'https://api.openalex.org/works?search=')
+}
+
+function genericSearch(query: string, searchUrl: string): Promise<Paper[]> {
+  return axios
+    .get(
+      `${searchUrl}${encodeURIComponent(
+        query
+      )}&mailto=info@inciteful.xyz`
+    )
+    .then((res: AxiosResponse<OAPaperSearchResults>) => {
+      if (res.data && res.data.results) {
+        const results = res.data.results
+          .map(convertOAPaperToPaper)
+
+        const cited_results = results
+          .filter(p => p.num_cited_by > 0 || p.num_citing > 0)
+
+        if (cited_results.length == 0)
+          return results
+        else
+          return cited_results
+      } else {
+        return Promise.reject()
+      }
+    })
+    .catch(err => {
+      handleServiceErr(err)
+      return Promise.reject()
+    })
 }
 
 function convertOAPaperToPaper(p: OAPaper): Paper {
