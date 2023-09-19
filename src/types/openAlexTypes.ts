@@ -37,7 +37,7 @@ export interface OAPaper {
   publication_year?: number
   publication_date?: string
   ids: OAWorkIds
-  host_venue: OAHostVenue
+  primary_location: OAPrimaryLocation
   type?: string
   open_access: OAOpenAccess
   authorships: OAAuthorship[]
@@ -47,7 +47,6 @@ export interface OAPaper {
   is_paratext?: boolean
   concepts?: OAConcept[]
   mesh?: OAMesh[]
-  alternate_host_venues: OAAlternateHostVenue[]
   referenced_works: string[]
   related_works: string[]
   cited_by_api_url: string
@@ -63,17 +62,29 @@ export interface OAWorkIds {
   pmcid?: string
 }
 
-export interface OAHostVenue {
+export interface OAPrimaryLocation {
+  is_oa: boolean
+  landing_page_url: string
+  pdf_url: string
+  source: OALocationSource
+  license: string
+  version: string
+  is_accepted: boolean
+  is_published: boolean
+}
+
+export interface OALocationSource {
   id: string
+  display_name: string
   issn_l: string
   issn: string[]
-  display_name: string
-  publisher: string
-  type: string
-  url: string
   is_oa: boolean
-  version: string
-  license: string
+  is_in_doaj: boolean
+  host_organization: string
+  host_organization_name: string
+  host_organization_lineage: string[]
+  host_organization_lineage_names: string[]
+  type: string
 }
 
 export interface OAOpenAccess {
@@ -124,15 +135,5 @@ export interface OAConcept {
   display_name: string
   level: number
   score: string
-}
-
-export interface OAAlternateHostVenue {
-  id: string
-  display_name: string
-  type: string
-  url: string
-  is_oa: boolean
-  version: string
-  license: string
 }
 

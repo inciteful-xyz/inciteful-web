@@ -11,9 +11,12 @@ function isExactDoi(doi: string) {
 
 function buildDoi(doi: string): string | undefined {
   if (!doi) return undefined
+
   if (doi.startsWith('http://doi.org/')) {
     return doi
   } else {
+    if (!isExactDoi(doi))
+      return undefined
 
     if (doi.startsWith('doi:')) {
       doi = doi.slice('doi:'.length)
