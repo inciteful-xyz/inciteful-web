@@ -29,6 +29,8 @@ export function searchOpenAlex(query: string): Promise<Paper[]> {
         return Promise.resolve([])
     })
   } else {
+    //remove non alphanumeric characters
+    query = query.replace(/[^a-zA-Z0-9 ]/g, ' ')
     return titleSearch(query).then(papers => {
       if (papers.length > 0)
         return papers
