@@ -111,7 +111,22 @@ content:
       JOIN authors a ON p.paper_id = a.paper_id
       WHERE {{filters}}
       GROUP BY a.name, name
-      ORDER BY SUM(page_rank) DESC
+      ORDER BY total_page_rank DESC
+  - title: Upcoming Authors
+    subtext: This section tries to identify the upcoming authors in the network.
+    sql: |-
+      SELECT name as author_name, SUM(p.page_rank / (
+        CASE 
+          WHEN num_authors < 4 THEN num_authors
+          WHEN a.sequence = 1 OR a.sequence = num_authors THEN 3
+          ELSE num_authors * 3
+        END)) as total_page_rank, COUNT(*) as num_papers
+      FROM papers p
+      JOIN authors a ON p.paper_id = a.paper_id
+      WHERE {{filters}}
+      GROUP BY name
+      HAVING MIN(p.published_year) > (strftime('%Y', 'now')) - 10
+      ORDER BY total_page_rank DESC
   - title: Institutions
     subtext: This section tries to identify the top institutions in the network.
     sql: |-
@@ -124,7 +139,7 @@ content:
       ) a ON p.paper_id = a.paper_id
       WHERE {{filters}}
       AND a.affiliation <> ''
-      GROUP BY  a.affiliation_id,a.affiliation
+      GROUP BY  a.affiliation_id, a.affiliation
       ORDER BY SUM(page_rank) DESC
   - title: Top Journals
     subtext: This section tries to identify the most relevant journals for this research
@@ -133,6 +148,18 @@ content:
       SELECT journal, SUM(page_rank) as total_page_rank, COUNT(*) as num_papers
       FROM papers p
       WHERE {{filters}}
-      AND journal <> ''
+      AND journal <> ''      
+      AND journal NOT LIKE '%ebook%'
       GROUP BY journal
       ORDER BY SUM(page_rank) DESC
+  - title: Similar Journals
+    subtext: These are the journals where the most similar papers were published.
+    sql: |-
+      SELECT journal, SUM(COALESCE(adamic_adar, 0) + COALESCE(cocite, 0)) AS similarity, COUNT(*) as num_papers
+      FROM papers p
+      WHERE {{filters}}
+      AND (adamic_adar > 0 or cocite > 0)
+      AND journal <> ''
+      AND journal NOT LIKE '%ebook%'
+      GROUP BY journal
+      ORDER BY similarity DESC,  page_rank DESC
