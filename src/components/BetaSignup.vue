@@ -44,10 +44,6 @@ export default defineComponent({
   methods: {
     handleSubmit() {
       axios
-        .create({
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          transformRequest: [(data, _headers) => JSON.stringify(data)]
-        })
         .post('https://inciteful.app.n8n.cloud/webhook/academic-beta-signup', {
           email: this.email
         })
