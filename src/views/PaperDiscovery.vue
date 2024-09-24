@@ -1,7 +1,7 @@
 <template>
   <single-column>
     <BetaFeatures />
-    <ZoteroAnnouncement />
+    <MedSurveyAnnouncement />
     <div class="border-b border-gray-200 pb-6 mb-6">
       <PaperHero :paper="paper" :graphStats="true" />
     </div>
@@ -17,7 +17,8 @@
           <div class="ml-3 flex-1 md:flex md:justify-between">
             <p class="text-sm leading-5 text-blue-700">
               Click on the purple plus signs (
-              <PlusCircleIcon class="h-5 w-5 text-violet-500 inline" />) to add the most interesting papers to the graph.
+              <PlusCircleIcon class="h-5 w-5 text-violet-500 inline" />) to add the most interesting papers to the
+              graph.
               We recommend
               that you <b>add at least five papers to the graph</b> in order to
               find the most relevant results. If the papers below don't seem
@@ -77,7 +78,7 @@ import { Paper, PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
-import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
+import MedSurveyAnnouncement from '@/components/announcements/MedSurveyAnnouncement.vue'
 
 import template from '../dashboard_templates/default_paper_template.yaml';
 
@@ -94,7 +95,7 @@ export default defineComponent({
     InformationCircleIcon,
     ExclamationIcon,
     PlusCircleIcon,
-    ZoteroAnnouncement
+    MedSurveyAnnouncement
   },
   data() {
     return {

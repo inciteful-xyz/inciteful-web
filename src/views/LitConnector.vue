@@ -64,7 +64,7 @@
       </div>
     </div>
     <div class="mb-4">
-      <ZoteroAnnouncement />
+      <MedSurveyAnnouncement />
       <div class="sm:flex mb-6" id="connected-papers">
         <div class="flex-1 sm:pr-3">
           <lit-connector-paper-selector ref="fromSelector" :paperParam="fromParam" :searchLabel="'From'"
@@ -98,7 +98,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/incitefulTypes'
 import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
 import { EmitEvents } from '@/utils/emitHelpers'
-import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue';
+import MedSurveyAnnouncement from '@/components/announcements/MedSurveyAnnouncement.vue';
 
 export default defineComponent({
   name: 'LitConnectorPage',
@@ -111,7 +111,7 @@ export default defineComponent({
     SingleColumn,
     ArrowRightIcon,
     ArrowDownIcon,
-    ZoteroAnnouncement
+    MedSurveyAnnouncement
   },
   data() {
     return {
