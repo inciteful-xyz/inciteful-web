@@ -84,7 +84,7 @@
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^1.2.1",
     "node-sass": "^9.0.0",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.31",
     "postcss-loader": "^4.2.0",
     "sass": "^1.35.2",
     "sass-loader": "^10.2.0",
