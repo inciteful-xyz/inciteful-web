@@ -1,7 +1,7 @@
 <template>
   <single-column>
     <BetaFeatures />
-    <MedSurveyAnnouncement />
+    <ZoteroAnnouncement />
     <div class="border-b border-gray-200 pb-6 mb-6">
       <PaperHero :paper="paper" :graphStats="true" />
     </div>
@@ -78,9 +78,8 @@ import { Paper, PaperID } from '@/types/incitefulTypes'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
-import MedSurveyAnnouncement from '@/components/announcements/MedSurveyAnnouncement.vue'
-
 import template from '../dashboard_templates/default_paper_template.yaml';
+import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue';
 
 export default defineComponent({
   name: 'PaperDiscovery',
@@ -95,7 +94,7 @@ export default defineComponent({
     InformationCircleIcon,
     ExclamationIcon,
     PlusCircleIcon,
-    MedSurveyAnnouncement
+    ZoteroAnnouncement
   },
   data() {
     return {

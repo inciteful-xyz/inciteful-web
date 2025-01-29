@@ -2,7 +2,7 @@
   <div>
     <single-column v-if="ids">
       <div>
-        <MedSurveyAnnouncement />
+        <ZoteroAnnouncement />
         <BetaFeatures />
         <div class="border-b border-gray-200 pb-6 mb-6">
           <lit-review-hero :ids="ids" />
@@ -33,7 +33,7 @@ import template from '../dashboard_templates/default_lr_template.yaml'
 import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
 import { PaperID } from '@/types/incitefulTypes'
 import navigation from '@/navigation'
-import MedSurveyAnnouncement from '@/components/announcements/MedSurveyAnnouncement.vue';
+import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
 
 export default defineComponent({
   name: 'LitReview',
@@ -45,7 +45,7 @@ export default defineComponent({
     BetaFeatures,
     SingleColumn,
     PaperDiscoveryEmpty,
-    MedSurveyAnnouncement
+    ZoteroAnnouncement
   },
   data() {
     return {
