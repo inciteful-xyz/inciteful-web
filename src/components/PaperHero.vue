@@ -10,7 +10,7 @@
           <span v-if="paper.journal" class="italic">{{ paper.journal }}</span><span v-if="paper.volume">, vol {{
             paper.volume }}</span><span v-if="paper.doi">
             &nbsp;|&nbsp;
-            <a :href="paper.doi" target="_blank" class="underline">{{
+            <a :href="'https://doi.org/' + paper.doi" target="_blank" class="underline">{{
               paper.doi.replace('https://doi.org/', '')
             }}</a></span>
         </div>
