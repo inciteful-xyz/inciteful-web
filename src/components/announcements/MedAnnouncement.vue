@@ -4,7 +4,7 @@
         Introducing <a class="underline" href="https://incitefulmed.com" target="_blank">Inciteful Med</a> - AI-powered medical insights!
     </template>
     <template v-slot:message>
-      Get instant, patient friendly, evidence-based answers to medical questions and analyze your own records.  All anchored in peer-reviewed literature. Transform how you understand and access medical knowledge.
+      Get instant, patient friendly, verifiable answers to medical questions and analyze your own records.  All anchored in peer-reviewed literature. Transform how you understand and access medical knowledge.
     </template>
     <template v-slot:action>
       <a href="https://incitefulmed.com" target="_blank" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
