@@ -1,10 +1,9 @@
 import { head } from './head'
 import { Paper, Author } from '@/types/incitefulTypes'
+import { SITE_NAME, buildUrl } from './config'
 
-const SITE_NAME = 'Inciteful'
-const SITE_URL = 'https://inciteful.xyz'
 const DEFAULT_DESCRIPTION = 'Using citations to find the most relevant literature. Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.'
-const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg` // You'll need to create this
+const DEFAULT_IMAGE = buildUrl('/og_profile.png')
 
 /**
  * Set basic page metadata (title, description, OG tags)
@@ -26,7 +25,7 @@ export function setPageMeta(options: {
   } = options
 
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME
-  const canonicalUrl = canonical ? `${SITE_URL}${canonical}` : undefined
+  const canonicalUrl = canonical ? buildUrl(canonical) : undefined
 
   head.push({
     title: fullTitle,
@@ -116,7 +115,7 @@ function generateScholarlyArticleSchema(paper: Paper) {
     name: paper.title,
     author: authors,
     datePublished: `${paper.published_year}-01-01`,
-    url: `https://inciteful.xyz/p/${paper.id}`,
+    url: buildUrl(`/p/${paper.id}`),
     isPartOf: paper.journal ? {
       '@type': 'Periodical',
       name: paper.journal,
@@ -160,7 +159,7 @@ export function setBreadcrumbSchema(items: Array<{ name: string; url: string }>)
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: `${SITE_URL}${item.url}`
+      item: buildUrl(item.url)
     }))
   }
 
@@ -178,12 +177,14 @@ export function setBreadcrumbSchema(items: Array<{ name: string; url: string }>)
  * Set Organization structured data (for homepage)
  */
 export function setOrganizationSchema() {
+  const siteRoot = buildUrl('/')
+
   const orgSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: SITE_NAME,
-    url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    url: siteRoot,
+    logo: buildUrl('/logo.png'),
     description: DEFAULT_DESCRIPTION,
     sameAs: [
       // Add social media URLs here when available
@@ -192,7 +193,7 @@ export function setOrganizationSchema() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`
+        urlTemplate: `${buildUrl('/search')}?q={search_term_string}`
       },
       'query-input': 'required name=search_term_string'
     }
@@ -202,13 +203,13 @@ export function setOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: SITE_NAME,
-    url: SITE_URL,
+    url: siteRoot,
     description: DEFAULT_DESCRIPTION,
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`
+        urlTemplate: `${buildUrl('/search')}?q={search_term_string}`
       },
       'query-input': 'required name=search_term_string'
     }

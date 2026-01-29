@@ -1,5 +1,6 @@
+import { buildUrl } from './config'
+
 const DEFAULT_TITLE = 'Inciteful'
-const SITE_URL = 'https://inciteful.xyz'
 
 function setTitle (title: string) {
   document.title = (title || DEFAULT_TITLE) + ' | Inciteful.xyz'
@@ -16,7 +17,7 @@ function setDescription (description: string) {
 
 function setCanonical (path: string) {
   if (document != null) {
-    const canonicalUrl = `${SITE_URL}${path}`
+    const canonicalUrl = buildUrl(path)
     let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement
 
     if (link) {

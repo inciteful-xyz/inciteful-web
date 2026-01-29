@@ -12,8 +12,7 @@
 
 import fs from 'fs'
 import path from 'path'
-
-const SITE_URL = 'https://inciteful.xyz'
+import { buildUrl } from '../src/utils/config'
 
 interface SitemapUrl {
   loc: string
@@ -69,7 +68,7 @@ function generateSitemapXml(urls: SitemapUrl[]): string {
   const lastmod = new Date().toISOString().split('T')[0]
 
   const urlEntries = urls.map(url => {
-    const loc = `${SITE_URL}${url.loc}`
+    const loc = buildUrl(url.loc)
     const lastmodTag = url.lastmod || lastmod
     const changefreqTag = url.changefreq ? `    <changefreq>${url.changefreq}</changefreq>` : ''
     const priorityTag = url.priority !== undefined ? `    <priority>${url.priority}</priority>` : ''
@@ -86,13 +85,36 @@ ${urlEntries}
 </urlset>`
 }
 
-function generateSitemap() {
-  const sitemap = generateSitemapXml(staticRoutes)
-  const outputPath = path.join(process.cwd(), 'public', 'sitemap.xml')
+function generateRobotsTxt(): string {
+  const sitemapUrl = buildUrl('/sitemap.xml')
 
-  fs.writeFileSync(outputPath, sitemap, 'utf-8')
-  console.log(`✅ Sitemap generated successfully at ${outputPath}`)
+  return `# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Crawl delay for polite bots (optional)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: ${sitemapUrl}
+`
+}
+
+function generateSitemap() {
+  const publicDir = path.join(process.cwd(), 'public')
+
+  // Generate sitemap.xml
+  const sitemap = generateSitemapXml(staticRoutes)
+  const sitemapPath = path.join(publicDir, 'sitemap.xml')
+  fs.writeFileSync(sitemapPath, sitemap, 'utf-8')
+  console.log(`✅ Sitemap generated at ${sitemapPath}`)
   console.log(`📊 Total URLs: ${staticRoutes.length}`)
+
+  // Generate robots.txt
+  const robotsTxt = generateRobotsTxt()
+  const robotsPath = path.join(publicDir, 'robots.txt')
+  fs.writeFileSync(robotsPath, robotsTxt, 'utf-8')
+  console.log(`✅ robots.txt generated at ${robotsPath}`)
 }
 
 // Run if called directly

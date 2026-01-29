@@ -98,7 +98,7 @@
         </p>
         <p class="mt-1 text-center text-sm leading-6">
           Weishuhn, M. ({{ new Date().getFullYear() }}). Inciteful: Citation
-          network exploration. Retrieved from https://inciteful.xyz
+          network exploration. Retrieved from {{ siteUrl }}
         </p>
       </div>
       <div class="mt-6">
@@ -112,12 +112,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { SITE_URL } from '@/utils/config'
 
 export default defineComponent({
   name: 'Footer',
   setup () {
     return {
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      siteUrl: SITE_URL
     }
   }
 })
