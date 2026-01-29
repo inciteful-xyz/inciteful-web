@@ -1,11 +1,12 @@
 <template>
   <div class="flex flex-col flex-1 mx-2 mt-2">
-    <dt
+    <div
       class="order-2 mt-2 leading-6 font-medium text-gray-400 whitespace-nowrap"
+      aria-hidden="true"
     >
       <slot name="name"></slot>
-    </dt>
-    <dd
+    </div>
+    <div
       class="
         order-1
         text-xl
@@ -14,9 +15,11 @@
         font-extrabold
         text-gray-600
       "
+      role="status"
+      :aria-label="$slots.name ? undefined : undefined"
     >
       <slot name="value"></slot>
-    </dd>
+    </div>
   </div>
 </template>
 

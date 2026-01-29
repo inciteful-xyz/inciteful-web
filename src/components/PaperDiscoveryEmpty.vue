@@ -53,9 +53,9 @@
               1
             </div>
             <div class="mt-3">
-              <h5 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Start with a paper
-              </h5>
+              </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 Search for a paper you are interested in or import a bib file
                 with the references of a paper you are working on.
@@ -70,9 +70,9 @@
               2
             </div>
             <div class="mt-3">
-              <h5 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Add relevant papers
-              </h5>
+              </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 As you find papers that are interesting, add them to the graph
                 to to help us zero in on your topic, then do it again.
@@ -86,9 +86,9 @@
               3
             </div>
             <div class="mt-3">
-              <h5 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Download your findings
-              </h5>
+              </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 Once you can't find any more relevant papers, import the results
                 into your reference management software.

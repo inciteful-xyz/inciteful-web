@@ -16,13 +16,13 @@
               <table class="base-table overflow-hidden overflow-x-auto">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th class="pl-3 py-3"></th>
-                    <th v-if="hasPaperID()"></th>
-                    <th class="whitespace-nowrap" v-for="(column, index) in columns" :key="index">
-                      <button @click="sortBy(column)" :class="{ 'font-bold': column == sortedBy }">
+                    <th scope="col" class="pl-3 py-3"><span class="sr-only">Add to review</span></th>
+                    <th scope="col" v-if="hasPaperID()"><span class="sr-only">Paper details</span></th>
+                    <th scope="col" class="whitespace-nowrap" v-for="(column, index) in columns" :key="index">
+                      <button @click="sortBy(column)" :class="{ 'font-bold': column == sortedBy }" :aria-label="`Sort by ${column}`">
                         {{ column }}
-                        <ChevronDownIcon v-if="column == sortedBy && sortDescending" class="w-4 h-4 inline" />
-                        <ChevronUpIcon class="w-4 h-4 inline" v-if="column == sortedBy && !sortDescending" />
+                        <ChevronDownIcon v-if="column == sortedBy && sortDescending" class="w-4 h-4 inline" aria-hidden="true" />
+                        <ChevronUpIcon class="w-4 h-4 inline" v-if="column == sortedBy && !sortDescending" aria-hidden="true" />
                       </button>
                     </th>
                   </tr>
@@ -90,9 +90,9 @@
                 </div>
                 <div class="flex-auto text-right">
                   <SaveDropDown :ids="resultIds" v-if="hasPaperID()" class="pt-2" />
-                  <button v-if="canViewGraphs()" v-on:click="viewGraph()" title="ViewGraph" class="p-3">
+                  <button v-if="canViewGraphs()" v-on:click="viewGraph()" title="View Graph" aria-label="View Graph" class="p-3">
                     <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
+                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                       </path>

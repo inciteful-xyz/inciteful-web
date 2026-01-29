@@ -1,12 +1,12 @@
 <template>
-  <nav class="bg-white shadow">
+  <nav class="bg-white shadow" role="navigation" aria-label="Main navigation">
     <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex px-2 lg:px-0">
           <div class="flex-shrink-0 flex items-center">
-            <router-link to="/" id="logo">
-              <img class="h-8 hidden sm:block" src="../../assets/images/logo-300.png" alt="Inciteful Logo" />
-              <img class="block h-8 sm:hidden" src="../../assets/images/profile-transparent.png" alt="Inciteful Logo" />
+            <router-link to="/" id="logo" aria-label="Inciteful Home">
+              <img class="h-8 hidden sm:block" src="../../assets/images/logo-300.png" alt="Inciteful Logo" width="196" height="32" />
+              <img class="block h-8 sm:hidden" src="../../assets/images/profile-64.png" alt="Inciteful Logo" width="32" height="32" />
             </router-link>
           </div>
           <div class="hidden lg:flex">
@@ -27,8 +27,8 @@
         </div>
         <div class="flex flex-shrink items-center lg:hidden">
           <button @click="toggleMobileMenu()" class=" inline-flex items-center justify-center p-2 rounded-md text-gray-400
-                              hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500
-                              transition duration-150 ease-in-out" aria-label="Main menu" aria-expanded="false">
+                              hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 focus:ring-2 focus:ring-violet-500
+                              transition duration-150 ease-in-out" aria-label="Toggle mobile menu" :aria-expanded="mobileMenuExpanded" aria-controls="mobileMenu">
             <Bars3Icon v-if="!mobileMenuExpanded" class="h-6 w-6" />
             <XMarkIcon v-if="mobileMenuExpanded" class="h-6 w-6" />
           </button>

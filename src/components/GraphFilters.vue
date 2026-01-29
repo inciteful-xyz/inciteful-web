@@ -4,15 +4,16 @@
       id="graph-filters"
       class="lg:flex-1 border-b pb-5 mb-5 lg:border-b-0 lg:mb-0 lg:pb-0"
     >
-      <h3 class="text-gray-700 text-base font-semibold">
+      <h2 class="text-gray-700 text-base font-semibold">
         Paper Filters
         <a
           class="text-violet-700"
           href="https://help.inciteful.xyz/power-users.html#graph-filters"
           target="_blank"
-          ><InformationCircleIcon class="w-5 h-5 inline" />
+          aria-label="Learn more about paper filters"
+          ><InformationCircleIcon class="w-5 h-5 inline" aria-hidden="true" />
         </a>
-      </h3>
+      </h2>
       <form class="w-full pt-2 lg:flex flex-wrap">
         <div class="flex-grow pb-3 pr-3">
           <label
@@ -40,6 +41,7 @@
                 >Min Distance</label
               >
               <select
+                id="minDistance"
                 ref="minDistanceFilter"
                 class="
                   mt-1
@@ -70,6 +72,7 @@
                 >Max Distance</label
               >
               <select
+                id="maxDistance"
                 ref="maxDistanceFilter"
                 class="
                   mt-1
@@ -151,9 +154,9 @@
       v-if="!hideAddSingle"
       class="lg:flex-1 pl-0 ml-0 lg:pl-5 lg:ml-5 lg:border-l"
     >
-      <h3 class="text-gray-700 text-base font-semibold pb-2">
+      <h2 class="text-gray-700 text-base font-semibold pb-2">
         Add Papers to the Graph
-      </h3>
+      </h2>
       <label
         for="keywordFilter"
         class="block text-sm leading-5 font-medium text-gray-800"

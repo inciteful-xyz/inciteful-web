@@ -7,7 +7,7 @@
         <div v-if="!foundPath">No paths found</div>
         <div v-else>
           <div class="mb-6">
-            <dl class="text-center sm:mx-auto gap-2 sm:gap-4 sm:text-lg text-sm">
+            <div class="text-center sm:mx-auto gap-2 sm:gap-4 sm:text-lg text-sm" role="region" aria-label="Connection statistics">
               <div class="flex flex-wrap" id="connection-stats" v-if="results && connectingPapers">
                 <stat>
                   <template v-slot:name>Min Hops</template>
@@ -32,7 +32,7 @@
                     {{ connectingPapers.length }}</template>
                 </stat>
               </div>
-            </dl>
+            </div>
           </div>
           <div v-if="showExtendedGraphsReccomendation" class="rounded-md bg-blue-50 p-4">
             <div class="flex">

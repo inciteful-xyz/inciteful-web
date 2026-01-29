@@ -26,9 +26,9 @@
   @apply base-button bg-gray-500 hover:bg-gray-400 focus:border-gray-600 focus:ring-gray-400;
 }
 .button-light-violet {
-  @apply base-button bg-violet-400
-                      hover:bg-violet-300
-                      focus:border-violet-500
+  @apply base-button bg-violet-500
+                      hover:bg-violet-400
+                      focus:border-violet-600
                       focus:ring-violet-500;
 }
 .button-violet {

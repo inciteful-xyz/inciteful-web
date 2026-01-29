@@ -3,9 +3,16 @@
     v-click-away="hideResults">
     <input @click="displayResults()" @keydown.up="registerKeypress('up')" @keydown.down="registerKeypress('down')"
       @keydown.enter="sendSearched()" @focus="isFocused = true" class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
-                      bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
+                      bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300 focus:ring-2 focus:ring-violet-500"
       ref="searchBox" type="text" placeholder="Paper title, DOI, PubMed URL, or arXiv URL" :value="query"
-      @input="e => (query = e.target ? (e.target as HTMLInputElement).value : '')" />
+      @input="e => (query = e.target ? (e.target as HTMLInputElement).value : '')"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-haspopup="listbox"
+      :aria-expanded="shouldShowResults"
+      aria-controls="search-results-listbox"
+      :aria-activedescendant="highlighted !== null ? `search-result-${highlighted}` : undefined"
+      aria-label="Search for papers" />
     <div v-if="shouldShowResults" class="
                           origin-top-right
                           absolute
@@ -22,11 +29,14 @@
                           overflow-y-scroll
                           max-h-96;
                         ">
-      <ul class="list-none p-0 m-0" @keydown.left="registerKeypress('up')" @keydown.up="registerKeypress('up')"
-        @keydown.right="registerKeypress('down')" @keydown.down="registerKeypress('down')">
+      <ul id="search-results-listbox" role="listbox" class="list-none p-0 m-0" @keydown.left="registerKeypress('up')" @keydown.up="registerKeypress('up')"
+        @keydown.right="registerKeypress('down')" @keydown.down="registerKeypress('down')" aria-label="Search results">
         <li class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200" v-for="(result, index) in results"
           :key="index" @click="sendSelect(index)" v-touch:tap="sendSelect(index)"
-          :class="{ 'bg-gray-200': highlighted === index }">
+          :class="{ 'bg-gray-200': highlighted === index }"
+          :id="`search-result-${index}`"
+          role="option"
+          :aria-selected="highlighted === index">
           <div class="pb-1 text-sm" v-html="result.title"></div>
           <div class="text-xs">
             <Authors :authors="result.author" /> ({{ result.published_year }}) -
