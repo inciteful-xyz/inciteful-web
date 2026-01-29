@@ -5,9 +5,16 @@ import yaml from '@rollup/plugin-yaml'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  const basePath = env.VITE_BASE_PATH || '/'
+
+  // For subdirectory deployments (e.g., /academic/), output to dist/academic/
+  // so Cloudflare Workers can serve from the correct path
+  const outDir = basePath !== '/'
+    ? `dist${basePath.endsWith('/') ? basePath.slice(0, -1) : basePath}`
+    : 'dist'
 
   return {
-    base: env.VITE_BASE_PATH || '/',
+    base: basePath,
     plugins: [
     vue(),
     yaml()
@@ -21,6 +28,7 @@ export default defineConfig(({ mode }) => {
     port: 8081
   },
   build: {
+    outDir,
     sourcemap: true,
     rollupOptions: {
       output: {
