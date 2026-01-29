@@ -6,4 +6,4 @@ Allow: /
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://inciteful.xyz/academic/sitemap.xml
+Sitemap: https://inciteful.xyz/sitemap.xml
