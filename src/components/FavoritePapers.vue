@@ -34,12 +34,10 @@
 <script lang="ts">
 import { Paper, PaperID } from '@/types/incitefulTypes'
 import api from '@/utils/incitefulApi'
-import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 import PaperModalButton from './modals/PaperModalButton.vue'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '@/stores/userStore'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline'
 import { IIndexable } from '../types/incitefulTypes'
 
 export default defineComponent({
@@ -50,8 +48,6 @@ export default defineComponent({
     ChevronUpIcon
   },
   setup() {
-    let user = useUserStore()
-    let { userData } = storeToRefs(user)
     let favoritePapers = ref([] as Paper[])
 
     let currentPage = ref(1)
@@ -83,12 +79,6 @@ export default defineComponent({
         })
       }
     }
-
-    onMounted(() => getPapers(userData.value?.favoritePapers))
-
-    watch(userData, curVal => {
-      getPapers(curVal?.favoritePapers)
-    })
 
     return {
       favoritePapers,

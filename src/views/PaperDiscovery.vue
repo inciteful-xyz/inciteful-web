@@ -46,7 +46,7 @@
     <div v-else class="bg-amber-50 border-l-4 border-amber-400 p-4 my-8">
       <div class="flex">
         <div class="flex-shrink-0">
-          <ExclamationIcon class="h-5 w-5 text-amber-400" />
+          <ExclamationTriangleIcon class="h-5 w-5 text-amber-400" />
         </div>
         <div class="ml-3">
           <p class="text-sm text-amber-700">
@@ -75,8 +75,8 @@ import api from '../utils/incitefulApi'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import pagedata from '../utils/pagedata'
 import { Paper, PaperID } from '@/types/incitefulTypes'
-import { ExclamationIcon } from '@heroicons/vue/outline'
-import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
+import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/24/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
 import template from '../dashboard_templates/default_paper_template.yaml';
 import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue';
@@ -92,7 +92,7 @@ export default defineComponent({
     BetaFeatures,
     SingleColumn,
     InformationCircleIcon,
-    ExclamationIcon,
+    ExclamationTriangleIcon,
     PlusCircleIcon,
     ZoteroAnnouncement
   },

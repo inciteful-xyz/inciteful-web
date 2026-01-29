@@ -248,7 +248,7 @@
             <div
               class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500 text-white"
             >
-              <DocumentReportIcon class="w-6 h-6" />
+              <DocumentChartBarIcon class="w-6 h-6" />
             </div>
             <div class="mt-3">
               <h5 class="text-lg leading-6 font-medium text-gray-900">
@@ -281,10 +281,10 @@ import ConnectorSearch from '@/components/ConnectorSearch.vue'
 import navigation from '../navigation'
 import { PaperID } from '@/types/incitefulTypes'
 import {
-  DocumentReportIcon,
+  DocumentChartBarIcon,
   CubeTransparentIcon,
   GlobeAltIcon
-} from '@heroicons/vue/outline'
+} from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'Home',
@@ -292,7 +292,7 @@ export default defineComponent({
     BetaSignup,
     GraphSearch,
     ConnectorSearch,
-    DocumentReportIcon,
+    DocumentChartBarIcon,
     CubeTransparentIcon,
     GlobeAltIcon
   },

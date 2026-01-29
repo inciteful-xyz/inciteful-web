@@ -11,7 +11,7 @@ let PENDING_REQUESTS = 0
 const pruneParamName = 'prune'
 const queryApi = axios.create()
 const API_URL =
-  process.env.VUE_APP_CLIENT_API_URL || 'https://api.inciteful.xyz'
+  import.meta.env.VITE_CLIENT_API_URL || 'https://api.inciteful.xyz'
 
 queryApi.interceptors.request.use(function (config) {
   return new Promise(resolve => {

@@ -175,7 +175,7 @@
 import { defineComponent } from 'vue'
 import GraphSearch from './GraphSearch.vue'
 import { PaperID } from '@/types/incitefulTypes'
-import { InformationCircleIcon } from '@heroicons/vue/outline'
+import { InformationCircleIcon } from '@heroicons/vue/24/outline'
 import { addToLitReviewHelper } from '@/utils/emitHelpers'
 
 export default defineComponent({

@@ -21,7 +21,7 @@
       <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mt-4 sm:mt-6" v-if="!receivedLoaded && graphStats">
         <div class="flex">
           <div class="flex-shrink-0">
-            <ExclamationIcon class="h-5 w-5 text-amber-400" />
+            <ExclamationTriangleIcon class="h-5 w-5 text-amber-400" />
           </div>
           <div class="ml-3">
             <p class="text-sm leading-5 text-amber-700">
@@ -54,7 +54,7 @@ import ExternalLinks from './ExternalLinks.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 import Authors from './Authors.vue'
 import { Paper } from '@/types/incitefulTypes'
-import { ExclamationIcon } from '@heroicons/vue/outline'
+import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
@@ -67,7 +67,7 @@ export default defineComponent({
     PaperHeroStats,
     Authors,
     ExternalLinks,
-    ExclamationIcon,
+    ExclamationTriangleIcon,
     FavoritePaperButton
   },
   data() {

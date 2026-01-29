@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-right z-10 save-export">
     <div>
       <MenuButton class="inline-flex justify-center px-4 py-2 mx-2 bg-white hover:bg-gray-50 focus:outline-none ">
-        <DocumentDownloadIcon class="h-4 w-4" />
+        <ArrowDownTrayIcon class="h-4 w-4" />
         Save
       </MenuButton>
     </div>
@@ -13,7 +13,7 @@
       <MenuItems
         class="origin-top-right absolute right-0 mt-2 w-max rounded-md shadow-lg bg-white ring-1 ring-black/5 divide-y divide-gray-100 focus:outline-none">
         <div class="py-1">
-          <MenuItem v-slot="{ active }" v-if="user.enabled && user.isSignedIn">
+          <MenuItem v-slot="{ active }" v-if="false">
           <button :class="[
             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
             'group flex items-center px-4 py-2 text-sm text-right'
@@ -64,8 +64,7 @@
 import { defineComponent, PropType } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { DocumentDownloadIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '@/stores/userStore'
+import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline'
 import { PaperID, ReferenceManagers } from '@/types/incitefulTypes'
 import api from '@/utils/incitefulApi'
 import router from '../router/index';
@@ -77,17 +76,15 @@ export default defineComponent({
     MenuButton,
     MenuItem,
     MenuItems,
-    DocumentDownloadIcon
+    ArrowDownTrayIcon
   },
   props: {
     ids: {} as PropType<PaperID[]>
   },
   setup(props) {
-    let user = useUserStore()
-
     const saveToFavorites = () => {
       if (props.ids !== undefined) {
-        user.addFavorites(props.ids)
+        false
       }
     }
     const downloadBibFile = () => {
@@ -112,7 +109,6 @@ export default defineComponent({
     }
 
     return {
-      user,
       downloadBibFile,
       downloadRisFile,
       saveToFavorites,

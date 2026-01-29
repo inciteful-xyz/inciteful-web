@@ -1,5 +1,5 @@
 import { Paper } from '../types/incitefulTypes';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 
 export function sendDataUpdated() {
   document.dispatchEvent(

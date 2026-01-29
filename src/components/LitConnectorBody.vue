@@ -218,8 +218,8 @@ import keywordFuncs, { TermCount } from '@/utils/keywords'
 import { stemmer } from 'stemmer'
 import navigation from '@/navigation'
 
-import FlexSearch from 'flexsearch'
-import { InformationCircleIcon } from '@heroicons/vue/outline'
+import FlexSearch, { Index as FlexSearchIndex } from 'flexsearch'
+import { InformationCircleIcon } from '@heroicons/vue/24/outline'
 import {
   Paper,
   PaperID,
@@ -382,7 +382,7 @@ export default defineComponent({
 
       return undefined
     },
-    searchIndex(): FlexSearch.Index {
+    searchIndex(): FlexSearchIndex {
       const index = new FlexSearch.Index({
         encode: sentence => {
           const wordsArr = sentence.split(' ').map(word => {

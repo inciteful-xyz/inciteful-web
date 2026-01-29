@@ -12,7 +12,7 @@
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
-import { PlusCircleIcon } from '@heroicons/vue/solid'
+import { PlusCircleIcon } from '@heroicons/vue/24/solid'
 import { addToLitReviewHelper, EmitEvents } from '@/utils/emitHelpers'
 export default defineComponent({
   name: 'LitReviewButton',

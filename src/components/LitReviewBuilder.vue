@@ -28,7 +28,7 @@
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent } from 'vue'
-import { ArrowRightIcon } from '@heroicons/vue/outline'
+import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { EmitEvents } from '@/utils/emitHelpers'
 
 export default defineComponent({
