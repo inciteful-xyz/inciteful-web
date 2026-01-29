@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap location (update when sitemap is available)
+# Sitemap: https://inciteful.xyz/sitemap.xml
