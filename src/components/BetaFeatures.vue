@@ -28,7 +28,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import options from '../utils/options'
-import { XCircleIcon } from '@heroicons/vue/outline'
+import { XCircleIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'BetaFeatures',

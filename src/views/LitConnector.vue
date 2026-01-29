@@ -96,7 +96,7 @@ import Faq from '../components/Faq.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/incitefulTypes'
-import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/outline'
+import { ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/24/outline'
 import { EmitEvents } from '@/utils/emitHelpers'
 import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
 

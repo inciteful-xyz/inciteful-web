@@ -1,6 +1,6 @@
 <template>
   <button
-    v-if="id && user.enabled"
+    v-if="id && false"
     title="Add paper to your favorites"
     v-on:click="toggleFavorite"
   >
@@ -12,9 +12,8 @@
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
-import { HeartIcon } from '@heroicons/vue/solid'
-import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '@/stores/userStore'
+import { HeartIcon } from '@heroicons/vue/24/solid'
+import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'FavoritePaperButton',
@@ -23,14 +22,13 @@ export default defineComponent({
     id: {} as PropType<PaperID | undefined>
   },
   setup(props) {
-    let user = useUserStore()
 
     let isFavorite = function(): boolean {
-      return props.id ? user.isPaperFavorite(props.id) : false
+      return props.id ? false : true
     }
 
     let toggleFavorite = function() {
-      if (props.id) user.toggleFavorite(props.id)
+      if (props.id) false
     }
 
     // if(!user.isSignedIn) {
@@ -43,7 +41,6 @@ export default defineComponent({
       isSubmitted: false,
       isFavorite,
       toggleFavorite,
-      user
     }
   }
 })

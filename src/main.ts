@@ -1,18 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import { createPinia } from 'pinia'
 import * as Sentry from '@sentry/vue'
-import { Integrations } from '@sentry/tracing'
 import VueTour from 'v3-tour'
 import VueClickAway from 'vue3-click-away'
 import Vue3TouchEvents from 'vue3-touch-events'
 
 import './assets/tailwind.css'
 import 'v3-tour/dist/vue-tour.css'
-import { useUserStore } from './stores/userStore'
 import { emitter } from './utils/emitHelpers'
-import { createHead } from "@vueuse/head"
+import { createHeadCore } from "@unhead/vue"
 
 const app = createApp(App)
 
@@ -26,20 +23,19 @@ if (import.meta.env.PROD) {
     app,
     dsn:
       'https://e0f9638a22234f65b69a22a10537ab95@o415910.ingest.sentry.io/5512736',
-    integrations: [new Integrations.BrowserTracing()],
+    integrations: [
+      Sentry.browserTracingIntegration({ router }),
+      Sentry.vueIntegration({ app, trackComponents: true })
+    ],
     release: 'inciteful-js@' + __COMMIT_HASH__,
     environment: import.meta.env.MODE,
-    tracingOptions: {
-      trackComponents: true
-    },
     tracesSampleRate: 1.0
   })
 }
 
 (async () => {
-  app.use(createPinia())
 
-  const head = createHead()
+  const head = createHeadCore()
 
   app
     .use(router)

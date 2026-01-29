@@ -80,17 +80,14 @@ import Author from './Author.vue'
 import SaveDropDown from './SaveDropDown.vue'
 import FavoritePaperButton from './FavoritePaperButton.vue'
 
-import { useUserStore } from '@/stores/userStore'
 import PaperModalButton from './modals/PaperModalButton.vue'
-import { XCircleIcon } from '@heroicons/vue/solid'
+import { XCircleIcon } from '@heroicons/vue/24/solid'
 import { setExportHeaders } from '../utils/exportUtils';
 
 import {
   ChevronDoubleDownIcon,
   ChevronDoubleUpIcon
-} from '@heroicons/vue/outline'
-
-let user = useUserStore()
+} from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'PaperList',
@@ -131,7 +128,7 @@ export default defineComponent({
   },
   computed: {
     userEnabled(): boolean {
-      return user.enabled
+      return false
     },
     visiblePapers(): Paper[] {
       if (this.papers) {

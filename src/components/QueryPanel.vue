@@ -198,7 +198,7 @@
 import { defineComponent, PropType } from 'vue'
 import { CodeJar } from 'codejar'
 import Prism from 'prismjs'
-import { withLineNumbers } from 'codejar/linenumbers'
+import { withLineNumbers } from 'codejar-linenumbers'
 import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism.css'
 

@@ -77,7 +77,7 @@ import {
   ChevronUpIcon,
   LockClosedIcon,
   LockOpenIcon
-} from '@heroicons/vue/outline'
+} from '@heroicons/vue/24/outline'
 import SaveDropDown from './SaveDropDown.vue'
 import PaperModalButton from './modals/PaperModalButton.vue'
 import { LockedPaper, IIndexable } from '../types/incitefulTypes'

@@ -219,7 +219,7 @@ import { stemmer } from 'stemmer'
 import navigation from '@/navigation'
 
 import FlexSearch from 'flexsearch'
-import { InformationCircleIcon } from '@heroicons/vue/outline'
+import { InformationCircleIcon } from '@heroicons/vue/24/outline'
 import {
   Paper,
   PaperID,

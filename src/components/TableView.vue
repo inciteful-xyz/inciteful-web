@@ -80,7 +80,7 @@
               <div class="flex text-sm border-t border-gray-200">
                 <div class="flex-auto">
                   <router-link :to="queryLink" title="View SQL" class="p-3 sql-button cursor-pointer inline-block">
-                    <DocumentReportIcon class="w-4 h-4 inline" /> SQL
+                    <DocumentChartBarIcon class="w-4 h-4 inline" /> SQL
                   </router-link>
                 </div>
                 <div v-if="numPages > 1" class="flex-none whitespace-nowrap paging">
@@ -121,8 +121,8 @@ import { Author, PaperID } from '@/types/incitefulTypes'
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-  DocumentReportIcon
-} from '@heroicons/vue/outline'
+  DocumentChartBarIcon
+} from '@heroicons/vue/24/outline'
 import SaveDropDown from './SaveDropDown.vue'
 import PaperModalButton from './modals/PaperModalButton.vue'
 import { QueryResults } from '../types/incitefulTypes'
@@ -136,7 +136,7 @@ export default defineComponent({
     LitReviewButton,
     ChevronDownIcon,
     ChevronUpIcon,
-    DocumentReportIcon,
+    DocumentChartBarIcon,
     SaveDropDown,
     PaperModalButton
   },
