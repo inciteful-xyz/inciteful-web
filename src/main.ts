@@ -9,7 +9,7 @@ import Vue3TouchEvents from 'vue3-touch-events'
 import './assets/tailwind.css'
 import 'v3-tour/dist/vue-tour.css'
 import { emitter } from './utils/emitHelpers'
-import { createHeadCore } from "@unhead/vue"
+import { createHead } from "@unhead/vue/client"
 
 const app = createApp(App)
 
@@ -25,7 +25,7 @@ if (import.meta.env.PROD) {
       'https://e0f9638a22234f65b69a22a10537ab95@o415910.ingest.sentry.io/5512736',
     integrations: [
       Sentry.browserTracingIntegration({ router }),
-      Sentry.vueIntegration({ app, trackComponents: true })
+      Sentry.vueIntegration({ app })
     ],
     release: 'inciteful-js@' + __COMMIT_HASH__,
     environment: import.meta.env.MODE,
@@ -33,16 +33,13 @@ if (import.meta.env.PROD) {
   })
 }
 
-(async () => {
+const head = createHead()
 
-  const head = createHeadCore()
+app
+  .use(router)
+  .use(VueTour)
+  .use(VueClickAway)
+  .use(Vue3TouchEvents as any)
+  .use(head)
 
-  app
-    .use(router)
-    .use(VueTour)
-    .use(VueClickAway)
-    .use(Vue3TouchEvents)
-    .use(head)
-
-  app.mount('#app')
- })()
+app.mount('#app')

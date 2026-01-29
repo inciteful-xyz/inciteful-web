@@ -1,6 +1,8 @@
 /// <reference types="vite/client" />
 
-declare const __COMMIT_HASH__: string
+declare global {
+  const __COMMIT_HASH__: string
+}
 
 interface ImportMetaEnv {
   readonly VITE_CLIENT_API_URL: string
@@ -11,3 +13,5 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+export {}
