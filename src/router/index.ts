@@ -2,6 +2,7 @@ import qs from 'qs'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
+import { setPageMeta } from '../utils/seo'
 
 const routes = [
   {
@@ -178,8 +179,19 @@ const router = createRouter({
 })
 
 router.afterEach(to => {
+  // Legacy support for existing pagedata calls
   pagedata.setTitle(to.meta.title as string)
   pagedata.setDescription(to.meta.description as string)
+
+  // Set comprehensive SEO metadata for routes that don't have component-level SEO
+  // (Homepage, PaperDiscovery, and PaperDiscoveryQuery handle their own SEO)
+  if (to.meta.title && to.name !== 'Home' && to.name !== 'PaperDiscovery' && to.name !== 'PaperDiscoveryQuery') {
+    setPageMeta({
+      title: to.meta.title as string,
+      description: to.meta.description as string,
+      canonical: to.meta.canonical as string || to.path
+    })
+  }
 })
 
 export default router

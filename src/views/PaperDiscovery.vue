@@ -80,6 +80,7 @@ import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/24/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
 import template from '../dashboard_templates/default_paper_template.yaml';
 import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue';
+import { setPaperMeta } from '@/utils/seo'
 
 export default defineComponent({
   name: 'PaperDiscovery',
@@ -135,7 +136,11 @@ export default defineComponent({
     },
     paper(newVal) {
       if (newVal) {
+        // Update legacy title (for backward compatibility)
         pagedata.setTitle(newVal.title)
+
+        // Set comprehensive SEO metadata
+        setPaperMeta(newVal)
       }
     }
   },

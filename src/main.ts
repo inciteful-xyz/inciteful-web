@@ -9,7 +9,7 @@ import Vue3TouchEvents from 'vue3-touch-events'
 import './assets/tailwind.css'
 import 'v3-tour/dist/vue-tour.css'
 import { emitter } from './utils/emitHelpers'
-import { createHead } from "@unhead/vue/client"
+import { head } from './utils/head'
 import { initWebVitals } from './utils/webVitals'
 
 const app = createApp(App)
@@ -33,8 +33,6 @@ if (import.meta.env.PROD) {
     tracesSampleRate: 1.0
   })
 }
-
-const head = createHead()
 
 app
   .use(router)
