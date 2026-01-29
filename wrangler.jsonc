@@ -2,7 +2,7 @@
   "name": "inciteful-web",
   "compatibility_date": "2026-01-29",
   "assets": {
-    "directory": "./dist",
+    "directory": "./dis/academic",
     "not_found_handling": "single-page-application"
   },
   "routes": [
