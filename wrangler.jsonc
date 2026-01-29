@@ -3,5 +3,15 @@
   "compatibility_date": "2026-01-29",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "*incitefulmed.com/academic/*",
+      "zone_name": "incitefulmed.com"
+    },
+    {
+      "pattern": "*incitefulmed.com/academic",
+      "zone_name": "incitefulmed.com"
+    }
+  ]
 }
