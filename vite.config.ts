@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: './',
+    base: env.VITE_BASE_PATH || '/',
     plugins: [
     vue(),
     yaml()
