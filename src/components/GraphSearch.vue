@@ -13,7 +13,7 @@
       </div>
       <span class="rounded-md shadow-sm pl-2">
         <button type="button" class="button-violet" v-on:click="searchClick">
-          <SearchIcon class="h-5 w-5 text-white" />
+          <MagnifyingGlassIcon class="h-5 w-5 text-white" />
         </button>
       </span>
     </div>
@@ -26,13 +26,13 @@ import api from '@/utils/incitefulApi'
 import bib from '@/utils/bib'
 import Autosuggest from './Autosuggest.vue'
 import { PaperID } from '@/types/incitefulTypes'
-import { SearchIcon } from '@heroicons/vue/outline'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'GraphSearch',
   components: {
     Autosuggest,
-    SearchIcon
+    MagnifyingGlassIcon
   },
   props: {
     showImport: {

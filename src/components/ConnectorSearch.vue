@@ -16,7 +16,7 @@
       <div class="pt-3">
         <span class="rounded-md shadow-sm">
           <button type="button" class="button-violet" v-on:click="searchClick">
-            <SearchIcon class="h-5 w-5 text-white" />
+            <MagnifyingGlassIcon class="h-5 w-5 text-white" />
           </button>
         </span>
       </div>
@@ -27,13 +27,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Autosuggest from './Autosuggest.vue'
-import { SearchIcon } from '@heroicons/vue/outline'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'ConnectorSearch',
   components: {
     Autosuggest,
-    SearchIcon
+    MagnifyingGlassIcon
   },
   props: {
     showImport: {

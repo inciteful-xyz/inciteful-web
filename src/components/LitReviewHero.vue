@@ -6,7 +6,7 @@
     <div v-if="ids && ids.length < 5" class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-5">
       <div class="flex">
         <div class="flex-shrink-0">
-          <ExclamationIcon class="h-5 w-5 text-amber-400" />
+          <ExclamationTriangleIcon class="h-5 w-5 text-amber-400" />
         </div>
         <div class="ml-3">
           <p class="text-sm leading-5 text-amber-700">
@@ -25,10 +25,7 @@ import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent, PropType } from 'vue'
 import PaperList from './PaperList.vue'
 
-import { ExclamationIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '@/stores/userStore'
-
-let user = useUserStore()
+import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'LitReviewHero',
@@ -41,7 +38,7 @@ export default defineComponent({
   },
   emits: ['remove-paper'],
   components: {
-    ExclamationIcon,
+    ExclamationTriangleIcon,
     PaperList
   },
   data() {
@@ -51,7 +48,7 @@ export default defineComponent({
   },
   computed: {
     userEnabled(): boolean {
-      return user.enabled
+      return false
     },
   },
   methods: {

@@ -78,7 +78,7 @@ transition duration-150 ease-in-out focus:outline-none focus:border-blue-300"
 <script lang="ts">
 import { defineComponent } from 'vue'
 import options from '../utils/options'
-import { CheckCircleIcon } from '@heroicons/vue/solid'
+import { CheckCircleIcon } from '@heroicons/vue/24/solid'
 import SingleColumn from '@/components/layout/SingleColumn.vue'
 
 export default defineComponent({

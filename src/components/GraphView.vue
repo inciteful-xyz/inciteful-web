@@ -49,7 +49,7 @@
             >
               <button class="justify-center p-3" v-on:click="toggleFullScreen">
                 <div :class="{ hidden: isFullScreen }">
-                  <ArrowsExpandIcon class="h-6 w-6" />
+                  <ArrowsPointingOutIcon class="h-6 w-6" />
                 </div>
 
                 <div :class="{ hidden: !isFullScreen }">
@@ -72,7 +72,7 @@
               "
             >
               <button class="justify-center p-3" v-on:click="centerGraph">
-                <LocationMarkerIcon class="h-6 w-6" />
+                <MapPinIcon class="h-6 w-6" />
               </button>
             </div>
             <div
@@ -89,7 +89,7 @@
               "
             >
               <button class="justify-center p-3" v-on:click="zoomIn">
-                <ZoomInIcon class="h-6 w-6" />
+                <MagnifyingGlassPlusIcon class="h-6 w-6" />
               </button>
             </div>
             <div
@@ -107,7 +107,7 @@
               "
             >
               <button class="justify-center p-3" v-on:click="zoomOut">
-                <ZoomOutIcon class="h-6 w-6" />
+                <MagnifyingGlassMinusIcon class="h-6 w-6" />
               </button>
             </div>
           </div>
@@ -140,12 +140,12 @@ import { defineComponent, PropType } from 'vue'
 import graphVis from '../utils/graphing/graph'
 import { PaperID } from '@/types/incitefulTypes'
 import {
-  ArrowsExpandIcon,
-  LocationMarkerIcon,
-  ZoomInIcon,
-  ZoomOutIcon,
+  ArrowsPointingOutIcon,
+  MapPinIcon,
+  MagnifyingGlassPlusIcon,
+  MagnifyingGlassMinusIcon,
   XCircleIcon
-} from '@heroicons/vue/outline'
+} from '@heroicons/vue/24/outline'
 import { GraphData, IncitefulGraph } from '@/types/graphTypes'
 
 export default defineComponent({
@@ -157,10 +157,10 @@ export default defineComponent({
     highlightedIds: {} as PropType<Set<PaperID>>
   },
   components: {
-    ArrowsExpandIcon,
-    LocationMarkerIcon,
-    ZoomInIcon,
-    ZoomOutIcon,
+    ArrowsPointingOutIcon,
+    MapPinIcon,
+    MagnifyingGlassPlusIcon,
+    MagnifyingGlassMinusIcon,
     XCircleIcon
   },
   data () {

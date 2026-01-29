@@ -64,7 +64,7 @@
       <div v-else-if="paper">
         <div class="absolute right-2 top-2">
           <button @click="setEdit()" title="Edit">
-            <PencilIcon class="w-5 h-5 text-violet-500" />
+            <PencilSquareIcon class="w-5 h-5 text-violet-500" />
           </button>
         </div>
         <paper-summary :paper="paper" />
@@ -81,7 +81,7 @@ import GraphSearch from './GraphSearch.vue'
 import Loader from './Loader.vue'
 import PaperSummary from './PaperSummary.vue'
 import SearchResults from './SearchResults.vue'
-import { XCircleIcon, PencilIcon } from '@heroicons/vue/outline'
+import { XCircleIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'LitConnectorPaperSelector',
@@ -91,7 +91,7 @@ export default defineComponent({
     GraphSearch,
     Loader,
     XCircleIcon,
-    PencilIcon
+    PencilSquareIcon
   },
   props: {
     paperParam: {

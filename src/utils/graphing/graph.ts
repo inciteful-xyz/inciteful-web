@@ -9,9 +9,25 @@ import klay from 'cytoscape-klay'
 import graphStyles from './graphStyles'
 import similar from './similar'
 import connector from './connector'
-import popper from 'cytoscape-popper'
+import cytoscapePopper, { PopperFactory } from 'cytoscape-popper'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
+
+// Factory function for cytoscape-popper v4
+const tippyFactory: PopperFactory = (ref, content) => {
+  const dummyDomEle = document.createElement('div')
+  const tip = tippy(dummyDomEle, {
+    getReferenceClientRect: ref.getBoundingClientRect,
+    trigger: 'manual',
+    content: content,
+    arrow: true,
+    placement: 'bottom',
+    hideOnClick: false,
+    interactive: true,
+    appendTo: document.body
+  })
+  return tip as any
+}
 import {
   PaperID
 } from '@/types/incitefulTypes'
@@ -26,7 +42,7 @@ import { showModalHelper } from '../emitHelpers';
 import { IIndexable } from '../../types/incitefulTypes';
 
 
-cytoscape.use(popper)
+cytoscape.use(cytoscapePopper(tippyFactory))
 cytoscape.use(fcose)
 cytoscape.use(klay)
 cytoscape.use(contextMenus)

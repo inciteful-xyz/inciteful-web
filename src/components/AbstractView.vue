@@ -20,7 +20,7 @@ import { defineComponent } from 'vue'
 import {
   ChevronDoubleDownIcon,
   ChevronDoubleUpIcon
-} from '@heroicons/vue/outline'
+} from '@heroicons/vue/24/outline'
 export default defineComponent({
   name: 'AbstractView',
   components: {

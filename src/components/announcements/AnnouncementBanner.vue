@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ExclamationCircleIcon } from '@heroicons/vue/outline'
+import { ExclamationCircleIcon } from '@heroicons/vue/24/outline'
 
 export default defineComponent({
   name: 'BetaFeatures',

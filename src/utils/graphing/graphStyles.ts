@@ -1,4 +1,6 @@
-import { EdgeSingular, Stylesheet } from 'cytoscape'
+import type { EdgeSingular, StylesheetCSS, StylesheetStyle } from 'cytoscape'
+
+type Stylesheet = StylesheetCSS | StylesheetStyle
 
 const style: Stylesheet[] = [
   {
