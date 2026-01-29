@@ -45,4 +45,4 @@ if (import.meta.env.PROD) {
     .use(head)
 
   app.mount('#app')
-})()
+ })()
