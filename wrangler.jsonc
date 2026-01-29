@@ -2,7 +2,8 @@
   "name": "inciteful-web",
   "compatibility_date": "2026-01-29",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
   },
   "routes": [
     {
@@ -13,5 +14,6 @@
       "pattern": "*incitefulmed.com/academic",
       "zone_name": "incitefulmed.com"
     }
-  ]
+  ],
+  "preview_urls": true
 }
