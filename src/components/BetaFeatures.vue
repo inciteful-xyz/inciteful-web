@@ -8,8 +8,8 @@
         <div class="ml-3">
           <h3 class="text-sm leading-5 font-medium text-blue-800">
             You have the following
-            <a class="underline cursor-pointer hover:text-blue-400" href="/beta"
-              >beta features</a
+            <router-link class="underline cursor-pointer hover:text-blue-400" to="/beta"
+              >beta features</router-link
             >
             enabled.
           </h3>

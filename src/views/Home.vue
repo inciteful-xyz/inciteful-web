@@ -155,16 +155,16 @@
                   cornerstone of all of our tools. Building these tools for all
                   academic literature has only recently been possible with the
                   rise of open scholarly bibliographic data and the amazing work
-                  being done by the <a href="/data">these groups</a>.
+                  being done by the <router-link to="/data">these groups</router-link>.
                 </p>
                 <p>
                   To date we have two tools.
-                  <a href="/p">Paper Discovery</a> and the
-                  <a href="/c">Literature Connector</a>. More tools are actively
+                  <router-link to="/p">Paper Discovery</router-link> and the
+                  <router-link to="/c">Literature Connector</router-link>. More tools are actively
                   under development.
                 </p>
                 <p>
-                  The <a href="/p">Paper Discovery</a> tool builds a network of
+                  The <router-link to="/p">Paper Discovery</router-link> tool builds a network of
                   papers from citations, uses network analysis algorithms to
                   analyze the network, and gives you the information you need to
                   quickly get up to speed on that topic. You can find the most
@@ -174,7 +174,7 @@
               </div>
               <div class="prose prose-lg text-gray-500">
                 <p>
-                  Our second tool was the <a href="/c">Literature Connector</a>.
+                  Our second tool was the <router-link to="/c">Literature Connector</router-link>.
                   Intended for interdisciplinary scholars trying to bridge two
                   domains, it allows you to enter two papers and it will give
                   you an interactive visualization showing you how they are
@@ -190,9 +190,9 @@
                 </p>
                 <p>
                   Being built off the backs of free and open
-                  <a href="/data">data</a>, we commit to paying it forward by
+                  <router-link to="/data">data</router-link>, we commit to paying it forward by
                   keeping our own tools free for everyone. To learn more, head
-                  over to our <a href="/about">about page</a>.
+                  over to our <router-link to="/about">about page</router-link>.
                 </p>
               </div>
             </div>
@@ -234,10 +234,10 @@
               </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 We collect citation information from a variety of
-                <a
+                <router-link
                   class="text-violet-600 underline focus:no-underline"
-                  href="/data"
-                  >data sources</a
+                  to="/data"
+                  >data sources</router-link
                 >
                 to ensure as much coverage possible as citations are the
                 cornerstone of our site.
