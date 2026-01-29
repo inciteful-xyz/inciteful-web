@@ -201,6 +201,7 @@ import Prism from 'prismjs'
 import { withLineNumbers } from 'codejar-linenumbers'
 import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism.css'
+import 'codejar-linenumbers/es/codejar-linenumbers.css'
 
 import SqlView from './SqlView.vue'
 import { PaperID } from '../types/incitefulTypes'

@@ -133,6 +133,7 @@ import LitConnectorBody from '../components/LitConnectorBody.vue'
 import FaqComp from '../components/Faq.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper } from '@/types/incitefulTypes'
+import { SITE_URL } from '@/utils/config'
 
 export default defineComponent({
   name: 'LitConnectorPage',
@@ -179,7 +180,7 @@ export default defineComponent({
   },
   computed: {
     twitterLink(): string {
-      const text = `My paper is only ${this.minHops} degrees away from Einstein: ${window.location}\n\nFind out how your paper is connected using @inciteful_xyz: https://inciteful.xyz/einstein\n\n#sixdegreesofeinstein`
+      const text = `My paper is only ${this.minHops} degrees away from Einstein: ${window.location}\n\nFind out how your paper is connected using @inciteful_xyz: ${SITE_URL}/einstein\n\n#sixdegreesofeinstein`
 
       return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
     },

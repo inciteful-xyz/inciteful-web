@@ -1,10 +1,14 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 import yaml from '@rollup/plugin-yaml'
 
-export default defineConfig({
-  plugins: [
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+
+  return {
+    base: env.VITE_BASE_PATH || '/',
+    plugins: [
     vue(),
     yaml()
   ],
@@ -50,5 +54,6 @@ export default defineConfig({
   },
   define: {
     __COMMIT_HASH__: JSON.stringify(process.env.COMMIT_HASH || 'dev')
+  }
   }
 })

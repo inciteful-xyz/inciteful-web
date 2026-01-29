@@ -17,6 +17,7 @@ import QueryPanel from '../components/QueryPanel.vue'
 import api from '../utils/incitefulApi'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import { Paper, PaperID } from '@/types/incitefulTypes'
+import pagedata from '../utils/pagedata'
 
 export default defineComponent({
   name: 'PaperDiscoveryQuery',
@@ -53,11 +54,17 @@ export default defineComponent({
         api.getPaper(id).then(data => {
           this.paper = data
 
-          if (this.paper && this.paper.id != id) {
-            this.$router.replace({
-              name: 'PaperDiscoveryQuery',
-              params: { pathMatch: this.paper.id }
-            })
+          if (this.paper) {
+            // Set SEO with canonical pointing to the base paper page (not the query URL)
+            pagedata.setTitle(`Query: ${this.paper.title}`)
+            pagedata.setCanonical(`/p/${this.paper.id}`)
+
+            if (this.paper.id != id) {
+              this.$router.replace({
+                name: 'PaperDiscoveryQuery',
+                params: { pathMatch: this.paper.id }
+              })
+            }
           }
         })
       } else {
