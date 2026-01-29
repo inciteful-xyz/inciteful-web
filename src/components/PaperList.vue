@@ -2,20 +2,22 @@
   <div v-if="papers" class="shadow-box">
     <table class="base-table">
       <thead>
-        <th v-if="userEnabled"></th>
-        <th>
-          Title
-        </th>
-        <th>
-          First Author
-        </th>
-        <th>
-          Year
-        </th>
-        <th>
-          Cited By
-        </th>
-        <th></th>
+        <tr>
+          <th v-if="userEnabled" scope="col"><span class="sr-only">Favorite</span></th>
+          <th scope="col">
+            Title
+          </th>
+          <th scope="col">
+            First Author
+          </th>
+          <th scope="col">
+            Year
+          </th>
+          <th scope="col">
+            Cited By
+          </th>
+          <th scope="col"><span class="sr-only">Actions</span></th>
+        </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <tr v-for="(paper, index) in visiblePapers" :key="index">
@@ -37,8 +39,8 @@
             {{ paper.num_cited_by }}
           </td>
           <td class="pt-2 pr-2">
-            <button title="Remove from Graph" @click="removePaper(paper.id)">
-              <XCircleIcon class="h-5 w-5 text-violet-500" />
+            <button title="Remove from Graph" aria-label="Remove from Graph" @click="removePaper(paper.id)">
+              <XCircleIcon class="h-5 w-5 text-violet-500" aria-hidden="true" />
             </button>
           </td>
           <td class="hidden">

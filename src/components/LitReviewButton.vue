@@ -2,10 +2,11 @@
   <button
     v-if="!isHidden"
     title="Add paper to a literature review search"
+    aria-label="Add paper to literature review"
     v-on:click="addToLitReview()"
     class="add-paper-button"
   >
-    <PlusCircleIcon class="h-5 w-5 text-violet-500 inline" />
+    <PlusCircleIcon class="h-5 w-5 text-violet-500 inline" aria-hidden="true" />
   </button>
 </template>
 

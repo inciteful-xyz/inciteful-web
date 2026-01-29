@@ -12,8 +12,8 @@
         </div>
       </div>
       <span class="rounded-md shadow-sm pl-2">
-        <button type="button" class="button-violet" v-on:click="searchClick">
-          <MagnifyingGlassIcon class="h-5 w-5 text-white" />
+        <button type="button" class="button-violet" v-on:click="searchClick" aria-label="Search">
+          <MagnifyingGlassIcon class="h-5 w-5 text-white" aria-hidden="true" />
         </button>
       </span>
     </div>

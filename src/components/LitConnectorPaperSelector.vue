@@ -4,8 +4,8 @@
       <loader v-if="!loaded" />
       <div v-else-if="(!valid && loaded) || editing">
         <div v-if="paper" class="absolute right-2 top-2">
-          <button @click="cancelEdit()" title="Cancel">
-            <XCircleIcon class="w-5 h-5 text-violet-500" />
+          <button @click="cancelEdit()" title="Cancel" aria-label="Cancel editing">
+            <XCircleIcon class="w-5 h-5 text-violet-500" aria-hidden="true" />
           </button>
         </div>
 
@@ -63,8 +63,8 @@
       </div>
       <div v-else-if="paper">
         <div class="absolute right-2 top-2">
-          <button @click="setEdit()" title="Edit">
-            <PencilSquareIcon class="w-5 h-5 text-violet-500" />
+          <button @click="setEdit()" title="Edit" aria-label="Edit paper selection">
+            <PencilSquareIcon class="w-5 h-5 text-violet-500" aria-hidden="true" />
           </button>
         </div>
         <paper-summary :paper="paper" />

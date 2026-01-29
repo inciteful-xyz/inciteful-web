@@ -1,7 +1,10 @@
 <template>
   <div id="app" class="flex flex-col min-h-screen">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-violet-600 focus:text-white">
+      Skip to main content
+    </a>
     <Header></Header>
-    <main class="mb-auto">
+    <main id="main-content" class="mb-auto" role="main">
       <router-view />
     </main>
     <Footer />

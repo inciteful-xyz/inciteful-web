@@ -42,7 +42,7 @@
               <div
                 class="flex-grow lg:flex-auto border-r-0 lg:border-r-2 border-gray-600 border-b-2 lg:border-b-0 lg:h-20 m-auto lg:w-0"
               ></div>
-              <div class="flex-none p-3 text-gray-600">OR</div>
+              <div class="flex-none p-3 text-gray-400">OR</div>
               <div
                 class="flex-grow lg:flex-auto border-r-0 lg:border-r-2 border-gray-600 border-b-2 lg:border-b-0 lg:h-20 m-auto lg:w-0"
               ></div>
@@ -211,9 +211,9 @@
               <GlobeAltIcon class="h-6 w-6" />
             </div>
             <div class="mt-3">
-              <h5 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Over 240,000,000 papers
-              </h5>
+              </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 The Inciteful database has coverage over the majority of
                 academic papers in peer reviewed journals as well as books.
@@ -229,9 +229,9 @@
               <CubeTransparentIcon class="w-6 h-6" fill="none" />
             </div>
             <div class="mt-3">
-              <h5 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Almost 2 billion citations
-              </h5>
+              </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 We collect citation information from a variety of
                 <a
@@ -251,9 +251,9 @@
               <DocumentChartBarIcon class="w-6 h-6" />
             </div>
             <div class="mt-3">
-              <h5 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
                 Built to be flexible
-              </h5>
+              </h3>
               <p class="mt-5 text-base leading-6 text-gray-500">
                 Whether you want to use the pre-defined analyses or you are a
                 power user wanting to explore the data with SQL, Inciteful gives

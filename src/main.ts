@@ -10,6 +10,7 @@ import './assets/tailwind.css'
 import 'v3-tour/dist/vue-tour.css'
 import { emitter } from './utils/emitHelpers'
 import { createHead } from "@unhead/vue/client"
+import { initWebVitals } from './utils/webVitals'
 
 const app = createApp(App)
 
@@ -43,3 +44,6 @@ app
   .use(head)
 
 app.mount('#app')
+
+// Initialize web vitals measurement
+initWebVitals()

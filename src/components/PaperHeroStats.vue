@@ -1,6 +1,8 @@
 <template>
-  <dl
+  <div
     class="text-center sm:mx-auto flex flex-wrap gap-2 sm:gap-4 sm:text-lg text-sm mt-3 sm:mt-4"
+    role="region"
+    aria-label="Paper statistics"
   >
     <div class="flex flex-1" id="paper-stats">
       <stat>
@@ -23,6 +25,7 @@
             :href="oaLink"
             target="_blank"
             class="underline hover:no-underline"
+            aria-label="Open Access: Yes - view full text"
             >Yes</a
           ><span v-else-if="loading">-</span><span v-else>No</span></template
         >
@@ -58,7 +61,7 @@
         </template>
       </Stat>
     </div>
-  </dl>
+  </div>
 </template>
 
 <script lang="ts">
