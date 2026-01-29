@@ -285,6 +285,7 @@ import {
   CubeTransparentIcon,
   GlobeAltIcon
 } from '@heroicons/vue/24/outline'
+import { setPageMeta, setOrganizationSchema } from '@/utils/seo'
 
 export default defineComponent({
   name: 'Home',
@@ -295,6 +296,17 @@ export default defineComponent({
     DocumentChartBarIcon,
     CubeTransparentIcon,
     GlobeAltIcon
+  },
+  mounted() {
+    // Set SEO metadata for homepage
+    setPageMeta({
+      title: 'Using Citations to Explore Academic Literature',
+      description: 'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+      canonical: '/'
+    })
+
+    // Add structured data for organization
+    setOrganizationSchema()
   },
   methods: {
     addLitReviewPapers(ids: PaperID[]) {
