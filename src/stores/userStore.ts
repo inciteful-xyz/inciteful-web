@@ -8,7 +8,7 @@ export const useUserStore = defineStore({
     state: () => {
         return {
             userDataDoc: undefined as UserData | undefined,
-            enabled: process.env.VUE_APP_SHOW_LOGIN == "true"
+            enabled: import.meta.env.VITE_SHOW_LOGIN == "true"
         }
     },
     actions: {
