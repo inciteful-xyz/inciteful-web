@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, unknown>
+  const component: DefineComponent<Record<string, never>, Record<string, never>, unknown>
   export default component
 }
 
