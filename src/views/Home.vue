@@ -1,7 +1,7 @@
 <template>
   <div class="home animate-fade-up">
     <!-- Hero Section -->
-    <Section class="pt-6 md:pt-8 bg-theme-light">
+    <Section class="pt-6 md:pt-8 md:mt-12 bg-theme-light">
       <Container md>
         <!-- Centered Content -->
         <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
