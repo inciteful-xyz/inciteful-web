@@ -1,21 +1,29 @@
 <template>
   <div class="w-full">
-    <div class="flex whitespace-nowrap">
-      <div class="w-full text-right">
-        <Autosuggest ref="autosuggest" :defaultQuery="defaultQuery" @selected="sendSelect" @searched="sendSearched" />
-        <div v-if="showImport" class="text-right pt-1 text-sm">
-          <input type="file" style="display: none" ref="bibUploadInput" accept=".bib" @change="parseBib" />
-          or
-          <button class="underline hover:no-underline" @click="uploadBib">
-            Import BibTeX file
-          </button>
-        </div>
+    <div class="flex gap-1 p-1 bg-white border-2 border-theme-violet rounded-xl shadow-md">
+      <!-- Search Icon -->
+      <div class="flex items-center pl-2">
+        <MagnifyingGlassIcon class="w-5 h-5 text-theme-violet" aria-hidden="true" />
       </div>
-      <span class="rounded-md shadow-sm pl-2">
-        <button type="button" class="button-violet" v-on:click="searchClick" aria-label="Search">
-          <MagnifyingGlassIcon class="h-5 w-5 text-white" aria-hidden="true" />
-        </button>
-      </span>
+
+      <!-- Autosuggest Input -->
+      <div class="flex-1 min-w-0">
+        <Autosuggest ref="autosuggest" :defaultQuery="defaultQuery" @selected="sendSelect" @searched="sendSearched" />
+      </div>
+
+      <!-- Search Button -->
+      <button type="button" class="p-2 bg-theme-violet text-white rounded-lg hover:bg-theme-violet-2 transition-colors flex items-center justify-center" v-on:click="searchClick" aria-label="Search">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+    <div v-if="showImport" class="text-center pt-3 text-sm text-theme-charcoal">
+      <input type="file" style="display: none" ref="bibUploadInput" accept=".bib" @change="parseBib" />
+      or
+      <button class="text-theme-violet hover:underline font-medium" @click="uploadBib">
+        Import BibTeX file
+      </button>
     </div>
   </div>
 </template>

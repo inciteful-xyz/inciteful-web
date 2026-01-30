@@ -1,74 +1,47 @@
 <template>
-  <div class="text-left relative shadow-box p-4">
-    <div>
-      <loader v-if="!loaded" />
-      <div v-else-if="(!valid && loaded) || editing">
-        <div v-if="paper" class="absolute right-2 top-2">
-          <button @click="cancelEdit()" title="Cancel" aria-label="Cancel editing">
-            <XCircleIcon class="w-5 h-5 text-violet-500" aria-hidden="true" />
-          </button>
-        </div>
+  <div class="text-left relative">
+    <loader v-if="!loaded" />
+    <div v-else-if="(!valid && loaded) || editing">
+      <div v-if="paper" class="absolute right-3 top-3 z-10">
+        <button @click="cancelEdit()" title="Cancel" aria-label="Cancel editing" class="text-theme-violet hover:text-theme-violet-2 transition-colors">
+          <XCircleIcon class="w-5 h-5" aria-hidden="true" />
+        </button>
+      </div>
 
-        <label
-          for="searchBox"
-          class="block text-sm font-medium text-gray-700 mb-1"
-          v-if="searchLabel"
-          >{{ searchLabel }}</label
+      <graph-search
+        ref="searchBox"
+        :defaultQuery="defaultQuery"
+        :showImport="showImport"
+        @selected="paperIdsSelected"
+        @searched="handleSearched"
+      />
+      <div v-if="currentQuery">
+        <search-results
+          :query="currentQuery"
+          @selected="paperSelected"
+          :abstractLength="100"
         >
-        <graph-search
-          ref="searchBox"
-          :defaultQuery="defaultQuery"
-          :showImport="showImport"
-          @selected="paperIdsSelected"
-          @searched="handleSearched"
-        />
-        <div v-if="currentQuery">
-          <search-results
-            :query="currentQuery"
-            @selected="paperSelected"
-            :abstractLength="100"
-          >
-            <template v-slot:action="{ paper }">
-              <span class="inline-flex rounded-md shadow-sm">
-                <button
-                  @click="paperSelected(paper)"
-                  class="
-                    inline-flex
-                    items-center
-                    px-4
-                    py-2
-                    border border-transparent
-                    text-sm
-                    leading-5
-                    font-medium
-                    rounded-md
-                    text-white
-                    bg-violet-600
-                    hover:bg-violet-500
-                    focus:outline-none
-                    focus:border-violet-700
-                    focus:ring-violet
-                    active:bg-violet-700
-                    transition
-                    ease-in-out
-                    duration-150
-                  "
-                >
-                  Connect Paper >>
-                </button>
-              </span>
-            </template>
-          </search-results>
-        </div>
+          <template v-slot:action="{ paper }">
+            <button
+              @click="paperSelected(paper)"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-white bg-theme-violet hover:bg-theme-violet-2 transition-colors"
+            >
+              Connect Paper
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </template>
+        </search-results>
       </div>
-      <div v-else-if="paper">
-        <div class="absolute right-2 top-2">
-          <button @click="setEdit()" title="Edit" aria-label="Edit paper selection">
-            <PencilSquareIcon class="w-5 h-5 text-violet-500" aria-hidden="true" />
-          </button>
-        </div>
-        <paper-summary :paper="paper" />
+    </div>
+    <div v-else-if="paper" class="p-3 bg-white rounded-xl border-2 border-theme-violet shadow-md">
+      <div class="absolute right-3 top-3">
+        <button @click="setEdit()" title="Edit" aria-label="Edit paper selection" class="text-theme-violet hover:text-theme-violet-2 transition-colors">
+          <PencilSquareIcon class="w-5 h-5" aria-hidden="true" />
+        </button>
       </div>
+      <paper-summary :paper="paper" />
     </div>
   </div>
 </template>
@@ -101,8 +74,7 @@ export default defineComponent({
     showImport: {
       type: Boolean,
       default: false
-    },
-    searchLabel: String
+    }
   },
   data() {
     return {

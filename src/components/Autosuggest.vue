@@ -1,9 +1,8 @@
 <template>
-  <div class="text-gray-800 relative" @keydown.esc="hideResults()" @keydown.enter="sendSelect(null)"
-    v-click-away="hideResults">
-    <input @click="displayResults()" @keydown.up="registerKeypress('up')" @keydown.down="registerKeypress('down')"
-      @keydown.enter="sendSearched()" @focus="isFocused = true" class="w-full px-4 py-2 border border-gray-300 rounded-md leading-5
-                      bg-white transition duration-150 ease-in-out focus:outline-none focus:border-blue-300 focus:ring-2 focus:ring-violet-500"
+  <div class="text-theme-charcoal relative" @keydown.esc="hideResults()" @keydown.enter="sendSelect(null)"
+    @focusout="onFocusOut">
+    <input @click="displayResults()" @keydown.up.prevent="registerKeypress('up')" @keydown.down.prevent="registerKeypress('down')"
+      @keydown.enter="sendSearched()" @focus="isFocused = true" class="w-full px-2 py-2 text-sm outline-none border-none focus:ring-0 bg-transparent"
       ref="searchBox" type="text" placeholder="Paper title, DOI, PubMed URL, or arXiv URL" :value="query"
       @input="e => (query = e.target ? (e.target as HTMLInputElement).value : '')"
       role="combobox"
@@ -13,36 +12,19 @@
       aria-controls="search-results-listbox"
       :aria-activedescendant="highlighted !== null ? `search-result-${highlighted}` : undefined"
       aria-label="Search for papers" />
-    <div v-if="shouldShowResults" class="
-                          origin-top-right
-                          absolute
-                          z-50
-                          w-full
-                          rounded-b
-                          border
-                          rounded-tr-none rounded-tl-none
-                          border-gray-300
-                          rounded-md
-                          bg-white
-                          p-0
-                          m-0
-                          overflow-y-scroll
-                          max-h-96;
-                        ">
+    <div v-if="shouldShowResults" class="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
       <ul id="search-results-listbox" role="listbox" class="list-none p-0 m-0" @keydown.left="registerKeypress('up')" @keydown.up="registerKeypress('up')"
         @keydown.right="registerKeypress('down')" @keydown.down="registerKeypress('down')" aria-label="Search results">
-        <li class="cursor-pointer p-2 border-t border-gray-200 hover:bg-gray-200" v-for="(result, index) in results"
+        <li class="cursor-pointer p-3 border-b border-gray-100 last:border-b-0 hover:bg-theme-pink transition-colors" v-for="(result, index) in results"
           :key="index" @click="sendSelect(index)" v-touch:tap="sendSelect(index)"
-          :class="{ 'bg-gray-200': highlighted === index }"
+          :class="{ 'bg-theme-pink': highlighted === index }"
           :id="`search-result-${index}`"
           role="option"
           :aria-selected="highlighted === index">
-          <div class="pb-1 text-sm" v-html="result.title"></div>
-          <div class="text-xs">
+          <div class="text-sm font-medium text-theme-charcoal" v-html="result.title"></div>
+          <div class="text-xs text-gray-500 mt-1">
             <Authors :authors="result.author" /> ({{ result.published_year }}) -
-
-            {{ format(result.num_cited_by) }}
-            citations
+            {{ format(result.num_cited_by) }} citations
           </div>
         </li>
       </ul>
@@ -150,6 +132,16 @@ export default defineComponent({
       this.showResults = false
       this.highlighted = null
     },
+    onFocusOut(e: FocusEvent) {
+      const container = e.currentTarget as HTMLElement
+      const relatedTarget = e.relatedTarget as HTMLElement | null
+      if (!relatedTarget || !container.contains(relatedTarget)) {
+        setTimeout(() => {
+          this.isFocused = false
+          this.hideResults()
+        }, 150)
+      }
+    },
     displayResults() {
       this.showResults = true
     },
@@ -199,3 +191,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+input::placeholder {
+  color: #9F89CE;
+}
+</style>

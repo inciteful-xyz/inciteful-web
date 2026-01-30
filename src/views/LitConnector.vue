@@ -1,5 +1,6 @@
 <template>
   <div class="animate-fade-up">
+    <ModalManager />
     <!-- Hero Section (shown when no papers selected) -->
     <Section v-if="!isValid" class="pt-6 pb-4 md:pt-8 md:pb-6 bg-theme-light">
       <Container md>
@@ -40,7 +41,6 @@
               <lit-connector-paper-selector
                 ref="fromSelector"
                 :paperParam="fromParam"
-                :searchLabel="'From'"
                 @paperSelected="handleFromSelect"
               />
             </div>
@@ -55,7 +55,6 @@
               <lit-connector-paper-selector
                 ref="toSelector"
                 :paperParam="toParam"
-                :searchLabel="'To'"
                 @paperSelected="handleToSelect"
               />
             </div>
@@ -93,6 +92,7 @@ import { defineComponent } from 'vue'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
+import ModalManager from '../components/modals/ModalManager.vue'
 import { Section, Container } from '@/components/ui/layouts'
 import { TextLG } from '@/components/ui/typography'
 import { Paper } from '@/types/incitefulTypes'
@@ -104,6 +104,7 @@ export default defineComponent({
     LitConnectorPaperSelector,
     LitConnectorBody,
     LitConnectorTour,
+    ModalManager,
     Section,
     Container,
     TextLG,
