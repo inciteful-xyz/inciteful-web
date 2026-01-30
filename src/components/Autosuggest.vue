@@ -1,6 +1,5 @@
 <template>
-  <div class="text-theme-charcoal relative" @keydown.esc="hideResults()" @keydown.enter="sendSelect(null)"
-    @focusout="onFocusOut">
+  <div class="text-theme-charcoal" @keydown.esc="hideResults()" @focusout="onFocusOut">
     <input @click="displayResults()" @keydown.up.prevent="registerKeypress('up')" @keydown.down.prevent="registerKeypress('down')"
       @keydown.enter="sendSearched()" @focus="isFocused = true" class="w-full px-2 py-2 text-sm outline-none border-none focus:ring-0 bg-transparent"
       ref="searchBox" type="text" placeholder="Paper title, DOI, PubMed URL, or arXiv URL" :value="query"
@@ -12,21 +11,18 @@
       aria-controls="search-results-listbox"
       :aria-activedescendant="highlighted !== null ? `search-result-${highlighted}` : undefined"
       aria-label="Search for papers" />
-    <div v-if="shouldShowResults" class="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+    <div v-if="shouldShowResults" class="absolute left-0 right-0 top-full z-50 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
       <ul id="search-results-listbox" role="listbox" class="list-none p-0 m-0" @keydown.left="registerKeypress('up')" @keydown.up="registerKeypress('up')"
         @keydown.right="registerKeypress('down')" @keydown.down="registerKeypress('down')" aria-label="Search results">
-        <li class="cursor-pointer p-3 border-b border-gray-100 last:border-b-0 hover:bg-theme-pink transition-colors" v-for="(result, index) in results"
-          :key="index" @click="sendSelect(index)" v-touch:tap="sendSelect(index)"
-          :class="{ 'bg-theme-pink': highlighted === index }"
-          :id="`search-result-${index}`"
-          role="option"
-          :aria-selected="highlighted === index">
-          <div class="text-sm font-medium text-theme-charcoal" v-html="result.title"></div>
-          <div class="text-xs text-gray-500 mt-1">
-            <Authors :authors="result.author" /> ({{ result.published_year }}) -
-            {{ format(result.num_cited_by) }} citations
-          </div>
-        </li>
+        <SearchResultItem
+          v-for="(result, index) in results"
+          :key="index"
+          :result="result"
+          :item-id="`search-result-${index}`"
+          :is-highlighted="highlighted === index"
+          @select="handleSelect(index)"
+          v-touch:tap="() => handleSelect(index)"
+        />
       </ul>
     </div>
   </div>
@@ -35,15 +31,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import api from '../utils/incitefulApi'
-import numeral from 'numeral'
 import { Paper, PaperID } from '@/types/incitefulTypes'
-import Authors from './Authors.vue'
+import SearchResultItem from './ui/SearchResultItem.vue'
 import { searchOpenAlex } from '../utils/openalexApi'
 
 export default defineComponent({
   name: 'Autosuggest',
   components: {
-    Authors
+    SearchResultItem
   },
   props: {
     clearOnSelect: {
@@ -158,29 +153,24 @@ export default defineComponent({
         return this.results[this.highlighted].id
       }
     },
-    format(val: number) {
-      return numeral(val).format('0,0.[000000]')
+    handleSelect(index: number) {
+      if (this.results && index !== null) {
+        const paper = this.results[index]
+        if (paper) {
+          this.showResults = false
+          // @ts-ignore
+          this.$refs.searchBox.blur()
+          this.$emit('selected', [paper.id])
+          this.query = `${paper.title} (${paper.id})`
+        }
+      }
     },
     getPaperValue(paper: Paper): string {
       return `${paper.title} (${paper.id})`
     },
-    sendSelect(index: number | null) {
-      return () => {
-        if (this.results && index !== null) {
-          const paper = this.results[index]
-          if (paper) {
-            this.showResults = false
-            // @ts-ignore
-            this.$refs.searchBox.blur()
-            this.$emit('selected', [paper.id])
-            this.query = `${paper.title} (${paper.id})`
-          }
-        }
-      }
-    },
     sendSearched() {
       if (this.highlighted !== null && this.highlighted >= 0) {
-        this.sendSelect(this.highlighted)()
+        this.handleSelect(this.highlighted)
       } else if (this.query) {
         this.$emit('searched', this.query)
         this.showResults = false
