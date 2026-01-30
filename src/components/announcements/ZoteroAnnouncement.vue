@@ -1,9 +1,9 @@
 <template>
   <AnnouncementBanner>
     <template v-slot:title>
-      Did you know you can search directly from Zotero? Check out our new <a class="underline"
+      Did you know you can search directly from Zotero? Check out our new <a class="text-theme-violet hover:underline font-medium"
         href="https://github.com/inciteful-xyz/inciteful-zotero-plugin" target="_blank">Zotero
-        plugin</a> and see the <a class="underline" href="https://twitter.com/Inciteful_xyz/status/1633447883994193920"
+        plugin</a> and see the <a class="text-theme-violet hover:underline font-medium" href="https://twitter.com/Inciteful_xyz/status/1633447883994193920"
         target="_blank">Twitter
         thread</a> on how to use it.
     </template>

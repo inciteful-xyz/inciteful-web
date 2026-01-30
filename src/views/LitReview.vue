@@ -13,24 +13,18 @@
         <div>
           <DashboardRenderer :template="template" :ids="ids" />
         </div>
-        <div class="pb-6">
-          <BetaSignup />
-        </div>
       </div>
     </single-column>
-    <paper-discovery-empty v-else />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import GraphFilters from '../components/GraphFilters.vue'
 import LitReviewHero from '../components/LitReviewHero.vue'
-import BetaSignup from '../components/BetaSignup.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import DashboardRenderer from '../components/DashboardRenderer.vue'
 import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_lr_template.yaml'
-import PaperDiscoveryEmpty from '../components/PaperDiscoveryEmpty.vue'
 import { PaperID } from '@/types/incitefulTypes'
 import navigation from '@/navigation'
 import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
@@ -39,11 +33,9 @@ export default defineComponent({
   components: {
     GraphFilters,
     LitReviewHero,
-    BetaSignup,
     DashboardRenderer,
     BetaFeatures,
     SingleColumn,
-    PaperDiscoveryEmpty,
     ZoteroAnnouncement
   },
   data() {
@@ -54,21 +46,32 @@ export default defineComponent({
   },
   created() {
     const ids = this.$route.query.ids as PaperID[] | undefined
-    if (ids !== undefined) {
-      if (ids.length === 1) {
-        this.$router.push({
-          path: navigation.getPaperUrl(ids[0])
-        })
-      }
 
-      this.ids = this.$route.query.ids as PaperID[]
+    // Redirect to home if no ids provided
+    if (ids === undefined) {
+      this.$router.replace({ name: 'Home' })
+      return
     }
+
+    if (ids.length === 1) {
+      this.$router.push({
+        path: navigation.getPaperUrl(ids[0])
+      })
+    }
+
+    this.ids = this.$route.query.ids as PaperID[]
 
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },
   methods: {
     idsChanged(val: PaperID[]): void {
-      if (val && val.length === 1) {
+      // Redirect to home if ids are removed
+      if (!val || val.length === 0) {
+        this.$router.replace({ name: 'Home' })
+        return
+      }
+
+      if (val.length === 1) {
         this.$router.push({
           path: navigation.getPaperUrl(val[0]),
           query: undefined,

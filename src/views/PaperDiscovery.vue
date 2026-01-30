@@ -57,9 +57,6 @@
         </div>
       </div>
     </div>
-    <div class="pb-6">
-      <BetaSignup />
-    </div>
     <PaperPageTour :ready="pageReady" />
   </single-column>
 </template>
@@ -67,7 +64,6 @@
 import { defineComponent } from 'vue'
 import PaperHero from '../components/PaperHero.vue'
 import GraphFilters from '../components/GraphFilters.vue'
-import BetaSignup from '../components/BetaSignup.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import DashboardRenderer from '../components/DashboardRenderer.vue'
 import PaperPageTour from '../components/PaperPageTour.vue'
@@ -87,7 +83,6 @@ export default defineComponent({
   components: {
     GraphFilters,
     PaperHero,
-    BetaSignup,
     DashboardRenderer,
     PaperPageTour,
     BetaFeatures,

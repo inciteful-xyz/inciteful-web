@@ -1,324 +1,175 @@
 <template>
-  <div class="home">
-    <div class="shadow bg-gray-800 lg:py-12 py-6 px-4 sm:px-6 lg:px-8">
-      <div class="relative">
-        <div class="sm:text-center md:max-w-4xl md:mx-auto lg:text-left">
-          <h2
-            class="mb-2 text-4xl tracking-tight leading-10 font-extrabold text-gray-100 sm:leading-none lg:text-5xl xl:text-6xl"
-          >
-            Tools to help you
-            <br class="hidden md:inline" />
-            <span class="text-violet-400">accelerate your research</span>
-          </h2>
+  <div class="home animate-fade-up">
+    <!-- Hero Section -->
+    <Section class="pt-6 md:pt-8 bg-theme-light">
+      <Container md>
+        <!-- Centered Content -->
+        <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+          <!-- Header -->
+          <h1 class="mb-2 font-battambang font-light leading-tight text-black text-3xl sm:text-4xl md:text-5xl">
+            <span class="text-theme-violet font-normal">Accelerate Your Research</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <TextLG class="mb-10 max-w-3xl mt-2 text-theme-charcoal">
+            Build a network of academic papers and we'll analyze the citations to help you
+            <span class="text-theme-violet font-semibold">discover the most relevant literature</span>.
+          </TextLG>
+
+          <!-- Search Bar -->
+          <SearchBar
+            :showImport="true"
+            @selected="addLitReviewPapers"
+            @searched="goToSearch"
+          />
+
+          <!-- Feature List with Checkmarks -->
+          <FeatureCheckmarks :features="heroFeatures" />
         </div>
-        <div class="max-w-xl mx-auto px-4 md:max-w-screen-xl lg:px-6">
-          <div class="lg:flex mt-3 sm:mt-5 ">
-            <div class="flex-1 lg:pr-6 md:max-w-4xl md:mx-auto">
-              <p
-                class="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl"
-              >
-                Build a network of academic papers and we'll analyze the network
-                to help you <span class="text-violet-400">discover</span> the
-                most relevant literature.
-              </p>
-              <div class="mt-5 sm:mx-auto lg:mx-0 text-gray-400">
-                <p class="text-base font-medium">
-                  Search for the title of a paper to get started.
-                </p>
-                <div>
-                  <div class="flex pt-3">
-                    <div class="flex-auto max-w-full text-base ">
-                      <GraphSearch
-                        :showImport="true"
-                        @selected="addLitReviewPapers"
-                        @searched="goToSearch"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+      </Container>
+    </Section>
+
+    <!-- How It Works Section -->
+    <Section class="bg-white">
+      <Container md>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 bg-theme-lavender rounded-2xl border border-theme-pink">
+            <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
+              1
             </div>
-            <div class="flex-none flex lg:flex-col">
-              <div
-                class="flex-grow lg:flex-auto border-r-0 lg:border-r-2 border-gray-600 border-b-2 lg:border-b-0 lg:h-20 m-auto lg:w-0"
-              ></div>
-              <div class="flex-none p-3 text-gray-400">OR</div>
-              <div
-                class="flex-grow lg:flex-auto border-r-0 lg:border-r-2 border-gray-600 border-b-2 lg:border-b-0 lg:h-20 m-auto lg:w-0"
-              ></div>
-            </div>
-            <div class="flex-1 lg:pl-6 md:max-w-4xl md:mx-auto">
-              <p
-                class="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl"
-              >
-                Select two papers and we will show you how the
-                <span class="text-violet-400">literature connects</span> them
-                together.
-              </p>
-              <div class="pt-5 text-gray-400">
-                <ConnectorSearch />
-              </div>
-            </div>
+            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Start with a paper</h3>
+            <p class="text-theme-charcoal">
+              Search for a paper you are interested in or import a BibTeX file
+              with the references of a paper you are working on.
+            </p>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="py-6 xl:py-12 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
-      <div class="max-w-max-content lg:max-w-7xl mx-auto">
-        <div class="relative z-10 mb-4 md:mb-2 md:px-6">
-          <div class="text-base max-w-prose lg:max-w-none">
-            <h1
-              class="mt-2 pb-0 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-            >
-              Find the most relevant literature, faster
-            </h1>
+          <div class="p-6 bg-theme-lavender rounded-2xl border border-theme-pink">
+            <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
+              2
+            </div>
+            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Add relevant papers</h3>
+            <p class="text-theme-charcoal">
+              As you find papers that are interesting, add them to the graph
+              to help us zero in on your topic, then do it again.
+            </p>
+          </div>
+          <div class="p-6 bg-theme-lavender rounded-2xl border border-theme-pink">
+            <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
+              3
+            </div>
+            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Download your findings</h3>
+            <p class="text-theme-charcoal">
+              Once you can't find any more relevant papers, export the results
+              to Zotero, Mendeley, or your reference manager of choice.
+            </p>
           </div>
         </div>
-        <div class="relative">
-          <svg
-            class="hidden md:block absolute top-0 right-0 -mt-20 -mr-20"
-            width="404"
-            height="384"
-            fill="none"
-            viewBox="0 0 404 384"
-          >
-            <defs>
-              <pattern
-                id="95e8f2de-6d30-4b7e-8159-f791729db21b"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="4"
-                  class="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width="404"
-              height="384"
-              fill="url(#95e8f2de-6d30-4b7e-8159-f791729db21b)"
-            />
-          </svg>
-          <svg
-            class="hidden md:block absolute bottom-0 left-0 -mb-20 -ml-20"
-            width="404"
-            height="384"
-            fill="none"
-            viewBox="0 0 404 384"
-          >
-            <defs>
-              <pattern
-                id="7a00fe67-0343-4a3c-8e81-c145097a3ce0"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="4"
-                  class="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width="404"
-              height="384"
-              fill="url(#7a00fe67-0343-4a3c-8e81-c145097a3ce0)"
-            />
-          </svg>
-          <div class="relative md:bg-white md:p-6">
-            <div class="lg:grid lg:grid-cols-2 lg:gap-6 mb-3">
-              <div
-                class="prose prose-lg text-gray-500 mb-6 lg:max-w-none lg:mb-0"
-              >
-                <p>
-                  The goal of Inciteful is to give the world free tools to help
-                  accelerate academic research. If that means getting up to
-                  speed on a new topic, finding the latest literature, or
-                  figuring out how two ideas are connected, we can help.
-                </p>
-                <p>
-                  Unlike a traditional search engine, citations are the
-                  cornerstone of all of our tools. Building these tools for all
-                  academic literature has only recently been possible with the
-                  rise of open scholarly bibliographic data and the amazing work
-                  being done by the <router-link to="/data">these groups</router-link>.
-                </p>
-                <p>
-                  To date we have two tools.
-                  <router-link to="/p">Paper Discovery</router-link> and the
-                  <router-link to="/c">Literature Connector</router-link>. More tools are actively
-                  under development.
-                </p>
-                <p>
-                  The <router-link to="/p">Paper Discovery</router-link> tool builds a network of
-                  papers from citations, uses network analysis algorithms to
-                  analyze the network, and gives you the information you need to
-                  quickly get up to speed on that topic. You can find the most
-                  similar papers, important papers as well as prolific authors
-                  and institutions.
-                </p>
-              </div>
-              <div class="prose prose-lg text-gray-500">
-                <p>
-                  Our second tool was the <router-link to="/c">Literature Connector</router-link>.
-                  Intended for interdisciplinary scholars trying to bridge two
-                  domains, it allows you to enter two papers and it will give
-                  you an interactive visualization showing you how they are
-                  connected by the literature. From there you can send the
-                  papers you find into our Paper Discovery tool to find other
-                  relevant literature which happened to not be the "shortest
-                  path" between the two papers.
-                </p>
-                <p>
-                  Inciteful is under active development and our hope is that,
-                  over time, our tools will build upon each other giving you an
-                  unrivaled experience for quickly discovering new literature.
-                </p>
-                <p>
-                  Being built off the backs of free and open
-                  <router-link to="/data">data</router-link>, we commit to paying it forward by
-                  keeping our own tools free for everyone. To learn more, head
-                  over to our <router-link to="/about">about page</router-link>.
-                </p>
-              </div>
-            </div>
+      </Container>
+    </Section>
+
+    <!-- About Section -->
+    <Section class="bg-theme-light">
+      <Container md>
+        <div class="text-center mb-10">
+          <TitleMD>A smarter approach to literature discovery</TitleMD>
+        </div>
+        <div class="lg:grid lg:grid-cols-2 lg:gap-10">
+          <div class="text-lg leading-relaxed text-theme-charcoal space-y-4 mb-6 lg:mb-0">
+            <p>
+              Most academic search engines focus on "importance" (as measured by
+              number of citations) and keyword matching. But <span class="font-semibold">there is value
+              in the underlying structure that citations provide</span> — and it is
+              almost always ignored.
+            </p>
+            <p>
+              Inciteful flips that on its head by making citations the center of
+              the search process: we build a citation network centered around your
+              paper(s), then analyze that network to surface the most interesting data.
+            </p>
+          </div>
+          <div class="text-lg leading-relaxed text-theme-charcoal space-y-4">
+            <p>
+              With our unique approach, you find not only the most "important" papers
+              in the graph, but <span class="font-semibold">also the most similar</span> using
+              link prediction algorithms — the same algorithms used in social networks
+              to suggest friends.
+            </p>
+            <p>
+              This approach tends to surface more recent literature and helps you
+              <span class="font-semibold">zero in on the state of the art more quickly</span> than
+              just looking for the top cited papers. Built on
+              <router-link class="text-theme-violet hover:underline" to="/data">open data</router-link>,
+              we keep our tools free for everyone.
+            </p>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="py-6 lg:py-12  bg-gray-100 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-screen-xl lg:px-8">
-        <div class="lg:grid lg:grid-cols-3 lg:gap-8">
-          <div class="rounded-md bg-white p-6">
-            <div
-              class=" flex items-center float-left justify-center h-12 w-12 rounded-md mr-3 mb-1 bg-violet-500
-                    text-white"
-            >
-              <GlobeAltIcon class="h-6 w-6" />
-            </div>
-            <div class="mt-3">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Over 240,000,000 papers
-              </h3>
-              <p class="mt-5 text-base leading-6 text-gray-500">
-                The Inciteful database has coverage over the majority of
-                academic papers in peer reviewed journals as well as books.
-                Hundreds of thousands more are added every month.
-              </p>
-            </div>
+      </Container>
+    </Section>
+
+    <!-- Stats Section -->
+    <Section class="bg-theme-lavender">
+      <Container md>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="text-center p-8 bg-white rounded-2xl border border-theme-pink shadow-sm">
+            <div class="text-4xl md:text-5xl font-battambang font-light text-theme-violet mb-2">240M+</div>
+            <div class="text-lg text-theme-charcoal">Academic papers</div>
+            <p class="text-theme-charcoal leading-snug py-3">Our database covers the majority of academic papers in peer reviewed journals as well as books. Hundreds of thousands more are added every month.</p>
           </div>
-          <div class="mt-10 lg:mt-0 rounded-md bg-white p-6">
-            <div
-              class=" flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500
-                        text-white"
-            >
-              <CubeTransparentIcon class="w-6 h-6" fill="none" />
-            </div>
-            <div class="mt-3">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Almost 2 billion citations
-              </h3>
-              <p class="mt-5 text-base leading-6 text-gray-500">
-                We collect citation information from a variety of
-                <router-link
-                  class="text-violet-600 underline focus:no-underline"
-                  to="/data"
-                  >data sources</router-link
-                >
-                to ensure as much coverage possible as citations are the
-                cornerstone of our site.
-              </p>
-            </div>
+          <div class="text-center p-8 bg-white rounded-2xl border border-theme-pink shadow-sm">
+            <div class="text-4xl md:text-5xl font-battambang font-light text-theme-violet mb-2">2B+</div>
+            <div class="text-lg text-theme-charcoal">Citations indexed</div>
+            <p class="text-theme-charcoal leading-snug py-3">We collect citation information from a variety of data sources to ensure as much coverage as possible since citations are the cornerstone of our tools.</p>
           </div>
-          <div class="mt-10 lg:mt-0 rounded-md bg-white p-6">
-            <div
-              class="flex items-center justify-center float-left mr-3 mb-1 h-12 w-12 rounded-md bg-violet-500 text-white"
-            >
-              <DocumentChartBarIcon class="w-6 h-6" />
-            </div>
-            <div class="mt-3">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Built to be flexible
-              </h3>
-              <p class="mt-5 text-base leading-6 text-gray-500">
-                Whether you want to use the pre-defined analyses or you are a
-                power user wanting to explore the data with SQL, Inciteful gives
-                you the tools you need.
-              </p>
-            </div>
+          <div class="text-center p-8 bg-white rounded-2xl border border-theme-pink shadow-sm">
+            <div class="text-4xl md:text-5xl font-battambang font-light text-theme-violet mb-2">100%</div>
+            <div class="text-lg text-theme-charcoal">Free to use</div>
+            <p class="text-theme-charcoal leading-snug py-3">Our core tools are free to use and always will be. We believe in open access and that knowledge should be free for everyone.</p>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="bg-white">
-      <div class="max-w-screen-xl mx-auto px-4 py-6 lg:py-12 sm:px-6 lg:px-8">
-        <BetaSignup />
-      </div>
-    </div>
+      </Container>
+    </Section>
+
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-// @ is an alias to /src
-import BetaSignup from '@/components/BetaSignup.vue'
-import GraphSearch from '@/components/GraphSearch.vue'
-import ConnectorSearch from '@/components/ConnectorSearch.vue'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import SearchBar from '@/components/ui/SearchBar.vue'
+import FeatureCheckmarks from '@/components/home/FeatureCheckmarks.vue'
+import { Section, Container } from '@/components/ui/layouts'
+import { TitleMD, TextLG } from '@/components/ui/typography'
 import navigation from '../navigation'
 import { PaperID } from '@/types/incitefulTypes'
-import {
-  DocumentChartBarIcon,
-  CubeTransparentIcon,
-  GlobeAltIcon
-} from '@heroicons/vue/24/outline'
 import { setPageMeta, setOrganizationSchema } from '@/utils/seo'
 
-export default defineComponent({
-  name: 'Home',
-  components: {
-    BetaSignup,
-    GraphSearch,
-    ConnectorSearch,
-    DocumentChartBarIcon,
-    CubeTransparentIcon,
-    GlobeAltIcon
-  },
-  mounted() {
-    // Set SEO metadata for homepage
-    setPageMeta({
-      title: 'Using Citations to Explore Academic Literature',
-      description: 'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
-      canonical: '/'
-    })
+const router = useRouter()
 
-    // Add structured data for organization
-    setOrganizationSchema()
-  },
-  methods: {
-    addLitReviewPapers(ids: PaperID[]) {
-      if (ids.length === 1) {
-        this.$router.push({ path: navigation.getPaperUrl(ids[0]) })
-      } else {
-        this.$router.push({ name: 'LitReview', query: { ids } })
-      }
-    },
-    goToSearch(query: string) {
-      this.$router.push({ name: 'Search', query: { q: query } })
-    }
-  }
+const heroFeatures = [
+  'Find similar papers',
+  'Discover key authors',
+  'Explore citation networks',
+  'Export to Zotero'
+]
+onMounted(() => {
+  setPageMeta({
+    title: 'Paper Discovery - Find Relevant Academic Literature Using Citations',
+    description: 'Build citation networks to discover the most relevant academic papers. Free tool using graph analysis to help researchers explore literature faster.',
+    canonical: '/'
+  })
+  setOrganizationSchema()
 })
+
+function addLitReviewPapers(ids: PaperID[]) {
+  if (ids.length === 1) {
+    router.push({ path: navigation.getPaperUrl(ids[0]) })
+  } else {
+    router.push({ name: 'LitReview', query: { ids } })
+  }
+}
+
+function goToSearch(query: string) {
+  router.push({ name: 'Search', query: { q: query } })
+}
 </script>

@@ -10,12 +10,11 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: 'Using Citations to Explore Academic Literature',
+      title: 'Paper Discovery - Find Relevant Academic Literature Using Citations',
       description:
-        'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+        'Build citation networks to discover the most relevant academic papers. Free tool using graph analysis to help researchers explore literature faster.',
       canonical: '/'
-    },
-    isSecureContext
+    }
   },
   {
     path: '/about',

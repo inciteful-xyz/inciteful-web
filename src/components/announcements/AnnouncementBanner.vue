@@ -1,16 +1,16 @@
 <template>
   <div v-if="showTitle || showMessage">
-    <div class="rounded-md bg-indigo-500 p-4 mb-4">
+    <div class="rounded-xl bg-theme-lavender border border-theme-pink p-4 mb-4">
       <div class="flex justify-between items-center">
         <div class="flex-shrink-0 mr-4">
-          <ExclamationCircleIcon class="h-5 w-5 inline-block mb-1 text-white" />
+          <ExclamationCircleIcon class="h-5 w-5 inline-block text-theme-violet" />
         </div>
-        <div class="flex">
-          <div class="ml-3">
-            <h3 class="text-base leading-5 font-medium text-white" v-if="showTitle">
+        <div class="flex flex-1">
+          <div>
+            <h3 class="text-base leading-5 font-medium text-theme-charcoal" v-if="showTitle">
               <slot name="title"></slot>
             </h3>
-            <div class="mt-2 text-sm leading-5 text-white" v-if="showMessage">
+            <div class="mt-2 text-sm leading-5 text-theme-charcoal" v-if="showMessage">
               <slot name="message"></slot>
             </div>
           </div>

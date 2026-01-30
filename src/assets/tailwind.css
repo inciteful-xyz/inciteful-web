@@ -1,8 +1,25 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+
+  ::selection {
+    background-color: theme("colors.theme-violet");
+    color: theme("colors.white");
+  }
+
+  body {
+    @apply font-dm-sans antialiased;
+  }
+}
+
+html, body {
+  scroll-behavior: smooth;
+}
 
 .base-table {
   @apply min-w-full divide-y divide-gray-200 table-auto text-sm text-gray-600;
