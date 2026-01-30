@@ -7,7 +7,7 @@
         <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
           <!-- Header -->
           <h1 class="mb-2 font-battambang font-light leading-tight text-black text-3xl sm:text-4xl md:text-5xl">
-            <span class="text-theme-violet font-normal ">Accelerate Your Research</span>
+            <span class="text-theme-violet font-normal">Accelerate Your Research</span>
           </h1>
 
           <!-- Subtitle -->
@@ -27,53 +27,80 @@
           <FeatureCheckmarks :features="heroFeatures" />
         </div>
 
-        <!-- Bottom Feature Cards -->
-        <div class="grid relative z-10 grid-cols-1 lg:grid-cols-3 gap-x-5 gap-y-4 sm:gap-y-8 mt-12 sm:mt-20">
-          <FeatureCard
-            v-for="feature in featureCards"
-            :key="feature.title"
-            :icon="feature.icon"
-            :title="feature.title"
-            :text="feature.text"
-          />
+      </Container>
+    </Section>
+
+    <!-- How It Works Section -->
+    <Section class="bg-white">
+      <Container md>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 bg-theme-lavender rounded-2xl border border-theme-pink">
+            <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
+              1
+            </div>
+            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Start with a paper</h3>
+            <p class="text-theme-charcoal">
+              Search for a paper you are interested in or import a BibTeX file
+              with the references of a paper you are working on.
+            </p>
+          </div>
+          <div class="p-6 bg-theme-lavender rounded-2xl border border-theme-pink">
+            <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
+              2
+            </div>
+            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Add relevant papers</h3>
+            <p class="text-theme-charcoal">
+              As you find papers that are interesting, add them to the graph
+              to help us zero in on your topic, then do it again.
+            </p>
+          </div>
+          <div class="p-6 bg-theme-lavender rounded-2xl border border-theme-pink">
+            <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
+              3
+            </div>
+            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Download your findings</h3>
+            <p class="text-theme-charcoal">
+              Once you can't find any more relevant papers, export the results
+              to Zotero, Mendeley, or your reference manager of choice.
+            </p>
+          </div>
         </div>
       </Container>
     </Section>
 
     <!-- About Section -->
-    <Section class="bg-white">
+    <Section class="bg-theme-light">
       <Container md>
         <div class="text-center mb-10">
-          <TitleMD>Find the most relevant literature, faster</TitleMD>
+          <TitleMD>A smarter approach to literature discovery</TitleMD>
         </div>
         <div class="lg:grid lg:grid-cols-2 lg:gap-10">
           <div class="text-lg leading-relaxed text-theme-charcoal space-y-4 mb-6 lg:mb-0">
             <p>
-              The goal of Inciteful is to give the world free tools to help
-              accelerate academic research. Whether you're getting up to
-              speed on a new topic, finding the latest literature, or
-              figuring out how two ideas are connected, we can help.
+              Most academic search engines focus on "importance" (as measured by
+              number of citations) and keyword matching. But <span class="font-semibold">there is value
+              in the underlying structure that citations provide</span> — and it is
+              almost always ignored.
             </p>
             <p>
-              Unlike a traditional search engine, citations are the
-              cornerstone of all our tools. Building these tools for all
-              academic literature has only recently been possible with the
-              rise of open scholarly bibliographic data and the amazing work
-              being done by <router-link class="text-theme-violet hover:underline" to="/data">these groups</router-link>.
+              Inciteful flips that on its head by making citations the center of
+              the search process: we build a citation network centered around your
+              paper(s), then analyze that network to surface the most interesting data.
             </p>
           </div>
           <div class="text-lg leading-relaxed text-theme-charcoal space-y-4">
             <p>
-              Our <router-link class="text-theme-violet hover:underline" to="/p">Paper Discovery</router-link> tool builds a network of
-              papers from citations, uses network analysis algorithms to
-              analyze the network, and gives you the information you need to
-              quickly get up to speed on any topic.
+              With our unique approach, you find not only the most "important" papers
+              in the graph, but <span class="font-semibold">also the most similar</span> using
+              link prediction algorithms — the same algorithms used in social networks
+              to suggest friends.
             </p>
             <p>
-              Built off the backs of free and open
-              <router-link class="text-theme-violet hover:underline" to="/data">data</router-link>, we commit to paying it forward by
-              keeping our own tools free for everyone. To learn more, visit our
-              <router-link class="text-theme-violet hover:underline" to="/about">about page</router-link>.
+              This approach tends to surface more recent literature and helps you
+              <span class="font-semibold">zero in on the state of the art more quickly</span> than
+              just looking for the top cited papers. Built on
+              <router-link class="text-theme-violet hover:underline" to="/data">open data</router-link>,
+              we keep our tools free for everyone.
             </p>
           </div>
         </div>
@@ -87,14 +114,17 @@
           <div class="text-center p-8 bg-white rounded-2xl border border-theme-pink shadow-sm">
             <div class="text-4xl md:text-5xl font-battambang font-light text-theme-violet mb-2">240M+</div>
             <div class="text-lg text-theme-charcoal">Academic papers</div>
+            <p class="text-theme-charcoal leading-snug py-3">Our database covers the majority of academic papers in peer reviewed journals as well as books. Hundreds of thousands more are added every month.</p>
           </div>
           <div class="text-center p-8 bg-white rounded-2xl border border-theme-pink shadow-sm">
             <div class="text-4xl md:text-5xl font-battambang font-light text-theme-violet mb-2">2B+</div>
             <div class="text-lg text-theme-charcoal">Citations indexed</div>
+            <p class="text-theme-charcoal leading-snug py-3">We collect citation information from a variety of data sources to ensure as much coverage as possible since citations are the cornerstone of our tools.</p>
           </div>
           <div class="text-center p-8 bg-white rounded-2xl border border-theme-pink shadow-sm">
             <div class="text-4xl md:text-5xl font-battambang font-light text-theme-violet mb-2">100%</div>
             <div class="text-lg text-theme-charcoal">Free to use</div>
+            <p class="text-theme-charcoal leading-snug py-3">Our core tools are free to use and always will be. We believe in open access and that knowledge should be free for everyone.</p>
           </div>
         </div>
       </Container>
@@ -113,11 +143,6 @@ import { Section, Container } from '@/components/ui/layouts'
 import { TitleMD, TextLG } from '@/components/ui/typography'
 import navigation from '../navigation'
 import { PaperID } from '@/types/incitefulTypes'
-import {
-  DocumentChartBarIcon,
-  CubeTransparentIcon,
-  GlobeAltIcon
-} from '@heroicons/vue/24/outline'
 import { setPageMeta, setOrganizationSchema } from '@/utils/seo'
 
 const router = useRouter()
@@ -128,29 +153,10 @@ const heroFeatures = [
   'Explore citation networks',
   'Export to Zotero'
 ]
-
-const featureCards = [
-  {
-    icon: GlobeAltIcon,
-    title: 'Over 240 million papers',
-    text: 'Our database covers the majority of academic papers in peer reviewed journals as well as books. Hundreds of thousands more are added every month.'
-  },
-  {
-    icon: CubeTransparentIcon,
-    title: 'Almost 2 billion citations',
-    text: 'We collect citation information from a variety of data sources to ensure as much coverage as possible since citations are the cornerstone of our tools.'
-  },
-  {
-    icon: DocumentChartBarIcon,
-    title: 'Built to be flexible',
-    text: 'Whether you want to use the pre-defined analyses or you are a power user wanting to explore the data with SQL, Inciteful gives you the tools you need.'
-  }
-]
-
 onMounted(() => {
   setPageMeta({
-    title: 'Using Citations to Explore Academic Literature',
-    description: 'Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.',
+    title: 'Paper Discovery - Find Relevant Academic Literature Using Citations',
+    description: 'Build citation networks to discover the most relevant academic papers. Free tool using graph analysis to help researchers explore literature faster.',
     canonical: '/'
   })
   setOrganizationSchema()
