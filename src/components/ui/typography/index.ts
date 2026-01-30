@@ -1,0 +1,8 @@
+export { default as TitleLG } from './TitleLG.vue'
+export { default as TitleMD } from './TitleMD.vue'
+export { default as TitleSM } from './TitleSM.vue'
+export { default as TitleSup } from './TitleSup.vue'
+export { default as TextLG } from './TextLG.vue'
+export { default as TextMD } from './TextMD.vue'
+export { default as TextSM } from './TextSM.vue'
+export { default as TextXS } from './TextXS.vue'
