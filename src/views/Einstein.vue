@@ -120,13 +120,11 @@
       </div>
     </div>
     <FaqComp :faqs="faqs" />
-    <BetaSignup />
   </single-column>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BetaSignup from '../components/BetaSignup.vue'
 import api from '../utils/incitefulApi'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
@@ -138,7 +136,6 @@ import { SITE_URL } from '@/utils/config'
 export default defineComponent({
   name: 'LitConnectorPage',
   components: {
-    BetaSignup,
     LitConnectorPaperSelector,
     LitConnectorBody,
     FaqComp,

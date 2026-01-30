@@ -22,8 +22,13 @@
             </a>
           </div>
         </div>
-        <div class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
-          <graph-search :showImport="false" v-on:selected="goToPaper" v-on:searched="goToSearch" />
+        <div v-if="!isHomePage" class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+          <SearchBar
+            compact
+            placeholder="Search papers..."
+            @selected="goToPaper"
+            @searched="goToSearch"
+          />
         </div>
         <div class="flex flex-shrink items-center lg:hidden">
           <button @click="toggleMobileMenu()" class=" inline-flex items-center justify-center p-2 rounded-md text-gray-400
@@ -56,50 +61,33 @@
   </nav>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import GraphSearch from '@/components/GraphSearch.vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import SearchBar from '@/components/ui/SearchBar.vue'
 import navigation from '../../navigation'
 import { PaperID } from '@/types/incitefulTypes'
 import { useRouter, useRoute } from 'vue-router'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-export default defineComponent({
-  name: 'Header',
-  components: {
-    GraphSearch,
-    Bars3Icon,
-    XMarkIcon
-  },
-  setup() {
-    const router = useRouter()
-    const route = useRoute()
-    let mobileMenuExpanded = ref(false)
+const router = useRouter()
+const route = useRoute()
+const mobileMenuExpanded = ref(false)
 
-    const toggleMobileMenu = () => {
-      mobileMenuExpanded.value = !mobileMenuExpanded.value
-    }
-    const goToPaper = (id: PaperID) => {
-      router.push({ path: navigation.getPaperUrl(id) })
-    }
+const isHomePage = computed(() => route.name === 'Home')
 
-    const goToSearch = (query: string) => {
-      if (query && route.query.q !== query) {
-        router.push({ name: 'Search', query: { q: query } })
-      }
-    }
+function toggleMobileMenu() {
+  mobileMenuExpanded.value = !mobileMenuExpanded.value
+}
 
-    const signOut = () => {
-      throw new Error('Not implemented')
-    }
-
-    return {
-      mobileMenuExpanded,
-      toggleMobileMenu,
-      goToPaper,
-      signOut,
-      goToSearch
-    }
+function goToPaper(ids: PaperID[]) {
+  if (ids.length > 0) {
+    router.push({ path: navigation.getPaperUrl(ids[0]) })
   }
-})
+}
+
+function goToSearch(query: string) {
+  if (query && route.query.q !== query) {
+    router.push({ name: 'Search', query: { q: query } })
+  }
+}
 </script>
