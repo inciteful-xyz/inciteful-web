@@ -11,12 +11,13 @@
           </div>
           <div class="hidden lg:flex items-center">
             <a href="https://help.inciteful.xyz"
-              class="ml-8 text-sm font-medium text-theme-charcoal hover:text-theme-violet transition-colors">
+              class="ml-8 text-sm font-medium text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
               Help
             </a>
             <a href="https://twitter.com/Inciteful_xyz" target="_blank"
-              class="ml-6 text-theme-charcoal hover:text-theme-violet transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335 276" fill="currentColor" class="w-5 h-5">
+              class="ml-6 text-theme-charcoal hover:text-theme-violet transition-colors"
+              aria-label="Follow Inciteful on Twitter (opens in new tab)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335 276" fill="currentColor" class="w-5 h-5" aria-hidden="true">
                 <path
                   d="m302 70a195 195 0 0 1 -299 175 142 142 0 0 0 97 -30 70 70 0 0 1 -58 -47 70 70 0 0 0 31 -2 70 70 0 0 1 -57 -66 70 70 0 0 0 28 5 70 70 0 0 1 -18 -90 195 195 0 0 0 141 72 67 67 0 0 1 116 -62 117 117 0 0 0 43 -17 65 65 0 0 1 -31 38 117 117 0 0 0 39 -11 65 65 0 0 1 -32 35" />
               </svg>
@@ -47,12 +48,13 @@
     }">
       <div class="py-2 bg-white">
         <router-link to="/c"
-          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:bg-theme-lavender transition-colors">Connector</router-link>
+          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Connector</router-link>
         <a href="https://help.inciteful.xyz"
-          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:bg-theme-lavender transition-colors">Help</a>
+          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Help</a>
         <a href="https://twitter.com/Inciteful_xyz" target="_blank"
-          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:bg-theme-lavender transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335 276" fill="currentColor" class="w-5 h-5 inline mr-2">
+          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:bg-theme-lavender transition-colors"
+          aria-label="Follow Inciteful on Twitter (opens in new tab)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335 276" fill="currentColor" class="w-5 h-5 inline mr-2" aria-hidden="true">
             <path
               d="m302 70a195 195 0 0 1 -299 175 142 142 0 0 0 97 -30 70 70 0 0 1 -58 -47 70 70 0 0 0 31 -2 70 70 0 0 1 -57 -66 70 70 0 0 0 28 5 70 70 0 0 1 -18 -90 195 195 0 0 0 141 72 67 67 0 0 1 116 -62 117 117 0 0 0 43 -17 65 65 0 0 1 -31 38 117 117 0 0 0 39 -11 65 65 0 0 1 -32 35" />
           </svg>
