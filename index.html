@@ -3,35 +3,42 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-    content="Using citations to find the most relevant literature. Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature." />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-  <meta name="theme-color" content="#7c3aed" />
+  <% if (process.env.NODE_ENV==='production' ) { %>
+    <script async defer data-website-id="05492db5-ef18-4c90-b085-92016ea8915f"
+      src="https://data.inciteful.xyz/data.js"></script>
+    <% } %>
 
-  <!-- Favicon -->
-  <link rel="icon" href="/favicon.ico">
+      <meta name="description"
+        content="Using citations to find the most relevant literature. Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature." />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+      <meta name="theme-color" content="#7c3aed" />
 
-  <!-- Default title - will be replaced by Vue -->
-  <title>Inciteful | Using Citations to Explore Academic Literature</title>
+      <!-- Favicon -->
+      <link rel="icon" href="/favicon.ico">
 
-  <!-- Open Graph default tags - will be enhanced by Vue components -->
-  <meta property="og:site_name" content="Inciteful" />
-  <meta property="og:type" content="website" />
+      <!-- Default title - will be replaced by Vue -->
+      <title>Inciteful | Using Citations to Explore Academic Literature</title>
 
-  <!-- Twitter Card default -->
-  <meta name="twitter:card" content="summary_large_image" />
+      <!-- Open Graph default tags - will be enhanced by Vue components -->
+      <meta property="og:site_name" content="Inciteful" />
+      <meta property="og:type" content="website" />
 
-  <!-- Preconnect to external APIs for faster loading -->
-  <link rel="preconnect" href="https://api.inciteful.xyz" crossorigin>
-  <link rel="preconnect" href="https://api.openalex.org" crossorigin>
-  <link rel="dns-prefetch" href="https://api.inciteful.xyz">
-  <link rel="dns-prefetch" href="https://api.openalex.org">
+      <!-- Twitter Card default -->
+      <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Google Fonts: DM Sans, DM Mono, Battambang -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Battambang:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+      <!-- Preconnect to external APIs for faster loading -->
+      <link rel="preconnect" href="https://api.inciteful.xyz" crossorigin>
+      <link rel="preconnect" href="https://api.openalex.org" crossorigin>
+      <link rel="dns-prefetch" href="https://api.inciteful.xyz">
+      <link rel="dns-prefetch" href="https://api.openalex.org">
+
+      <!-- Google Fonts: DM Sans, DM Mono, Battambang -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Battambang:wght@100;300;400;700;900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body id="body" class="bg-white text-theme-charcoal">
