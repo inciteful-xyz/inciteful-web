@@ -103,9 +103,9 @@
                 "
               >
                 <span class="inline-flex rounded-md shadow-sm">
-                  <a :href="toolUrl" class="button-violet">
+                  <router-link :to="toolUrl" class="button-violet">
                     Use the Real Tool!
-                  </a>
+                  </router-link>
                 </span>
               </div>
             </div>
@@ -181,8 +181,8 @@ export default defineComponent({
 
       return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
     },
-    toolUrl(): string {
-      return '/c' + (this.to ? '?from=' + this.to.id : '')
+    toolUrl(): object {
+      return { path: '/c', query: this.to ? { from: this.to.id } : undefined }
     }
   },
   methods: {

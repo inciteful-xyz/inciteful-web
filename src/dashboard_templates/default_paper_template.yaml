@@ -72,7 +72,7 @@ content:
           ORDER BY SUM(p.page_rank / (
             CASE 
               WHEN num_authors < 4 THEN num_authors
-              WHEN a.sequence = 1 OR a.sequence = num_authors THEN 3
+              WHEN a.sequence = 0 OR a.sequence = num_authors - 1 THEN 3
               ELSE num_authors * 3
             END)) DESC
           LIMIT 100
@@ -102,7 +102,7 @@ content:
       SELECT name as author_name, SUM(p.page_rank / (
         CASE 
           WHEN num_authors < 4 THEN num_authors
-          WHEN a.sequence = 1 OR a.sequence = num_authors THEN 3
+          WHEN a.sequence = 0 OR a.sequence = num_authors - 1 THEN 3
           ELSE num_authors * 3
         END)) as total_page_rank, COUNT(*) as num_papers
       FROM papers p
@@ -116,7 +116,7 @@ content:
       SELECT name as author_name, SUM(p.page_rank / (
         CASE 
           WHEN num_authors < 4 THEN num_authors
-          WHEN a.sequence = 1 OR a.sequence = num_authors THEN 3
+          WHEN a.sequence = 0 OR a.sequence = num_authors - 1 THEN 3
           ELSE num_authors * 3
         END)) as total_page_rank, COUNT(*) as num_papers
       FROM papers p

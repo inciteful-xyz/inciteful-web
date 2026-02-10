@@ -255,28 +255,42 @@ export default defineComponent({
       hoverKeywords: undefined as string | undefined,
       minYear: undefined as number | undefined,
       maxYear: undefined as number | undefined,
-      highlightedIds: new Set<PaperID>()
+      highlightedIds: new Set<PaperID>(),
+      goToPaperHandler: undefined as ((id: PaperID) => void) | undefined,
+      setAsToHandler: undefined as ((id: PaperID) => void) | undefined,
+      setAsFromHandler: undefined as ((id: PaperID) => void) | undefined,
+      lockPaperHandler: undefined as ((id: PaperID) => void) | undefined
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.GoToPaper, (id: PaperID) => {
+    this.goToPaperHandler = (id: PaperID) => {
       this.$router.push({ path: navigation.getPaperUrl(id) })
-    })
-    this.emitter.on('set_as_to', (id: PaperID) => {
+    }
+    this.setAsToHandler = (id: PaperID) => {
       if (this.to?.id !== id && this.from?.id) {
         this.$router.push({ query: { to: id } })
       }
-    })
-    this.emitter.on('set_as_from', (id: PaperID) => {
+    }
+    this.setAsFromHandler = (id: PaperID) => {
       if (this.from?.id !== id && this.to?.id) {
         this.$router.push({ query: { from: id } })
       }
-    })
-    this.emitter.on('lock_paper', (id: PaperID) => {
+    }
+    this.lockPaperHandler = (id: PaperID) => {
       if (id) {
         this.registerLockPaper(id)
       }
-    })
+    }
+    this.emitter.on(EmitEvents.GoToPaper, this.goToPaperHandler)
+    this.emitter.on('set_as_to', this.setAsToHandler)
+    this.emitter.on('set_as_from', this.setAsFromHandler)
+    this.emitter.on('lock_paper', this.lockPaperHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.GoToPaper, this.goToPaperHandler)
+    this.emitter.off('set_as_to', this.setAsToHandler)
+    this.emitter.off('set_as_from', this.setAsFromHandler)
+    this.emitter.off('lock_paper', this.lockPaperHandler)
   },
   computed: {
     extendedGraph(): boolean {

@@ -61,6 +61,7 @@ export default defineComponent({
       showResults: true,
       results: undefined as Paper[] | undefined,
       timeout: null as number | null,
+      searchId: 0,
       selected: null as PaperID | null,
       highlighted: null as number | null,
       debounceMilliseconds: 200,
@@ -97,10 +98,14 @@ export default defineComponent({
       }
       this.timeout = window.setTimeout(() => {
         this.selected = null
+        const currentSearchId = ++this.searchId
         searchOpenAlex(query).then(papers => {
+          if (currentSearchId !== this.searchId) return
           if (papers && papers.length > 0) {
             this.results = papers.slice(0, 10)
             this.displayResults()
+          } else {
+            this.results = undefined
           }
         })
       }, this.debounceMilliseconds)

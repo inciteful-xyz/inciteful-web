@@ -97,7 +97,8 @@ export default defineComponent({
       template,
       id: undefined as PaperID | undefined,
       paper: undefined as Paper | undefined,
-      pageReady: false
+      pageReady: false,
+      graphLoadedHandler: undefined as (() => void) | undefined
     }
   },
   computed: {
@@ -116,9 +117,13 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.GraphLoaded, () => {
+    this.graphLoadedHandler = () => {
       this.pageReady = true
-    })
+    }
+    this.emitter.on(EmitEvents.GraphLoaded, this.graphLoadedHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.GraphLoaded, this.graphLoadedHandler)
   },
   watch: {
     '$route.params.pathMatch'(val) {

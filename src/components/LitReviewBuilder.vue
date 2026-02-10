@@ -37,11 +37,12 @@ export default defineComponent({
   data() {
     return {
       doBounce: false,
-      ids: new Set<PaperID>()
+      ids: new Set<PaperID>(),
+      addToLitReviewHandler: undefined as ((id: PaperID) => void) | undefined
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.AddToLitReview, (id: PaperID) => {
+    this.addToLitReviewHandler = (id: PaperID) => {
       if (!this.ids.has(id)) {
         this.ids.add(id)
         this.doBounce = true
@@ -50,7 +51,11 @@ export default defineComponent({
           this.doBounce = false
         }, 2500)
       }
-    })
+    }
+    this.emitter.on(EmitEvents.AddToLitReview, this.addToLitReviewHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.AddToLitReview, this.addToLitReviewHandler)
   },
   methods: {
     toLitReview() {

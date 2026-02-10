@@ -92,16 +92,21 @@ export default defineComponent({
   },
   data() {
     return {
-      options: undefined as ModalOptions | undefined
+      options: undefined as ModalOptions | undefined,
+      showModalHandler: undefined as ((options: ModalOptions) => void) | undefined
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.ShowModal, (options: ModalOptions) => {
+    this.showModalHandler = (options: ModalOptions) => {
       if (this.options !== undefined) {
         options.previousScreen = this.options
       }
       this.options = options
-    })
+    }
+    this.emitter.on(EmitEvents.ShowModal, this.showModalHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.ShowModal, this.showModalHandler)
   },
   computed: {
     isPaper(): boolean {

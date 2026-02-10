@@ -64,10 +64,8 @@
 ]" :ids="ids" />
                       </div>
 
-                      <span v-if="
-                        result.year || result.published_year || result.journal
-                      ">
-                        {{ result.year ? `(${result.published_year})` : '' }}
+                      <span v-if="result.published_year || result.journal">
+                        {{ result.published_year ? `(${result.published_year})` : '' }}
                         <i>{{ result.journal }}</i>
                       </span>
                     </td>
@@ -301,7 +299,7 @@ export default defineComponent({
       this.currentPage = pageNum
     },
     sortBy(column: string): void {
-      if ((this.sortedBy = column)) {
+      if (this.sortedBy === column) {
         this.sortDescending = !this.sortDescending
       } else {
         this.sortedBy = column

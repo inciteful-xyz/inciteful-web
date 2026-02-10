@@ -168,7 +168,7 @@ const router = createRouter({
     }
   },
   // @ts-ignore
-  parseQuery: (query) => qs.parse(query, { arrayLimit: 1000 }),
+  parseQuery: (query) => qs.parse(query, { arrayLimit: 1000, depth: 0 }),
   stringifyQuery: function (params) {
     const result = qs.stringify(params, {
       arrayFormat: 'brackets'
