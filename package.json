@@ -20,7 +20,7 @@
     "@heroicons/vue": "^2.2.0",
     "@sentry/vue": "^10.0.0",
     "@unhead/vue": "^2.0.0",
-    "axios": "^1.12.0",
+    "axios": "^1.13.5",
     "axios-retry": "^4.5.0",
     "bib2json": "0.0.1",
     "clsx": "^2.1.1",
