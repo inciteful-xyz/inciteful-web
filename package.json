@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "serve": "vite --port 8081",
-    "build": "npm run generate:sitemap && vite build && cp dist/academic/index.html dist/index.html",
+    "build": "npm run generate:sitemap && vite build && [ -f dist/academic/index.html ] && cp dist/academic/index.html dist/index.html || true",
     "preview": "vite preview",
     "lint": "eslint src",
     "generate:sitemap": "tsx scripts/generate-sitemap.ts"
