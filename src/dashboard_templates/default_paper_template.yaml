@@ -69,12 +69,7 @@ content:
           FROM authors a
           JOIN papers p ON p.paper_id = a.paper_id
           GROUP BY a.name
-          ORDER BY SUM(p.page_rank / (
-            CASE 
-              WHEN num_authors < 4 THEN num_authors
-              WHEN a.sequence = 0 OR a.sequence = num_authors - 1 THEN 3
-              ELSE num_authors * 3
-            END)) DESC
+          ORDER BY SUM(a.partial_page_rank) DESC
           LIMIT 100
         ) ta 
         JOIN authors a ON a.name = ta.name
@@ -99,12 +94,7 @@ content:
   - title: Top Authors
     subtext: This section tries to identify the top authors in the network.
     sql: |-
-      SELECT name as author_name, SUM(p.page_rank / (
-        CASE 
-          WHEN num_authors < 4 THEN num_authors
-          WHEN a.sequence = 0 OR a.sequence = num_authors - 1 THEN 3
-          ELSE num_authors * 3
-        END)) as total_page_rank, COUNT(*) as num_papers
+      SELECT name as author_name, SUM(a.partial_page_rank) as total_page_rank, COUNT(*) as num_papers
       FROM papers p
       JOIN authors a ON p.paper_id = a.paper_id
       WHERE {{filters}}
@@ -113,17 +103,12 @@ content:
   - title: Upcoming Authors
     subtext: This section tries to identify the upcoming authors in the network.
     sql: |-
-      SELECT name as author_name, SUM(p.page_rank / (
-        CASE 
-          WHEN num_authors < 4 THEN num_authors
-          WHEN a.sequence = 0 OR a.sequence = num_authors - 1 THEN 3
-          ELSE num_authors * 3
-        END)) as total_page_rank, COUNT(*) as num_papers
+      SELECT name as author_name, SUM(a.partial_page_rank) as total_page_rank, COUNT(*) as num_papers
       FROM papers p
       JOIN authors a ON p.paper_id = a.paper_id
       WHERE {{filters}}
       GROUP BY name
-      HAVING MIN(p.published_year) > (strftime('%Y', 'now')) - 10
+      HAVING MIN(a.published_year) > (strftime('%Y', 'now')) - 10
       ORDER BY total_page_rank DESC
   - title: Institutions
     subtext: This section tries to identify the top institutions in the network.
