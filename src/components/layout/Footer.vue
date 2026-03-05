@@ -21,6 +21,12 @@
         <router-link to="/data" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Data Sources
         </router-link>
+        <a href="https://incitefulmed.com" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+          IncitefulMed
+        </a>
+        <a href="https://incitefulmed.com/resources" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+          Resources
+        </a>
       </nav>
 
       <!-- Social Links -->

@@ -45,7 +45,6 @@
     "vue-router": "^4.5.0",
     "vue3-click-away": "^1.2.4",
     "vue3-touch-events": "^5.0.0",
-    "web-vitals": "^5.1.0",
     "zotero-api-client": "^0.47.0"
   },
   "devDependencies": {
