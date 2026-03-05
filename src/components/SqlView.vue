@@ -103,6 +103,7 @@ export default defineComponent({
           })
           .catch(error => {
             this.errorMsg = error
+            this.loading = false
           })
       }
     }

@@ -118,6 +118,7 @@ export default defineComponent({
       to: undefined as Paper | undefined,
       fromParam: null as string | null,
       from: undefined as Paper | undefined,
+      graphLoadedHandler: undefined as (() => void) | undefined,
       faqs: [
         {
           question: 'How are the links made between papers?',
@@ -143,9 +144,13 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.GraphLoaded, () => {
+    this.graphLoadedHandler = () => {
       this.pageReady = true
-    })
+    }
+    this.emitter.on(EmitEvents.GraphLoaded, this.graphLoadedHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.GraphLoaded, this.graphLoadedHandler)
   },
   created() {
     if (this.$route.query.to) {

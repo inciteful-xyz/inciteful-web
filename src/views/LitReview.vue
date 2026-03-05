@@ -28,6 +28,13 @@ import template from '../dashboard_templates/default_lr_template.yaml'
 import { PaperID } from '@/types/incitefulTypes'
 import navigation from '@/navigation'
 import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
+
+function ensureArray(val: unknown): PaperID[] | undefined {
+  if (val === undefined || val === null) return undefined
+  if (Array.isArray(val)) return val as PaperID[]
+  return [val as PaperID]
+}
+
 export default defineComponent({
   name: 'LitReview',
   components: {
@@ -45,7 +52,7 @@ export default defineComponent({
     }
   },
   created() {
-    const ids = this.$route.query.ids as PaperID[] | undefined
+    const ids = ensureArray(this.$route.query.ids)
 
     // Redirect to home if no ids provided
     if (ids === undefined) {
@@ -57,28 +64,32 @@ export default defineComponent({
       this.$router.push({
         path: navigation.getPaperUrl(ids[0])
       })
+      return
     }
 
-    this.ids = this.$route.query.ids as PaperID[]
+    this.ids = ids
 
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },
   methods: {
-    idsChanged(val: PaperID[]): void {
+    idsChanged(val: unknown): void {
+      const ids = ensureArray(val)
+
       // Redirect to home if ids are removed
-      if (!val || val.length === 0) {
+      if (!ids || ids.length === 0) {
         this.$router.replace({ name: 'Home' })
         return
       }
 
-      if (val.length === 1) {
+      if (ids.length === 1) {
         this.$router.push({
-          path: navigation.getPaperUrl(val[0]),
+          path: navigation.getPaperUrl(ids[0]),
           query: undefined,
         })
+        return
       }
 
-      this.ids = val
+      this.ids = ids
     }
   }
 })

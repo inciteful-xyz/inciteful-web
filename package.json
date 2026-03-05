@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "serve": "vite --port 8081",
-    "build": "npm run generate:sitemap && vite build",
+    "build": "npm run generate:sitemap && vite build && [ -f dist/academic/index.html ] && cp dist/academic/index.html dist/index.html || true",
     "preview": "vite preview",
     "lint": "eslint src",
     "generate:sitemap": "tsx scripts/generate-sitemap.ts"
@@ -45,7 +45,6 @@
     "vue-router": "^4.5.0",
     "vue3-click-away": "^1.2.4",
     "vue3-touch-events": "^5.0.0",
-    "web-vitals": "^5.1.0",
     "zotero-api-client": "^0.47.0"
   },
   "devDependencies": {

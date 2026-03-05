@@ -3,24 +3,30 @@
     <div class="max-w-screen-xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <!-- Navigation Links -->
       <nav class="flex flex-wrap justify-center gap-x-8 gap-y-2 mb-6" aria-label="Footer navigation">
-        <router-link to="/" class="text-sm text-theme-charcoal hover:text-theme-violet transition-colors">
+        <router-link to="/" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Paper Discovery
         </router-link>
-        <router-link to="/c" class="text-sm text-theme-charcoal hover:text-theme-violet transition-colors">
+        <router-link to="/c" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Literature Connector
         </router-link>
-        <router-link to="/einstein" class="text-sm text-theme-charcoal hover:text-theme-violet transition-colors">
+        <router-link to="/einstein" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           6° of Einstein
         </router-link>
-        <a href="https://help.inciteful.xyz" class="text-sm text-theme-charcoal hover:text-theme-violet transition-colors">
+        <a href="https://help.inciteful.xyz" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Documentation
         </a>
-        <router-link to="/about" class="text-sm text-theme-charcoal hover:text-theme-violet transition-colors">
+        <router-link to="/about" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           About
         </router-link>
-        <router-link to="/data" class="text-sm text-theme-charcoal hover:text-theme-violet transition-colors">
+        <router-link to="/data" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Data Sources
         </router-link>
+        <a href="https://incitefulmed.com" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+          IncitefulMed
+        </a>
+        <a href="https://incitefulmed.com/resources" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+          Resources
+        </a>
       </nav>
 
       <!-- Social Links -->

@@ -1,5 +1,5 @@
 import { Paper } from '../types/incitefulTypes';
-import { useHead } from '@unhead/vue';
+import { head } from './head';
 
 export function sendDataUpdated() {
   document.dispatchEvent(
@@ -23,7 +23,7 @@ export function setExportHeaders(papers: Paper[]) {
     }
   })
 
-  useHead({ meta })
+  head.push({ meta })
 
   setTimeout(() => {
     sendDataUpdated()

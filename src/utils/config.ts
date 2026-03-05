@@ -30,17 +30,28 @@ export const SITE_NAME = 'Inciteful'
 
 /**
  * Build a full URL with site URL and base path
+ * Removes trailing slashes for canonical URL consistency
  * @param path - Path relative to base (e.g., '/about' or '/p/123')
- * @returns Full URL (e.g., 'https://inciteful.xyz/app/about')
+ * @returns Full URL without trailing slash (e.g., 'https://inciteful.xyz/about')
  */
 export function buildUrl(path: string): string {
   // Normalize base path (ensure it ends with /)
   const base = BASE_PATH.endsWith('/') ? BASE_PATH : BASE_PATH + '/'
   // Normalize path (remove leading /)
   const normalizedPath = path.startsWith('/') ? path.slice(1) : path
+
+  let url: string
   // For root path, just return site + base
   if (!normalizedPath) {
-    return `${SITE_URL}${BASE_PATH}`
+    url = `${SITE_URL}${BASE_PATH}`
+  } else {
+    url = `${SITE_URL}${base}${normalizedPath}`
   }
-  return `${SITE_URL}${base}${normalizedPath}`
+
+  // Remove trailing slash (but keep the URL valid - don't remove from bare domain)
+  if (url.endsWith('/') && url !== `${SITE_URL}/`) {
+    url = url.slice(0, -1)
+  }
+
+  return url
 }

@@ -83,21 +83,24 @@ export default defineComponent({
       return !!message1.value || !!message2.value
     })
 
+    const onShowNotification = (options: NotificationModalOptions) => {
+      setMessage(options)
+    }
+
     return {
       setMessage,
       clear,
       isValid,
       message1,
-      message2
+      message2,
+      onShowNotification
     }
   },
   mounted() {
-    this.emitter.on(
-      EmitEvents.ShowNotification,
-      (options: NotificationModalOptions) => {
-        this.setMessage(options)
-      }
-    )
+    this.emitter.on(EmitEvents.ShowNotification, this.onShowNotification)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.ShowNotification, this.onShowNotification)
   }
 })
 </script>

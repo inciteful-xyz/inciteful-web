@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClass" @focusout="onFocusOut">
-    <div :class="wrapperClass">
+    <div :class="[wrapperClass, 'relative']">
       <!-- Search Icon -->
       <div :class="iconContainerClass">
         <svg :class="iconClass" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -9,7 +9,7 @@
       </div>
 
       <!-- Autosuggest Input -->
-      <div class="flex-1 min-w-0 relative" @keydown.esc="hideResults">
+      <div class="flex-1 min-w-0" @keydown.esc="hideResults">
         <input
           ref="searchInput"
           type="text"
@@ -30,31 +30,6 @@
           :aria-activedescendant="highlighted !== null ? `${resultsId}-${highlighted}` : undefined"
           aria-label="Search for papers"
         />
-
-        <!-- Results Dropdown -->
-        <div
-          v-if="shouldShowResults"
-          class="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden"
-        >
-          <ul :id="resultsId" role="listbox" class="list-none p-0 m-0">
-            <li
-              v-for="(result, index) in results"
-              :key="result.id"
-              :id="`${resultsId}-${index}`"
-              role="option"
-              :aria-selected="highlighted === index"
-              class="cursor-pointer p-3 border-b border-gray-100 last:border-b-0 hover:bg-theme-pink transition-colors"
-              :class="{ 'bg-theme-pink': highlighted === index }"
-              @click="selectResult(index)"
-            >
-              <div class="text-sm font-medium text-theme-charcoal" v-html="result.title"></div>
-              <div class="text-xs text-gray-500 mt-1">
-                <Authors :authors="result.author" /> ({{ result.published_year }}) -
-                {{ formatNumber(result.num_cited_by) }} citations
-              </div>
-            </li>
-          </ul>
-        </div>
       </div>
 
       <!-- Search Button -->
@@ -68,6 +43,23 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>
+
+      <!-- Results Dropdown -->
+      <div
+        v-if="shouldShowResults"
+        class="absolute left-0 right-0 top-full z-50 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden"
+      >
+        <ul :id="resultsId" role="listbox" class="list-none p-0 m-0">
+          <SearchResultItem
+            v-for="(result, index) in results"
+            :key="result.id"
+            :result="result"
+            :item-id="`${resultsId}-${index}`"
+            :is-highlighted="highlighted === index"
+            @select="selectResult(index)"
+          />
+        </ul>
+      </div>
     </div>
 
     <!-- Import BibTeX link -->
@@ -86,8 +78,7 @@ import { ref, computed, watch } from 'vue'
 import { searchOpenAlex } from '@/utils/openalexApi'
 import api from '@/utils/incitefulApi'
 import bib from '@/utils/bib'
-import numeral from 'numeral'
-import Authors from '@/components/Authors.vue'
+import SearchResultItem from '@/components/ui/SearchResultItem.vue'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 
 interface Props {
@@ -169,10 +160,6 @@ watch(query, (newVal) => {
     })
   }, debounceMilliseconds)
 })
-
-function formatNumber(val: number) {
-  return numeral(val).format('0,0.[000000]')
-}
 
 function onInput(e: Event) {
   const target = e.target as HTMLInputElement

@@ -165,7 +165,7 @@ export default defineComponent({
   },
   data () {
     return {
-      cyInstance: {} as IncitefulGraph,
+      cyInstance: null as IncitefulGraph | null,
       isFullScreen: false
     }
   },
@@ -212,15 +212,15 @@ export default defineComponent({
     isFullScreen (newVal) {
       this.$nextTick(() => {
         if (!newVal) {
-          this.cyInstance.resize()
+          this.cyInstance?.resize()
         }
       })
     },
     filteredIds (newVal) {
-      this.cyInstance.filterNodes(newVal)
+      this.cyInstance?.filterNodes(newVal)
     },
     highlightedIds (newVal) {
-      this.cyInstance.highlightNodes(newVal)
+      this.cyInstance?.highlightNodes(newVal)
     }
   },
   methods: {
@@ -241,9 +241,10 @@ export default defineComponent({
       this.isFullScreen = !this.isFullScreen
     },
     centerGraph (): void {
-      this.cyInstance.centerSource()
+      this.cyInstance?.centerSource()
     },
     zoomIn (): void {
+      if (!this.cyInstance) return
       let curZoom = this.cyInstance.curZoom()
 
       if (curZoom > 1.35) {
@@ -253,6 +254,7 @@ export default defineComponent({
       this.cyInstance.zoom(curZoom + 0.15)
     },
     zoomOut (): void {
+      if (!this.cyInstance) return
       let curZoom = this.cyInstance.curZoom()
 
       if (curZoom < 0.3) {

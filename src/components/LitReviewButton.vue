@@ -25,7 +25,8 @@ export default defineComponent({
   data() {
     return {
       isSubmitted: false,
-      idsToHide: [] as PaperID[]
+      idsToHide: [] as PaperID[],
+      addToLitReviewHandler: undefined as ((id: PaperID) => void) | undefined
     }
   },
   computed: {
@@ -34,9 +35,13 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.AddToLitReview, (id: PaperID) => {
+    this.addToLitReviewHandler = (id: PaperID) => {
       this.idsToHide.push(id)
-    })
+    }
+    this.emitter.on(EmitEvents.AddToLitReview, this.addToLitReviewHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.AddToLitReview, this.addToLitReviewHandler)
   },
   created() {
     if (this.ids) {

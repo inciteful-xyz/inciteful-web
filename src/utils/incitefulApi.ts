@@ -110,7 +110,7 @@ function queryGraph(ids: Array<PaperID>, sql: string): Promise<QueryResults> {
 
   return response.catch(err => {
     handleIncitefulErr(err)
-    return Promise.reject(err.response.data)
+    return Promise.reject(err?.response?.data ?? err?.message ?? 'Unknown error')
   })
 }
 

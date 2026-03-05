@@ -1,7 +1,7 @@
 <template>
   <div class="home animate-fade-up">
     <!-- Hero Section -->
-    <Section class="pt-6 md:pt-8 bg-theme-light">
+    <Section class="pt-6 md:pt-8 md:mt-12 bg-theme-light">
       <Container md>
         <!-- Centered Content -->
         <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -38,7 +38,7 @@
             <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
               1
             </div>
-            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Start with a paper</h3>
+            <h2 class="text-lg font-semibold text-theme-charcoal mb-2">Start with a paper</h2>
             <p class="text-theme-charcoal">
               Search for a paper you are interested in or import a BibTeX file
               with the references of a paper you are working on.
@@ -48,7 +48,7 @@
             <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
               2
             </div>
-            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Add relevant papers</h3>
+            <h2 class="text-lg font-semibold text-theme-charcoal mb-2">Add relevant papers</h2>
             <p class="text-theme-charcoal">
               As you find papers that are interesting, add them to the graph
               to help us zero in on your topic, then do it again.
@@ -58,7 +58,7 @@
             <div class="w-12 h-12 rounded-full bg-theme-violet flex items-center justify-center text-white text-xl font-bold mb-4">
               3
             </div>
-            <h3 class="text-lg font-semibold text-theme-charcoal mb-2">Download your findings</h3>
+            <h2 class="text-lg font-semibold text-theme-charcoal mb-2">Download your findings</h2>
             <p class="text-theme-charcoal">
               Once you can't find any more relevant papers, export the results
               to Zotero, Mendeley, or your reference manager of choice.

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="flex gap-1 p-1 bg-white border-2 border-theme-violet rounded-xl shadow-md">
+    <div class="flex gap-1 p-1 bg-white border-2 border-theme-violet rounded-xl shadow-md relative">
       <!-- Search Icon -->
       <div class="flex items-center pl-2">
         <MagnifyingGlassIcon class="w-5 h-5 text-theme-violet" aria-hidden="true" />

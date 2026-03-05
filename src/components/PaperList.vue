@@ -150,14 +150,21 @@ export default defineComponent({
     }
   },
   methods: {
-    setData(ids: PaperID[]): void {
-      console.log("Setting data", ids)
-      if (ids) {
-        api.getPapers(ids, true).then(data => {
+    setData(ids: PaperID[] | PaperID): void {
+      if (!ids) {
+        this.papers = undefined
+        return
+      }
+      const idsArray = Array.isArray(ids) ? ids : [ids]
+      if (idsArray.length === 0) {
+        this.papers = undefined
+        return
+      }
+      api.getPapers(idsArray, true).then(data => {
           this.papers = data
 
           // If any of the ids are different, update the url
-          var origIds = ids.slice().sort()
+          var origIds = idsArray.slice().sort()
           var newIds = this.papers
             .map(p => p.id)
             .slice()
@@ -175,9 +182,6 @@ export default defineComponent({
           }
           setExportHeaders(this.papers)
         })
-      } else {
-        this.papers = undefined
-      }
     },
     removePaper(removeId: PaperID): void {
       this.$emit('remove-paper', removeId)

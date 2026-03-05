@@ -43,6 +43,12 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import { PaperID, ReferenceManagers } from '../types/incitefulTypes';
 import PaperList from '@/components/PaperList.vue';
 
+function ensureArray(val: unknown): PaperID[] | undefined {
+  if (val === undefined || val === null) return undefined
+  if (Array.isArray(val)) return val as PaperID[]
+  return [val as PaperID]
+}
+
 export default defineComponent({
   name: 'ToolExport',
   components: {
@@ -63,7 +69,7 @@ export default defineComponent({
         this.tool = ReferenceManagers.Zotero
     }
 
-    this.ids = this.$route.query.ids as PaperID[]
+    this.ids = ensureArray(this.$route.query.ids)
 
     this.$watch(() => this.tool, this.toolChanged)
 

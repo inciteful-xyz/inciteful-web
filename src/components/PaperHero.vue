@@ -72,7 +72,8 @@ export default defineComponent({
   },
   data() {
     return {
-      receivedLoaded: false
+      receivedLoaded: false,
+      graphLoadedHandler: undefined as (() => void) | undefined
     }
   },
   watch: {
@@ -81,9 +82,13 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.emitter.on(EmitEvents.GraphLoaded, () => {
+    this.graphLoadedHandler = () => {
       this.receivedLoaded = true
-    })
+    }
+    this.emitter.on(EmitEvents.GraphLoaded, this.graphLoadedHandler)
+  },
+  beforeUnmount() {
+    this.emitter.off(EmitEvents.GraphLoaded, this.graphLoadedHandler)
   }
 })
 </script>
