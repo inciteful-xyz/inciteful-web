@@ -98,7 +98,7 @@
           <p>
             It's still under active development so if you have any questions,
             suggestions or just want to say hi, please feel free to send me your
-            <a class="text-theme-violet hover:underline" href="mailto:feedback@inciteful.xyz">feedback</a>.
+            <a class="text-theme-violet hover:underline" href="mailto:hello@incitefulmed.com">feedback</a>.
           </p>
         </div>
       </Container>

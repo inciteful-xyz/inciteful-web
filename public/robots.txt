@@ -2,8 +2,5 @@
 User-agent: *
 Allow: /
 
-# Crawl delay for polite bots (optional)
-Crawl-delay: 1
-
 # Sitemap location
-Sitemap: https://inciteful.xyz/sitemap.xml
+Sitemap: https://incitefulmed.com/academic/sitemap.xml

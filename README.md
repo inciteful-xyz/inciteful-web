@@ -1,8 +1,8 @@
 # Inciteful Web App
-This is the front end of [Inciteful.xyz](https://inciteful.xyz).  
+This is the front end of Academic version of [IncitefulMed.com](https://incitefulmed.com).  
 
 ## Contributing
-This is a personal project that I intend to keep free forever.  As such, there is a lot of low hanging fruit that I have yet to get to and as a result there is a lot of opportunity for people to contribute.  Feel free to reach out to me: michael@inciteful.xyz.
+This is a personal project that I intend to keep free forever.  As such, there is a lot of low hanging fruit that I have yet to get to and as a result there is a lot of opportunity for people to contribute.  Feel free to reach out to me: hello@incitefulmed.com.
 
 ## Project setup
 ```

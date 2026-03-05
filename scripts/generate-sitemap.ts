@@ -92,9 +92,6 @@ function generateRobotsTxt(): string {
 User-agent: *
 Allow: /
 
-# Crawl delay for polite bots (optional)
-Crawl-delay: 1
-
 # Sitemap location
 Sitemap: ${sitemapUrl}
 `

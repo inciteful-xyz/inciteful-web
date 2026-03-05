@@ -10,7 +10,7 @@
       features break that promise. Use at your own risk.
       <a
         class="text-violet-700 cursor-pointer hover:text-violet-500"
-        href="mailto:feedback@inciteful.xyz"
+        href="mailto:hello@incitefulmed.com"
         >Feedback</a
       >
       on these features is greatly appreciated.

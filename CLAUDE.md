@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Inciteful is a Vue 3 web application for exploring academic literature using citation graph analysis. The frontend communicates with a backend API at `api.inciteful.xyz` to query paper graphs using SQL-like syntax.
+Inciteful is a Vue 3 web application for exploring academic literature using citation graph analysis. The frontend communicates with a backend API at `graph.incitefulmed.com/openalex` to query paper graphs using SQL-like syntax.
 
 ## Agent Artifacts
 

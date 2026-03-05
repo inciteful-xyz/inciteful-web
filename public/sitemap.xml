@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://inciteful.xyz/</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://incitefulmed.com/academic/</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
   <url>
-    <loc>https://inciteful.xyz/about</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://incitefulmed.com/academic/about</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inciteful.xyz/data</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://incitefulmed.com/academic/data</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://inciteful.xyz/c</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://incitefulmed.com/academic/c</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inciteful.xyz/p</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://incitefulmed.com/academic/p</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inciteful.xyz/einstein</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://incitefulmed.com/academic/einstein</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

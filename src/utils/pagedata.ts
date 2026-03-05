@@ -3,7 +3,7 @@ import { buildUrl } from './config'
 const DEFAULT_TITLE = 'Inciteful'
 
 function setTitle (title: string) {
-  document.title = (title || DEFAULT_TITLE) + ' | Inciteful.xyz'
+  document.title = (title || DEFAULT_TITLE) + ' | IncitefulMed Academic'
 }
 function setDescription (description: string) {
   if (document != null) {

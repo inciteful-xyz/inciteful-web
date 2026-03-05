@@ -58,7 +58,7 @@ function genericSearch(query: string, searchUrl: string): Promise<Paper[]> {
     .get(
       `${searchUrl}${encodeURIComponent(
         query
-      )}&mailto=info@inciteful.xyz`
+      )}&mailto=hello@incitefulmed.com`
     )
     .then((res: AxiosResponse<OAPaperSearchResults>) => {
       if (res.data && res.data.results) {
@@ -132,7 +132,7 @@ export function searchOAAutocomplete(
       .get(
         `https://api.openalex.org/autocomplete/works?q=${encodeURIComponent(
           query
-        )}&mailto=info@inciteful.xyz`
+        )}&mailto=hello@incitefulmed.com`
       )
       .then((res: AxiosResponse<OAAutosuggestResponse>) => {
         if (res.data && res.data.results && res.data.results.length > 0) {
@@ -164,7 +164,7 @@ export function getOAPaper(id: string): Promise<OAPaper | undefined> {
       .get(
         `https://api.openalex.org/works/${encodeURIComponent(
           id
-        )}?mailto=info@inciteful.xyz`
+        )}?mailto=hello@incitefulmed.com`
       )
       .then((res: AxiosResponse<OAPaper>) => {
         return res.data
@@ -189,7 +189,7 @@ export function getOAPapers(ids: string[]): Promise<OAPaper[]> {
       .get(
         `https://api.openalex.org/works?filter=openalex:${ids
           .map(id => `${id}`)
-          .join('|')}&mailto=info@inciteful.xyz`
+          .join('|')}&mailto=info@incitefulmed.com`
       )
       .then((res: AxiosResponse<OAPaperSearchResults>) => {
         return res.data.results

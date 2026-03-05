@@ -24,7 +24,7 @@ function getEnvVar(key: string, fallback: string): string {
   return fallback
 }
 
-export const SITE_URL = getEnvVar('VITE_SITE_URL', 'https://inciteful.xyz')
+export const SITE_URL = getEnvVar('VITE_SITE_URL', 'https://incitefulmed.com/academic')
 export const BASE_PATH = getEnvVar('VITE_BASE_PATH', '/')
 export const SITE_NAME = 'Inciteful'
 
@@ -32,7 +32,7 @@ export const SITE_NAME = 'Inciteful'
  * Build a full URL with site URL and base path
  * Removes trailing slashes for canonical URL consistency
  * @param path - Path relative to base (e.g., '/about' or '/p/123')
- * @returns Full URL without trailing slash (e.g., 'https://inciteful.xyz/about')
+ * @returns Full URL without trailing slash (e.g., 'https://incitefulmed.com/academic/about')
  */
 export function buildUrl(path: string): string {
   // Normalize base path (ensure it ends with /)
