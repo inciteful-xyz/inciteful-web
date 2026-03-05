@@ -12,7 +12,7 @@
         <router-link to="/einstein" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           6° of Einstein
         </router-link>
-        <a href="https://help.inciteful.xyz" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+        <a href="https://incitefulmed.com/academic/help" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Documentation
         </a>
         <router-link to="/about" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">

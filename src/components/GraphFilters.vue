@@ -8,7 +8,7 @@
         Paper Filters
         <a
           class="text-violet-700"
-          href="https://help.inciteful.xyz/power-users.html#graph-filters"
+          href="https://incitefulmed.com/academic/help/power-users.html#graph-filters"
           target="_blank"
           aria-label="Learn more about paper filters"
           ><InformationCircleIcon class="w-5 h-5 inline" aria-hidden="true" />

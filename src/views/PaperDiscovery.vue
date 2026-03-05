@@ -26,7 +26,7 @@
               are.
             </p>
             <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6 pt-3">
-              <a href="https://help.inciteful.xyz/quick-start.html" target="_blank" class="
+              <a href="https://incitefulmed.com/academic/help/quick-start.html" target="_blank" class="
                                                           whitespace-nowrap
                                                           font-bold
                                                           text-blue-700

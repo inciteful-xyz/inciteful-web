@@ -10,7 +10,7 @@
             </router-link>
           </div>
           <div class="hidden lg:flex items-center">
-            <a href="https://help.inciteful.xyz"
+            <a href="https://incitefulmed.com/academic/help"
               class="ml-8 text-sm font-medium text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
               Help
             </a>
@@ -49,7 +49,7 @@
       <div class="py-2 bg-white">
         <router-link to="/c"
           class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Connector</router-link>
-        <a href="https://help.inciteful.xyz"
+        <a href="https://incitefulmed.com/academic/help"
           class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Help</a>
         <a href="https://twitter.com/Inciteful_xyz" target="_blank"
           class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:bg-theme-lavender transition-colors"

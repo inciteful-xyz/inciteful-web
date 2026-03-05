@@ -6,7 +6,7 @@
           Use the Query Editor below to explore the graph centered around the
           above paper. You can also test out the examples below, explore the
           <a
-            href="https://help.inciteful.xyz/power-users.html#database-schema"
+            href="https://incitefulmed.com/academic/help/power-users.html#database-schema"
             class="underline hover:no-underline"
             target="_blank"
             >schema</a
