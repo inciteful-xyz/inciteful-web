@@ -1,7 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
-Disallow: /p/q
 
 # Sitemap location
 Sitemap: https://incitefulmed.com/academic/sitemap.xml
