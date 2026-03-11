@@ -78,7 +78,8 @@ const routes = [
     meta: {
       title: 'Paper Discovery Query',
       description:
-        "Use our Query tool to make custom queries on the paper's graph."
+        "Use our Query tool to make custom queries on the paper's graph.",
+      noindex: true
     }
   },
   {
@@ -89,7 +90,8 @@ const routes = [
     meta: {
       title: 'Literature Review Query',
       description:
-        "Use our Query tool to make custom queries on the graph you've built."
+        "Use our Query tool to make custom queries on the graph you've built.",
+      noindex: true
     }
   },
   {
@@ -100,7 +102,8 @@ const routes = [
     meta: {
       title: 'Literature Review',
       description:
-        'Use our Paper Discovery tool to quickly and easily find the most relevant literature.'
+        'Use our Paper Discovery tool to quickly and easily find the most relevant literature.',
+      noindex: true
     }
   },
   {
@@ -111,7 +114,8 @@ const routes = [
     meta: {
       title: 'Paper Discovery',
       description:
-        'Use our Paper Discovery tool to quickly and easily find the most relevant literature.'
+        'Use our Paper Discovery tool to quickly and easily find the most relevant literature.',
+      noindex: true
     }
   },
   {
@@ -184,11 +188,12 @@ router.afterEach(to => {
 
   // Set comprehensive SEO metadata for routes that don't have component-level SEO
   // (Homepage, PaperDiscovery, and PaperDiscoveryQuery handle their own SEO)
-  if (to.meta.title && to.name !== 'Home' && to.name !== 'PaperDiscovery' && to.name !== 'PaperDiscoveryQuery') {
+  if (to.meta.title && to.name !== 'Home' && to.name !== 'PaperDiscovery') {
     setPageMeta({
       title: to.meta.title as string,
       description: to.meta.description as string,
-      canonical: to.meta.canonical as string || to.path
+      canonical: to.meta.canonical as string || to.path,
+      noindex: to.meta.noindex as boolean
     })
   }
 })

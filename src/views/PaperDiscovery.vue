@@ -140,7 +140,7 @@ export default defineComponent({
         pagedata.setTitle(newVal.title)
 
         // Set comprehensive SEO metadata
-        setPaperMeta(newVal)
+        setPaperMeta(newVal, { noindex: true })
       }
     }
   },

@@ -15,13 +15,15 @@ export function setPageMeta(options: {
   canonical?: string
   image?: string
   type?: 'website' | 'article'
+  noindex?: boolean
 }) {
   const {
     title,
     description = DEFAULT_DESCRIPTION,
     canonical,
     image = DEFAULT_IMAGE,
-    type = 'website'
+    type = 'website',
+    noindex = false
   } = options
 
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME
@@ -44,7 +46,7 @@ export function setPageMeta(options: {
       { name: 'twitter:description', content: description },
       { name: 'twitter:image', content: image },
       // Additional meta
-      { name: 'robots', content: 'index, follow' },
+      { name: 'robots', content: noindex ? 'noindex, follow' : 'index, follow' },
     ],
     ...(canonicalUrl ? { link: [{ rel: 'canonical', href: canonicalUrl }] } : {})
   })
@@ -67,7 +69,7 @@ function formatAuthors(authors: Author[]): string {
 /**
  * Set metadata for a paper page with structured data
  */
-export function setPaperMeta(paper: Paper) {
+export function setPaperMeta(paper: Paper, options?: { noindex?: boolean }) {
   const authors = formatAuthors(paper.author)
   const title = paper.title || 'Academic Paper'
   const description = `${title} by ${authors}. Published ${paper.published_year}. Cited by ${paper.num_cited_by} papers. Explore this paper's citation network on Inciteful.`
@@ -77,7 +79,8 @@ export function setPaperMeta(paper: Paper) {
     title: title,
     description: description.substring(0, 160), // Keep under 160 chars
     canonical: `/p/${paper.id}`,
-    type: 'article'
+    type: 'article',
+    noindex: options?.noindex
   })
 
   // Generate ScholarlyArticle structured data
