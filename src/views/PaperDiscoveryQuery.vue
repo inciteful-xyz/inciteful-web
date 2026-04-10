@@ -11,6 +11,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import posthog from 'posthog-js'
 import PaperHero from '../components/PaperHero.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
 import QueryPanel from '../components/QueryPanel.vue'
@@ -55,6 +56,7 @@ export default defineComponent({
           this.paper = data
 
           if (this.paper) {
+            posthog.capture('paper_graph_viewed', { paper_id: this.paper.id })
             // Set SEO with canonical pointing to the base paper page (not the query URL)
             pagedata.setTitle(`Query: ${this.paper.title}`)
             pagedata.setCanonical(`/p/${this.paper.id}`)

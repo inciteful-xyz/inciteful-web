@@ -136,6 +136,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import posthog from 'posthog-js'
 import SearchBar from '@/components/ui/SearchBar.vue'
 import FeatureCheckmarks from '@/components/home/FeatureCheckmarks.vue'
 import { Section, Container } from '@/components/ui/layouts'
@@ -162,6 +163,7 @@ onMounted(() => {
 })
 
 function addLitReviewPapers(ids: PaperID[]) {
+  posthog.capture('home_paper_selected', { paper_count: ids.length })
   if (ids.length === 1) {
     router.push({ path: navigation.getPaperUrl(ids[0]) })
   } else {
@@ -170,6 +172,7 @@ function addLitReviewPapers(ids: PaperID[]) {
 }
 
 function goToSearch(query: string) {
+  posthog.capture('paper_search_submitted', { query })
   router.push({ name: 'Search', query: { q: query } })
 }
 </script>

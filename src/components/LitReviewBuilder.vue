@@ -28,6 +28,7 @@
 <script lang="ts">
 import { PaperID } from '@/types/incitefulTypes'
 import { defineComponent } from 'vue'
+import posthog from 'posthog-js'
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { EmitEvents } from '@/utils/emitHelpers'
 
@@ -78,10 +79,13 @@ export default defineComponent({
         this.ids.add(this.$route.query.to as string)
       }
 
+      const paperIds = Array.from(this.ids)
+      posthog.capture('lit_review_paper_added', { paper_count: paperIds.length })
+
       this.$router.push({
         name: 'LitReview',
         query: {
-          ids: Array.from(this.ids)
+          ids: paperIds
         }
       })
 

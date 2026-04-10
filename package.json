@@ -35,6 +35,7 @@
     "flexsearch": "^0.8.0",
     "mitt": "^3.0.0",
     "numeral": "^2.0.6",
+    "posthog-js": "^1.367.0",
     "prismjs": "^1.30.0",
     "qs": "^6.14.1",
     "stemmer": "^2.0.0",

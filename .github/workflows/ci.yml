@@ -1,15 +1,12 @@
-# Build and test workflow
-name: CI
+name: Deploy Academic Frontend
 
 on:
   push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,21 +14,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Type check
         run: npx vue-tsc --noEmit
         continue-on-error: true
 
-      - name: Build
+      - name: Build Vue app
         run: npm run build
+        env:
+          VITE_POSTHOG_PROJECT_TOKEN: phc_PA9HuvBCQQJzUPPrhux7B14YvJuDOcy4Y5ClLIUyBzY
+          VITE_POSTHOG_HOST: https://b.incitefulmed.com
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 7
+      - name: Deploy to Cloudflare Workers
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -19,6 +19,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import posthog from 'posthog-js'
 import GraphFilters from '../components/GraphFilters.vue'
 import LitReviewHero from '../components/LitReviewHero.vue'
 import BetaFeatures from '../components/BetaFeatures.vue'
@@ -68,6 +69,7 @@ export default defineComponent({
     }
 
     this.ids = ids
+    posthog.capture('lit_review_started', { paper_count: ids.length })
 
     this.$watch(() => this.$route.query.ids, this.idsChanged)
   },

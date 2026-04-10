@@ -176,6 +176,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import posthog from 'posthog-js'
 import GraphSearch from './GraphSearch.vue'
 import { PaperID } from '@/types/incitefulTypes'
 import { InformationCircleIcon } from '@heroicons/vue/24/outline'
@@ -204,6 +205,13 @@ export default defineComponent({
       ids.map(id => addToLitReviewHelper(id))
     },
     applyFilters() {
+      posthog.capture('graph_filters_applied', {
+        has_keywords: !!this.keywords,
+        min_distance: this.minDistance,
+        max_distance: this.maxDistance,
+        min_year: this.minYear,
+        max_year: this.maxYear
+      })
       this.$router.push({
         query: {
           ...this.$route.query,
