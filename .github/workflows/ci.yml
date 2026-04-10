@@ -25,6 +25,7 @@ jobs:
       - name: Build Vue app
         run: npm run build
         env:
+          VITE_BASE_PATH: /academic/
           VITE_POSTHOG_PROJECT_TOKEN: phc_PA9HuvBCQQJzUPPrhux7B14YvJuDOcy4Y5ClLIUyBzY
           VITE_POSTHOG_HOST: https://b.incitefulmed.com
 
