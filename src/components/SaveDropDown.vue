@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import posthog from 'posthog-js'
+// import posthog from 'posthog-js'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline'
 import { PaperID, ReferenceManagers } from '@/types/incitefulTypes'
@@ -89,23 +89,23 @@ export default defineComponent({
     }
     const downloadBibFile = () => {
       if (props.ids !== undefined) {
-        posthog.capture('bibtex_downloaded', { paper_count: props.ids.length })
+        // posthog.capture('bibtex_downloaded', { paper_count: props.ids.length })
         api.downloadBibFile(props.ids)
       }
     }
     const downloadRisFile = () => {
       if (props.ids !== undefined) {
-        posthog.capture('ris_downloaded', { paper_count: props.ids.length })
+        // posthog.capture('ris_downloaded', { paper_count: props.ids.length })
         api.downloadRisFile(props.ids)
       }
     }
 
     const exportIds = (tool: ReferenceManagers) => {
       const ids = props.ids
-      posthog.capture('export_to_reference_manager', {
-        tool,
-        paper_count: ids?.length ?? 0
-      })
+      // posthog.capture('export_to_reference_manager', {
+      //   tool,
+      //   paper_count: ids?.length ?? 0
+      // })
       const routeData = router.resolve({ name: 'ToolExport', query: { ids, tool } })
       window.open(routeData.href, '_blank');
     }

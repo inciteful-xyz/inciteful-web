@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import posthog from 'posthog-js'
+// import posthog from 'posthog-js'
 import TableView from './TableView.vue'
 import StatView from './StatView.vue'
 import SimilarGraph from './SimilarGraph.vue'
@@ -105,10 +105,10 @@ export default defineComponent({
           .catch(error => {
             this.errorMsg = error
             this.loading = false
-            posthog.capture('sql_query_error', {
-              error: String(error),
-              sql: this.filteredSql
-            })
+            // posthog.capture('sql_query_error', {
+            //   error: String(error),
+            //   sql: this.filteredSql
+            // })
           })
       }
     }

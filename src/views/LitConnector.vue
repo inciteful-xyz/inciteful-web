@@ -89,7 +89,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import posthog from 'posthog-js'
+// import posthog from 'posthog-js'
 import LitConnectorPaperSelector from '../components/LitConnectorPaperSelector.vue'
 import LitConnectorBody from '../components/LitConnectorBody.vue'
 import LitConnectorTour from '../components/LitConnectorTour.vue'
@@ -185,12 +185,12 @@ export default defineComponent({
         if (paper && this.fromParam !== paper.id) {
           this.$router.push({ query: { ...this.$route.query, from: paper.id } })
         }
-        if (this.to !== undefined) {
-          posthog.capture('lit_connector_papers_selected', {
-            from_paper_id: paper.id,
-            to_paper_id: this.to.id
-          })
-        }
+        // if (this.to !== undefined) {
+        //   posthog.capture('lit_connector_papers_selected', {
+        //     from_paper_id: paper.id,
+        //     to_paper_id: this.to.id
+        //   })
+        // }
       }
     },
     handleToSelect(paper: Paper | undefined) {
@@ -201,12 +201,12 @@ export default defineComponent({
             query: { ...this.$route.query, to: paper.id }
           })
         }
-        if (this.from !== undefined) {
-          posthog.capture('lit_connector_papers_selected', {
-            from_paper_id: this.from.id,
-            to_paper_id: paper.id
-          })
-        }
+        // if (this.from !== undefined) {
+        //   posthog.capture('lit_connector_papers_selected', {
+        //     from_paper_id: this.from.id,
+        //     to_paper_id: paper.id
+        //   })
+        // }
       }
     }
   }
