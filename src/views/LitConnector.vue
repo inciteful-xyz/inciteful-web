@@ -115,9 +115,9 @@ export default defineComponent({
   data() {
     return {
       pageReady: false,
-      toParam: null as string | null,
+      toParam: '' as string,
       to: undefined as Paper | undefined,
-      fromParam: null as string | null,
+      fromParam: '' as string,
       from: undefined as Paper | undefined,
       graphLoadedHandler: undefined as (() => void) | undefined,
       faqs: [
@@ -169,12 +169,12 @@ export default defineComponent({
   watch: {
     '$route.query.to'(newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.toParam = newVal ? newVal.toString() : null
+        this.toParam = newVal ? newVal.toString() : ''
       }
     },
     '$route.query.from'(newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.fromParam = newVal ? newVal.toString() : null
+        this.fromParam = newVal ? newVal.toString() : ''
       }
     }
   },

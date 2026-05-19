@@ -124,6 +124,7 @@ import {
 import SaveDropDown from './SaveDropDown.vue'
 import PaperModalButton from './modals/PaperModalButton.vue'
 import { QueryResults } from '../types/incitefulTypes'
+import type { RouteLocationRaw } from 'vue-router'
 
 export default defineComponent({
   name: 'TableView',
@@ -215,7 +216,7 @@ export default defineComponent({
 
       return undefined
     },
-    queryLink(): unknown {
+    queryLink(): RouteLocationRaw {
       if (this.ids && this.ids.length === 1) {
         return {
           path: navigation.getPaperQueryUrl(this.ids[0]),

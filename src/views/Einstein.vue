@@ -47,7 +47,7 @@
             </div>
             <div class="flex-shrink-0 md:pl-6 md:w-64 hidden md:block">
               <img
-                v-if="minHops > 0"
+                v-if="(minHops ?? 0) > 0"
                 class="rounded-lg"
                 src="../assets/images/einstein-tounge.jpg"
                 alt=""
@@ -143,7 +143,7 @@ export default defineComponent({
   },
   data() {
     return {
-      toParam: null as string | null,
+      toParam: '' as string,
       to: undefined as Paper | undefined,
       from: undefined as Paper | undefined,
       minHops: undefined as number | undefined,
@@ -172,7 +172,7 @@ export default defineComponent({
     }
   },
   created() {
-    this.toParam = this.$route.query.to as string | null
+    this.toParam = (this.$route.query.to as string) || ''
     api.getPaper('208883929').then(paper => (this.from = paper))
   },
   computed: {

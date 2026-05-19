@@ -1,7 +1,7 @@
 <template>
   <div>
     <PaperHero :paper="paper" />
-    <div v-if="this.connectingResults" class="text-right">
+    <div v-if="connectingResults" class="text-right">
       <GraphView :graphData="graphData" :loaded="loaded" />
       <button
         v-on:click="goToLitConnector()"

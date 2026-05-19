@@ -21,7 +21,7 @@ export default defineComponent({
     connectTo: {} as PropType<PaperID>,
     id: {} as PropType<PaperID>,
     text: {} as PropType<string>,
-    class: {} as PropType<string[]>
+    class: {} as PropType<string | string[]>
   },
   data() {
     return {
