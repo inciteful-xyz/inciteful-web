@@ -74,10 +74,15 @@ if (import.meta.env.PROD) {
       if (error && typeof error === "object" && "isAxiosError" in error) {
         return null;
       }
-      // Drop non-Error promise rejections (e.g. undefined)
+      // Drop non-Error promise rejections carrying no useful value. Sentry
+      // formats these as "Non-Error promise rejection captured with value:
+      // <String(reason)>", so match the suffix rather than the bare value.
       if (event.exception?.values?.[0]?.type === "UnhandledRejection") {
-        const value = event.exception.values[0].value;
-        if (value === "undefined" || value === "null" || value === "") {
+        const value = event.exception.values[0].value ?? "";
+        if (
+          value === "" ||
+          /captured with value: (undefined|null)?$/.test(value)
+        ) {
           return null;
         }
       }

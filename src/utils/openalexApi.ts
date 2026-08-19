@@ -7,8 +7,19 @@ import {
 } from '../types/openAlexTypes'
 import { Author, PaperAutosuggest, Paper } from '../types/incitefulTypes'
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import axiosRetry from 'axios-retry'
 import { logError } from './logging'
 import doiHelpers from './doi'
+
+const oaApi = axios.create()
+
+axiosRetry(oaApi, {
+  retries: 2,
+  retryDelay: axiosRetry.exponentialDelay,
+  retryCondition: err =>
+    axiosRetry.isNetworkOrIdempotentRequestError(err) ||
+    err.response?.status === 429
+})
 
 function handleServiceErr(err: AxiosError) {
   if (err && err.response && err.response.status !== 404) {
@@ -16,7 +27,7 @@ function handleServiceErr(err: AxiosError) {
   }
 }
 
-export function searchOpenAlex(query: string): Promise<Paper[]> {
+function searchOpenAlexInternal(query: string): Promise<Paper[]> {
   if (query == null || query == undefined || query == "")
     return Promise.resolve([])
 
@@ -45,6 +56,13 @@ export function searchOpenAlex(query: string): Promise<Paper[]> {
   }
 }
 
+// Search failures (rate limits, network errors) degrade to an empty result
+// set so callers never see a rejected promise. Errors are already logged in
+// genericSearch/getOAPaper.
+export function searchOpenAlex(query: string): Promise<Paper[]> {
+  return searchOpenAlexInternal(query).catch(() => [])
+}
+
 function titleSearch(query: string): Promise<Paper[]> {
   return genericSearch(query, 'https://api.openalex.org/works?filter=title.search:')
 }
@@ -54,7 +72,7 @@ function fullSearch(query: string): Promise<Paper[]> {
 }
 
 function genericSearch(query: string, searchUrl: string): Promise<Paper[]> {
-  return axios
+  return oaApi
     .get(
       `${searchUrl}${encodeURIComponent(
         query
@@ -73,12 +91,12 @@ function genericSearch(query: string, searchUrl: string): Promise<Paper[]> {
         else
           return cited_results
       } else {
-        return Promise.reject()
+        return Promise.reject(new Error('OpenAlex search: malformed response'))
       }
     })
     .catch(err => {
       handleServiceErr(err)
-      return Promise.reject()
+      return Promise.reject(err)
     })
 }
 
@@ -128,7 +146,7 @@ export function searchOAAutocomplete(
   query: string
 ): Promise<PaperAutosuggest[]> {
   if (query) {
-    return axios
+    return oaApi
       .get(
         `https://api.openalex.org/autocomplete/works?q=${encodeURIComponent(
           query
@@ -138,12 +156,13 @@ export function searchOAAutocomplete(
         if (res.data && res.data.results && res.data.results.length > 0) {
           return res.data.results.map(convertOAAutocomplete)
         } else {
-          return Promise.reject()
+          // Rejection signals "no results from this source" to Promise.any
+          return Promise.reject(new Error('No OpenAlex autocomplete results'))
         }
       })
       .catch(err => {
         handleServiceErr(err)
-        return Promise.reject()
+        return Promise.reject(err)
       })
   }
   return Promise.resolve([])
@@ -160,7 +179,7 @@ function convertOAAutocomplete(p: OAAutosuggestResult): PaperAutosuggest {
 
 export function getOAPaper(id: string): Promise<OAPaper | undefined> {
   if (id) {
-    return axios
+    return oaApi
       .get(
         `https://api.openalex.org/works/${encodeURIComponent(
           id
@@ -170,12 +189,11 @@ export function getOAPaper(id: string): Promise<OAPaper | undefined> {
         return res.data
       })
       .catch(err => {
-        if (err.response && err.response.status == 404) {
-          return Promise.resolve(undefined)
+        // Callers treat undefined as "paper unavailable"; never reject
+        if (!err.response || err.response.status != 404) {
+          handleServiceErr(err)
         }
-
-        handleServiceErr(err)
-        return Promise.reject()
+        return undefined
       })
   }
 
@@ -185,7 +203,7 @@ export function getOAPaper(id: string): Promise<OAPaper | undefined> {
 export function getOAPapers(ids: string[]): Promise<OAPaper[]> {
   //example endpoint: https://api.openalex.org/works?filter=openalex:W4224016882|W4223895588
   if (ids && ids.length > 0) {
-    return axios
+    return oaApi
       .get(
         `https://api.openalex.org/works?filter=openalex:${ids
           .map(id => `${id}`)
@@ -196,7 +214,7 @@ export function getOAPapers(ids: string[]): Promise<OAPaper[]> {
       })
       .catch(err => {
         handleServiceErr(err)
-        return Promise.reject()
+        return Promise.reject(err)
       })
   }
 

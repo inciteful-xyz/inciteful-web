@@ -61,7 +61,10 @@ export default defineConfig(({ mode }) => {
     cssCodeSplit: true
   },
   define: {
-    __COMMIT_HASH__: JSON.stringify(process.env.COMMIT_HASH || 'dev')
+    // CF_PAGES_COMMIT_SHA is set automatically by Cloudflare Pages builds
+    __COMMIT_HASH__: JSON.stringify(
+      process.env.COMMIT_HASH || process.env.CF_PAGES_COMMIT_SHA || 'dev'
+    )
   }
   }
 })

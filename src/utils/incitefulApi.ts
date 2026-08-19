@@ -224,11 +224,9 @@ function searchInciteful(query: string): Promise<PaperAutosuggest[]> {
         if (response.data.length > 0) {
           return fixPaperIDs(response.data).map(paperIntoPaperAutosuggest)
         } else {
-          return Promise.reject()
+          // Rejection signals "no results from this source" to Promise.any
+          return Promise.reject(new Error('No Inciteful search results'))
         }
-      })
-      .catch(() => {
-        return Promise.reject()
       })
   } else {
     return Promise.resolve([])
