@@ -28,6 +28,7 @@ jobs:
           VITE_BASE_PATH: /academic/
           VITE_POSTHOG_PROJECT_TOKEN: phc_PA9HuvBCQQJzUPPrhux7B14YvJuDOcy4Y5ClLIUyBzY
           VITE_POSTHOG_HOST: https://b.incitefulmed.com
+          COMMIT_HASH: ${{ github.sha }}
 
       - name: Deploy to Cloudflare Workers
         run: npx wrangler deploy
