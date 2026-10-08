@@ -51,11 +51,6 @@ const staticRoutes: SitemapUrl[] = [
     priority: 0.8,
   },
   {
-    loc: "/p",
-    changefreq: "daily",
-    priority: 0.9,
-  },
-  {
     loc: "/einstein",
     changefreq: "monthly",
     priority: 0.6,

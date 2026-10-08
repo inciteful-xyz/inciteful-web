@@ -4,9 +4,9 @@
       <div class="flex justify-between h-16">
         <div class="flex px-2 lg:px-0">
           <div class="flex-shrink-0 flex items-center">
-            <router-link to="/" id="logo" aria-label="Inciteful Home">
-              <img class="h-8 hidden sm:block" src="../../assets/images/logo-300.png" alt="Inciteful Logo" width="196" height="32" />
-              <img class="block h-8 sm:hidden" src="../../assets/images/profile-64.png" alt="Inciteful Logo" width="32" height="32" />
+            <router-link to="/" id="logo" aria-label="Inciteful Academic home">
+              <img class="h-8 hidden sm:block" src="../../assets/images/logo-300.png" alt="Inciteful Academic" width="196" height="32" />
+              <img class="block h-8 sm:hidden" src="../../assets/images/profile-64.png" alt="Inciteful Academic" width="32" height="32" />
             </router-link>
           </div>
           <div class="hidden lg:flex items-center">

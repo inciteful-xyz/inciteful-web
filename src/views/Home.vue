@@ -146,7 +146,7 @@ import { TitleMD, TextLG } from '@/components/ui/typography'
 import navigation from '../navigation'
 import { PaperID } from '@/types/incitefulTypes'
 import MedAnnouncement from '@/components/announcements/MedAnnouncement.vue'
-import { setPageMeta, setWebApplicationSchema } from '@/utils/seo'
+import { setPageMeta, setHomePageSchema } from '@/utils/seo'
 
 const router = useRouter()
 
@@ -162,7 +162,7 @@ onMounted(() => {
     description: 'Build citation networks to discover the most relevant academic papers. Free tool using graph analysis to help researchers explore literature faster.',
     canonical: '/'
   })
-  setWebApplicationSchema()
+  setHomePageSchema()
 })
 
 function addLitReviewPapers(ids: PaperID[]) {

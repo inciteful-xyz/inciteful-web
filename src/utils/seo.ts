@@ -177,26 +177,20 @@ export function setBreadcrumbSchema(items: Array<{ name: string; url: string }>)
 }
 
 /**
- * Set WebApplication structured data (for homepage)
- * Academic is a product within the Inciteful Med site, not a separate
- * "Inciteful" site, so it points at the Med homepage's WebSite and
- * Organization rather than declaring its own.
+ * Set WebPage structured data (for homepage)
+ * Academic is a section of the Inciteful Med site, not a separate "Inciteful"
+ * site, so it declares no WebSite or Organization of its own. The isPartOf and
+ * publisher refs name the Med homepage's nodes; Google doesn't document joining
+ * @ids across pages, so these are descriptive, not a ranking or site-name signal.
  */
-export function setWebApplicationSchema() {
-  const appSchema = {
+export function setHomePageSchema() {
+  const pageSchema = {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    '@id': `${buildUrl('/')}#webapp`,
+    '@type': 'WebPage',
+    '@id': `${buildUrl('/')}#webpage`,
     name: SITE_NAME,
     url: buildUrl('/'),
     description: DEFAULT_DESCRIPTION,
-    applicationCategory: 'EducationalApplication',
-    operatingSystem: 'Web',
-    offers: {
-      '@type': 'Offer',
-      price: 0,
-      priceCurrency: 'USD'
-    },
     isPartOf: { '@id': `${MED_HOME_URL}#website` },
     publisher: { '@id': `${MED_HOME_URL}#organization` }
   }
@@ -205,7 +199,7 @@ export function setWebApplicationSchema() {
     script: [
       {
         type: 'application/ld+json',
-        innerHTML: JSON.stringify(appSchema)
+        innerHTML: JSON.stringify(pageSchema)
       }
     ]
   })
