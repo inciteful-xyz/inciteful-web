@@ -5,6 +5,8 @@
       <Container md>
         <!-- Centered Content -->
         <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+          <MedAnnouncement class="mb-6" />
+
           <!-- Header -->
           <h1 class="mb-2 font-battambang font-light leading-tight text-black text-3xl sm:text-4xl md:text-5xl">
             <span class="text-theme-violet font-normal">Accelerate Your Research</span>
@@ -143,7 +145,8 @@ import { Section, Container } from '@/components/ui/layouts'
 import { TitleMD, TextLG } from '@/components/ui/typography'
 import navigation from '../navigation'
 import { PaperID } from '@/types/incitefulTypes'
-import { setPageMeta, setOrganizationSchema } from '@/utils/seo'
+import MedAnnouncement from '@/components/announcements/MedAnnouncement.vue'
+import { setPageMeta, setWebApplicationSchema } from '@/utils/seo'
 
 const router = useRouter()
 
@@ -159,7 +162,7 @@ onMounted(() => {
     description: 'Build citation networks to discover the most relevant academic papers. Free tool using graph analysis to help researchers explore literature faster.',
     canonical: '/'
   })
-  setOrganizationSchema()
+  setWebApplicationSchema()
 })
 
 function addLitReviewPapers(ids: PaperID[]) {

@@ -26,13 +26,19 @@ function getEnvVar(key: string, fallback: string): string {
 
 export const SITE_URL = getEnvVar("VITE_SITE_URL", "https://incitefulmed.com");
 export const BASE_PATH = getEnvVar("VITE_BASE_PATH", "/");
-export const SITE_NAME = "Inciteful";
+// "Inciteful Academic", not "Inciteful": the Med homepage at the site root owns
+// the bare brand name, and Google supports one site name per host.
+export const SITE_NAME = "Inciteful Academic";
+
+// The Inciteful Med homepage, at the root of the host Academic is served under.
+export const MED_HOME_URL = `${SITE_URL}/`;
 
 /**
  * Build a full URL with site URL and base path
- * Removes trailing slashes for canonical URL consistency
+ * Removes trailing slashes for canonical URL consistency, except on the root,
+ * which keeps its slash because the server 307s `/academic` to `/academic/`
  * @param path - Path relative to base (e.g., '/about' or '/p/123')
- * @returns Full URL without trailing slash (e.g., 'https://incitefulmed.com/academic/about')
+ * @returns Full URL (e.g., 'https://incitefulmed.com/academic/about', or 'https://incitefulmed.com/academic/' for the root)
  */
 export function buildUrl(path: string): string {
   // Normalize base path (ensure it ends with /)
@@ -40,16 +46,15 @@ export function buildUrl(path: string): string {
   // Normalize path (remove leading /)
   const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
 
-  let url: string;
-  // For root path, just return site + base
+  // For root path, return site + base with its trailing slash
   if (!normalizedPath) {
-    url = `${SITE_URL}${BASE_PATH}`;
-  } else {
-    url = `${SITE_URL}${base}${normalizedPath}`;
+    return `${SITE_URL}${base}`;
   }
 
-  // Remove trailing slash (but keep the URL valid - don't remove from bare domain)
-  if (url.endsWith("/") && url !== `${SITE_URL}/`) {
+  let url = `${SITE_URL}${base}${normalizedPath}`;
+
+  // Remove trailing slash
+  if (url.endsWith("/")) {
     url = url.slice(0, -1);
   }
 

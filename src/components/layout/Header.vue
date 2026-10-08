@@ -10,8 +10,12 @@
             </router-link>
           </div>
           <div class="hidden lg:flex items-center">
-            <a href="https://incitefulmed.com/academic/help"
+            <a :href="MED_HOME_URL" @click="trackMedLinkClick('header')"
               class="ml-8 text-sm font-medium text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+              Inciteful Med
+            </a>
+            <a href="https://incitefulmed.com/academic/help"
+              class="ml-6 text-sm font-medium text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
               Help
             </a>
             <a href="https://twitter.com/Inciteful_xyz" target="_blank"
@@ -51,6 +55,8 @@
           class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Connector</router-link>
         <a href="https://incitefulmed.com/academic/help"
           class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Help</a>
+        <a :href="MED_HOME_URL" @click="trackMedLinkClick('mobile_menu')"
+          class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:underline hover:bg-theme-lavender transition-colors">Inciteful Med</a>
         <a href="https://twitter.com/Inciteful_xyz" target="_blank"
           class="block px-4 py-2 text-base font-medium text-theme-charcoal hover:text-theme-violet hover:bg-theme-lavender transition-colors"
           aria-label="Follow Inciteful on Twitter (opens in new tab)">
@@ -72,6 +78,8 @@ import navigation from '../../navigation'
 import { PaperID } from '@/types/incitefulTypes'
 import { useRouter, useRoute } from 'vue-router'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { MED_HOME_URL } from '@/utils/config'
+import { trackMedLinkClick } from '@/utils/medLink'
 
 const router = useRouter()
 const route = useRoute()

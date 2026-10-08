@@ -21,11 +21,11 @@
         <router-link to="/data" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Data Sources
         </router-link>
-        <a href="https://incitefulmed.com" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
-          IncitefulMed
+        <a :href="MED_HOME_URL" @click="trackMedLinkClick('footer')" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
+          Inciteful Med
         </a>
         <a href="https://incitefulmed.com/resources/" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
-          Resources
+          Inciteful Med Health Guides
         </a>
       </nav>
 
@@ -76,7 +76,8 @@
 </template>
 
 <script setup lang="ts">
-import { SITE_URL } from '@/utils/config'
+import { SITE_URL, MED_HOME_URL } from '@/utils/config'
+import { trackMedLinkClick } from '@/utils/medLink'
 
 const year = new Date().getFullYear()
 const siteUrl = SITE_URL

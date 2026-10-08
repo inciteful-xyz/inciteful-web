@@ -1,9 +1,7 @@
-import { buildUrl } from './config'
-
-const DEFAULT_TITLE = 'Inciteful'
+import { SITE_NAME, buildUrl } from './config'
 
 function setTitle (title: string) {
-  document.title = (title || DEFAULT_TITLE) + ' | IncitefulMed Academic'
+  document.title = title ? `${title} | ${SITE_NAME}` : SITE_NAME
 }
 function setDescription (description: string) {
   if (document != null) {

@@ -1,6 +1,6 @@
 import { head } from './head'
 import { Paper, Author } from '@/types/incitefulTypes'
-import { SITE_NAME, buildUrl } from './config'
+import { SITE_NAME, MED_HOME_URL, buildUrl } from './config'
 
 const DEFAULT_DESCRIPTION = 'Using citations to find the most relevant literature. Committed to open access, Inciteful uses the power of graph analysis to help you explore and find the most relevant academic literature.'
 const DEFAULT_IMAGE = buildUrl('/og_profile.png')
@@ -39,7 +39,7 @@ export function setPageMeta(options: {
       { property: 'og:image', content: image },
       { property: 'og:type', content: type },
       ...(canonicalUrl ? [{ property: 'og:url', content: canonicalUrl }] : []),
-      { property: 'og:site_name', content: SITE_NAME },
+      // No og:site_name: the host's site name belongs to the Med homepage
       // Twitter Card
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: fullTitle },
@@ -177,56 +177,35 @@ export function setBreadcrumbSchema(items: Array<{ name: string; url: string }>)
 }
 
 /**
- * Set Organization structured data (for homepage)
+ * Set WebApplication structured data (for homepage)
+ * Academic is a product within the Inciteful Med site, not a separate
+ * "Inciteful" site, so it points at the Med homepage's WebSite and
+ * Organization rather than declaring its own.
  */
-export function setOrganizationSchema() {
-  const siteRoot = buildUrl('/')
-
-  const orgSchema = {
+export function setWebApplicationSchema() {
+  const appSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'WebApplication',
+    '@id': `${buildUrl('/')}#webapp`,
     name: SITE_NAME,
-    url: siteRoot,
-    logo: buildUrl('/logo.png'),
+    url: buildUrl('/'),
     description: DEFAULT_DESCRIPTION,
-    sameAs: [
-      // Add social media URLs here when available
-    ],
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${buildUrl('/search')}?q={search_term_string}`
-      },
-      'query-input': 'required name=search_term_string'
-    }
-  }
-
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: SITE_NAME,
-    url: siteRoot,
-    description: DEFAULT_DESCRIPTION,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${buildUrl('/search')}?q={search_term_string}`
-      },
-      'query-input': 'required name=search_term_string'
-    }
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: 0,
+      priceCurrency: 'USD'
+    },
+    isPartOf: { '@id': `${MED_HOME_URL}#website` },
+    publisher: { '@id': `${MED_HOME_URL}#organization` }
   }
 
   head.push({
     script: [
       {
         type: 'application/ld+json',
-        innerHTML: JSON.stringify(orgSchema)
-      },
-      {
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify(websiteSchema)
+        innerHTML: JSON.stringify(appSchema)
       }
     ]
   })

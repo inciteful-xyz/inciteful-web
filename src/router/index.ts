@@ -145,7 +145,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
     meta: {
-      title: 'Page Not Found'
+      title: 'Page Not Found',
+      noindex: true
     }
   },
   // if you omit the last `*`, the `/` character in params will be encoded when resolving or pushing
@@ -155,7 +156,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
     meta: {
-      title: 'Page Not Found'
+      title: 'Page Not Found',
+      noindex: true
     }
   }
 ]
