@@ -42,7 +42,7 @@
     "tailwind-merge": "^3.4.0",
     "tippy.js": "^6.3.7",
     "v3-tour": "^3.1.3",
-    "vue": "^3.5.0",
+    "vue": "^3.5.43",
     "vue-router": "^4.5.0",
     "vue3-click-away": "^1.2.4",
     "vue3-touch-events": "^5.0.0",
