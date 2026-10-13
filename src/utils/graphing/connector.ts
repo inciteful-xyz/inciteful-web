@@ -146,7 +146,11 @@ function buildElements(
   })
 
   if (graphData.connections) {
+    // OpenAlex data can reference papers missing from `papers`; Cytoscape
+    // throws on edges whose source/target node doesn't exist, so drop them.
+    const nodeIds = new Set(papers.map(p => p.id))
     graphData.connections.forEach(c => {
+      if (!nodeIds.has(c.citing) || !nodeIds.has(c.cited)) return
       elements.push({
         data: {
           id: `${c.citing}-${c.cited}`,
