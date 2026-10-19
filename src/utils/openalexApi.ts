@@ -7,18 +7,23 @@ import {
 } from '../types/openAlexTypes'
 import { Author, PaperAutosuggest, Paper } from '../types/incitefulTypes'
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import axiosRetry from 'axios-retry'
+import axiosRetry, { retryAfter } from 'axios-retry'
 import { logError } from './logging'
 import doiHelpers from './doi'
 
 const oaApi = axios.create()
 
+// The default condition retries 429s and exponentialDelay waits at least
+// Retry-After, but OpenAlex returns hours-long Retry-After values once a daily
+// budget is spent. Skip those so callers fail fast instead of hanging.
+const MAX_RETRY_AFTER_MS = 5000
+
 axiosRetry(oaApi, {
   retries: 2,
   retryDelay: axiosRetry.exponentialDelay,
   retryCondition: err =>
-    axiosRetry.isNetworkOrIdempotentRequestError(err) ||
-    err.response?.status === 429
+    axiosRetry.isNetworkOrIdempotentRequestError(err) &&
+    !(err.response?.status === 429 && retryAfter(err) > MAX_RETRY_AFTER_MS)
 })
 
 function handleServiceErr(err: AxiosError) {
@@ -198,25 +203,4 @@ export function getOAPaper(id: string): Promise<OAPaper | undefined> {
   }
 
   return Promise.resolve(undefined)
-}
-
-export function getOAPapers(ids: string[]): Promise<OAPaper[]> {
-  //example endpoint: https://api.openalex.org/works?filter=openalex:W4224016882|W4223895588
-  if (ids && ids.length > 0) {
-    return oaApi
-      .get(
-        `https://api.openalex.org/works?filter=openalex:${ids
-          .map(id => `${id}`)
-          .join('|')}`
-      )
-      .then((res: AxiosResponse<OAPaperSearchResults>) => {
-        return res.data.results
-      })
-      .catch(err => {
-        handleServiceErr(err)
-        return Promise.reject(err)
-      })
-  }
-
-  return Promise.resolve([])
 }
