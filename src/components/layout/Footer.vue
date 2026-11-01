@@ -21,9 +21,6 @@
         <router-link to="/data" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Data Sources
         </router-link>
-        <a href="https://incitefulmed.com/academic/mcp" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
-          MCP Server
-        </a>
         <a :href="MED_HOME_URL" @click="trackMedLinkClick('footer')" class="text-sm text-theme-charcoal hover:text-theme-violet hover:underline transition-colors">
           Inciteful Med
         </a>
