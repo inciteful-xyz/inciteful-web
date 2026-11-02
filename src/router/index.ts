@@ -3,6 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import pagedata from '../utils/pagedata'
 import { setPageMeta } from '../utils/seo'
+import { buildUrl } from '../utils/config'
+
+const ZOTERO_DESCRIPTION =
+  "Free, open-source plugin for Zotero 8, 9 and 10. Open the papers in your Zotero library and collections in Inciteful's citation network."
 
 const routes = [
   {
@@ -66,6 +70,17 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/BetaFeatures.vue'),
     meta: {
       title: 'Enable and Play with Inciteful Beta Features'
+    }
+  },
+  {
+    path: '/zotero',
+    name: 'ZoteroPlugin',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/ZoteroPlugin.vue'),
+    meta: {
+      title: 'Zotero Plugin',
+      description: ZOTERO_DESCRIPTION,
+      image: buildUrl('/og_profile.png')
     }
   },
   {
@@ -195,7 +210,8 @@ router.afterEach(to => {
       title: to.meta.title as string,
       description: to.meta.description as string,
       canonical: to.meta.canonical as string || to.path,
-      noindex: to.meta.noindex as boolean
+      noindex: to.meta.noindex as boolean,
+      image: to.meta.image as string | undefined
     })
   }
 })
