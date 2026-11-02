@@ -1,11 +1,8 @@
 <template>
   <AnnouncementBanner>
     <template v-slot:title>
-      Did you know you can search directly from Zotero? Check out our new <a class="text-theme-violet hover:underline font-medium"
-        href="https://github.com/inciteful-xyz/inciteful-zotero-plugin" target="_blank">Zotero
-        plugin</a> and see the <a class="text-theme-violet hover:underline font-medium" href="https://twitter.com/Inciteful_xyz/status/1633447883994193920"
-        target="_blank">Twitter
-        thread</a> on how to use it.
+      Use Inciteful from inside Zotero with our free plugin for Zotero 8, 9 and 10.
+      <router-link to="/zotero" class="text-theme-violet hover:underline font-medium">Get the Zotero plugin</router-link>
     </template>
   </AnnouncementBanner>
 </template>
