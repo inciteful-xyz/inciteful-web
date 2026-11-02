@@ -32,6 +32,7 @@
 import { defineComponent } from 'vue'
 import api from '@/utils/incitefulApi'
 import bib from '@/utils/bib'
+import { searchInputToIds } from '@/utils/searchIds'
 import Autosuggest from './Autosuggest.vue'
 import { PaperID } from '@/types/incitefulTypes'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
@@ -81,7 +82,11 @@ export default defineComponent({
         let query = this.$refs.autosuggest.query
 
         if (query) {
-          const ids = query.split(',').map((id: string) => id.trim())
+          const ids = searchInputToIds(query)
+          if (ids === null) {
+            this.sendSearched(query)
+            return
+          }
           api.getPaperIds(ids).then(ids => {
             if (ids.length > 0) {
               this.sendSelect(ids)

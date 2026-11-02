@@ -78,6 +78,7 @@ import { ref, computed, watch } from 'vue'
 import { searchOpenAlex } from '@/utils/openalexApi'
 import api from '@/utils/incitefulApi'
 import bib from '@/utils/bib'
+import { searchInputToIds } from '@/utils/searchIds'
 import SearchResultItem from '@/components/ui/SearchResultItem.vue'
 import { Paper, PaperID } from '@/types/incitefulTypes'
 
@@ -228,14 +229,18 @@ function handleSearch() {
   if (highlighted.value !== null && results.value[highlighted.value]) {
     selectResult(highlighted.value)
   } else if (query.value) {
-    const ids = query.value.split(',').map((id: string) => id.trim())
-    api.getPaperIds(ids).then(paperIds => {
-      if (paperIds.length > 0) {
-        emit('selected', paperIds)
-      } else {
-        emit('searched', query.value)
-      }
-    })
+    const ids = searchInputToIds(query.value)
+    if (ids === null) {
+      emit('searched', query.value)
+    } else {
+      api.getPaperIds(ids).then(paperIds => {
+        if (paperIds.length > 0) {
+          emit('selected', paperIds)
+        } else {
+          emit('searched', query.value)
+        }
+      })
+    }
     showResults.value = false
     searchInput.value?.blur()
   }
