@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run unit tests
+        run: npm test
+
       - name: Run ESLint
         run: npm run lint -- --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
         continue-on-error: true
