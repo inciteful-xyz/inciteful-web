@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
@@ -26,6 +27,10 @@ export default defineConfig(({ mode }) => {
   },
   server: {
     port: 8081
+  },
+  test: {
+    environment: 'node',
+    include: ['tests/unit/**/*.spec.ts']
   },
   build: {
     outDir,

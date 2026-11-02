@@ -18,6 +18,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm test
+
       - name: Type check
         run: npx vue-tsc --noEmit
         continue-on-error: true
