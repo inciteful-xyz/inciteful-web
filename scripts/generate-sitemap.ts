@@ -55,6 +55,11 @@ const staticRoutes: SitemapUrl[] = [
     changefreq: "monthly",
     priority: 0.6,
   },
+  {
+    loc: "/zotero",
+    changefreq: "monthly",
+    priority: 0.7,
+  },
 ];
 
 function escapeXml(unsafe: string): string {
