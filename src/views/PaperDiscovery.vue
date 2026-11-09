@@ -1,7 +1,7 @@
 <template>
   <single-column>
     <BetaFeatures />
-    <ZoteroAnnouncement />
+    <ToolsAnnouncement />
     <div class="border-b border-gray-200 pb-6 mb-6">
       <PaperHero :paper="paper" :graphStats="true" />
     </div>
@@ -75,7 +75,7 @@ import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import { PlusCircleIcon, InformationCircleIcon } from '@heroicons/vue/24/solid'
 import { EmitEvents } from '@/utils/emitHelpers'
 import template from '../dashboard_templates/default_paper_template.yaml';
-import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue';
+import ToolsAnnouncement from '@/components/announcements/ToolsAnnouncement.vue';
 import { setPaperMeta } from '@/utils/seo'
 
 export default defineComponent({
@@ -90,7 +90,7 @@ export default defineComponent({
     InformationCircleIcon,
     ExclamationTriangleIcon,
     PlusCircleIcon,
-    ZoteroAnnouncement
+    ToolsAnnouncement
   },
   data() {
     return {

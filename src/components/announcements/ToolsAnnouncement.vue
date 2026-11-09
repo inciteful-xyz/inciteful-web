@@ -1,8 +1,10 @@
 <template>
   <AnnouncementBanner>
     <template v-slot:title>
-      Use Inciteful from inside Zotero with our free plugin for Zotero 8, 9 and 10.
+      Use Inciteful inside Zotero, or inside Claude, ChatGPT and other AI assistants. Both are free.
       <router-link to="/zotero" class="text-theme-violet hover:underline font-medium">Get the Zotero plugin</router-link>
+      or
+      <a href="https://incitefulmed.com/academic/mcp" class="text-theme-violet hover:underline font-medium">connect the MCP server</a>
     </template>
   </AnnouncementBanner>
 </template>
@@ -11,7 +13,7 @@ import { defineComponent } from 'vue'
 import AnnouncementBanner from '@/components/announcements/AnnouncementBanner.vue'
 
 export default defineComponent({
-  name: 'ZoteroAnnouncement',
+  name: 'ToolsAnnouncement',
   components: {
     AnnouncementBanner
   }

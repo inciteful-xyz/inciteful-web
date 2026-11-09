@@ -2,7 +2,7 @@
   <div>
     <single-column v-if="ids">
       <div>
-        <ZoteroAnnouncement />
+        <ToolsAnnouncement />
         <BetaFeatures />
         <div class="border-b border-gray-200 pb-6 mb-6">
           <lit-review-hero :ids="ids" />
@@ -28,7 +28,7 @@ import SingleColumn from '../components/layout/SingleColumn.vue'
 import template from '../dashboard_templates/default_lr_template.yaml'
 import { PaperID } from '@/types/incitefulTypes'
 import navigation from '@/navigation'
-import ZoteroAnnouncement from '@/components/announcements/ZoteroAnnouncement.vue'
+import ToolsAnnouncement from '@/components/announcements/ToolsAnnouncement.vue'
 
 function ensureArray(val: unknown): PaperID[] | undefined {
   if (val === undefined || val === null) return undefined
@@ -44,7 +44,7 @@ export default defineComponent({
     DashboardRenderer,
     BetaFeatures,
     SingleColumn,
-    ZoteroAnnouncement
+    ToolsAnnouncement
   },
   data() {
     return {
