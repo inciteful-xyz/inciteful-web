@@ -21,6 +21,9 @@
               Source code on GitHub
             </a>
           </div>
+          <p v-if="isFirefox" class="mt-3 text-sm text-theme-charcoal" data-testid="firefox-hint">
+            In Firefox, right-click the link and choose "Save Link As…"
+          </p>
         </div>
       </Container>
     </Section>
@@ -132,4 +135,7 @@ const REPO_URL = 'https://github.com/inciteful-xyz/inciteful-zotero-plugin'
 const LATEST_XPI = 'https://github.com/inciteful-xyz/inciteful-zotero-plugin/releases/latest/download/inciteful-zotero-plugin.xpi'
 const ZOTERO_7_XPI = 'https://github.com/inciteful-xyz/inciteful-zotero-plugin/releases/download/v0.1.1/inciteful-zotero-plugin.xpi'
 const ZOTERO_6_XPI = 'https://github.com/inciteful-xyz/inciteful-zotero-plugin/releases/download/0.0.9/inciteful-zotero-plugin.xpi'
+
+// Firefox treats a .xpi link as a browser add-on install, so a plain click won't save the file.
+const isFirefox = typeof navigator !== 'undefined' && /Firefox\//.test(navigator.userAgent)
 </script>
